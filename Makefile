@@ -1,5 +1,5 @@
-STUID = ysyx_22040000
-STUNAME = zxj
+STUID = ysyx_2204
+STUNAME = z
 
 # DO NOT modify the following code!!!
 
