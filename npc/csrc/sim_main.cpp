@@ -11,10 +11,10 @@ int main()
 
     Verilated::traceEverOn(true);
     VerilatedVcdC *tfp = new VerilatedVcdC;
-    top->trace(tfp, 99); // 99 是跟踪深度
     tfp->open("top.fst");
 
     Vtop *top = new Vtop;
+    top->trace(tfp, 99); // 99 是跟踪深度
     while(1)
     {
         int a = rand() & 1;
