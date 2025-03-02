@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<assert.h>
 #include<Vtop.h>
+#include<verilated.h>
 
 
 int main()
