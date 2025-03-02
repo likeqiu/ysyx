@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "Vtop.h" // 确保包含正确的头文件
+#include "Vtop.h"
 #include "verilated.h"
-#include "verilated_vcd_c.h"
+#include "verilated_fst_c.h" // ✅ 使用 VerilatedFstC
 
 int main()
 {
     Verilated::traceEverOn(true);
 
-    Vtop *top = new Vtop; // 先实例化 top
-    VerilatedVcdC *tfp = new VerilatedVcdC;
-    top->trace(tfp, 99); // 99 是跟踪深度
-    tfp->open("top.fst");
+    Vtop *top = new Vtop;                   // 先实例化 top
+    VerilatedFstC *tfp = new VerilatedFstC; // ✅ 使用 FST
+    top->trace(tfp, 99);                    // 99 是跟踪深度
+    tfp->open("top.fst");                   // ✅ 生成 .fst 波形文件
 
     for (int i = 0; i < 10; i++)
     { // 运行 10 个仿真周期
