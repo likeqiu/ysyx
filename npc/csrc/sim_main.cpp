@@ -6,7 +6,7 @@
 
 int main()
 {
-    Vtop *top = new top;
+    Vtop *top = new Vtop;
     while(1)
     {
         int a = rand() & 1;
