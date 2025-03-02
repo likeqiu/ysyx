@@ -18,4 +18,7 @@ run:
 look:
 	gtkwave $(NAME).fst	
 
+clean:
+	rm -rf obj_dir	
+
 include ../Makefile
