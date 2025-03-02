@@ -7,6 +7,7 @@
 
 int main()
 {
+    Verilated *mm = new Verilated;
     Vtop *top = new Vtop;
     while(1)
     {
