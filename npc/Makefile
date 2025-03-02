@@ -1,6 +1,6 @@
 VSRC= vsrc/top.v
 CSRC=csrc/sim_main.cpp
-NAME=$(patsubst %.v,%,$(VSRC))
+NAME=$(patsubst vsrc/%.v,%,$(VSRC))
 
 
 all:
