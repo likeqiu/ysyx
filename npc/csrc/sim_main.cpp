@@ -14,7 +14,7 @@ int main()
         top->a = a;
         top->b = b;
 
-        Vtop::eval();
+        top->eval();
         printf("a=%d,b=%d,f=%d\n", top->a, top->b, top->f);
         assert(top->f == a ^ b);
     }
