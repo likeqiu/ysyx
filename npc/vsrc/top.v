@@ -5,4 +5,8 @@ module top(
 );
   assign f = a ^b;
 
+  initial begin
+    $dumpfile("top.fst");
+    $dumpfile(0,testbench);
+    
     endmodule
