@@ -4,6 +4,7 @@
 #include<Vtop.h>
 #include<verilated.h>
 
+Verilated::traceEverOn(true);
 
 int main()
 {
