@@ -7,6 +7,6 @@ module top(
 
   initial begin
     $dumpfile("top.fst");
-    $dumpfile(0,testbench);
-    
+    $dumpvars(0,testbench);
+  end
     endmodule
