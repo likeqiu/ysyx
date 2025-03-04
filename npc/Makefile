@@ -1,6 +1,6 @@
-VSRC= vsrc/water_fall_light.v .top.v
+VSRC= vsrc/water_fall_light.v vsrc/top.v
 CSRC=csrc/water_light.cpp
-NAME=$(patsubst vsrc/%.v top.v,%,$(VSRC))
+NAME=$(patsubst vsrc/%.v vsrc/top.v,%,$(VSRC))
 
 
 all:
