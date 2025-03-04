@@ -1,5 +1,5 @@
-VSRC= vsrc/top.v
-CSRC=csrc/sim_main.cpp
+VSRC= vsrc/water_fall_light.v
+CSRC=csrc/water_light.cpp
 NAME=$(patsubst vsrc/%.v,%,$(VSRC))
 
 

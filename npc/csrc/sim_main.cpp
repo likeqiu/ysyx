@@ -18,4 +18,5 @@ int main()
         printf("a=%d,b=%d,f=%d\n", top->a, top->b, top->f);
         assert(top->f == a ^ b);
     }
+    delete top;
 }
