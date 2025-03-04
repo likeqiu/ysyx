@@ -27,7 +27,7 @@ int main()
     while(1)
     {
         single_cycle();
-        printf("reg=%d\n", top->reg);
+        printf("reg=%d\n", top->led);
     }
     delete top;
 }
