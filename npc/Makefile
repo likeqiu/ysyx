@@ -13,7 +13,7 @@ sim:
 	make -j -C obj_dir -f V$(NAME).mk
 
 run:
-	./obj_dir/Vtop +trace
+	./obj_dir/V$(NAME) +trace
 
 look:
 	gtkwave $(NAME).fst	
