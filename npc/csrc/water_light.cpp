@@ -23,7 +23,7 @@ void reset(int n)
 
 int main()
 {
-  
+    Verilated::traceEverOn(true);
 
     reset(10);
 
