@@ -1,33 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <Vtop.h>
-#include <verilated.h>
-#include <verilated_fst_c.h> // 确保使用 VerilatedFstC
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+#include<Vtop.h>
+
 
 int main()
 {
-    Verilated::traceEverOn(true);
-
-    Vtop *top = new Vtop; // 必须先创建 top 实例
-    VerilatedFstC *tfp = new VerilatedFstC;
-    top->trace(tfp, 99); // 设置跟踪深度
-    tfp->open("top.fst");
-
-    for (int i = 0; i < 20; i++)
-    { // 运行 20 个时钟周期
-        top->a = rand() & 1;
-        top->b = rand() & 1;
+    Vtop *top = new Vtop;
+    while(1)
+    {
+        int a = rand() & 1;
+        int b = rand() & 1;
+        top->a = a;
+        top->b = b;
 
         top->eval();
-        tfp->dump(i); // **关键：写入波形数据**
-
-        printf("a=%d, b=%d, f=%d\n", top->a, top->b, top->f);
-        assert(top->f == (top->a ^ top->b));
+        printf("a=%d,b=%d,f=%d\n", top->a, top->b, top->f);
+        assert(top->f == a ^ b);
     }
-
-    tfp->close();
-    delete top;
-    delete tfp;
-    return 0;
 }
