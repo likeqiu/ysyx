@@ -3,7 +3,7 @@ module top(
     input rst,
     output reg [15:0] led
 );
-  water_fall_light u_light(
+  light u_light(
     .clk(clk),
     .rst(rst),
     .led(led)
