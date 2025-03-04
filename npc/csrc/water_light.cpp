@@ -2,6 +2,8 @@
 #include<assert.h>
 #include<stdio.h>
 
+Vwater_fall_light *top = new Vwater_fall_light;
+
 void single_cycle()
 {
     top->clk = 0;
@@ -20,7 +22,7 @@ void reset(int n)
 
 int main()
 {
-    Vwater_fall_light *top = new Vwater_fall_light;
+  
 
     reset(10);
 
