@@ -10,7 +10,7 @@ all:
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	verilator --cc $(VSRC) $(TOP) --top-module top --exe $(CSRC) --trace --trace-fst
+	verilator --cc $(VSRC) $(TOP) --top-module top --exe $(CSRC)  --trace-fst
 	make -j -C obj_dir -f V$(NAME).mk
 
 run:
@@ -20,6 +20,6 @@ look:
 	gtkwave $(NAME).fst	
 
 clean:
-	rm -rf obj_dir	
+	rm -rf obj_dir top.fst top.fst.hier
 
 include ../Makefile

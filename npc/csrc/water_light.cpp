@@ -13,9 +13,14 @@ void single_cycle()
 {
     top->clk = 0;
     top->eval();
+    tfp->dump(main_time);
+    main_time++;
+    printf("reg=%d\n", top->led);
     top->clk = 1;
     top->eval();
-
+    tfp->dump(main_time);
+    main_time++;
+    printf("reg=%d\n", top->led);
 }
 void reset(int n)
 {
@@ -39,12 +44,10 @@ int main(int argc,char** argv)
     while(1)
     {
         single_cycle();
-        tfp->dump(main_time);
-        printf("reg=%d\n", top->led);
-        main_time++;
+      
     }
     tfp->close();
-    delete tfp;
+
     delete top;
     return 0;
 }
