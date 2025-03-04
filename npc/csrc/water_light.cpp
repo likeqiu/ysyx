@@ -2,9 +2,12 @@
 #include<assert.h>
 #include<stdio.h>
 #include<Vtop.h>
+#include<verilated.h>
+#include<verilated_fst_c.h>
 
 
 Vtop *top = new Vtop;
+vluint64_t main_time = 0;
 
 void single_cycle()
 {
@@ -22,16 +25,26 @@ void reset(int n)
 
 }
 
-int main()
+int main(int argc,char** argv)
 {
+    Verilated::commandArgs(argc, argv);
     Verilated::traceEverOn(true);
+    VerilatedFstC *tfp = new VerilatedFstC;
+    top->trace(tfp, 99);
+    tfp->open("top.fst");
+   
 
     reset(10);
 
     while(1)
     {
         single_cycle();
+        tfp->dump(main_time);
         printf("reg=%d\n", top->led);
+        main_time++;
     }
+    tfp->close();
+    delete tfp;
     delete top;
+    return 0;
 }
