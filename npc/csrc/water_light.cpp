@@ -1,8 +1,9 @@
 #include<Vwater_fall_light.h>
 #include<assert.h>
 #include<stdio.h>
+#include<Vtop.h>
 
-Vwater_fall_light *top = new Vwater_fall_light;
+Vtop *top = new top;
 
 void single_cycle()
 {
