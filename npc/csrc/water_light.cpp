@@ -7,6 +7,7 @@
 
 
 Vtop *top = new Vtop;
+VerilatedFstC *tfp = new VerilatedFstC;
 vluint64_t main_time = 0;
 
 void single_cycle()
@@ -34,7 +35,7 @@ int main(int argc,char** argv)
 {
     Verilated::commandArgs(argc, argv);
     Verilated::traceEverOn(true);
-    VerilatedFstC *tfp = new VerilatedFstC;
+   
     top->trace(tfp, 99);
     tfp->open("top.fst");
    
