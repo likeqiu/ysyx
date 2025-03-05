@@ -8,7 +8,7 @@ all:
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	verilator --c --exe --top-module  $(NAME)  --trace-fst $(VSRC) $(CSRC)
+	verilator --cc --exe --top-module  $(NAME)  --trace-fst $(VSRC) $(CSRC)
 	make -j -C obj_dir -f V$(NAME).mk
 
 run:
