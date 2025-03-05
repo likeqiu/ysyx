@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
     top->trace(tfp, 99);
     tfp->open("top.fst");
-    tfp->dumpvars(99, "top");
+    //tfp->dumpvars(99, "top");
 
     if (!tfp->isOpen())
     {
