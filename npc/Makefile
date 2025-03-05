@@ -1,8 +1,6 @@
-VSRC= vsrc/water_fall_light.v 
-CSRC=csrc/water_light.cpp
-TOP=vsrc/top.v
-NAME=top
-
+VSRC = vsrc/top.v vsrc/water_fall_light.v
+CSRC = csrc/water_light.cpp
+NAME = top
 
 all:
 	@echo "Write this Makefile by your self."
@@ -10,7 +8,7 @@ all:
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	verilator --cc $(VSRC) $(TOP) --top-module top --exe $(CSRC)  --trace-fst
+	verilator --c --exe --top-module  $(NAME)  --trace-fst $(VSRC) $(CSRC)
 	make -j -C obj_dir -f V$(NAME).mk
 
 run:
