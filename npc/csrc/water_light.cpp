@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 
     reset(10);
   
-    for (int i = 0; i < 5000000 * 2; i++)
+    for (int i = 0; i < 50 * 2; i++)
     {
         single_cycle();
     }
