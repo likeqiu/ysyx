@@ -3,9 +3,9 @@ CSRC = csrc/water_light.cpp
 NAME = top
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
-CFLAGS += -I$(NVBOARD_HOME)/usr/include
-CXXFLAGS += -I$(NVBOARD_HOME)/usr/include
-LDFLAGS += -L$(NVBOARD_HOME)/build -lnvboard -lSDL2 -lSDL2_image
+CFLAGS = -I$(NVBOARD_HOME)/usr/include
+CXXFLAGS = -I$(NVBOARD_HOME)/usr/include `sdl2-config --cflags`
+LDFLAGS = -L$(NVBOARD_HOME)/build -lnvboard `sdl2-config --libs` -lSDL2_image
 
 all:
 	@echo "Write this Makefile by your self."
