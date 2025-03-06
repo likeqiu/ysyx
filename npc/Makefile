@@ -24,7 +24,8 @@ look:
 
 
 
-
+auto_bind:
+	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py constr/light.
 $(NVBOARD_ARCHIVE):
 	$(MAKE) -C $(NVBOARD_HOME) nvboard-archive
 
