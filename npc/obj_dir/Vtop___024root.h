@@ -18,7 +18,7 @@ class Vtop___024root final : public VerilatedModule {
     CData/*0:0*/ __Vtrigrprev__TOP__clk;
     CData/*0:0*/ __VactContinue;
     VL_OUT16(led,15,0);
-    IData/*31:0*/ top__DOT__u_light__DOT__count;
+    IData/*31:0*/ top__DOT__u_kdlight__DOT__count;
     IData/*31:0*/ __VactIterCount;
     VlTriggerVec<1> __VactTriggered;
     VlTriggerVec<1> __VnbaTriggered;

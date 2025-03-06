@@ -2,6 +2,8 @@
 #include <verilated.h>
 #include <verilated_fst_c.h>
 
+Vtop *top = new Vtop;
+
 void single_cycle()
 {
     top->clk = 0;
@@ -23,7 +25,7 @@ int main(int argc,char **argv)
     Verilated::commandArgs(argc, argv);
     Verilated::traceEverOn(true);
 
-    Vtop *top = new Vtop;
+   
     VerilatedFstC *trace = new VerilatedFstC;
 
     top->trace(trace, 5);

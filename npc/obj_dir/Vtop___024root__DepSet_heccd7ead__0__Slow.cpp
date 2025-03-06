@@ -70,6 +70,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->clk = VL_RAND_RESET_I(1);
     vlSelf->rst = VL_RAND_RESET_I(1);
     vlSelf->led = VL_RAND_RESET_I(16);
-    vlSelf->top__DOT__u_light__DOT__count = VL_RAND_RESET_I(32);
+    vlSelf->top__DOT__u_kdlight__DOT__count = VL_RAND_RESET_I(32);
     vlSelf->__Vtrigrprev__TOP__clk = VL_RAND_RESET_I(1);
 }

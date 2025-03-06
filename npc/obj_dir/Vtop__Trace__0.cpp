@@ -26,7 +26,7 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
     bufp->chgBit(oldp+0,(vlSelf->clk));
     bufp->chgBit(oldp+1,(vlSelf->rst));
     bufp->chgSData(oldp+2,(vlSelf->led),16);
-    bufp->chgIData(oldp+3,(vlSelf->top__DOT__u_light__DOT__count),32);
+    bufp->chgIData(oldp+3,(vlSelf->top__DOT__u_kdlight__DOT__count),32);
 }
 
 void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {

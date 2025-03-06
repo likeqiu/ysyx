@@ -19,30 +19,31 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     // Init
     SData/*15:0*/ __Vdly__led;
     __Vdly__led = 0;
-    IData/*31:0*/ __Vdly__top__DOT__u_light__DOT__count;
-    __Vdly__top__DOT__u_light__DOT__count = 0;
+    IData/*31:0*/ __Vdly__top__DOT__u_kdlight__DOT__count;
+    __Vdly__top__DOT__u_kdlight__DOT__count = 0;
     // Body
-    __Vdly__top__DOT__u_light__DOT__count = vlSelf->top__DOT__u_light__DOT__count;
+    __Vdly__top__DOT__u_kdlight__DOT__count = vlSelf->top__DOT__u_kdlight__DOT__count;
     __Vdly__led = vlSelf->led;
     if (vlSelf->rst) {
         __Vdly__led = 1U;
-        __Vdly__top__DOT__u_light__DOT__count = 0U;
+        __Vdly__top__DOT__u_kdlight__DOT__count = 0U;
     } else {
-        if ((0U == vlSelf->top__DOT__u_light__DOT__count)) {
+        if ((0U == vlSelf->top__DOT__u_kdlight__DOT__count)) {
             __Vdly__led = ((0xfffeU & ((IData)(vlSelf->led) 
                                        << 1U)) | (1U 
                                                   & ((IData)(vlSelf->led) 
                                                      >> 0xfU)));
         }
-        __Vdly__top__DOT__u_light__DOT__count = ((0x4c4b40U 
-                                                  <= vlSelf->top__DOT__u_light__DOT__count)
-                                                  ? 0U
-                                                  : 
-                                                 ((IData)(1U) 
-                                                  + vlSelf->top__DOT__u_light__DOT__count));
+        __Vdly__top__DOT__u_kdlight__DOT__count = (
+                                                   (0x4c4b40U 
+                                                    <= vlSelf->top__DOT__u_kdlight__DOT__count)
+                                                    ? 0U
+                                                    : 
+                                                   ((IData)(1U) 
+                                                    + vlSelf->top__DOT__u_kdlight__DOT__count));
     }
     vlSelf->led = __Vdly__led;
-    vlSelf->top__DOT__u_light__DOT__count = __Vdly__top__DOT__u_light__DOT__count;
+    vlSelf->top__DOT__u_kdlight__DOT__count = __Vdly__top__DOT__u_kdlight__DOT__count;
 }
 
 void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
