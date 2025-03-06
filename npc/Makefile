@@ -10,7 +10,7 @@ all:
 sim:$(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	python3 $NVBOARD_HOME/scripts/auto_pin_bind.py constr/light.nxdc auto_bind.cpp
+	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py constr/light.nxdc auto_bind.cpp
 	verilator -Wall -MMD --cc --exe --build $(VSRC) $(CSRC) auto_bind.cpp --trace-fst --top-module top
 
 
