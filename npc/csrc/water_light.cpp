@@ -2,7 +2,8 @@
 #include <verilated.h>
 #include <verilated_fst_c.h>
 
-Vtop *top = new Vtop;
+
+ Vtop *top = new Vtop;
 
 void single_cycle()
 {
