@@ -3,7 +3,9 @@ CSRC = csrc/water_light.cpp
 NAME = top
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
-VERILATOR_FLAGS += -I$(NVBOARD_HOME)/include
+CFLAGS += -I$(NVBOARD_HOME)/usr/include
+CXXFLAGS += -I$(NVBOARD_HOME)/usr/include
+LDFLAGS += -L$(NVBOARD_HOME)/build -lnvboard -lSDL2 -lSDL2_image
 
 all:
 	@echo "Write this Makefile by your self."
@@ -11,7 +13,7 @@ all:
 sim:$(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	verilator -Wall -MMD --cc --exe --build $(VSRC) $(CSRC) auto_bind.cpp --trace-fst --top-module top
+	verilator -Wall -MMD --cc --exe  -CFLAGS "$(CFLAGS)" -CXXFLAGS "$(CXXFLAGS)" -LDFLAGS "$(LDFLAGS)"   --build $(VSRC) $(CSRC) auto_bind.cpp --trace-fst --top-module top
 
 
 run:
