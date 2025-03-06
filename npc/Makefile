@@ -14,9 +14,9 @@ run:
 	./obj_dir/V$(NAME) 
 
 look:
-	gtkwave $(NAME).fst	
+	gtkwave waveform.fst	
 
 clean:
-	rm -rf obj_dir top.fst top.fst.hier
+	rm -rf obj_dir waveform.fst top.fst.hier
 
 include ../Makefile

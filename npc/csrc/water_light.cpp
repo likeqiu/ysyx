@@ -36,7 +36,7 @@ int main(int argc,char **argv)
 
     reset(10);
     
-    for (int i = 0; i <=5000000 * 6; i++)
+    for (int i = 0; i <=100; i++)
     {
         single_cycle();
         trace->dump(i);
