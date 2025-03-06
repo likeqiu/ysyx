@@ -1,4 +1,4 @@
-VSRC = vsrc/top.v vsrc/water_fall_light.v
+VSRC = vsrc/top.v vsrc/light.v
 CSRC = csrc/water_light.cpp
 NAME = top
 

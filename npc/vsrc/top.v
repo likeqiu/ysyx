@@ -3,7 +3,7 @@ module top(
     input rst,
     output reg [15:0] led
 );
-  light u_light(
+  light u_kdlight(
     .clk(clk),
     .rst(rst),
     .led(led)
