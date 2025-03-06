@@ -3,6 +3,7 @@ CSRC = csrc/water_light.cpp
 NAME = top
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
+VERILATOR_FLAGS += -I$(NVBOARD_HOME)/include
 
 all:
 	@echo "Write this Makefile by your self."
