@@ -13,7 +13,7 @@ module light(
 
         else begin 
             if(count==0) led<={led[14:0],led[15]};
-            count<=(count >= 50 ? 32'b0 : count+1);
+            count<=(count >= 5000000  ? 32'b0 : count+1);
     end
 end
 endmodule

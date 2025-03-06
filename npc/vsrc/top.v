@@ -9,8 +9,4 @@ module top(
     .led(led)
   );
 
-  initial begin
-    $dumpfile("top.fst");
-    $dumpvars(0,top);
-  end
     endmodule
