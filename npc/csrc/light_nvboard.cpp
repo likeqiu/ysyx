@@ -1,5 +1,5 @@
 #include<Vtop.h>
-#include<nvboard.h>
+#include<ysyx-workbench/nvboard/nvboard.h>
 
 static Vtop dut;
 
