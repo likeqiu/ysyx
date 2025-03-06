@@ -13,7 +13,7 @@ all:
 sim:$(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	verilator -Wall -MMD --cc --exe  -CFLAGS "$(CFLAGS)" -CXXFLAGS "$(CXXFLAGS)" -LDFLAGS "$(LDFLAGS)"   --build $(VSRC) $(CSRC) auto_bind.cpp --trace-fst --top-module top
+	verilator  -CFLAGS "$(CFLAGS)" -CXXFLAGS "$(CXXFLAGS)" -LDFLAGS "$(LDFLAGS)" -Wall -MMD --cc --exe  --build $(VSRC) $(CSRC) auto_bind.cpp --trace-fst --top-module top
 
 
 run:
