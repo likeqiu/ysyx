@@ -1,5 +1,6 @@
 VSRC = vsrc/top.v vsrc/light.v
-CSRC = csrc/light_nvboard.cpp csrc/water_light.cpp
+CSRC_NVBOARD = csrc/light_nvboard.cpp
+CSRC_WAVE=csrc/water_light.cpp
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
@@ -10,12 +11,17 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 all:
 	@echo "Write this Makefile by your self."
 
-sim:$(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
+sim:$(VSRCS) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
 	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py constr/light.nxdc auto_bind.cpp
-	verilator -Wall --cc --exe --build $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp --trace-fst --top-module top $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
+	verilator -Wall --cc --exe --build $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE) auto_bind.cpp --trace-fst --top-module top $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
 
+
+waveform:$(VSRCS) $(CSRC_WAVE)
+	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	@echo "Write this Makefile by your self."
+	verilator -Wall --cc --exe --build $(VSRC) $(CSRC_WAVE) --trace-fst --top-module top 
 
 run:
 	./obj_dir/V$(TOPNAME) 
