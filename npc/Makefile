@@ -14,7 +14,7 @@ sim:$(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
 	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py constr/light.nxdc auto_bind.cpp
-	verilator -Wall --cc --exe --build $^ auto_bind.cpp --trace-fst --top-module top $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
+	verilator -Wall --cc --exe --build $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp --trace-fst --top-module top $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
 
 
 run:
