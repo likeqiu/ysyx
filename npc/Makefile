@@ -1,5 +1,5 @@
 VSRC = vsrc/top.v vsrc/light.v
-CSRC = csrc/light_nvboard.cpp
+CSRC = csrc/light_nvboard.cpp csrc/water_light.cpp
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
