@@ -12,9 +12,9 @@ reg [1:0] F;
 
 mu241 mld(.Y(Y),.X0(X0),.X1(X1),.X2(X2),.X3(X3),.F(F));
 
-always @(*) begin
-    LD1=F[1];
-    LD0=F[0];
-end
+
+assign    LD1=F[1];
+assign    LD0=F[0];
 
 endmodule
+
