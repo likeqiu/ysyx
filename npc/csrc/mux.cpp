@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include<Vtop.h>
 #include<nvboard.h>
 
 static Vtop dut;
