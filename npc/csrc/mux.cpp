@@ -15,8 +15,8 @@ int main()
  
     while (1)
     {
-        dut.eval()
-            nvboard_update();
+        dut.eval();
+        nvboard_update();
         }
     nvboard_quit();
 
