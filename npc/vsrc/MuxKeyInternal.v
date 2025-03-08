@@ -23,16 +23,21 @@ module MuxKeyInternal #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1, HAS_DEFAULT = 0) 
     reg hit;
 
     integer  i;
-    always @(*) begin
-        for(i=0;i<NR_KEY;i=i+1)begin
-                lut_out= ({DATA_LEN{key==key_list[i]}} & data_list[i]);
-                hit= (key==key_list[i]);
-            end
+    
+     always @(*) begin
+    lut_out = {DATA_LEN{1'b0}};
+    hit = 1'b0;
+    for(i=0;i<NR_KEY;i=i+1)begin
+        if(key==key_list[i]) begin
+            lut_out = data_list[i];
+            hit = 1'b1;
+        end
+    end
             
             if(!HAS_DEFAULT) out=lut_out;
             else out= (hit ? lut_out : default_out); 
-        end
         
+    end
 
 endmodule
 
