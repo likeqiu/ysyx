@@ -21,40 +21,24 @@ int main(int argc, char **argv)
     start_nvboard(top);
     VerilatedFstC *trace = wave_init(argc, argv, top);
 
+    top->X0 = 1;
+    top->X1 = 2;
+    top->X2 = 3;
+    top->X3 = 0;
+
     int number = 0;
     int a = 0;
     while (1)
     {
         printf("输入:\n0->led0,X0\n1->led1,X1\n2->led2,X2\n3->led3,X3\n");
 
-        scanf("%d", &number);
-
+        scanf("%d",&number );
         top->key = number;
-        top->lut = 0;
-        top->lut[number] = 1;
 
         a++;
         top->eval();
         nvboard_update();
         trace->dump(a);
-
-        switch (number)
-        {
-        case 0:
-            printf("X0");
-            break;
-        case 1:
-            printf("X1");
-            break;
-        case 2:
-            printf("X2");
-            break;
-        case 3:
-            printf("X3");
-            break;
-        default:
-            printf("ERROR,AGAIN");              
-            }
     }
     nvboard_quit();
     trace->close();
