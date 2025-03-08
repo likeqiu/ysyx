@@ -1,5 +1,5 @@
 module top(out,key,lut);
-    output reg [1:0] out;
+    output reg  out;
     input reg [1:0] key;
     input  reg [3:0] lut;
     
