@@ -17,6 +17,7 @@ int main()
     {
         dut.eval();
         nvboard_update();
+        usleep(10000);
         }
     nvboard_quit();
 
