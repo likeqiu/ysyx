@@ -30,9 +30,6 @@ int main(int argc, char **argv)
     int a = 0;
     while (1)
     {
-        printf("输入:\n0->led0,X0\n1->led1,X1\n2->led2,X2\n3->led3,X3\n");
-        
-        top->Y = number;
 
         a++;
         top->eval();
