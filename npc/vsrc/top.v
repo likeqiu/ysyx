@@ -1,6 +1,5 @@
 module top(
-    input SW0,SW1,SW2,SW3,SW4,SW5,SW6,SW7,SW8,SW9,
-    output LD1,LD0,
+
     output  [1:0] Y,
     output  [1:0] X0,
     output  [1:0] X1,
@@ -9,11 +8,7 @@ module top(
     output  [1:0] F
 );
 
-assign Y={SW1,SW0};
-assign X0={SW3,SW2};
-assign X1={SW5,SW4};
-assign X2={SW7,SW6};
-assign X3={SW9,SW8};
+
 
 
 MuxKey #(4,2,2) i0 (
@@ -26,11 +21,6 @@ MuxKey #(4,2,2) i0 (
         2'b11, X3
     })
 );
-
-
-
-assign    LD1=F[1];
-assign    LD0=F[0];
 
 endmodule
 
