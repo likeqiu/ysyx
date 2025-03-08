@@ -1,4 +1,4 @@
-VSRC = vsrc/top.v vsrc/select.v
+VSRC = vsrc/top.v vsrc/MuxKeyInternal.v
 CSRC = csrc/mux.cpp
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))

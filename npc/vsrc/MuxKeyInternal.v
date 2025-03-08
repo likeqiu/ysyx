@@ -36,7 +36,7 @@ module MuxKeyInternal #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1, HAS_DEFAULT = 0) 
 endmodule
 
 
-module MUxKey #(NR_KEY=2 , KEY_LEN=1,DATA_LEN=1)(
+module MuxKey #(NR_KEY=2 , KEY_LEN=1,DATA_LEN=1)(
     output reg [DATA_LEN-1:0] out,
     input  reg  [KEY_LEN-1:0] key,
     input  reg [NR_KEY*(DATA_LEN + KEY_LEN)-1 : 0] lut
@@ -57,6 +57,9 @@ module MuxKeyWithDefault #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1) (
 MuxKeyInternal #(NR_KEY,KEY_LEN,DATA_LEN,1) i0 (out,key,default_out,lut);
 
 endmodule
+
+
+
 
 
 
