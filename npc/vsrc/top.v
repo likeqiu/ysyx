@@ -17,7 +17,13 @@ always @(*) begin
     X3={SW9,SW8};
 end
 
-mu241 mld(.Y(Y),.X0(X0),.X1(X1),.X2(X2),.X3(X3),.F(F));
+MuxKey #(4,2,2) i0 (F,Y,{
+    2'b00,X0,
+    2'b01,X1,
+    2'b10,X2,
+    2'b11,X3
+});
+
 
 
 assign    LD1=F[1];
