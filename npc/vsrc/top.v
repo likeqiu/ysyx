@@ -9,11 +9,7 @@ module top(
     output  [1:0] F
 );
 
-assign Y={SW1,SW0};
-assign X0={SW3,SW2};
-assign X1={SW5,SW4};
-assign X2={SW7,SW6};
-assign X3={SW9,SW8};
+
 
 
 MuxKey #(4,2,2) i0 (
