@@ -1,17 +1,20 @@
 module top(
-    output reg [1:0] F,
-    input reg [1:0] Y,
-    input  reg [1:0] X0,X1,X2,X3
+    input SW0,SW1,SW2,SW3,SW4,SW5,SW6,SW7,SW8,SW9,
+    output LD1,LD0
 );
 
+reg [1:0] Y={SW1,SW0};
+reg [1:0] X0={SW3,SW2};
+reg [1:0] X1={SW5,SW4};
+reg [1:0] X2={SW7,SW6};
+reg [1:0] X3={SW9,SW8};
+reg [1:0] F;
 
-MuxKey #(4,2,2) i0 (F,Y,{
-    2'b00,X0[1:0],
-    2'b01,X1[1:0],
-    2'b10,X2[1:0],
-    2'b11,X3[1:0]
-});
+mu241 mld(.Y(Y),.X0(X0),.X1(X1),.X2(X2),.X3(X3),.F(F));
 
+always @(*) begin
+    LD1=F[1];
+    LD0=F[0];
+end
 
 endmodule
-
