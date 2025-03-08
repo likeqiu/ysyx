@@ -28,7 +28,7 @@ int main()
 
         if (count % 1000 < 10)
         {
-            usleep(50000); 
+            usleep(50); 
         }
         else
         {
