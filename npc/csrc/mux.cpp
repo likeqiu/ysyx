@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     
     
     int a = 0;
-    while (10)
+    while (a !=10)
     {
 
         a++;
