@@ -18,13 +18,14 @@ int main(int argc, char **argv)
     
     
     int a = 0;
-    while (a !=10)
+    while (1)
     {
 
         a++;
         top->eval();
         nvboard_update();
         trace->dump(a);
+        usleep(50000);
     }
     nvboard_quit();
     trace->close();
