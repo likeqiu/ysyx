@@ -20,13 +20,8 @@ int main(int argc, char **argv)
 {
     start_nvboard(top);
     VerilatedFstC *trace = wave_init(argc, argv, top);
-
-    top->X0 = 1;
-    top->X1 = 2;
-    top->X2 = 3;
-    top->X3 = 0;
-
-    int number = 0;
+    
+    
     int a = 0;
     while (1)
     {
