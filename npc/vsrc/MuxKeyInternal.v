@@ -25,8 +25,8 @@ module MuxKeyInternal #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1, HAS_DEFAULT = 0) 
     integer  i;
     always @(*) begin
         for(i=0;i<NR_KEY;i=i+1)begin
-                lut_out=lut_out | ({DATA_LEN{key==key_list[i]}} & data_list[i]);
-                hit=hit | (key==key_list[i]);
+                lut_out= ({DATA_LEN{key==key_list[i]}} & data_list[i]);
+                hit= (key==key_list[i]);
             end
             
             if(!HAS_DEFAULT) out=lut_out;

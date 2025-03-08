@@ -39,11 +39,10 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
         bufp->chgBit(oldp+10,(vlSelf->top__DOT__i0__DOT__i0__DOT__data_list[2]));
         bufp->chgBit(oldp+11,(vlSelf->top__DOT__i0__DOT__i0__DOT__data_list[3]));
     }
-    bufp->chgCData(oldp+12,(vlSelf->out),2);
+    bufp->chgBit(oldp+12,(vlSelf->out));
     bufp->chgCData(oldp+13,(vlSelf->key),2);
     bufp->chgCData(oldp+14,(vlSelf->lut),4);
-    bufp->chgBit(oldp+15,(vlSelf->top__DOT____Vcellout__i0____pinNumber1));
-    bufp->chgSData(oldp+16,((0xa6U | ((0x200U & ((IData)(vlSelf->lut) 
+    bufp->chgSData(oldp+15,((0xa6U | ((0x200U & ((IData)(vlSelf->lut) 
                                                  << 9U)) 
                                       | ((0x40U & ((IData)(vlSelf->lut) 
                                                    << 5U)) 
@@ -52,8 +51,8 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
                                             | (1U & 
                                                ((IData)(vlSelf->lut) 
                                                 >> 3U))))))),12);
-    bufp->chgBit(oldp+17,(vlSelf->top__DOT__i0__DOT__i0__DOT__lut_out));
-    bufp->chgBit(oldp+18,(vlSelf->top__DOT__i0__DOT__i0__DOT__hit));
+    bufp->chgBit(oldp+16,(vlSelf->top__DOT__i0__DOT__i0__DOT__lut_out));
+    bufp->chgBit(oldp+17,(vlSelf->top__DOT__i0__DOT__i0__DOT__hit));
 }
 
 void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {

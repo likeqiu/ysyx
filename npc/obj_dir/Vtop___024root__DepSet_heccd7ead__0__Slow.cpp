@@ -183,10 +183,9 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___ctor_var_reset\n"); );
     // Body
-    vlSelf->out = VL_RAND_RESET_I(2);
+    vlSelf->out = VL_RAND_RESET_I(1);
     vlSelf->key = VL_RAND_RESET_I(2);
     vlSelf->lut = VL_RAND_RESET_I(4);
-    vlSelf->top__DOT____Vcellout__i0____pinNumber1 = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
         vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[__Vi0] = VL_RAND_RESET_I(3);
     }

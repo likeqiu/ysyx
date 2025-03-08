@@ -89,9 +89,7 @@ VL_INLINE_OPT void Vtop___024root___ico_comb__TOP__1(Vtop___024root* vlSelf) {
                                                        [3U]) 
                                                       & vlSelf->top__DOT__i0__DOT__i0__DOT__data_list
                                                       [3U]));
-    vlSelf->top__DOT____Vcellout__i0____pinNumber1 
-        = vlSelf->top__DOT__i0__DOT__i0__DOT__lut_out;
-    vlSelf->out = vlSelf->top__DOT____Vcellout__i0____pinNumber1;
+    vlSelf->out = vlSelf->top__DOT__i0__DOT__i0__DOT__lut_out;
 }
 
 void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {
