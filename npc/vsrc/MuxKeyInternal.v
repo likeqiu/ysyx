@@ -38,9 +38,9 @@ endmodule
 
 
 module MuxKey #(NR_KEY=2 , KEY_LEN=1,DATA_LEN=1)(
-    output reg [DATA_LEN-1:0] out,
-    input  reg  [KEY_LEN-1:0] key,
-    input  reg [NR_KEY*(DATA_LEN + KEY_LEN)-1 : 0] lut
+    output  [DATA_LEN-1:0] out,
+    input    [KEY_LEN-1:0] key,
+    input   [NR_KEY*(DATA_LEN + KEY_LEN)-1 : 0] lut
 
 );
  
