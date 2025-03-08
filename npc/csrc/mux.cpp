@@ -8,18 +8,16 @@ void nvboard_bind_all_pins(Vtop *top);
 
 int main()
 {
-    nvboard_bind_all_pins(&dut);
-    nvboard_init();
-    
-    
- 
     while (1)
     {
-        dut.eval();
+        
+        dut.eval();   
+        usleep(5000);
+        dut.eval(); 
+
         nvboard_update();
-        usleep(10);
-        }
-    nvboard_quit();
+        usleep(10);     
+    }
 
     return 0;
 }
