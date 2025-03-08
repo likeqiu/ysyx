@@ -25,7 +25,7 @@ int main(int argc, char **argv)
         top->eval();
         nvboard_update();
         trace->dump(a);
-        usleep(1000000);
+        usleep(100000);
     }
     nvboard_quit();
     trace->close();
