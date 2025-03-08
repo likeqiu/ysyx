@@ -7,23 +7,18 @@
 Vtop *top = new Vtop;
 
 void nvboard_bind_all_pins(Vtop *top);
-void start_nvboard(Vtop *top)
-{
-    nvboard_bind_all_pins(top);
-    nvboard_init();
-
-}
-
 VerilatedFstC *wave_init(int argc, char **argv, Vtop *top);
 
 int main(int argc, char **argv)
 {
-    start_nvboard(top);
+    nvboard_bind_all_pins(top);
+    nvboard_init();
+
     VerilatedFstC *trace = wave_init(argc, argv, top);
     
     
     int a = 0;
-    while (1)
+    while (10)
     {
 
         a++;
