@@ -4,7 +4,7 @@
 static Vtop dut;
 void nvboard_bind_pins_all(Vtop *top)
 
-void single_cycle()
+static void single_cycle()
 {
     dut.clk = 0;
     dut.eval();
