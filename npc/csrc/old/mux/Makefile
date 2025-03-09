@@ -1,5 +1,5 @@
-VSRC = vsrc/top.v vsrc/encorder.v 
-CSRC = csrc/encorder.cpp
+VSRC = vsrc/top.v vsrc/MuxKeyInternal.v 
+CSRC = csrc/mux.cpp
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
@@ -13,7 +13,7 @@ all:
 sim:$(VSRCS) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py constr/encorder.nxdc auto_bind.cpp
+	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py constr/mux.nxdc auto_bind.cpp
 	verilator  --cc --exe --build --noassert $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp --trace-fst --top-module top $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
 
 
