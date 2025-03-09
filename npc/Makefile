@@ -30,6 +30,6 @@ look:
 
 
 clean:
-	rm -rf obj_dir waveform.fst top.fst.hier auto_bind.cpp
+	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp
 
 include ../Makefile

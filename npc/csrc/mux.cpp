@@ -5,6 +5,13 @@ static Vtop dut;
 
 void nvboard_bind_all_pins(Vtop *top);
 
+static void single_cycle()
+{
+    dut.clk = 0;
+    dut.eval();
+    dut.clk = 1;
+    dut.eval();
+}
 
 int main()
 {
@@ -12,13 +19,8 @@ int main()
     nvboard_init();
     while (1)
     {
-        
-        dut.eval();   
-        usleep(5000);
-        dut.eval(); 
-
         nvboard_update();
-        usleep(10);     
+        single_cycle();
     }
 
     return 0;
