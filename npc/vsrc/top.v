@@ -23,10 +23,10 @@ MuxKey #(4,2,2) i0 (
 );
 
 always @(posedge clk)begin
-    if(change==X0 & Y==2'b00) F=2'b0;
-    if(change==X1 & Y==2'b01) F=2'b1;
-    if(change==X2 & Y==2'b10) F=2'b10;
-    if(change==X3 & Y==2'b11) F=2'b11;
+    if(change==X0 & Y==2'b00) F=X0;
+    if(change==X1 & Y==2'b01) F=X1;
+    if(change==X2 & Y==2'b10) F=X2;
+    if(change==X3 & Y==2'b11) F=X3;
 end
 
 
