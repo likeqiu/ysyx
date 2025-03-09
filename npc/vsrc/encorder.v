@@ -37,7 +37,7 @@ module seven_segment_display (
         3'd1:seg=7'b1001111;
         3'd3:seg=7'b0000110;
         3'd4:seg=7'b1001100;
-        3'd5:seg=7'b0100100;
+        3'd5:seg=7'b0010010;
         3'd6:seg=7'b1100000;
         3'd7:seg=7'b0001111;
         default:seg=7'b0000000;
