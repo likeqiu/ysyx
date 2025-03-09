@@ -7,8 +7,9 @@ module encorder(
 );
 
     always @(posedge clk) begin
-        if(en) out=3'b000;
-        else begin
+        if(en) begin 
+        out=3'b000;sympol=1'b0;
+        end else begin
         casez(D)
         8'b1??????? : begin out=3'b111;sympol=1'b1;end
         8'b01?????? : begin out=3'b110;sympol=1'b1;end
