@@ -2,6 +2,7 @@
 #include<nvboard.h>
 
 static Vtop dut;
+
 void nvboard_bind_pins_all(Vtop *top)
 
 static void single_cycle()
@@ -19,8 +20,9 @@ int main()
 
     while (1)
     {
-        single_cycle();
         nvboard_update();
+        single_cycle();
+       
     }
     nvboard_quit();
     return 0;
