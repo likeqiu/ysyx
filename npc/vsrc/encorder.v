@@ -35,7 +35,7 @@ module seven_segment_display (
         casez(num)
         3'd1:seg=7'b1001111;
         3'd2:seg=7'b0000110;
-        3'd3:seg=7'b1001100;
+        3'd3:seg=7'b0110000;
         3'd4:seg=7'b0010010;
         3'd5:seg=7'b1000000;
         3'd6:seg=7'b0000001;
