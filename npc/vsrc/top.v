@@ -6,7 +6,7 @@ module top(
     input  [1:0] X1,
     input  [1:0] X2,
     input  [1:0] X3,
-    output [1:0] F
+    output reg [1:0] F
 );
 
 reg [1:0] change;
