@@ -18,12 +18,14 @@ module ALU(
 
         casez(select)
         3'b000:begin 
-            {cin,result}=a+b;
-            overflow=(a[2]==b[2]) && (a[2]!=cin);
+            {cin,result}=$signed(a)+$signed(b);
+            overflow=(a[3]==b[3]) && (a[3]!=result[3]);
+            zero=(result==4'b0) ? 1'b1 : 1'b0;
         end
         3'b001:begin
-            {cin,result}=a-b;
-            overflow=(a[2]==b[2]) && (a[2]!=cin);
+            result=$signed(a)-$signed(b);
+            overflow=(a[3]==b[3]) && (a[3]!=result[3]);
+            zero=(result==4'b0) ? 1'b1 : 1'b0;
         end
         3'b010: result=~a;
         3'b011:result=a & b;
@@ -35,12 +37,12 @@ module ALU(
             else if(a<b)
             compare_out=1'b0;
         end
-        3'b111:compare_out=(a==b) ? 1'b1 :1'b0;
+        3'b111:compare_out=($signed(a)==$signed(b)) ? 1'b1 :1'b0;
 
 
         endcase
 
-        zero=(result==4'b0) ? 1'b1 : 1'b0;
+       
         
     end
 
