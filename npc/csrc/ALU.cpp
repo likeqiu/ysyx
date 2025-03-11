@@ -4,11 +4,11 @@
 static Vtop dut;
 void nvboard_bind_all_pins(Vtop *top)
 
-static void single_clk()
+static void single_cycle()
 {
-    dut.clk = 1;
-    dut.eval();
     dut.clk = 0;
+    dut.eval();
+    dut.clk = 1;
     dut.eval();
 }
 
@@ -21,7 +21,7 @@ int main()
     {
         
         nvboard_update();
-        single_clk();
+        single_cycle();
     }
     nvboard_quit();
     return 0;
