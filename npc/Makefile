@@ -1,6 +1,6 @@
-VSRC = vsrc/top.v vsrc/encorder.v 
-CSRC = csrc/encorder.cpp
-NXDC = constr/encorder.nxdc
+VSRC = vsrc/top.v vsrc/ALU.v 
+CSRC = csrc/ALU.cpp
+NXDC = constr/ALU.nxdc
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
