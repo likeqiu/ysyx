@@ -7,11 +7,11 @@ module top(
     output reg cin,
     output reg overflow,
     output reg compare_out,
-    output reg [6:0] seg0
+    output reg [6:0] seg0,seg1
 );
 
 
-ALU test(.clk(clk),.select(select),.a(a),.b(b),.result(result),.zero(zero),.cin(cin),.overflow(overflow),.compare_out(compare_out),.seg0(seg0));    
+ALU test(.clk(clk),.select(select),.a(a),.b(b),.result(result),.zero(zero),.cin(cin),.overflow(overflow),.compare_out(compare_out),.seg0(seg0),.seg1(seg1));    
 
 always @(result) begin
     $display("%d",result);

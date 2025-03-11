@@ -7,7 +7,7 @@ module ALU(
     output reg cin,
     output reg overflow,
     output reg compare_out,
-    output reg [6:0] seg0
+    output reg [6:0] seg0,seg1
 );
     always @(posedge clk) begin
         result=4'b0;
@@ -49,14 +49,21 @@ module ALU(
     always @(*) begin
         
         casez(result)
-        4'd1:seg0=7'b1001111;
-        4'd2:seg0=7'b0010010;
-        4'd3:seg0=7'b0000110;
-        4'd4:seg0=7'b1001100;
-        4'd5:seg0=7'b0100100;
-        4'd6:seg0=7'b1100000;
-        4'd7:seg0=7'b0001111;
-        default:seg0=7'b0000001;
+        4'd1:begin seg0= 7'b1001111;seg1=7'b0000001;end
+        4'd2:begin seg0=7'b0010010;seg1=7'b0000001;end
+        4'd3:begin seg0=7'b0000110;seg1=7'b0000001;end
+        4'd4:begin seg0= 7'b1001100;seg1=7'b0000001;end
+        4'd5:begin seg0= 7'b0100100;seg1=7'b0000001;end
+        4'd6:begin seg0= 7'b1100000;seg1=7'b0000001;end
+        4'd7:begin seg0= 7'b0001111;seg1=7'b0000001;end
+        4'd8:begin seg0= 7'b0000000;seg1=7'b0000001;end 
+        4'd9:begin seg0=7'b0001000; seg1=7'b0000001;end
+        4'd10:begin seg1= 7'b1001111;seg0=7'b0000001;end
+        4'd11:begin seg0= 7'b1001111;seg1=7'b1001111;end
+        4'd12:begin seg1= 7'b1001111;seg0=7'b0010010;end
+        4'd13:begin seg1= 7'b1001111;seg0=7'b0000110;end                           
+        4'd14:begin seg1= 7'b1001111;seg0=7'b1001100;end    
+        default:begin seg0=7'b0000001;seg1=7'b0000001;end
         endcase
         
     end
