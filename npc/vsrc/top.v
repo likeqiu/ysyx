@@ -13,7 +13,7 @@ module top(
 
 ALU test(.clk(clk),.select(select),.a(a),.b(b),.result(result),.zero(zero),.cin(cin),.overflow(overflow),.compare_out(compare_out),.seg0(seg0));    
 
-always @(posedge clk) begin
+always @(result) begin
     $display("%d",result);
 end
 
