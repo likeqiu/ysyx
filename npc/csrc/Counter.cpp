@@ -1,4 +1,4 @@
-#include <Vtop.h>
+#include <VCounterModule.h>
 #include <nvboard.h>
 
 static Vtop dut;
