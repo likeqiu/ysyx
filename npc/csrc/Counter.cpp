@@ -3,7 +3,7 @@
 
 static VCounterModule dut;
 
-void nvboard_bind_all_pins(Vtop *top);
+void nvboard_bind_all_pins(VCounterModule *top);
 
 static void single_cycle()
 {
