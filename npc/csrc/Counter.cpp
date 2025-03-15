@@ -1,7 +1,7 @@
 #include <VCounterModule.h>
 #include <nvboard.h>
 
-static Vtop dut;
+static VCounterModule dut;
 
 void nvboard_bind_all_pins(Vtop *top);
 
