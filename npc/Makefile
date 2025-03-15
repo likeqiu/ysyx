@@ -1,10 +1,12 @@
+SVSRC=vsrc/CounterModule.sv
 VSRC = vsrc/top.v vsrc/ALU.v 
-CSRC = csrc/ALU.cpp
-NXDC = constr/ALU.nxdc
+CSRC = csrc/Counter.cpp
+NXDC = constr/Counter.nxdc
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 INC_PATH ?=
+
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
 
@@ -15,7 +17,7 @@ sim:$(VSRCS) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
 	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $(NXDC) auto_bind.cpp
-	verilator  --cc --exe --build --noassert $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp --trace-fst --top-module top $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
+	verilator  --cc --exe --build --noassert $(SVSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp --trace-fst --top-module top $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
 
 
 waveform:$(VSRCS) $(CSRC_WAVE)
@@ -29,6 +31,11 @@ run:
 look:
 	gtkwave waveform.fst	
 
+.PHONY: verilog
+verilog:
+	cd chisel-template
+	mv $(SV) ../
+	mv $(SV) /npc
 
 clean:
 	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp
