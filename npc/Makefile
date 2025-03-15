@@ -17,7 +17,7 @@ sim:$(VSRCS) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
 	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $(NXDC) auto_bind.cpp
-	verilator  --cc --exe --build --noassert $(SVSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp --trace-fst --top-module top $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
+	verilator  --cc --exe --build --noassert $(SVSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp --trace-fst $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
 
 
 waveform:$(VSRCS) $(CSRC_WAVE)
