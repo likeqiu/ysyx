@@ -17,6 +17,7 @@ class Vtop___024root final : public VerilatedModule {
     VL_OUT8(seg0,6,0);
     VL_OUT8(seg1,6,0);
     VL_IN8(num,7,0);
+    VL_IN8(reset,0,0);
     CData/*7:0*/ top__DOT__temp_shift;
     CData/*0:0*/ top__DOT__random;
     CData/*0:0*/ __Vtrigrprev__TOP__clk;

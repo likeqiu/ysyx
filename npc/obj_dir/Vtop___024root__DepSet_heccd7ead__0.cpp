@@ -23,13 +23,26 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     __Vtableidx1 = 0;
     CData/*3:0*/ __Vtableidx2;
     __Vtableidx2 = 0;
+    CData/*7:0*/ __Vdly__top__DOT__temp_shift;
+    __Vdly__top__DOT__temp_shift = 0;
+    CData/*0:0*/ __Vdly__top__DOT__random;
+    __Vdly__top__DOT__random = 0;
     // Body
-    vlSelf->top__DOT__random = (1U & VL_REDXOR_8((0x1dU 
-                                                  & (IData)(vlSelf->num))));
-    vlSelf->top__DOT__temp_shift = (((IData)(vlSelf->top__DOT__random) 
-                                     << 7U) | (0x7fU 
-                                               & ((IData)(vlSelf->num) 
-                                                  >> 1U)));
+    __Vdly__top__DOT__random = vlSelf->top__DOT__random;
+    __Vdly__top__DOT__temp_shift = vlSelf->top__DOT__temp_shift;
+    if (vlSelf->reset) {
+        __Vdly__top__DOT__temp_shift = vlSelf->num;
+    } else {
+        __Vdly__top__DOT__random = (1U & VL_REDXOR_8(
+                                                     (0x1dU 
+                                                      & (IData)(vlSelf->top__DOT__temp_shift))));
+        __Vdly__top__DOT__temp_shift = (((IData)(vlSelf->top__DOT__random) 
+                                         << 7U) | (0x7fU 
+                                                   & ((IData)(vlSelf->top__DOT__temp_shift) 
+                                                      >> 1U)));
+    }
+    vlSelf->top__DOT__random = __Vdly__top__DOT__random;
+    vlSelf->top__DOT__temp_shift = __Vdly__top__DOT__temp_shift;
     __Vtableidx1 = (0xfU & (IData)(vlSelf->top__DOT__temp_shift));
     vlSelf->seg0 = Vtop__ConstPool__TABLE_h6579ea8a_0
         [__Vtableidx1];
@@ -114,5 +127,7 @@ void Vtop___024root___eval_debug_assertions(Vtop___024root* vlSelf) {
     // Body
     if (VL_UNLIKELY((vlSelf->clk & 0xfeU))) {
         Verilated::overWidthError("clk");}
+    if (VL_UNLIKELY((vlSelf->reset & 0xfeU))) {
+        Verilated::overWidthError("reset");}
 }
 #endif  // VL_DEBUG

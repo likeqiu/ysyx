@@ -2,12 +2,16 @@ module top (
     output reg [6:0] seg0,seg1,
     input  [7:0] num,
     input clk,
-    input  reset
+    input  reset,
+    output reg led
 
 );
     reg [7:0] temp_shift;
     reg random;
 
+always @(*) begin
+    led=reset;
+end
 
     always @(posedge clk) begin
         if(reset)begin
