@@ -16,12 +16,14 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->declBus(c+7,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
     tracep->declBit(c+8,"clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBit(c+9,"reset",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+10,"led",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->pushNamePrefix("top ");
     tracep->declBus(c+5,"seg0",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->declBus(c+6,"seg1",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->declBus(c+7,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
     tracep->declBit(c+8,"clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBit(c+9,"reset",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+10,"led",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBus(c+1,"temp_shift",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 7,0);
     tracep->declBit(c+2,"random",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1);
     tracep->declBus(c+3,"segone",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
@@ -86,4 +88,5 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
     bufp->fullCData(oldp+7,(vlSelf->num),8);
     bufp->fullBit(oldp+8,(vlSelf->clk));
     bufp->fullBit(oldp+9,(vlSelf->reset));
+    bufp->fullBit(oldp+10,(vlSelf->led));
 }
