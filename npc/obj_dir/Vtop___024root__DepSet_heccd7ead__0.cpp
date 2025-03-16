@@ -54,7 +54,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     if (vlSelf->reset) {
         __Vdly__top__DOT__temp_shift = vlSelf->num;
         __Vdly__top__DOT__count = 0U;
-    } else if ((0xc350U < vlSelf->top__DOT__count)) {
+    } else if ((0x1388U < vlSelf->top__DOT__count)) {
         __Vdly__top__DOT__random = (1U & VL_REDXOR_8(
                                                      (0x1dU 
                                                       & (IData)(vlSelf->top__DOT__temp_shift))));
