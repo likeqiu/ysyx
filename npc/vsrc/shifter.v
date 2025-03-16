@@ -13,12 +13,19 @@ always @(*) begin
     led=reset;
 end
 
+    reg [25:0] count;
+
+
     always @(posedge clk or posedge reset) begin
         if(reset)begin
             temp_shift<=num;
-        end else begin
+            count<=26'd0;
+        end else if(count>26'd500) begin
          random<=temp_shift[0]^temp_shift[2]^temp_shift[3]^temp_shift[4];
          temp_shift<={random,temp_shift[7:1]};
+         count <= 26'd0;
+        end  else begin
+            count<=count+1'b1;
         end
     end
 
