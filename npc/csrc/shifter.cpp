@@ -7,9 +7,9 @@ void nvboard_bind_all_pins(Vtop *top);
 
 static void single_cycle()
 {
-    dut.clock = 0;
+    dut.clk = 0;
     dut.eval();
-    dut.clock = 1;
+    dut.clk = 1;
     dut.eval();
     usleep(1);
 }
