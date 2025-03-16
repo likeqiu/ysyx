@@ -1,14 +1,21 @@
 module top (
     output reg [6:0] seg0,seg1,
     input  [7:0] num,
-    input clk
+    input clk,
+    input  reset
 
 );
     reg [7:0] temp_shift;
     reg random;
+
+
     always @(posedge clk) begin
-         random=num[0]^num[2]^num[3]^num[4];
-         temp_shift={random,num[7:1]};
+        if(reset)begin
+            temp_shift<=num;
+        end else begin
+         random<=temp_shift[0]^temp_shift[2]^temp_shift[3]^temp_shift[4];
+         temp_shift<={random,temp_shift[7:1]};
+        end
     end
 
     wire   [3:0]segone;
