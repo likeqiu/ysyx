@@ -20,7 +20,7 @@ end
         if(reset)begin
             temp_shift<=num;
             count<=26'd0;
-        end else if(count>26'd50000000) begin
+        end else if(count>26'd50000) begin
          random<=temp_shift[0]^temp_shift[2]^temp_shift[3]^temp_shift[4];
          temp_shift<={random,temp_shift[7:1]};
          count <= 26'd0;
