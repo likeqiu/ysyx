@@ -7,15 +7,15 @@ module top (
     reg [7:0] temp_shift;
     reg random;
     always @(posedge clk) begin
-        random=num[0]^num[2]^num[3]^num[4];
-        temp_shift={random,num[7:1]};
+         random=num[0]^num[2]^num[3]^num[4];
+         temp_shift={random,num[7:1]};
     end
 
     wire   [3:0]segone;
     wire   [3:0]segten;
     
 assign    segone=temp_shift[3:0];
-assign    segten=temp_shift[3:0];
+assign    segten=temp_shift[7:4];
 
 sevens_light one(.num(segone),.seg(seg0));
 sevens_light two(.num(segten),.seg(seg1));    

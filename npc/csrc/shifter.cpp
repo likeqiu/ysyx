@@ -11,6 +11,7 @@ static void single_cycle()
     dut.eval();
     dut.clk = 1;
     dut.eval();
+    upsleep(100)
 }
 
 int main()
