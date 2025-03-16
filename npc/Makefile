@@ -1,6 +1,6 @@
 SVSRC=vsrc/CounterModule.sv
-VSRC = vsrc/shifer.v
-CSRC = csrc/shifer.cpp
+VSRC = vsrc/shifter.v
+CSRC = csrc/shifter.cpp
 NXDC = constr/shifter.nxdc
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
