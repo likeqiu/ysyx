@@ -17,12 +17,6 @@ VL_INLINE_OPT void VCounterModule___024root___nba_sequent__TOP__0(VCounterModule
     VCounterModule__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    VCounterModule___024root___nba_sequent__TOP__0\n"); );
     // Init
-    CData/*6:0*/ __Vdly__CounterModule__DOT__secondsReg;
-    __Vdly__CounterModule__DOT__secondsReg = 0;
-    CData/*6:0*/ __Vdly__CounterModule__DOT__minutesReg;
-    __Vdly__CounterModule__DOT__minutesReg = 0;
-    CData/*6:0*/ __Vdly__CounterModule__DOT__hoursReg;
-    __Vdly__CounterModule__DOT__hoursReg = 0;
     CData/*6:0*/ __Vdly__CounterModule__DOT__tick;
     __Vdly__CounterModule__DOT__tick = 0;
     VlWide<4>/*127:0*/ __Vtemp_ha3b2720e__0;
@@ -30,38 +24,11 @@ VL_INLINE_OPT void VCounterModule___024root___nba_sequent__TOP__0(VCounterModule
     VlWide<4>/*127:0*/ __Vtemp_ha3b2720e__2;
     // Body
     __Vdly__CounterModule__DOT__tick = vlSelf->CounterModule__DOT__tick;
-    __Vdly__CounterModule__DOT__hoursReg = vlSelf->CounterModule__DOT__hoursReg;
-    __Vdly__CounterModule__DOT__minutesReg = vlSelf->CounterModule__DOT__minutesReg;
-    __Vdly__CounterModule__DOT__secondsReg = vlSelf->CounterModule__DOT__secondsReg;
     if (vlSelf->reset) {
-        __Vdly__CounterModule__DOT__secondsReg = 0U;
-        __Vdly__CounterModule__DOT__minutesReg = 0U;
-        __Vdly__CounterModule__DOT__hoursReg = 0U;
         __Vdly__CounterModule__DOT__tick = 0U;
-    } else if ((0x64U == (IData)(vlSelf->CounterModule__DOT__tick))) {
-        vlSelf->CounterModule__DOT__unnamedblk1__DOT___hoursReg_T 
-            = (0x3bU == (IData)(vlSelf->CounterModule__DOT__secondsReg));
-        __Vdly__CounterModule__DOT__tick = 0U;
-        __Vdly__CounterModule__DOT__secondsReg = ((0x3bU 
-                                                   > (IData)(vlSelf->CounterModule__DOT__secondsReg))
-                                                   ? 
-                                                  (0x7fU 
-                                                   & ((IData)(1U) 
-                                                      + (IData)(vlSelf->CounterModule__DOT__secondsReg)))
-                                                   : 0U);
-        if (vlSelf->CounterModule__DOT__unnamedblk1__DOT___hoursReg_T) {
-            __Vdly__CounterModule__DOT__minutesReg 
-                = ((0x3bU > (IData)(vlSelf->CounterModule__DOT__minutesReg))
-                    ? (0x7fU & ((IData)(1U) + (IData)(vlSelf->CounterModule__DOT__minutesReg)))
-                    : 0U);
-        }
-        if (((IData)(vlSelf->CounterModule__DOT__unnamedblk1__DOT___hoursReg_T) 
-             & (0x3bU == (IData)(vlSelf->CounterModule__DOT__minutesReg)))) {
-            __Vdly__CounterModule__DOT__hoursReg = 
-                ((0x17U > (IData)(vlSelf->CounterModule__DOT__hoursReg))
-                  ? (0x7fU & ((IData)(1U) + (IData)(vlSelf->CounterModule__DOT__hoursReg)))
-                  : 0U);
-        }
+        vlSelf->CounterModule__DOT__hoursReg = 0U;
+        vlSelf->CounterModule__DOT__minutesReg = 0U;
+        vlSelf->CounterModule__DOT__secondsReg = 0U;
     } else {
         if ((1U & (~ ((IData)(vlSelf->io_reset) | (~ (IData)(vlSelf->io_enable)))))) {
             __Vdly__CounterModule__DOT__tick = (0x7fU 
@@ -69,106 +36,100 @@ VL_INLINE_OPT void VCounterModule___024root___nba_sequent__TOP__0(VCounterModule
                                                    + (IData)(vlSelf->CounterModule__DOT__tick)));
         }
         if (vlSelf->io_reset) {
-            __Vdly__CounterModule__DOT__secondsReg = 0U;
-            __Vdly__CounterModule__DOT__minutesReg = 0U;
-            __Vdly__CounterModule__DOT__hoursReg = 0U;
+            vlSelf->CounterModule__DOT__hoursReg = 0U;
+            vlSelf->CounterModule__DOT__minutesReg = 0U;
+            vlSelf->CounterModule__DOT__secondsReg = 0U;
         }
     }
     vlSelf->CounterModule__DOT__tick = __Vdly__CounterModule__DOT__tick;
-    vlSelf->CounterModule__DOT__secondsReg = __Vdly__CounterModule__DOT__secondsReg;
-    vlSelf->CounterModule__DOT__minutesReg = __Vdly__CounterModule__DOT__minutesReg;
-    vlSelf->CounterModule__DOT__hoursReg = __Vdly__CounterModule__DOT__hoursReg;
-    vlSelf->io_second = vlSelf->CounterModule__DOT__secondsReg;
+    vlSelf->io_hour = vlSelf->CounterModule__DOT__hoursReg;
     __Vtemp_ha3b2720e__0[0U] = 0xc0c4a7c0U;
     __Vtemp_ha3b2720e__0[1U] = 0x801f8124U;
     __Vtemp_ha3b2720e__0[2U] = 0xffffffc2U;
     __Vtemp_ha3b2720e__0[3U] = 0xffffU;
-    vlSelf->io_led_second1 = ((0x6fU >= (0x7fU & ((IData)(7U) 
-                                                  * 
-                                                  (0xfU 
-                                                   & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))))
-                               ? (0x7fU & (((0U == 
-                                             (0x1fU 
-                                              & ((IData)(7U) 
-                                                 * 
-                                                 (0xfU 
-                                                  & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))))
-                                             ? 0U : 
-                                            (__Vtemp_ha3b2720e__0[
-                                             (((IData)(6U) 
-                                               + (0x7fU 
+    vlSelf->io_led_hour1 = ((0x6fU >= (0x7fU & ((IData)(7U) 
+                                                * (0xfU 
+                                                   & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))))
+                             ? (0x7fU & (((0U == (0x1fU 
                                                   & ((IData)(7U) 
                                                      * 
                                                      (0xfU 
-                                                      & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU)))))) 
-                                              >> 5U)] 
-                                             << ((IData)(0x20U) 
-                                                 - 
-                                                 (0x1fU 
-                                                  & ((IData)(7U) 
-                                                     * 
-                                                     (0xfU 
-                                                      & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU)))))))) 
-                                           | (__Vtemp_ha3b2720e__0[
-                                              (3U & 
-                                               (((IData)(7U) 
-                                                 * 
-                                                 (0xfU 
-                                                  & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU)))) 
-                                                >> 5U))] 
-                                              >> (0x1fU 
-                                                  & ((IData)(7U) 
-                                                     * 
-                                                     (0xfU 
-                                                      & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))))))
-                               : 0U);
-    vlSelf->io_led_second2 = ((0U == (0x7fU & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
-                               ? 0x40U : ((1U == (0x7fU 
-                                                  & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
-                                           ? 0x4fU : 
-                                          ((2U == (0x7fU 
-                                                   & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
-                                            ? 0x12U
-                                            : ((3U 
-                                                == 
-                                                (0x7fU 
-                                                 & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
-                                                ? 6U
-                                                : (
+                                                      & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))))
+                                           ? 0U : (
+                                                   __Vtemp_ha3b2720e__0[
+                                                   (((IData)(6U) 
+                                                     + 
+                                                     (0x7fU 
+                                                      & ((IData)(7U) 
+                                                         * 
+                                                         (0xfU 
+                                                          & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU)))))) 
+                                                    >> 5U)] 
+                                                   << 
+                                                   ((IData)(0x20U) 
+                                                    - 
+                                                    (0x1fU 
+                                                     & ((IData)(7U) 
+                                                        * 
+                                                        (0xfU 
+                                                         & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU)))))))) 
+                                         | (__Vtemp_ha3b2720e__0[
+                                            (3U & (
+                                                   ((IData)(7U) 
+                                                    * 
+                                                    (0xfU 
+                                                     & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU)))) 
+                                                   >> 5U))] 
+                                            >> (0x1fU 
+                                                & ((IData)(7U) 
+                                                   * 
+                                                   (0xfU 
+                                                    & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))))))
+                             : 0U);
+    vlSelf->io_led_hour2 = ((0U == (0x7fU & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                             ? 0x40U : ((1U == (0x7fU 
+                                                & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                                         ? 0x4fU : 
+                                        ((2U == (0x7fU 
+                                                 & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                                          ? 0x12U : 
+                                         ((3U == (0x7fU 
+                                                  & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                                           ? 6U : (
                                                    (4U 
                                                     == 
                                                     (0x7fU 
-                                                     & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                                                     & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
                                                     ? 0x4cU
                                                     : 
                                                    ((5U 
                                                      == 
                                                      (0x7fU 
-                                                      & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                                                      & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
                                                      ? 0x24U
                                                      : 
                                                     ((6U 
                                                       == 
                                                       (0x7fU 
-                                                       & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                                                       & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
                                                       ? 0x60U
                                                       : 
                                                      ((7U 
                                                        == 
                                                        (0x7fU 
-                                                        & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                                                        & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
                                                        ? 0xfU
                                                        : 
                                                       ((8U 
                                                         == 
                                                         (0x7fU 
-                                                         & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                                                         & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
                                                         ? 0U
                                                         : 
                                                        ((9U 
                                                          == 
                                                          (0x7fU 
-                                                          & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                                                          & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
                                                          ? 5U
                                                          : 0x7fU))))))))));
     vlSelf->io_minutes = vlSelf->CounterModule__DOT__minutesReg;
@@ -267,94 +228,97 @@ VL_INLINE_OPT void VCounterModule___024root___nba_sequent__TOP__0(VCounterModule
                                                            & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__minutesReg), (IData)(0xaU))))
                                                           ? 5U
                                                           : 0x7fU))))))))));
-    vlSelf->io_hour = vlSelf->CounterModule__DOT__hoursReg;
+    vlSelf->io_second = vlSelf->CounterModule__DOT__secondsReg;
     __Vtemp_ha3b2720e__2[0U] = 0xc0c4a7c0U;
     __Vtemp_ha3b2720e__2[1U] = 0x801f8124U;
     __Vtemp_ha3b2720e__2[2U] = 0xffffffc2U;
     __Vtemp_ha3b2720e__2[3U] = 0xffffU;
-    vlSelf->io_led_hour1 = ((0x6fU >= (0x7fU & ((IData)(7U) 
-                                                * (0xfU 
-                                                   & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))))
-                             ? (0x7fU & (((0U == (0x1fU 
+    vlSelf->io_led_second1 = ((0x6fU >= (0x7fU & ((IData)(7U) 
+                                                  * 
+                                                  (0xfU 
+                                                   & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))))
+                               ? (0x7fU & (((0U == 
+                                             (0x1fU 
+                                              & ((IData)(7U) 
+                                                 * 
+                                                 (0xfU 
+                                                  & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))))
+                                             ? 0U : 
+                                            (__Vtemp_ha3b2720e__2[
+                                             (((IData)(6U) 
+                                               + (0x7fU 
                                                   & ((IData)(7U) 
                                                      * 
                                                      (0xfU 
-                                                      & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))))
-                                           ? 0U : (
-                                                   __Vtemp_ha3b2720e__2[
-                                                   (((IData)(6U) 
-                                                     + 
-                                                     (0x7fU 
-                                                      & ((IData)(7U) 
-                                                         * 
-                                                         (0xfU 
-                                                          & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU)))))) 
-                                                    >> 5U)] 
-                                                   << 
-                                                   ((IData)(0x20U) 
-                                                    - 
-                                                    (0x1fU 
-                                                     & ((IData)(7U) 
-                                                        * 
-                                                        (0xfU 
-                                                         & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU)))))))) 
-                                         | (__Vtemp_ha3b2720e__2[
-                                            (3U & (
-                                                   ((IData)(7U) 
-                                                    * 
-                                                    (0xfU 
-                                                     & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU)))) 
-                                                   >> 5U))] 
-                                            >> (0x1fU 
-                                                & ((IData)(7U) 
-                                                   * 
-                                                   (0xfU 
-                                                    & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))))))
-                             : 0U);
-    vlSelf->io_led_hour2 = ((0U == (0x7fU & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
-                             ? 0x40U : ((1U == (0x7fU 
-                                                & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
-                                         ? 0x4fU : 
-                                        ((2U == (0x7fU 
-                                                 & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
-                                          ? 0x12U : 
-                                         ((3U == (0x7fU 
-                                                  & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
-                                           ? 6U : (
+                                                      & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU)))))) 
+                                              >> 5U)] 
+                                             << ((IData)(0x20U) 
+                                                 - 
+                                                 (0x1fU 
+                                                  & ((IData)(7U) 
+                                                     * 
+                                                     (0xfU 
+                                                      & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU)))))))) 
+                                           | (__Vtemp_ha3b2720e__2[
+                                              (3U & 
+                                               (((IData)(7U) 
+                                                 * 
+                                                 (0xfU 
+                                                  & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU)))) 
+                                                >> 5U))] 
+                                              >> (0x1fU 
+                                                  & ((IData)(7U) 
+                                                     * 
+                                                     (0xfU 
+                                                      & VL_MODDIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))))))
+                               : 0U);
+    vlSelf->io_led_second2 = ((0U == (0x7fU & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                               ? 0x40U : ((1U == (0x7fU 
+                                                  & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                                           ? 0x4fU : 
+                                          ((2U == (0x7fU 
+                                                   & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                                            ? 0x12U
+                                            : ((3U 
+                                                == 
+                                                (0x7fU 
+                                                 & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
+                                                ? 6U
+                                                : (
                                                    (4U 
                                                     == 
                                                     (0x7fU 
-                                                     & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                                                     & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
                                                     ? 0x4cU
                                                     : 
                                                    ((5U 
                                                      == 
                                                      (0x7fU 
-                                                      & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                                                      & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
                                                      ? 0x24U
                                                      : 
                                                     ((6U 
                                                       == 
                                                       (0x7fU 
-                                                       & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                                                       & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
                                                       ? 0x60U
                                                       : 
                                                      ((7U 
                                                        == 
                                                        (0x7fU 
-                                                        & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                                                        & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
                                                        ? 0xfU
                                                        : 
                                                       ((8U 
                                                         == 
                                                         (0x7fU 
-                                                         & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                                                         & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
                                                         ? 0U
                                                         : 
                                                        ((9U 
                                                          == 
                                                          (0x7fU 
-                                                          & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__hoursReg), (IData)(0xaU))))
+                                                          & VL_DIV_III(7, (IData)(vlSelf->CounterModule__DOT__secondsReg), (IData)(0xaU))))
                                                          ? 5U
                                                          : 0x7fU))))))))));
 }

@@ -30,7 +30,6 @@ class VCounterModule___024root final : public VerilatedModule {
     CData/*6:0*/ CounterModule__DOT__minutesReg;
     CData/*6:0*/ CounterModule__DOT__hoursReg;
     CData/*6:0*/ CounterModule__DOT__tick;
-    CData/*0:0*/ CounterModule__DOT__unnamedblk1__DOT___hoursReg_T;
     CData/*0:0*/ __Vtrigrprev__TOP__clock;
     CData/*0:0*/ __VactContinue;
     IData/*31:0*/ __VstlIterCount;

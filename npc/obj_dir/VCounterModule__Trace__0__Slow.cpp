@@ -48,8 +48,7 @@ VL_ATTR_COLD void VCounterModule___024root__trace_init_sub__TOP__0(VCounterModul
     tracep->declBus(c+8,"minTens",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->declBus(c+9,"hourOnes",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->declBus(c+10,"hourTens",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->pushNamePrefix("unnamedblk1 ");
-    tracep->popNamePrefix(2);
+    tracep->popNamePrefix(1);
 }
 
 VL_ATTR_COLD void VCounterModule___024root__trace_init_top(VCounterModule___024root* vlSelf, VerilatedFst* tracep) {
