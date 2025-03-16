@@ -11,7 +11,7 @@ static void single_cycle()
     dut.eval();
     dut.clk = 1;
     dut.eval();
-    usleep(1);
+    usleep(100);
 }
 
 int main()
@@ -19,9 +19,6 @@ int main()
     nvboard_bind_all_pins(&dut);
     nvboard_init();
 
-    dut.reset = 1;
-    nvboard_update;
-    
     while (1)
     {
         nvboard_update();
