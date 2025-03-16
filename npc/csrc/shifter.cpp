@@ -25,15 +25,15 @@ int main()
     { 
         if(count==50){
             single_cycle();
-            nvboard_update();
             count = 0;
         }
         else
         {
-            nvboard_update();
+            
             count++;
         }
+        nvboard_update();
 
-    return 0;
+        return 0;
 }
 }
