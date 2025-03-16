@@ -11,18 +11,26 @@ static void single_cycle()
     dut.eval();
     dut.clk = 1;
     dut.eval();
-    usleep(100);
+    
 }
 
 int main()
 {
     nvboard_bind_all_pins(&dut);
     nvboard_init();
+
+    int count = 0;
+
     while (1)
-    {
-        nvboard_update();
-        single_cycle();
-    }
+    { 
+        if(count==50){
+            nvboard_update();
+            count = 0;
+        }
+        else
+        {
+            count++;
+        }
 
     return 0;
 }
