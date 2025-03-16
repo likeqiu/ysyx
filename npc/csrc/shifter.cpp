@@ -24,11 +24,13 @@ int main()
     while (1)
     { 
         if(count==50){
+            single_cycle();
             nvboard_update();
             count = 0;
         }
         else
         {
+            nvboard_update();
             count++;
         }
 
