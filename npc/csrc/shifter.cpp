@@ -21,7 +21,7 @@ int main()
     while (1)
     {
         nvboard_update();
-        single_cycle()
+        single_cycle();
     }
 
     return 0;
