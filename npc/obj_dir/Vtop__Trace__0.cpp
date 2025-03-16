@@ -26,16 +26,17 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
     if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[1U])) {
         bufp->chgCData(oldp+0,(vlSelf->top__DOT__temp_shift),8);
         bufp->chgBit(oldp+1,(vlSelf->top__DOT__random));
-        bufp->chgCData(oldp+2,((0xfU & (IData)(vlSelf->top__DOT__temp_shift))),4);
-        bufp->chgCData(oldp+3,((0xfU & ((IData)(vlSelf->top__DOT__temp_shift) 
+        bufp->chgIData(oldp+2,(vlSelf->top__DOT__count),26);
+        bufp->chgCData(oldp+3,((0xfU & (IData)(vlSelf->top__DOT__temp_shift))),4);
+        bufp->chgCData(oldp+4,((0xfU & ((IData)(vlSelf->top__DOT__temp_shift) 
                                         >> 4U))),4);
     }
-    bufp->chgCData(oldp+4,(vlSelf->seg0),7);
-    bufp->chgCData(oldp+5,(vlSelf->seg1),7);
-    bufp->chgCData(oldp+6,(vlSelf->num),8);
-    bufp->chgBit(oldp+7,(vlSelf->clk));
-    bufp->chgBit(oldp+8,(vlSelf->reset));
-    bufp->chgBit(oldp+9,(vlSelf->led));
+    bufp->chgCData(oldp+5,(vlSelf->seg0),7);
+    bufp->chgCData(oldp+6,(vlSelf->seg1),7);
+    bufp->chgCData(oldp+7,(vlSelf->num),8);
+    bufp->chgBit(oldp+8,(vlSelf->clk));
+    bufp->chgBit(oldp+9,(vlSelf->reset));
+    bufp->chgBit(oldp+10,(vlSelf->led));
 }
 
 void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {

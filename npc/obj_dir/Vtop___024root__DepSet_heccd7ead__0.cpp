@@ -43,22 +43,31 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     __Vtableidx2 = 0;
     CData/*7:0*/ __Vdly__top__DOT__temp_shift;
     __Vdly__top__DOT__temp_shift = 0;
+    IData/*25:0*/ __Vdly__top__DOT__count;
+    __Vdly__top__DOT__count = 0;
     CData/*0:0*/ __Vdly__top__DOT__random;
     __Vdly__top__DOT__random = 0;
     // Body
     __Vdly__top__DOT__random = vlSelf->top__DOT__random;
+    __Vdly__top__DOT__count = vlSelf->top__DOT__count;
     __Vdly__top__DOT__temp_shift = vlSelf->top__DOT__temp_shift;
     if (vlSelf->reset) {
         __Vdly__top__DOT__temp_shift = vlSelf->num;
-    } else {
+        __Vdly__top__DOT__count = 0U;
+    } else if ((0x1f4U < vlSelf->top__DOT__count)) {
         __Vdly__top__DOT__random = (1U & VL_REDXOR_8(
                                                      (0x1dU 
                                                       & (IData)(vlSelf->top__DOT__temp_shift))));
+        __Vdly__top__DOT__count = 0U;
         __Vdly__top__DOT__temp_shift = (((IData)(vlSelf->top__DOT__random) 
                                          << 7U) | (0x7fU 
                                                    & ((IData)(vlSelf->top__DOT__temp_shift) 
                                                       >> 1U)));
+    } else {
+        __Vdly__top__DOT__count = (0x3ffffffU & ((IData)(1U) 
+                                                 + vlSelf->top__DOT__count));
     }
+    vlSelf->top__DOT__count = __Vdly__top__DOT__count;
     vlSelf->top__DOT__random = __Vdly__top__DOT__random;
     vlSelf->top__DOT__temp_shift = __Vdly__top__DOT__temp_shift;
     __Vtableidx1 = (0xfU & (IData)(vlSelf->top__DOT__temp_shift));
