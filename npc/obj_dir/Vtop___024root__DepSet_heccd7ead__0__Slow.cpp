@@ -75,7 +75,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 }
 #endif  // VL_DEBUG
 
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h6579ea8a_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_he3f81170_0;
 
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -89,11 +89,11 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     // Body
     vlSelf->led = vlSelf->reset;
     __Vtableidx1 = (0xfU & (IData)(vlSelf->top__DOT__temp_shift));
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_h6579ea8a_0
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_he3f81170_0
         [__Vtableidx1];
     __Vtableidx2 = (0xfU & ((IData)(vlSelf->top__DOT__temp_shift) 
                             >> 4U));
-    vlSelf->seg1 = Vtop__ConstPool__TABLE_h6579ea8a_0
+    vlSelf->seg1 = Vtop__ConstPool__TABLE_he3f81170_0
         [__Vtableidx2];
 }
 

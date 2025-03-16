@@ -44,7 +44,7 @@ module sevens_light(
     always @(*) begin
         case(num)
         4'd0: seg = 7'b0111111; 
-        3'd1:seg=7'b1001111;
+        4'd1:seg=7'b1001111;
         4'd2:seg=7'b0010010;
         4'd3:seg=7'b0000110;
         4'd4:seg=7'b1001100;
