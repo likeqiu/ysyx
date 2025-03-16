@@ -1,3 +1,5 @@
+//先按SW9 ,再通过SW0-8调初始值，然后关闭SW9，然后就可以进行随机数生成
+
 module top (
     output reg [6:0] seg0,seg1,
     input  [7:0] num,

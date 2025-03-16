@@ -30,7 +30,7 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_act\n"); );
 }
 
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h1a38ef5f_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_hb1f3222a_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -71,11 +71,11 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     vlSelf->top__DOT__random = __Vdly__top__DOT__random;
     vlSelf->top__DOT__temp_shift = __Vdly__top__DOT__temp_shift;
     __Vtableidx1 = (0xfU & (IData)(vlSelf->top__DOT__temp_shift));
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_h1a38ef5f_0
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_hb1f3222a_0
         [__Vtableidx1];
     __Vtableidx2 = (0xfU & ((IData)(vlSelf->top__DOT__temp_shift) 
                             >> 4U));
-    vlSelf->seg1 = Vtop__ConstPool__TABLE_h1a38ef5f_0
+    vlSelf->seg1 = Vtop__ConstPool__TABLE_hb1f3222a_0
         [__Vtableidx2];
 }
 
