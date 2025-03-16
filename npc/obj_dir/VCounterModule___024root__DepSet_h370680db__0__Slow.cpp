@@ -425,6 +425,7 @@ VL_ATTR_COLD void VCounterModule___024root___ctor_var_reset(VCounterModule___024
     vlSelf->CounterModule__DOT__secondsReg = VL_RAND_RESET_I(7);
     vlSelf->CounterModule__DOT__minutesReg = VL_RAND_RESET_I(7);
     vlSelf->CounterModule__DOT__hoursReg = VL_RAND_RESET_I(7);
+    vlSelf->CounterModule__DOT__tick = VL_RAND_RESET_I(7);
     vlSelf->CounterModule__DOT__unnamedblk1__DOT___hoursReg_T = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigrprev__TOP__clock = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {

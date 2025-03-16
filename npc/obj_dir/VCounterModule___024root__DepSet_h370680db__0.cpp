@@ -23,10 +23,13 @@ VL_INLINE_OPT void VCounterModule___024root___nba_sequent__TOP__0(VCounterModule
     __Vdly__CounterModule__DOT__minutesReg = 0;
     CData/*6:0*/ __Vdly__CounterModule__DOT__hoursReg;
     __Vdly__CounterModule__DOT__hoursReg = 0;
+    CData/*6:0*/ __Vdly__CounterModule__DOT__tick;
+    __Vdly__CounterModule__DOT__tick = 0;
     VlWide<4>/*127:0*/ __Vtemp_ha3b2720e__0;
     VlWide<4>/*127:0*/ __Vtemp_ha3b2720e__1;
     VlWide<4>/*127:0*/ __Vtemp_ha3b2720e__2;
     // Body
+    __Vdly__CounterModule__DOT__tick = vlSelf->CounterModule__DOT__tick;
     __Vdly__CounterModule__DOT__hoursReg = vlSelf->CounterModule__DOT__hoursReg;
     __Vdly__CounterModule__DOT__minutesReg = vlSelf->CounterModule__DOT__minutesReg;
     __Vdly__CounterModule__DOT__secondsReg = vlSelf->CounterModule__DOT__secondsReg;
@@ -34,33 +37,44 @@ VL_INLINE_OPT void VCounterModule___024root___nba_sequent__TOP__0(VCounterModule
         __Vdly__CounterModule__DOT__secondsReg = 0U;
         __Vdly__CounterModule__DOT__minutesReg = 0U;
         __Vdly__CounterModule__DOT__hoursReg = 0U;
-    } else if (vlSelf->io_reset) {
-        __Vdly__CounterModule__DOT__secondsReg = 0U;
-        __Vdly__CounterModule__DOT__minutesReg = 0U;
-        __Vdly__CounterModule__DOT__hoursReg = 0U;
-    } else {
+        __Vdly__CounterModule__DOT__tick = 0U;
+    } else if ((0x64U == (IData)(vlSelf->CounterModule__DOT__tick))) {
         vlSelf->CounterModule__DOT__unnamedblk1__DOT___hoursReg_T 
             = (0x3bU == (IData)(vlSelf->CounterModule__DOT__secondsReg));
-        if (vlSelf->io_enable) {
-            __Vdly__CounterModule__DOT__secondsReg 
-                = ((0x3bU > (IData)(vlSelf->CounterModule__DOT__secondsReg))
-                    ? (0x7fU & ((IData)(1U) + (IData)(vlSelf->CounterModule__DOT__secondsReg)))
-                    : 0U);
-        }
-        if (((IData)(vlSelf->io_enable) & (IData)(vlSelf->CounterModule__DOT__unnamedblk1__DOT___hoursReg_T))) {
+        __Vdly__CounterModule__DOT__tick = 0U;
+        __Vdly__CounterModule__DOT__secondsReg = ((0x3bU 
+                                                   > (IData)(vlSelf->CounterModule__DOT__secondsReg))
+                                                   ? 
+                                                  (0x7fU 
+                                                   & ((IData)(1U) 
+                                                      + (IData)(vlSelf->CounterModule__DOT__secondsReg)))
+                                                   : 0U);
+        if (vlSelf->CounterModule__DOT__unnamedblk1__DOT___hoursReg_T) {
             __Vdly__CounterModule__DOT__minutesReg 
                 = ((0x3bU > (IData)(vlSelf->CounterModule__DOT__minutesReg))
                     ? (0x7fU & ((IData)(1U) + (IData)(vlSelf->CounterModule__DOT__minutesReg)))
                     : 0U);
         }
-        if ((((IData)(vlSelf->io_enable) & (IData)(vlSelf->CounterModule__DOT__unnamedblk1__DOT___hoursReg_T)) 
+        if (((IData)(vlSelf->CounterModule__DOT__unnamedblk1__DOT___hoursReg_T) 
              & (0x3bU == (IData)(vlSelf->CounterModule__DOT__minutesReg)))) {
             __Vdly__CounterModule__DOT__hoursReg = 
                 ((0x17U > (IData)(vlSelf->CounterModule__DOT__hoursReg))
                   ? (0x7fU & ((IData)(1U) + (IData)(vlSelf->CounterModule__DOT__hoursReg)))
                   : 0U);
         }
+    } else {
+        if ((1U & (~ ((IData)(vlSelf->io_reset) | (~ (IData)(vlSelf->io_enable)))))) {
+            __Vdly__CounterModule__DOT__tick = (0x7fU 
+                                                & ((IData)(1U) 
+                                                   + (IData)(vlSelf->CounterModule__DOT__tick)));
+        }
+        if (vlSelf->io_reset) {
+            __Vdly__CounterModule__DOT__secondsReg = 0U;
+            __Vdly__CounterModule__DOT__minutesReg = 0U;
+            __Vdly__CounterModule__DOT__hoursReg = 0U;
+        }
     }
+    vlSelf->CounterModule__DOT__tick = __Vdly__CounterModule__DOT__tick;
     vlSelf->CounterModule__DOT__secondsReg = __Vdly__CounterModule__DOT__secondsReg;
     vlSelf->CounterModule__DOT__minutesReg = __Vdly__CounterModule__DOT__minutesReg;
     vlSelf->CounterModule__DOT__hoursReg = __Vdly__CounterModule__DOT__hoursReg;
