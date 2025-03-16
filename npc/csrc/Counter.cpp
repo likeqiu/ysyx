@@ -11,7 +11,7 @@ static void single_cycle()
     dut.eval();
     dut.clock = 1;
     dut.eval();
-    usleep(100000);
+    usleep(100);
 }
 
 int main()
