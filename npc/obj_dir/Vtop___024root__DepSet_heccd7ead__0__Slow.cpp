@@ -89,7 +89,8 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     __Vtableidx1 = (0xfU & (IData)(vlSelf->top__DOT__temp_shift));
     vlSelf->seg0 = Vtop__ConstPool__TABLE_h6579ea8a_0
         [__Vtableidx1];
-    __Vtableidx2 = (0xfU & (IData)(vlSelf->top__DOT__temp_shift));
+    __Vtableidx2 = (0xfU & ((IData)(vlSelf->top__DOT__temp_shift) 
+                            >> 4U));
     vlSelf->seg1 = Vtop__ConstPool__TABLE_h6579ea8a_0
         [__Vtableidx2];
 }
