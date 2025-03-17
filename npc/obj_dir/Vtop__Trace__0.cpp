@@ -37,7 +37,7 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
         bufp->chgCData(oldp+10,(vlSelf->top__DOT__r_ptr),4);
         bufp->chgCData(oldp+11,(vlSelf->top__DOT__count),4);
         bufp->chgCData(oldp+12,(vlSelf->top__DOT__ps2_clk_sync),3);
-        bufp->chgBit(oldp+13,((IData)((2U == (3U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
+        bufp->chgBit(oldp+13,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
     }
     bufp->chgBit(oldp+14,(vlSelf->clk));
     bufp->chgBit(oldp+15,(vlSelf->clrk));

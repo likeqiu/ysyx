@@ -98,7 +98,8 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     __Vdly__ready = vlSelf->ready;
     __Vdly__top__DOT__r_ptr = vlSelf->top__DOT__r_ptr;
     __Vdlyvset__top__DOT__fifo__v0 = 0U;
-    __Vdly__top__DOT__ps2_clk_sync = ((6U & (IData)(vlSelf->top__DOT__ps2_clk_sync)) 
+    __Vdly__top__DOT__ps2_clk_sync = ((6U & ((IData)(vlSelf->top__DOT__ps2_clk_sync) 
+                                             << 1U)) 
                                       | (IData)(vlSelf->ps2_clk));
     if (vlSelf->clrk) {
         __Vdly__top__DOT__count = 0U;
@@ -118,7 +119,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                 }
             }
         }
-        if ((IData)((2U == (3U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))) {
+        if ((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))) {
             if ((0xaU == (IData)(vlSelf->top__DOT__count))) {
                 if (VL_UNLIKELY((1U & (((~ (IData)(vlSelf->top__DOT__buffer)) 
                                         & (~ (IData)(vlSelf->ps2_date))) 

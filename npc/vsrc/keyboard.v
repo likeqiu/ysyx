@@ -12,9 +12,9 @@ reg [3:0] w_ptr,r_ptr;
 reg [3:0] count;
 reg [2:0] ps2_clk_sync;
 
-initial begin
+/*initial begin
     $monitor("clk: %b, ps2_clk: %b, ps2_data: %b, date: %b, ready: %b", clk, ps2_clk, ps2_date, date, ready);
-end
+end */
 
 
 always @(posedge clk)begin

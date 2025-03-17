@@ -121,7 +121,7 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
     bufp->fullCData(oldp+11,(vlSelf->top__DOT__r_ptr),4);
     bufp->fullCData(oldp+12,(vlSelf->top__DOT__count),4);
     bufp->fullCData(oldp+13,(vlSelf->top__DOT__ps2_clk_sync),3);
-    bufp->fullBit(oldp+14,((IData)((2U == (3U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
+    bufp->fullBit(oldp+14,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
     bufp->fullBit(oldp+15,(vlSelf->clk));
     bufp->fullBit(oldp+16,(vlSelf->clrk));
     bufp->fullBit(oldp+17,(vlSelf->nextdate_n));
