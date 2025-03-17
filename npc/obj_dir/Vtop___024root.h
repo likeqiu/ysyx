@@ -8,13 +8,9 @@
 #include "verilated.h"
 
 class Vtop__Syms;
-class Vtop___024unit;
-
 
 class Vtop___024root final : public VerilatedModule {
   public:
-    // CELLS
-    Vtop___024unit* __PVT____024unit;
 
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
@@ -38,12 +34,10 @@ class Vtop___024root final : public VerilatedModule {
     CData/*0:0*/ __VactContinue;
     SData/*9:0*/ top__DOT__buffer;
     IData/*31:0*/ __VstlIterCount;
-    IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;
     VlUnpacked<CData/*7:0*/, 8> top__DOT__fifo;
     VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
     VlTriggerVec<1> __VstlTriggered;
-    VlTriggerVec<1> __VicoTriggered;
     VlTriggerVec<1> __VactTriggered;
     VlTriggerVec<1> __VnbaTriggered;
 
