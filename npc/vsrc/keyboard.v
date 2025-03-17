@@ -11,6 +11,7 @@ reg [7:0] fifo [7:0];
 reg [3:0] w_ptr,r_ptr;
 reg [3:0] count;
 reg [2:0] ps2_clk_sync;
+reg [9:0] last_buffer;
 
 /*initial begin
     $monitor("clk: %b, ps2_clk: %b, ps2_data: %b, date: %b, ready: %b", clk, ps2_clk, ps2_date, date, ready);
@@ -19,6 +20,7 @@ end */
 
 always @(posedge clk)begin
     ps2_clk_sync<={ps2_clk_sync[1:0],ps2_clk};
+    last_buffer<=buffer;
 end
 
 wire sampling=ps2_clk_sync[2] & ~ps2_clk_sync[1];
@@ -41,7 +43,7 @@ always @(posedge clk)begin
 
         if(sampling)begin
             if(count==4'd10)begin
-                if(buffer[0]==0 && ps2_date && (^buffer[9:1]))begin
+                if(buffer[0]==0 && ps2_date && (^buffer[9:1]) && (last_buffer!=buffer))begin
                     fifo[w_ptr[2:0]] <= buffer[8:1]; 
                     w_ptr<=w_ptr+1'b1;
                     ready<=1'b1;

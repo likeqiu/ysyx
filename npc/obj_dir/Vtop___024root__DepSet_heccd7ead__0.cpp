@@ -68,7 +68,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
             if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->nextdate_n))))) {
                 __Vdly__top__DOT__r_ptr = (0xfU & ((IData)(1U) 
                                                    + (IData)(vlSelf->top__DOT__r_ptr)));
-                VL_WRITEF("receive %x\n",8,vlSelf->date);
+                VL_WRITEF("date %x\n",8,vlSelf->date);
                 if (((IData)(vlSelf->top__DOT__w_ptr) 
                      == (0xfU & ((IData)(1U) + (IData)(vlSelf->top__DOT__r_ptr))))) {
                     __Vdly__ready = 0U;
