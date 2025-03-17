@@ -1,7 +1,7 @@
 SVSRC=vsrc/CounterModule.sv
-VSRC = vsrc/top.v vsrc/ALU.v
-CSRC = csrc/ALU.cpp
-NXDC = constr/ALU.nxdc
+VSRC = vsrc/keyboard.v
+CSRC = csrc/keyboard.cpp
+NXDC = constr/keyboard.nxdc
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
