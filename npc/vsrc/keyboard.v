@@ -31,7 +31,7 @@ always @(posedge clk)begin
         if(ready)begin
             if(nextdate_n==1'b0)begin
                 r_ptr<=r_ptr+3'b1;
-               $display("receive %x", date[7:0]);
+               $display("date %x", date[7:0]);
                 if(w_ptr==r_ptr+1'b1)begin
                     ready<=1'b0;
                 end

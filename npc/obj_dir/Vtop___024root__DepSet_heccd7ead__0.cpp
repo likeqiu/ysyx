@@ -77,12 +77,11 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         }
         if ((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))) {
             if ((0xaU == (IData)(vlSelf->top__DOT__count))) {
-                if (VL_UNLIKELY((1U & (((~ (IData)(vlSelf->top__DOT__buffer)) 
-                                        & (~ (IData)(vlSelf->ps2_date))) 
-                                       & VL_REDXOR_32(
-                                                      (0x1ffU 
-                                                       & ((IData)(vlSelf->top__DOT__buffer) 
-                                                          >> 1U))))))) {
+                if (VL_UNLIKELY((((~ (IData)(vlSelf->top__DOT__buffer)) 
+                                  & (IData)(vlSelf->ps2_date)) 
+                                 & VL_REDXOR_32((0x1ffU 
+                                                 & ((IData)(vlSelf->top__DOT__buffer) 
+                                                    >> 1U)))))) {
                     VL_WRITEF("receive %x\n",8,(0xffU 
                                                 & ((IData)(vlSelf->top__DOT__buffer) 
                                                    >> 1U)));
