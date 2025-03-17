@@ -20,7 +20,7 @@ end */
 
 always @(posedge clk)begin
     ps2_clk_sync<={ps2_clk_sync[1:0],ps2_clk};
-    last_buffer<=buffer;
+
 end
 
 wire sampling=ps2_clk_sync[2] & ~ps2_clk_sync[1];
@@ -45,6 +45,7 @@ always @(posedge clk)begin
             if(count==4'd10)begin
                 if(buffer[0]==0 && ps2_date && (^buffer[9:1]) && (last_buffer!=buffer))begin
                     fifo[w_ptr[2:0]] <= buffer[8:1]; 
+                    last_buffer<=buffer;
                     w_ptr<=w_ptr+1'b1;
                     ready<=1'b1;
                     overflow<=overflow | (r_ptr==w_ptr+1'b1);

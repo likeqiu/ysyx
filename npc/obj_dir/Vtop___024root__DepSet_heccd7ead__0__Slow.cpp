@@ -176,6 +176,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__r_ptr = VL_RAND_RESET_I(4);
     vlSelf->top__DOT__count = VL_RAND_RESET_I(4);
     vlSelf->top__DOT__ps2_clk_sync = VL_RAND_RESET_I(3);
+    vlSelf->top__DOT__last_buffer = VL_RAND_RESET_I(10);
     vlSelf->top__DOT____Vlvbound_h1a91ade8__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigrprev__TOP__clk = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {

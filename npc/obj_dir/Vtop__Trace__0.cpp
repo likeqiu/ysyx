@@ -37,30 +37,31 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
         bufp->chgCData(oldp+10,(vlSelf->top__DOT__r_ptr),4);
         bufp->chgCData(oldp+11,(vlSelf->top__DOT__count),4);
         bufp->chgCData(oldp+12,(vlSelf->top__DOT__ps2_clk_sync),3);
-        bufp->chgBit(oldp+13,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
+        bufp->chgSData(oldp+13,(vlSelf->top__DOT__last_buffer),10);
+        bufp->chgBit(oldp+14,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
     }
-    bufp->chgBit(oldp+14,(vlSelf->clk));
-    bufp->chgBit(oldp+15,(vlSelf->clrk));
-    bufp->chgBit(oldp+16,(vlSelf->nextdate_n));
-    bufp->chgBit(oldp+17,(vlSelf->ps2_clk));
-    bufp->chgBit(oldp+18,(vlSelf->ps2_date));
-    bufp->chgCData(oldp+19,(vlSelf->date),8);
-    bufp->chgBit(oldp+20,(vlSelf->ready));
-    bufp->chgBit(oldp+21,(vlSelf->overflow));
-    bufp->chgCData(oldp+22,(vlSelf->seg0),7);
-    bufp->chgCData(oldp+23,(vlSelf->seg1),7);
-    bufp->chgCData(oldp+24,(vlSelf->seg2),7);
-    bufp->chgCData(oldp+25,(vlSelf->seg3),7);
-    bufp->chgCData(oldp+26,((0xfU & (IData)(vlSelf->date))),4);
-    bufp->chgCData(oldp+27,((0xfU & ((IData)(vlSelf->date) 
+    bufp->chgBit(oldp+15,(vlSelf->clk));
+    bufp->chgBit(oldp+16,(vlSelf->clrk));
+    bufp->chgBit(oldp+17,(vlSelf->nextdate_n));
+    bufp->chgBit(oldp+18,(vlSelf->ps2_clk));
+    bufp->chgBit(oldp+19,(vlSelf->ps2_date));
+    bufp->chgCData(oldp+20,(vlSelf->date),8);
+    bufp->chgBit(oldp+21,(vlSelf->ready));
+    bufp->chgBit(oldp+22,(vlSelf->overflow));
+    bufp->chgCData(oldp+23,(vlSelf->seg0),7);
+    bufp->chgCData(oldp+24,(vlSelf->seg1),7);
+    bufp->chgCData(oldp+25,(vlSelf->seg2),7);
+    bufp->chgCData(oldp+26,(vlSelf->seg3),7);
+    bufp->chgCData(oldp+27,((0xfU & (IData)(vlSelf->date))),4);
+    bufp->chgCData(oldp+28,((0xfU & ((IData)(vlSelf->date) 
                                      >> 4U))),4);
-    bufp->chgCData(oldp+28,((0xffU & ((IData)(0x2fU) 
+    bufp->chgCData(oldp+29,((0xffU & ((IData)(0x2fU) 
                                       + (IData)(vlSelf->date)))),8);
-    bufp->chgCData(oldp+29,((0xfU & VL_MODDIV_III(32, 
+    bufp->chgCData(oldp+30,((0xfU & VL_MODDIV_III(32, 
                                                   (0xfU 
                                                    & ((IData)(0xfU) 
                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))),4);
-    bufp->chgCData(oldp+30,((0xfU & VL_DIV_III(32, 
+    bufp->chgCData(oldp+31,((0xfU & VL_DIV_III(32, 
                                                (0xfU 
                                                 & (((IData)(0x2fU) 
                                                     + (IData)(vlSelf->date)) 
