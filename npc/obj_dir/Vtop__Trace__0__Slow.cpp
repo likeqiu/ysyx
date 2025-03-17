@@ -139,7 +139,7 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
                                       >> 4U))),4);
     bufp->fullCData(oldp+29,((0xffU & ((IData)(0x2fU) 
                                        + (IData)(vlSelf->date)))),8);
-    bufp->fullCData(oldp+30,((0xfU & VL_MODDIV_III(4, 
+    bufp->fullCData(oldp+30,((0xfU & VL_MODDIV_III(32, 
                                                    (0xfU 
                                                     & ((IData)(0xfU) 
                                                        + (IData)(vlSelf->date))), (IData)(0xaU)))),4);

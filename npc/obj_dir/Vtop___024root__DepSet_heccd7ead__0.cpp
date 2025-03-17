@@ -64,9 +64,10 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         __Vdly__overflow = 0U;
     } else {
         if (vlSelf->ready) {
-            if ((1U & (~ (IData)(vlSelf->nextdate_n)))) {
+            if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->nextdate_n))))) {
                 __Vdly__top__DOT__r_ptr = (0xfU & ((IData)(1U) 
                                                    + (IData)(vlSelf->top__DOT__r_ptr)));
+                VL_WRITEF("receive %x\n",8,vlSelf->date);
                 if (((IData)(vlSelf->top__DOT__w_ptr) 
                      == (0xfU & ((IData)(1U) + (IData)(vlSelf->top__DOT__r_ptr))))) {
                     __Vdly__ready = 0U;
@@ -75,11 +76,15 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         }
         if ((IData)((2U == (3U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))) {
             if ((0xaU == (IData)(vlSelf->top__DOT__count))) {
-                if ((1U & (((~ (IData)(vlSelf->top__DOT__buffer)) 
-                            & (~ (IData)(vlSelf->ps2_date))) 
-                           & VL_REDXOR_32((0x1ffU & 
-                                           ((IData)(vlSelf->top__DOT__buffer) 
-                                            >> 1U)))))) {
+                if (VL_UNLIKELY((1U & (((~ (IData)(vlSelf->top__DOT__buffer)) 
+                                        & (~ (IData)(vlSelf->ps2_date))) 
+                                       & VL_REDXOR_32(
+                                                      (0x1ffU 
+                                                       & ((IData)(vlSelf->top__DOT__buffer) 
+                                                          >> 1U))))))) {
+                    VL_WRITEF("receive %x\n",8,(0xffU 
+                                                & ((IData)(vlSelf->top__DOT__buffer) 
+                                                   >> 1U)));
                     __Vdlyvval__top__DOT__fifo__v0 
                         = (0xffU & ((IData)(vlSelf->top__DOT__buffer) 
                                     >> 1U));
@@ -100,7 +105,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
             } else {
                 vlSelf->top__DOT____Vlvbound_h1a91ade8__0 
                     = vlSelf->ps2_date;
-                if ((9U >= (IData)(vlSelf->top__DOT__count))) {
+                if (VL_LIKELY((9U >= (IData)(vlSelf->top__DOT__count)))) {
                     vlSelf->top__DOT__buffer = (((~ 
                                                   ((IData)(1U) 
                                                    << (IData)(vlSelf->top__DOT__count))) 
@@ -131,9 +136,9 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     __Vtableidx2 = (0xfU & ((IData)(vlSelf->date) >> 4U));
     vlSelf->seg1 = Vtop__ConstPool__TABLE_hb1f3222a_0
         [__Vtableidx2];
-    __Vtableidx3 = (0xfU & VL_MODDIV_III(4, (0xfU & 
-                                             ((IData)(0xfU) 
-                                              + (IData)(vlSelf->date))), (IData)(0xaU)));
+    __Vtableidx3 = (0xfU & VL_MODDIV_III(32, (0xfU 
+                                              & ((IData)(0xfU) 
+                                                 + (IData)(vlSelf->date))), (IData)(0xaU)));
     vlSelf->seg2 = Vtop__ConstPool__TABLE_h228bbf13_0
         [__Vtableidx3];
     __Vtableidx4 = (0xfU & VL_DIV_III(32, (0xfU & (

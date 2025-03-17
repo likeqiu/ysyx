@@ -56,7 +56,7 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
                                      >> 4U))),4);
     bufp->chgCData(oldp+28,((0xffU & ((IData)(0x2fU) 
                                       + (IData)(vlSelf->date)))),8);
-    bufp->chgCData(oldp+29,((0xfU & VL_MODDIV_III(4, 
+    bufp->chgCData(oldp+29,((0xfU & VL_MODDIV_III(32, 
                                                   (0xfU 
                                                    & ((IData)(0xfU) 
                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))),4);
