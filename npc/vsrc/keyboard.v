@@ -41,7 +41,7 @@ always @(posedge clk)begin
 
         if(sampling)begin
             if(count==4'd10)begin
-                if(buffer[0]==1'b0 && ps2_date==1'b0 && (^buffer[9:1]))begin
+                if(buffer[0]==0 && ps2_date && (^buffer[9:1]))begin
                     fifo[w_ptr[2:0]] <= buffer[8:1]; 
                     w_ptr<=w_ptr+1'b1;
                     ready<=1'b1;
