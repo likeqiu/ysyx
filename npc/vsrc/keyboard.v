@@ -26,6 +26,7 @@ always @(posedge clk)begin
         if(ready)begin
             if(nextdate_n==1'b0)begin
                 r_ptr<=r_ptr+3'b1;
+               $display("receive %x", date[7:0]);
                 if(w_ptr==r_ptr+1'b1)begin
                     ready<=1'b0;
                 end
@@ -40,6 +41,7 @@ always @(posedge clk)begin
                     w_ptr<=w_ptr+1'b1;
                     ready<=1'b1;
                     overflow<=overflow | (r_ptr==w_ptr+1'b1);
+                      $display("receive %x", buffer[8:1]);
                 end
                 count<=4'b0;
 
@@ -65,7 +67,7 @@ wire [7:0] ascll;
 assign ascll=date+8'd47;
 
 wire [3:0] three,four;
-assign three=ascll[3:0] % 4'd10;
+assign three=ascll[3:0] % 10;
 assign four=ascll[7:4] / 10;
 
 sevens_light_high third(.num(three),.seg(seg2));
