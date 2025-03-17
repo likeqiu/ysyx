@@ -23,6 +23,7 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , seg1{vlSymsp->TOP.seg1}
     , seg2{vlSymsp->TOP.seg2}
     , seg3{vlSymsp->TOP.seg3}
+    , __PVT____024unit{vlSymsp->TOP.__PVT____024unit}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context

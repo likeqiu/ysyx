@@ -74,42 +74,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 }
 #endif  // VL_DEBUG
 
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_hb1f3222a_0;
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h228bbf13_0;
-
-VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___stl_sequent__TOP__0\n"); );
-    // Init
-    CData/*3:0*/ __Vtableidx1;
-    __Vtableidx1 = 0;
-    CData/*3:0*/ __Vtableidx2;
-    __Vtableidx2 = 0;
-    CData/*3:0*/ __Vtableidx3;
-    __Vtableidx3 = 0;
-    CData/*3:0*/ __Vtableidx4;
-    __Vtableidx4 = 0;
-    // Body
-    vlSelf->date = vlSelf->top__DOT__fifo[(7U & (IData)(vlSelf->top__DOT__r_ptr))];
-    __Vtableidx1 = (0xfU & (IData)(vlSelf->date));
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_hb1f3222a_0
-        [__Vtableidx1];
-    __Vtableidx2 = (0xfU & ((IData)(vlSelf->date) >> 4U));
-    vlSelf->seg1 = Vtop__ConstPool__TABLE_hb1f3222a_0
-        [__Vtableidx2];
-    __Vtableidx3 = (0xfU & VL_MODDIV_III(32, (0xfU 
-                                              & ((IData)(0xfU) 
-                                                 + (IData)(vlSelf->date))), (IData)(0xaU)));
-    vlSelf->seg2 = Vtop__ConstPool__TABLE_h228bbf13_0
-        [__Vtableidx3];
-    __Vtableidx4 = (0xfU & VL_DIV_III(32, (0xfU & (
-                                                   ((IData)(0x2fU) 
-                                                    + (IData)(vlSelf->date)) 
-                                                   >> 4U)), (IData)(0xaU)));
-    vlSelf->seg3 = Vtop__ConstPool__TABLE_h228bbf13_0
-        [__Vtableidx4];
-}
+VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf);
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -120,6 +85,21 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
         Vtop___024root___stl_sequent__TOP__0(vlSelf);
     }
 }
+
+#ifdef VL_DEBUG
+VL_ATTR_COLD void Vtop___024root___dump_triggers__ico(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___dump_triggers__ico\n"); );
+    // Body
+    if ((1U & (~ (IData)(vlSelf->__VicoTriggered.any())))) {
+        VL_DBG_MSGF("         No triggers active\n");
+    }
+    if (vlSelf->__VicoTriggered.at(0U)) {
+        VL_DBG_MSGF("         'ico' region trigger index 0 is active: Internal 'ico' trigger - first iteration\n");
+    }
+}
+#endif  // VL_DEBUG
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
