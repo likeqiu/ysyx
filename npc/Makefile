@@ -26,7 +26,7 @@ waveform:$(VSRCS) $(CSRC_WAVE)
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(VSRC) $(CSRC_WAVE) --trace-fst --top-module top 
 
 run:
-	./obj_dir/V$(TOPNAME)  +verilator+rand+reset+2
+	./obj_dir/V$(TOPNAME)  
 
 look:
 	gtkwave waveform.fst	
