@@ -13,23 +13,21 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
 }
 
 extern const VlUnpacked<CData/*6:0*/, 256> Vtop__ConstPool__TABLE_h15f1b71f_0;
-extern const VlUnpacked<CData/*6:0*/, 4096> Vtop__ConstPool__TABLE_h4929d511_0;
+extern const VlUnpacked<CData/*6:0*/, 32> Vtop__ConstPool__TABLE_h92da4cf0_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___nba_sequent__TOP__0\n"); );
     // Init
-    SData/*11:0*/ __Vtableidx1;
+    CData/*4:0*/ __Vtableidx1;
     __Vtableidx1 = 0;
-    SData/*11:0*/ __Vtableidx2;
+    CData/*4:0*/ __Vtableidx2;
     __Vtableidx2 = 0;
     CData/*7:0*/ __Vtableidx3;
     __Vtableidx3 = 0;
     CData/*7:0*/ __Vtableidx4;
     __Vtableidx4 = 0;
-    CData/*2:0*/ __Vdly__top__DOT__ps2_clk_sync;
-    __Vdly__top__DOT__ps2_clk_sync = 0;
     CData/*3:0*/ __Vdly__top__DOT__count;
     __Vdly__top__DOT__count = 0;
     CData/*3:0*/ __Vdly__top__DOT__w_ptr;
@@ -49,7 +47,6 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     CData/*0:0*/ __Vdlyvset__top__DOT__fifo__v0;
     __Vdlyvset__top__DOT__fifo__v0 = 0;
     // Body
-    __Vdly__top__DOT__ps2_clk_sync = vlSelf->top__DOT__ps2_clk_sync;
     __Vdly__overflow = vlSelf->overflow;
     __Vdly__ready = vlSelf->ready;
     __Vdly__top__DOT__w_ptr = vlSelf->top__DOT__w_ptr;
@@ -57,7 +54,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     __Vdly__top__DOT__button_times = vlSelf->top__DOT__button_times;
     __Vdly__top__DOT__r_ptr = vlSelf->top__DOT__r_ptr;
     __Vdlyvset__top__DOT__fifo__v0 = 0U;
-    __Vdly__top__DOT__ps2_clk_sync = ((6U & ((IData)(vlSelf->top__DOT__ps2_clk_sync) 
+    vlSelf->top__DOT__ps2_clk_sync = ((6U & ((IData)(vlSelf->top__DOT__ps2_clk_sync) 
                                              << 1U)) 
                                       | (IData)(vlSelf->ps2_clk));
     if (vlSelf->clrk) {
@@ -78,7 +75,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                 }
             }
         }
-        if ((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))) {
+        if (vlSelf->top__DOT__sampling) {
             if ((0xaU == (IData)(vlSelf->top__DOT__count))) {
                 if (VL_UNLIKELY((((~ (IData)(vlSelf->top__DOT__buffer)) 
                                   & (IData)(vlSelf->ps2_date)) 
@@ -138,13 +135,14 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     vlSelf->top__DOT__w_ptr = __Vdly__top__DOT__w_ptr;
     vlSelf->ready = __Vdly__ready;
     vlSelf->overflow = __Vdly__overflow;
-    vlSelf->top__DOT__ps2_clk_sync = __Vdly__top__DOT__ps2_clk_sync;
     vlSelf->top__DOT__button_times = __Vdly__top__DOT__button_times;
     vlSelf->top__DOT__r_ptr = __Vdly__top__DOT__r_ptr;
     if (__Vdlyvset__top__DOT__fifo__v0) {
         vlSelf->top__DOT__fifo[__Vdlyvdim0__top__DOT__fifo__v0] 
             = __Vdlyvval__top__DOT__fifo__v0;
     }
+    vlSelf->top__DOT__sampling = (IData)((4U == (6U 
+                                                 & (IData)(vlSelf->top__DOT__ps2_clk_sync))));
     __Vtableidx3 = (0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
     vlSelf->seg4 = Vtop__ConstPool__TABLE_h15f1b71f_0
         [__Vtableidx3];
@@ -354,13 +352,13 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         vlSelf->seg2 = 0x7fU;
         vlSelf->seg3 = 0x7fU;
     }
-    __Vtableidx1 = ((0xf00U & ((IData)(vlSelf->date) 
-                               << 8U)) | (IData)(vlSelf->date));
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_h4929d511_0
+    __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->date) 
+                              << 1U)) | (IData)(vlSelf->top__DOT__sampling));
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_h92da4cf0_0
         [__Vtableidx1];
-    __Vtableidx2 = ((0xf00U & ((IData)(vlSelf->date) 
-                               << 4U)) | (IData)(vlSelf->date));
-    vlSelf->seg1 = Vtop__ConstPool__TABLE_h4929d511_0
+    __Vtableidx2 = ((0x1eU & ((IData)(vlSelf->date) 
+                              >> 3U)) | (IData)(vlSelf->top__DOT__sampling));
+    vlSelf->seg1 = Vtop__ConstPool__TABLE_h92da4cf0_0
         [__Vtableidx2];
 }
 
