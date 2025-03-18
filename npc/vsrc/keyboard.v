@@ -13,15 +13,18 @@ reg [3:0] count;
 reg [2:0] ps2_clk_sync;
 reg [9:0] last_buffer;
 reg [7:0] button_times;
+reg release_detected;
+reg key_pressed;
 
 initial begin
     button_times=8'b0;
+    release_detected=1'b0;
+    key_pressed=1'b0;
 end 
 
 
 always @(posedge clk)begin
     ps2_clk_sync<={ps2_clk_sync[1:0],ps2_clk};
-    
 
 end
 
@@ -30,7 +33,7 @@ wire sampling=ps2_clk_sync[2] & ~ps2_clk_sync[1];
 always @(posedge clk)begin
     if(clrk)begin
         count<=4'd0;w_ptr<=4'd0;r_ptr<=4'd0;
-        ready<=1'b0;overflow<=1'b0;
+        ready<=1'b0;overflow<=1'b0;release_detected<=1'b0;key_pressed<=1'b0;
     end else begin
         if(ready)begin
             if(nextdate_n==1'b0)begin
@@ -53,10 +56,21 @@ always @(posedge clk)begin
                     overflow<=overflow | (r_ptr==w_ptr+1'b1);
                     last_buffer<=buffer;
 
-                    button_times<=(last_buffer!=buffer) ? button_times+1'b1 : button_times;
+                    $display("receive %x", buffer[8:1]);
 
-                    $display("button_times %d", button_times);
-                      $display("receive %x", buffer[8:1]);
+                    if (buffer[8:1] == 8'hF0) begin
+                        release_detected <= 1'b1; 
+                    end else if (release_detected && buffer[8:1] != 8'hF0) begin
+                        key_pressed <= 1'b0;
+                        release_detected <= 1'b0;
+                    end else if (!release_detected && buffer[8:1] != 8'hF0) begin
+                        if (last_buffer[8:1] != buffer[8:1] && !key_pressed) begin
+                            button_times <= button_times + 1'b1; 
+                            key_pressed <= 1'b1; 
+                        end
+                    end
+                    last_buffer <= buffer; 
+                
                 end
                 count<=4'b0;
 
@@ -78,8 +92,8 @@ wire [3:0] one,two;
 assign one=date[3:0];
 assign two=date[7:4];
 
-sevens_light_low first(.num(one),.ready(ready),.seg(seg0));
-sevens_light_low second(.num(two),.ready(ready),.seg(seg1));
+sevens_light_low first(.num(one),.ready(release_detected),.seg(seg0));
+sevens_light_low second(.num(two),.ready(release_detected),.seg(seg1));
 
 wire [7:0] ascll;
 wire [7:0] three,four;
@@ -119,7 +133,7 @@ module sevens_light_low(
 );
 
     always @(*) begin
-        if(ready==1'd1)begin
+        if(ready==1'd0)begin
         case(num)
         4'd0: seg = 7'b0000001; 
         4'd1:seg=7'b1001111;
