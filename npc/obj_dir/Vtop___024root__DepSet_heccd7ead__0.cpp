@@ -88,9 +88,9 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                  & VL_REDXOR_32((0x1ffU 
                                                  & ((IData)(vlSelf->top__DOT__buffer) 
                                                     >> 1U)))))) {
-                    VL_WRITEF("receive %x\n",8,(0xffU 
-                                                & ((IData)(vlSelf->top__DOT__buffer) 
-                                                   >> 1U)));
+                    VL_WRITEF("buffer %x\n",8,(0xffU 
+                                               & ((IData)(vlSelf->top__DOT__buffer) 
+                                                  >> 1U)));
                     if (((0xf0U != (0xffU & ((IData)(vlSelf->top__DOT__buffer) 
                                              >> 1U))) 
                          & (0xf0U != (0xffU & ((IData)(vlSelf->top__DOT__last_buffer) 
@@ -122,6 +122,9 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                     }
                     if ((0xf0U == (0xffU & ((IData)(vlSelf->top__DOT__buffer) 
                                             >> 1U)))) {
+                        __Vdly__top__DOT__w_ptr = (0xfU 
+                                                   & ((IData)(1U) 
+                                                      + (IData)(vlSelf->top__DOT__w_ptr)));
                         vlSelf->top__DOT__release_detected = 1U;
                     }
                     vlSelf->top__DOT__last_buffer = vlSelf->top__DOT__buffer;

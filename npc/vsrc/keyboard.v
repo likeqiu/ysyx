@@ -62,7 +62,7 @@ always @(posedge clk)begin
 
                     if (buffer[8:1] == 8'hF0) begin
                         release_detected <= 1'b1; 
-                        w_ptr<=w_ptr+1'b1;
+                        r_ptr<=r_ptr+1'b1;
                     end 
                     last_buffer <= buffer; 
                 
