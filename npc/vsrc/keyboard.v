@@ -133,7 +133,7 @@ module sevens_light_low(
 );
 
     always @(*) begin
-        if(ready==1'd0)begin
+        if(ready==1'd1)begin
         case(num)
         4'd0: seg = 7'b0000001; 
         4'd1:seg=7'b1001111;

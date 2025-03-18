@@ -31,6 +31,8 @@ VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial__TOP\n"); );
     // Body
     vlSelf->top__DOT__button_times = 0U;
+    vlSelf->top__DOT__release_detected = 0U;
+    vlSelf->top__DOT__key_pressed = 0U;
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_final(Vtop___024root* vlSelf) {
@@ -88,7 +90,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 #endif  // VL_DEBUG
 
 extern const VlUnpacked<CData/*6:0*/, 256> Vtop__ConstPool__TABLE_h15f1b71f_0;
-extern const VlUnpacked<CData/*6:0*/, 32> Vtop__ConstPool__TABLE_h92da4cf0_0;
+extern const VlUnpacked<CData/*6:0*/, 32> Vtop__ConstPool__TABLE_h7b2c8753_0;
 
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -314,12 +316,12 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         vlSelf->seg3 = 0x7fU;
     }
     __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->date) 
-                              << 1U)) | (IData)(vlSelf->ready));
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_h92da4cf0_0
+                              << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_h7b2c8753_0
         [__Vtableidx1];
     __Vtableidx2 = ((0x1eU & ((IData)(vlSelf->date) 
-                              >> 3U)) | (IData)(vlSelf->ready));
-    vlSelf->seg1 = Vtop__ConstPool__TABLE_h92da4cf0_0
+                              >> 3U)) | (IData)(vlSelf->top__DOT__release_detected));
+    vlSelf->seg1 = Vtop__ConstPool__TABLE_h7b2c8753_0
         [__Vtableidx2];
 }
 
@@ -392,6 +394,8 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__ps2_clk_sync = VL_RAND_RESET_I(3);
     vlSelf->top__DOT__last_buffer = VL_RAND_RESET_I(10);
     vlSelf->top__DOT__button_times = VL_RAND_RESET_I(8);
+    vlSelf->top__DOT__release_detected = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__key_pressed = VL_RAND_RESET_I(1);
     vlSelf->top__DOT____Vlvbound_h1a91ade8__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigrprev__TOP__clk = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
