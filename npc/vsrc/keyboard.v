@@ -37,7 +37,7 @@ always @(posedge clk)begin
     end else begin
         if(ready)begin
             if(nextdate_n==1'b0)begin
-                r_ptr<=r_ptr+3'b1;
+                r_ptr<=r_ptr+1'b1;
                $display("date %x", date[7:0]);
                 if(w_ptr==r_ptr+1'b1)begin
                     ready<=1'b0;
@@ -49,27 +49,22 @@ always @(posedge clk)begin
         if(sampling)begin
             if(count==4'd10)begin
                 if(buffer[0]==0 && ps2_date && (^buffer[9:1]) )begin
-                    if (buffer[8:1] != 8'hF0) begin
-                        if (!release_detected) begin
+                 if (buffer[8:1] != 8'hF0 && last_buffer[8:1]!= 8'hF0) begin
                     fifo[w_ptr[2:0]] <= buffer[8:1]; 
                     last_buffer<=buffer;
                     w_ptr<=w_ptr+1'b1;
                     ready<=1'b1;
                     overflow<=overflow | (r_ptr==w_ptr+1'b1);
-                        end
-                    end
-
+                    release_detected <= 1'b0; 
+                 end   
+                
                     $display("receive %x", buffer[8:1]);
 
                     if (buffer[8:1] == 8'hF0) begin
                         release_detected <= 1'b1; 
-                    end else if (release_detected && buffer[8:1] != 8'hF0) begin
-                        key_pressed <= 1'b0;
-                        release_detected <= 1'b0;
                     end else if (!release_detected && buffer[8:1] != 8'hF0) begin
-                        if (last_buffer[8:1] != buffer[8:1] && !key_pressed) begin
-                            button_times <= button_times + 1'b1; 
-                            key_pressed <= 1'b1; 
+                        if (last_buffer[8:1] != buffer[8:1] && buffer[8:1] != 8'hF0 && last_buffer[8:1]!= 8'hF0) begin
+                             button_times <= button_times + 1'b1;
                         end
                     end
                     last_buffer <= buffer; 
