@@ -62,11 +62,7 @@ always @(posedge clk)begin
 
                     if (buffer[8:1] == 8'hF0) begin
                         release_detected <= 1'b1; 
-                    end else if (!release_detected && buffer[8:1] != 8'hF0) begin
-                        if (last_buffer[8:1] != buffer[8:1] && buffer[8:1] != 8'hF0 && last_buffer[8:1]!= 8'hF0) begin
-                             button_times <= button_times + 1'b1;
-                        end
-                    end
+                    end 
                     last_buffer <= buffer; 
                 
                 end
