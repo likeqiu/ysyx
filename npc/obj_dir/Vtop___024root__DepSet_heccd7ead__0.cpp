@@ -122,9 +122,6 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                     }
                     if ((0xf0U == (0xffU & ((IData)(vlSelf->top__DOT__buffer) 
                                             >> 1U)))) {
-                        __Vdly__top__DOT__r_ptr = (0xfU 
-                                                   & ((IData)(1U) 
-                                                      + (IData)(vlSelf->top__DOT__r_ptr)));
                         vlSelf->top__DOT__release_detected = 1U;
                     }
                     vlSelf->top__DOT__last_buffer = vlSelf->top__DOT__buffer;
