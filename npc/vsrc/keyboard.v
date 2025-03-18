@@ -60,6 +60,8 @@ always @(posedge clk)begin
                  end   
                 
                     $display("buffer %x", buffer[8:1]);
+                    $display("ascll %d,three=%d,four=%d",ascll,three,four);
+
 
                     if (buffer[8:1] == 8'hF0) begin
                         release_detected <= 1'b1;

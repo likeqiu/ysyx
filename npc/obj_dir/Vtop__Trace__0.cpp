@@ -42,9 +42,8 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
         bufp->chgBit(oldp+15,(vlSelf->top__DOT__release_detected));
         bufp->chgBit(oldp+16,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
         bufp->chgCData(oldp+17,(vlSelf->top__DOT__ascll),8);
-        bufp->chgCData(oldp+18,((0xfU & (IData)(vlSelf->top__DOT__ascll))),4);
-        bufp->chgCData(oldp+19,((0xfU & ((IData)(vlSelf->top__DOT__ascll) 
-                                         >> 4U))),4);
+        bufp->chgCData(oldp+18,((0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__ascll), (IData)(0xaU)))),8);
+        bufp->chgCData(oldp+19,((0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__ascll), (IData)(0xaU)))),8);
         bufp->chgCData(oldp+20,((0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
         bufp->chgCData(oldp+21,((0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
     }
