@@ -91,11 +91,11 @@ sevens_light_low first(.num(one),.ready(release_detected),.seg(seg0));
 sevens_light_low second(.num(two),.ready(release_detected),.seg(seg1));
 
 wire [7:0] ascll;
-wire [7:0] three,four;
+wire [3:0] three,four;
 
-assign ascll=date+8'd47;
-assign three=ascll % 10;
-assign four=ascll / 10;
+assign ascll=(date<8'd28) ? date+8'd29 : date+8'd37;
+assign three=ascll[3:0];
+assign four=ascll[7:4];
 
 
 sevens_high_second third(.num(three),.ready(release_detected),.seg(seg2));
@@ -183,7 +183,7 @@ endmodule
 
 
 module sevens_high_second(
-    input [7:0] num,
+    input [3:0] num,
     input ready,
     output reg [6:0] seg
 );
@@ -191,16 +191,16 @@ module sevens_high_second(
     always @(*) begin
          if(ready ==1'b0)begin
         case(num)
-        8'd0: seg = 7'b0000001; 
-        8'd1:seg=7'b1001111;
-        8'd2:seg=7'b0010010;
-        8'd3:seg=7'b0000110;
-        8'd4:seg=7'b1001100;
-        8'd5:seg=7'b0100100;
-        8'd6:seg=7'b1100000;
-        8'd7:seg=7'b0001111; 
-        8'd8: seg = 7'b0000000; 
-        8'd9: seg = 7'b0001100; 
+        4'd0: seg = 7'b0000001; 
+        4'd1:seg=7'b1001111;
+        4'd2:seg=7'b0010010;
+        4'd3:seg=7'b0000110;
+        4'd4:seg=7'b1001100;
+        4'd5:seg=7'b0100100;
+        4'd6:seg=7'b1100000;
+        4'd7:seg=7'b0001111; 
+        4'd8: seg = 7'b0000000; 
+        4'd9: seg = 7'b0001100; 
         default: seg=7'b1111111;
         endcase
          end else begin

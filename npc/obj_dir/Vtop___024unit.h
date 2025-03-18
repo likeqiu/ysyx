@@ -14,6 +14,7 @@ class Vtop___024unit final : public VerilatedModule {
 
     // DESIGN SPECIFIC STATE
     CData/*0:0*/ __VmonitorOff;
+    QData/*63:0*/ __VmonitorNum;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;
