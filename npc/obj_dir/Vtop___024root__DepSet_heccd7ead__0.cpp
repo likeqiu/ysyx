@@ -123,6 +123,10 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                                    & ((IData)(1U) 
                                                       + (IData)(vlSelf->top__DOT__w_ptr)))));
                     }
+                    VL_WRITEF("ascll %3#,three=%3#,four=%3#\n",
+                              8,vlSelf->top__DOT__ascll,
+                              8,(0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__ascll), (IData)(0xaU))),
+                              8,(0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__ascll), (IData)(0xaU))));
                     if ((0xf0U == (0xffU & ((IData)(vlSelf->top__DOT__buffer) 
                                             >> 1U)))) {
                         vlSelf->top__DOT__release_detected = 1U;

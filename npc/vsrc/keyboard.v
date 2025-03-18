@@ -189,48 +189,51 @@ module key_to_ascii (
 );
 
 always @(*) begin
+
     case (key)
-        8'h30: ascii = 8'd48;
-        8'h31: ascii = 8'd49;
-        8'h32: ascii = 8'd50;
-        8'h33: ascii = 8'd51;
-        8'h34: ascii = 8'd52;
-        8'h35: ascii = 8'd53;
-        8'h36: ascii = 8'd54;
-        8'h37: ascii = 8'd55;
-        8'h38: ascii = 8'd56;
-        8'h39: ascii = 8'd57;
-        8'h41: ascii = 8'd65;
-        8'h42: ascii = 8'd66;
-        8'h43: ascii = 8'd67;
-        8'h44: ascii = 8'd68;
-        8'h45: ascii = 8'd69;
-        8'h46: ascii = 8'd70;
-        8'h47: ascii = 8'd71;
-        8'h48: ascii = 8'd72;
-        8'h49: ascii = 8'd73;
-        8'h4A: ascii = 8'd74;
-        8'h4B: ascii = 8'd75;
-        8'h4C: ascii = 8'd76;
-        8'h4D: ascii = 8'd77;
-        8'h4E: ascii = 8'd78;
-        8'h4F: ascii = 8'd79;
-        8'h50: ascii = 8'd80;
-        8'h51: ascii = 8'd81;
-        8'h52: ascii = 8'd82;
-        8'h53: ascii = 8'd83;
-        8'h54: ascii = 8'd84;
-        8'h55: ascii = 8'd85;
-        8'h56: ascii = 8'd86;
-        8'h57: ascii = 8'd87;
-        8'h58: ascii = 8'd88;
-        8'h59: ascii = 8'd89;
-        8'h5A: ascii = 8'd90;
+        8'h1C: ascii = 8'd65;  // A
+        8'h32: ascii = 8'd66;  // B
+        8'h21: ascii = 8'd67;  // C
+        8'h23: ascii = 8'd68;  // D
+        8'h24: ascii = 8'd69;  // E
+        8'h2B: ascii = 8'd70;  // F
+        8'h34: ascii = 8'd71;  // G
+        8'h33: ascii = 8'd72;  // H
+        8'h43: ascii = 8'd73;  // I
+        8'h3B: ascii = 8'd74;  // J
+        8'h42: ascii = 8'd75;  // K
+        8'h4B: ascii = 8'd76;  // L
+        8'h3A: ascii = 8'd77;  // M
+        8'h31: ascii = 8'd78;  // N
+        8'h44: ascii = 8'd79;  // O
+        8'h4D: ascii = 8'd80;  // P
+        8'h15: ascii = 8'd81;  // Q
+        8'h2D: ascii = 8'd82;  // R
+        8'h1B: ascii = 8'd83;  // S
+        8'h2C: ascii = 8'd84;  // T
+        8'h3C: ascii = 8'd85;  // U
+        8'h2A: ascii = 8'd86;  // V
+        8'h1D: ascii = 8'd87;  // W
+        8'h22: ascii = 8'd88;  // X
+        8'h35: ascii = 8'd89;  // Y
+        8'h1A: ascii = 8'd90;  // Z
+        8'h45: ascii = 8'd48;  // 0
+        8'h16: ascii = 8'd49;  // 1
+        8'h1E: ascii = 8'd50;  // 2
+        8'h26: ascii = 8'd51;  // 3
+        8'h25: ascii = 8'd52;  // 4
+        8'h2E: ascii = 8'd53;  // 5
+        8'h36: ascii = 8'd54;  // 6
+        8'h3D: ascii = 8'd55;  // 7
+        8'h3E: ascii = 8'd56;  // 8
+        8'h46: ascii = 8'd57;  // 9
         default: ascii = 8'd0;
     endcase
 end
 
 endmodule
+    
+
 
 module sevens_light_second(
     input [7:0] num,
