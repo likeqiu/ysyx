@@ -25,6 +25,15 @@ VL_ATTR_COLD void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
     vlSelf->__Vtrigrprev__TOP__clk = vlSelf->clk;
 }
 
+VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial__TOP\n"); );
+    // Body
+    vlSelf->top__DOT__button_times = 0U;
+    vlSelf->top__DOT__release_detected = 1U;
+}
+
 VL_ATTR_COLD void Vtop___024root___eval_final(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -79,7 +88,56 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 }
 #endif  // VL_DEBUG
 
-VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf);
+extern const VlUnpacked<CData/*6:0*/, 256> Vtop__ConstPool__TABLE_h15f1b71f_0;
+extern const VlUnpacked<CData/*6:0*/, 32> Vtop__ConstPool__TABLE_hb825249e_0;
+
+VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___stl_sequent__TOP__0\n"); );
+    // Init
+    CData/*4:0*/ __Vtableidx1;
+    __Vtableidx1 = 0;
+    CData/*4:0*/ __Vtableidx2;
+    __Vtableidx2 = 0;
+    CData/*4:0*/ __Vtableidx3;
+    __Vtableidx3 = 0;
+    CData/*4:0*/ __Vtableidx4;
+    __Vtableidx4 = 0;
+    CData/*7:0*/ __Vtableidx5;
+    __Vtableidx5 = 0;
+    CData/*7:0*/ __Vtableidx6;
+    __Vtableidx6 = 0;
+    // Body
+    __Vtableidx5 = (0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
+    vlSelf->seg4 = Vtop__ConstPool__TABLE_h15f1b71f_0
+        [__Vtableidx5];
+    __Vtableidx6 = (0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
+    vlSelf->seg5 = Vtop__ConstPool__TABLE_h15f1b71f_0
+        [__Vtableidx6];
+    vlSelf->date = vlSelf->top__DOT__fifo[(7U & (IData)(vlSelf->top__DOT__r_ptr))];
+    __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->date) 
+                              << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_hb825249e_0
+        [__Vtableidx1];
+    __Vtableidx2 = ((0x1eU & ((IData)(vlSelf->date) 
+                              >> 3U)) | (IData)(vlSelf->top__DOT__release_detected));
+    vlSelf->seg1 = Vtop__ConstPool__TABLE_hb825249e_0
+        [__Vtableidx2];
+    vlSelf->top__DOT__ascll = (0xffU & ((0x1cU > (IData)(vlSelf->date))
+                                         ? ((IData)(0x1dU) 
+                                            + (IData)(vlSelf->date))
+                                         : ((IData)(0x24U) 
+                                            + (IData)(vlSelf->date))));
+    __Vtableidx3 = ((0x1eU & ((IData)(vlSelf->top__DOT__ascll) 
+                              << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
+    vlSelf->seg2 = Vtop__ConstPool__TABLE_hb825249e_0
+        [__Vtableidx3];
+    __Vtableidx4 = ((0x1eU & ((IData)(vlSelf->top__DOT__ascll) 
+                              >> 3U)) | (IData)(vlSelf->top__DOT__release_detected));
+    vlSelf->seg3 = Vtop__ConstPool__TABLE_hb825249e_0
+        [__Vtableidx4];
+}
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
