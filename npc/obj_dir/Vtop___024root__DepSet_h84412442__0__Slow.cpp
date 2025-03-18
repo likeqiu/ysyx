@@ -77,11 +77,11 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                             + (IData)(vlSelf->date))));
     if (VL_UNLIKELY(((~ (IData)(vlSymsp->TOP____024unit.__VmonitorOff)) 
                      & (1U == vlSymsp->TOP____024unit.__VmonitorNum)))) {
-        VL_WRITEF("ascll=%3#,three=%2#,four=%2#\n",
+        VL_WRITEF("ascll=%x,three=%x,four=%x,date=%x\n",
                   8,vlSelf->top__DOT__ascll,4,(0xfU 
                                                & (IData)(vlSelf->top__DOT__ascll)),
                   4,(0xfU & ((IData)(vlSelf->top__DOT__ascll) 
-                             >> 4U)));
+                             >> 4U)),8,(IData)(vlSelf->date));
     }
     __Vtableidx3 = ((0x1eU & ((IData)(vlSelf->top__DOT__ascll) 
                               << 1U)) | (IData)(vlSelf->top__DOT__release_detected));

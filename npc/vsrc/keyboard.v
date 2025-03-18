@@ -17,7 +17,7 @@ reg release_detected;
 
 
 initial begin
-    $monitor("ascll=%x,three=%x,four=%x,date=%x",ascll,three,four,date);
+   // $monitor("ascll=%x,three=%x,four=%x,date=%x",ascll,three,four,date);
     button_times=8'b0;
     release_detected=1'b1;
 end 
