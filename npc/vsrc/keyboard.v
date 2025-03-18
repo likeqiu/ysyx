@@ -12,10 +12,10 @@ reg [3:0] w_ptr,r_ptr;
 reg [3:0] count;
 reg [2:0] ps2_clk_sync;
 reg [9:0] last_buffer;
-reg [5:0] button_times;
+reg [7:0] button_times;
 
 initial begin
-    button_times=6'b0;
+    button_times=8'b0;
 end 
 
 
@@ -65,6 +65,7 @@ always @(posedge clk)begin
                 r_ptr<=r_ptr;
                 buffer[count]<=ps2_date;
                 count<=count+1'b1;
+                
             end
 
         end
@@ -84,11 +85,17 @@ wire [7:0] ascll;
 assign ascll=date+8'd47;
 
 wire [3:0] three,four;
-assign three=ascll[3:0] % 10;
-assign four=ascll[7:4] / 10;
-
+assign three=ascll % 10;
+assign four=ascll / 10;
 sevens_light_high third(.num(three),.seg(seg2));
 sevens_light_high fourth(.num(four),.seg(seg3));
+
+wire [3:0] five,six;
+assign five=button_times % 10;
+assign six=button_times / 10;
+
+
+
 
 
 
