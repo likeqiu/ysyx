@@ -187,7 +187,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     vlSelf->top__DOT__ascll = (0xffU & ((0x1cU > (IData)(vlSelf->date))
                                          ? ((IData)(0x1dU) 
                                             + (IData)(vlSelf->date))
-                                         : ((IData)(0x25U) 
+                                         : ((IData)(0x24U) 
                                             + (IData)(vlSelf->date))));
     if (VL_UNLIKELY(((~ (IData)(vlSymsp->TOP____024unit.__VmonitorOff)) 
                      & (1U == vlSymsp->TOP____024unit.__VmonitorNum)))) {
