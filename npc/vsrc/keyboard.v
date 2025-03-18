@@ -93,13 +93,13 @@ sevens_light_low second(.num(two),.ready(release_detected),.seg(seg1));
 wire [7:0] ascll;
 wire [3:0] three,four;
 
-assign ascll=(date<8'd28) ? date+8'd29 : date+8'd37;
+assign ascll=(date<8'd28) ? date+8'd29 : date+8'd36;
 assign three=ascll[3:0];
 assign four=ascll[7:4];
 
 
-sevens_high_second third(.num(three),.ready(release_detected),.seg(seg2));
-sevens_high_second fourth(.num(four),.ready(release_detected),.seg(seg3));
+sevens_light_low third(.num(three),.ready(release_detected),.seg(seg2));
+sevens_light_low fourth(.num(four),.ready(release_detected),.seg(seg3));
 
 
 wire [7:0] five,six;
@@ -182,7 +182,7 @@ module sevens_light_high(
 endmodule
 
 
-module sevens_high_second(
+/*module sevens_high_second(
     input [3:0] num,
     input ready,
     output reg [6:0] seg
@@ -215,5 +215,5 @@ module sevens_high_second(
          end
      end
 
-endmodule
+endmodule*/
 
