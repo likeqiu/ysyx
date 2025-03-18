@@ -41,36 +41,30 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
         bufp->chgCData(oldp+14,(vlSelf->top__DOT__button_times),8);
         bufp->chgBit(oldp+15,(vlSelf->top__DOT__release_detected));
         bufp->chgBit(oldp+16,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
-        bufp->chgCData(oldp+17,((0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
-        bufp->chgCData(oldp+18,((0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
+        bufp->chgCData(oldp+17,(vlSelf->top__DOT__ascll),8);
+        bufp->chgCData(oldp+18,((0xfU & (IData)(vlSelf->top__DOT__ascll))),4);
+        bufp->chgCData(oldp+19,((0xfU & ((IData)(vlSelf->top__DOT__ascll) 
+                                         >> 4U))),4);
+        bufp->chgCData(oldp+20,((0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
+        bufp->chgCData(oldp+21,((0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
     }
-    bufp->chgBit(oldp+19,(vlSelf->clk));
-    bufp->chgBit(oldp+20,(vlSelf->clrk));
-    bufp->chgBit(oldp+21,(vlSelf->nextdate_n));
-    bufp->chgBit(oldp+22,(vlSelf->ps2_clk));
-    bufp->chgBit(oldp+23,(vlSelf->ps2_date));
-    bufp->chgCData(oldp+24,(vlSelf->date),8);
-    bufp->chgBit(oldp+25,(vlSelf->ready));
-    bufp->chgBit(oldp+26,(vlSelf->overflow));
-    bufp->chgCData(oldp+27,(vlSelf->seg0),7);
-    bufp->chgCData(oldp+28,(vlSelf->seg1),7);
-    bufp->chgCData(oldp+29,(vlSelf->seg2),7);
-    bufp->chgCData(oldp+30,(vlSelf->seg3),7);
-    bufp->chgCData(oldp+31,(vlSelf->seg4),7);
-    bufp->chgCData(oldp+32,(vlSelf->seg5),7);
-    bufp->chgCData(oldp+33,((0xfU & (IData)(vlSelf->date))),4);
-    bufp->chgCData(oldp+34,((0xfU & ((IData)(vlSelf->date) 
+    bufp->chgBit(oldp+22,(vlSelf->clk));
+    bufp->chgBit(oldp+23,(vlSelf->clrk));
+    bufp->chgBit(oldp+24,(vlSelf->nextdate_n));
+    bufp->chgBit(oldp+25,(vlSelf->ps2_clk));
+    bufp->chgBit(oldp+26,(vlSelf->ps2_date));
+    bufp->chgCData(oldp+27,(vlSelf->date),8);
+    bufp->chgBit(oldp+28,(vlSelf->ready));
+    bufp->chgBit(oldp+29,(vlSelf->overflow));
+    bufp->chgCData(oldp+30,(vlSelf->seg0),7);
+    bufp->chgCData(oldp+31,(vlSelf->seg1),7);
+    bufp->chgCData(oldp+32,(vlSelf->seg2),7);
+    bufp->chgCData(oldp+33,(vlSelf->seg3),7);
+    bufp->chgCData(oldp+34,(vlSelf->seg4),7);
+    bufp->chgCData(oldp+35,(vlSelf->seg5),7);
+    bufp->chgCData(oldp+36,((0xfU & (IData)(vlSelf->date))),4);
+    bufp->chgCData(oldp+37,((0xfU & ((IData)(vlSelf->date) 
                                      >> 4U))),4);
-    bufp->chgCData(oldp+35,((0xffU & ((IData)(0x2fU) 
-                                      + (IData)(vlSelf->date)))),8);
-    bufp->chgCData(oldp+36,((0xffU & VL_MODDIV_III(32, 
-                                                   (0xffU 
-                                                    & ((IData)(0x2fU) 
-                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))),8);
-    bufp->chgCData(oldp+37,((0xffU & VL_DIV_III(32, 
-                                                (0xffU 
-                                                 & ((IData)(0x2fU) 
-                                                    + (IData)(vlSelf->date))), (IData)(0xaU)))),8);
 }
 
 void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {

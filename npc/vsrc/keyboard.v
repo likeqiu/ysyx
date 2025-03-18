@@ -201,7 +201,13 @@ module sevens_high_second(
         4'd7:seg=7'b0001111; 
         4'd8: seg = 7'b0000000; 
         4'd9: seg = 7'b0001100; 
-        default: seg=7'b1111111;
+            4'd10: seg = 7'b0000001;  //A显示不出来,用
+            4'd11: seg = 7'b0000000; //B显示为8
+            4'd12: seg = 7'b0110001;  
+            4'd13: seg = 7'b1000010;  
+            4'd14: seg = 7'b0110000;  
+            4'd15: seg = 7'b0111000; 
+            default: seg = 7'b0000000; 
         endcase
          end else begin
             seg=7'b1111111;
