@@ -11,35 +11,35 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     // Init
     const int c = vlSymsp->__Vm_baseCode;
     // Body
-    tracep->declBit(c+21,"clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+22,"clrk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+23,"nextdate_n",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+24,"ps2_clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+25,"ps2_date",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBus(c+26,"date",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBit(c+27,"ready",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+28,"overflow",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBus(c+29,"seg0",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+30,"seg1",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+31,"seg2",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+32,"seg3",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+33,"seg4",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+34,"seg5",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBit(c+20,"clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+21,"clrk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+22,"nextdate_n",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+23,"ps2_clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+24,"ps2_date",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBus(c+25,"date",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBit(c+26,"ready",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+27,"overflow",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBus(c+28,"seg0",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+29,"seg1",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+30,"seg2",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+31,"seg3",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+32,"seg4",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+33,"seg5",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->pushNamePrefix("top ");
-    tracep->declBit(c+21,"clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+22,"clrk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+23,"nextdate_n",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+24,"ps2_clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+25,"ps2_date",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBus(c+26,"date",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBit(c+27,"ready",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBit(c+28,"overflow",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBus(c+29,"seg0",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+30,"seg1",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+31,"seg2",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+32,"seg3",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+33,"seg4",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->declBus(c+34,"seg5",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBit(c+20,"clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+21,"clrk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+22,"nextdate_n",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+23,"ps2_clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+24,"ps2_date",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBus(c+25,"date",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBit(c+26,"ready",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+27,"overflow",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBus(c+28,"seg0",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+29,"seg1",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+30,"seg2",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+31,"seg3",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+32,"seg4",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+33,"seg5",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->declBus(c+1,"buffer",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 9,0);
     for (int i = 0; i < 8; ++i) {
         tracep->declBus(c+2+i*1,"fifo",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, true,(i+0), 7,0);
@@ -51,42 +51,41 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->declBus(c+14,"last_buffer",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 9,0);
     tracep->declBus(c+15,"button_times",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 7,0);
     tracep->declBit(c+16,"release_detected",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1);
-    tracep->declBit(c+17,"key_pressed",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1);
-    tracep->declBit(c+18,"sampling",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBus(c+35,"one",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
-    tracep->declBus(c+36,"two",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
-    tracep->declBus(c+37,"ascll",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+38,"three",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+39,"four",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+19,"five",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+20,"six",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBit(c+17,"sampling",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBus(c+34,"one",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
+    tracep->declBus(c+35,"two",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
+    tracep->declBus(c+36,"ascll",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+37,"three",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+38,"four",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+18,"five",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+19,"six",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
     tracep->pushNamePrefix("fifth ");
-    tracep->declBus(c+19,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+33,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+18,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+32,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("first ");
+    tracep->declBus(c+34,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
+    tracep->declBit(c+16,"ready",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBus(c+28,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->popNamePrefix(1);
+    tracep->pushNamePrefix("fourth ");
+    tracep->declBus(c+38,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBit(c+16,"ready",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBus(c+31,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->popNamePrefix(1);
+    tracep->pushNamePrefix("second ");
     tracep->declBus(c+35,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
     tracep->declBit(c+16,"ready",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBus(c+29,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
-    tracep->pushNamePrefix("fourth ");
-    tracep->declBus(c+39,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+37,"init",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+32,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->popNamePrefix(1);
-    tracep->pushNamePrefix("second ");
-    tracep->declBus(c+36,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
-    tracep->declBit(c+16,"ready",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBus(c+30,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
-    tracep->popNamePrefix(1);
     tracep->pushNamePrefix("sixth ");
-    tracep->declBus(c+20,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+34,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+19,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+33,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("third ");
-    tracep->declBus(c+38,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+37,"init",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+31,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->declBus(c+37,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBit(c+16,"ready",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBus(c+30,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(2);
 }
 
@@ -146,34 +145,33 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
     bufp->fullSData(oldp+14,(vlSelf->top__DOT__last_buffer),10);
     bufp->fullCData(oldp+15,(vlSelf->top__DOT__button_times),8);
     bufp->fullBit(oldp+16,(vlSelf->top__DOT__release_detected));
-    bufp->fullBit(oldp+17,(vlSelf->top__DOT__key_pressed));
-    bufp->fullBit(oldp+18,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
-    bufp->fullCData(oldp+19,((0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
-    bufp->fullCData(oldp+20,((0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
-    bufp->fullBit(oldp+21,(vlSelf->clk));
-    bufp->fullBit(oldp+22,(vlSelf->clrk));
-    bufp->fullBit(oldp+23,(vlSelf->nextdate_n));
-    bufp->fullBit(oldp+24,(vlSelf->ps2_clk));
-    bufp->fullBit(oldp+25,(vlSelf->ps2_date));
-    bufp->fullCData(oldp+26,(vlSelf->date),8);
-    bufp->fullBit(oldp+27,(vlSelf->ready));
-    bufp->fullBit(oldp+28,(vlSelf->overflow));
-    bufp->fullCData(oldp+29,(vlSelf->seg0),7);
-    bufp->fullCData(oldp+30,(vlSelf->seg1),7);
-    bufp->fullCData(oldp+31,(vlSelf->seg2),7);
-    bufp->fullCData(oldp+32,(vlSelf->seg3),7);
-    bufp->fullCData(oldp+33,(vlSelf->seg4),7);
-    bufp->fullCData(oldp+34,(vlSelf->seg5),7);
-    bufp->fullCData(oldp+35,((0xfU & (IData)(vlSelf->date))),4);
-    bufp->fullCData(oldp+36,((0xfU & ((IData)(vlSelf->date) 
+    bufp->fullBit(oldp+17,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
+    bufp->fullCData(oldp+18,((0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
+    bufp->fullCData(oldp+19,((0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
+    bufp->fullBit(oldp+20,(vlSelf->clk));
+    bufp->fullBit(oldp+21,(vlSelf->clrk));
+    bufp->fullBit(oldp+22,(vlSelf->nextdate_n));
+    bufp->fullBit(oldp+23,(vlSelf->ps2_clk));
+    bufp->fullBit(oldp+24,(vlSelf->ps2_date));
+    bufp->fullCData(oldp+25,(vlSelf->date),8);
+    bufp->fullBit(oldp+26,(vlSelf->ready));
+    bufp->fullBit(oldp+27,(vlSelf->overflow));
+    bufp->fullCData(oldp+28,(vlSelf->seg0),7);
+    bufp->fullCData(oldp+29,(vlSelf->seg1),7);
+    bufp->fullCData(oldp+30,(vlSelf->seg2),7);
+    bufp->fullCData(oldp+31,(vlSelf->seg3),7);
+    bufp->fullCData(oldp+32,(vlSelf->seg4),7);
+    bufp->fullCData(oldp+33,(vlSelf->seg5),7);
+    bufp->fullCData(oldp+34,((0xfU & (IData)(vlSelf->date))),4);
+    bufp->fullCData(oldp+35,((0xfU & ((IData)(vlSelf->date) 
                                       >> 4U))),4);
-    bufp->fullCData(oldp+37,((0xffU & ((IData)(0x2fU) 
+    bufp->fullCData(oldp+36,((0xffU & ((IData)(0x2fU) 
                                        + (IData)(vlSelf->date)))),8);
-    bufp->fullCData(oldp+38,((0xffU & VL_MODDIV_III(32, 
+    bufp->fullCData(oldp+37,((0xffU & VL_MODDIV_III(32, 
                                                     (0xffU 
                                                      & ((IData)(0x2fU) 
                                                         + (IData)(vlSelf->date))), (IData)(0xaU)))),8);
-    bufp->fullCData(oldp+39,((0xffU & VL_DIV_III(32, 
+    bufp->fullCData(oldp+38,((0xffU & VL_DIV_III(32, 
                                                  (0xffU 
                                                   & ((IData)(0x2fU) 
                                                      + (IData)(vlSelf->date))), (IData)(0xaU)))),8);

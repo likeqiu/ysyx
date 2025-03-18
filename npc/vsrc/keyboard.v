@@ -18,7 +18,7 @@ reg release_detected;
 
 initial begin
     button_times=8'b0;
-    release_detected=1'b0;
+    release_detected=1'b1;
 end 
 
 

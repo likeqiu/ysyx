@@ -32,7 +32,6 @@ VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
     // Body
     vlSelf->top__DOT__button_times = 0U;
     vlSelf->top__DOT__release_detected = 0U;
-    vlSelf->top__DOT__key_pressed = 0U;
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_final(Vtop___024root* vlSelf) {
@@ -91,6 +90,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 
 extern const VlUnpacked<CData/*6:0*/, 256> Vtop__ConstPool__TABLE_h15f1b71f_0;
 extern const VlUnpacked<CData/*6:0*/, 32> Vtop__ConstPool__TABLE_h7b2c8753_0;
+extern const VlUnpacked<CData/*6:0*/, 512> Vtop__ConstPool__TABLE_hfdf29644_0;
 
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -101,220 +101,22 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     __Vtableidx1 = 0;
     CData/*4:0*/ __Vtableidx2;
     __Vtableidx2 = 0;
-    CData/*7:0*/ __Vtableidx3;
+    SData/*8:0*/ __Vtableidx3;
     __Vtableidx3 = 0;
-    CData/*7:0*/ __Vtableidx4;
+    SData/*8:0*/ __Vtableidx4;
     __Vtableidx4 = 0;
+    CData/*7:0*/ __Vtableidx5;
+    __Vtableidx5 = 0;
+    CData/*7:0*/ __Vtableidx6;
+    __Vtableidx6 = 0;
     // Body
-    __Vtableidx3 = (0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
+    __Vtableidx5 = (0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
     vlSelf->seg4 = Vtop__ConstPool__TABLE_h15f1b71f_0
-        [__Vtableidx3];
-    __Vtableidx4 = (0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
+        [__Vtableidx5];
+    __Vtableidx6 = (0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
     vlSelf->seg5 = Vtop__ConstPool__TABLE_h15f1b71f_0
-        [__Vtableidx4];
+        [__Vtableidx6];
     vlSelf->date = vlSelf->top__DOT__fifo[(7U & (IData)(vlSelf->top__DOT__r_ptr))];
-    if ((0x2fU != (0xffU & ((IData)(0x2fU) + (IData)(vlSelf->date))))) {
-        vlSelf->seg2 = ((0x80U & VL_MODDIV_III(32, 
-                                               (0xffU 
-                                                & ((IData)(0x2fU) 
-                                                   + (IData)(vlSelf->date))), (IData)(0xaU)))
-                         ? 0x7fU : ((0x40U & VL_MODDIV_III(32, 
-                                                           (0xffU 
-                                                            & ((IData)(0x2fU) 
-                                                               + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                     ? 0x7fU : ((0x20U 
-                                                 & VL_MODDIV_III(32, 
-                                                                 (0xffU 
-                                                                  & ((IData)(0x2fU) 
-                                                                     + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                 ? 0x7fU
-                                                 : 
-                                                ((0x10U 
-                                                  & VL_MODDIV_III(32, 
-                                                                  (0xffU 
-                                                                   & ((IData)(0x2fU) 
-                                                                      + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                  ? 0x7fU
-                                                  : 
-                                                 ((8U 
-                                                   & VL_MODDIV_III(32, 
-                                                                   (0xffU 
-                                                                    & ((IData)(0x2fU) 
-                                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                   ? 
-                                                  ((4U 
-                                                    & VL_MODDIV_III(32, 
-                                                                    (0xffU 
-                                                                     & ((IData)(0x2fU) 
-                                                                        + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                    ? 0x7fU
-                                                    : 
-                                                   ((2U 
-                                                     & VL_MODDIV_III(32, 
-                                                                     (0xffU 
-                                                                      & ((IData)(0x2fU) 
-                                                                         + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                     ? 0x7fU
-                                                     : 
-                                                    ((1U 
-                                                      & VL_MODDIV_III(32, 
-                                                                      (0xffU 
-                                                                       & ((IData)(0x2fU) 
-                                                                          + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 0xcU
-                                                      : 0U)))
-                                                   : 
-                                                  ((4U 
-                                                    & VL_MODDIV_III(32, 
-                                                                    (0xffU 
-                                                                     & ((IData)(0x2fU) 
-                                                                        + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                    ? 
-                                                   ((2U 
-                                                     & VL_MODDIV_III(32, 
-                                                                     (0xffU 
-                                                                      & ((IData)(0x2fU) 
-                                                                         + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                     ? 
-                                                    ((1U 
-                                                      & VL_MODDIV_III(32, 
-                                                                      (0xffU 
-                                                                       & ((IData)(0x2fU) 
-                                                                          + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 0xfU
-                                                      : 0x60U)
-                                                     : 
-                                                    ((1U 
-                                                      & VL_MODDIV_III(32, 
-                                                                      (0xffU 
-                                                                       & ((IData)(0x2fU) 
-                                                                          + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 0x24U
-                                                      : 0x4cU))
-                                                    : 
-                                                   ((2U 
-                                                     & VL_MODDIV_III(32, 
-                                                                     (0xffU 
-                                                                      & ((IData)(0x2fU) 
-                                                                         + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                     ? 
-                                                    ((1U 
-                                                      & VL_MODDIV_III(32, 
-                                                                      (0xffU 
-                                                                       & ((IData)(0x2fU) 
-                                                                          + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 6U
-                                                      : 0x12U)
-                                                     : 
-                                                    ((1U 
-                                                      & VL_MODDIV_III(32, 
-                                                                      (0xffU 
-                                                                       & ((IData)(0x2fU) 
-                                                                          + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 0x4fU
-                                                      : 1U))))))));
-        vlSelf->seg3 = ((0x80U & VL_DIV_III(32, (0xffU 
-                                                 & ((IData)(0x2fU) 
-                                                    + (IData)(vlSelf->date))), (IData)(0xaU)))
-                         ? 0x7fU : ((0x40U & VL_DIV_III(32, 
-                                                        (0xffU 
-                                                         & ((IData)(0x2fU) 
-                                                            + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                     ? 0x7fU : ((0x20U 
-                                                 & VL_DIV_III(32, 
-                                                              (0xffU 
-                                                               & ((IData)(0x2fU) 
-                                                                  + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                 ? 0x7fU
-                                                 : 
-                                                ((0x10U 
-                                                  & VL_DIV_III(32, 
-                                                               (0xffU 
-                                                                & ((IData)(0x2fU) 
-                                                                   + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                  ? 0x7fU
-                                                  : 
-                                                 ((8U 
-                                                   & VL_DIV_III(32, 
-                                                                (0xffU 
-                                                                 & ((IData)(0x2fU) 
-                                                                    + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                   ? 
-                                                  ((4U 
-                                                    & VL_DIV_III(32, 
-                                                                 (0xffU 
-                                                                  & ((IData)(0x2fU) 
-                                                                     + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                    ? 0x7fU
-                                                    : 
-                                                   ((2U 
-                                                     & VL_DIV_III(32, 
-                                                                  (0xffU 
-                                                                   & ((IData)(0x2fU) 
-                                                                      + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                     ? 0x7fU
-                                                     : 
-                                                    ((1U 
-                                                      & VL_DIV_III(32, 
-                                                                   (0xffU 
-                                                                    & ((IData)(0x2fU) 
-                                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 0xcU
-                                                      : 0U)))
-                                                   : 
-                                                  ((4U 
-                                                    & VL_DIV_III(32, 
-                                                                 (0xffU 
-                                                                  & ((IData)(0x2fU) 
-                                                                     + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                    ? 
-                                                   ((2U 
-                                                     & VL_DIV_III(32, 
-                                                                  (0xffU 
-                                                                   & ((IData)(0x2fU) 
-                                                                      + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                     ? 
-                                                    ((1U 
-                                                      & VL_DIV_III(32, 
-                                                                   (0xffU 
-                                                                    & ((IData)(0x2fU) 
-                                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 0xfU
-                                                      : 0x60U)
-                                                     : 
-                                                    ((1U 
-                                                      & VL_DIV_III(32, 
-                                                                   (0xffU 
-                                                                    & ((IData)(0x2fU) 
-                                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 0x24U
-                                                      : 0x4cU))
-                                                    : 
-                                                   ((2U 
-                                                     & VL_DIV_III(32, 
-                                                                  (0xffU 
-                                                                   & ((IData)(0x2fU) 
-                                                                      + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                     ? 
-                                                    ((1U 
-                                                      & VL_DIV_III(32, 
-                                                                   (0xffU 
-                                                                    & ((IData)(0x2fU) 
-                                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 6U
-                                                      : 0x12U)
-                                                     : 
-                                                    ((1U 
-                                                      & VL_DIV_III(32, 
-                                                                   (0xffU 
-                                                                    & ((IData)(0x2fU) 
-                                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))
-                                                      ? 0x4fU
-                                                      : 1U))))))));
-    } else {
-        vlSelf->seg2 = 0x7fU;
-        vlSelf->seg3 = 0x7fU;
-    }
     __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->date) 
                               << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
     vlSelf->seg0 = Vtop__ConstPool__TABLE_h7b2c8753_0
@@ -323,6 +125,18 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                               >> 3U)) | (IData)(vlSelf->top__DOT__release_detected));
     vlSelf->seg1 = Vtop__ConstPool__TABLE_h7b2c8753_0
         [__Vtableidx2];
+    __Vtableidx3 = ((0x1feU & (VL_MODDIV_III(32, (0xffU 
+                                                  & ((IData)(0x2fU) 
+                                                     + (IData)(vlSelf->date))), (IData)(0xaU)) 
+                               << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
+    vlSelf->seg2 = Vtop__ConstPool__TABLE_hfdf29644_0
+        [__Vtableidx3];
+    __Vtableidx4 = ((0x1feU & (VL_DIV_III(32, (0xffU 
+                                               & ((IData)(0x2fU) 
+                                                  + (IData)(vlSelf->date))), (IData)(0xaU)) 
+                               << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
+    vlSelf->seg3 = Vtop__ConstPool__TABLE_hfdf29644_0
+        [__Vtableidx4];
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
@@ -395,7 +209,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__last_buffer = VL_RAND_RESET_I(10);
     vlSelf->top__DOT__button_times = VL_RAND_RESET_I(8);
     vlSelf->top__DOT__release_detected = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__key_pressed = VL_RAND_RESET_I(1);
     vlSelf->top__DOT____Vlvbound_h1a91ade8__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigrprev__TOP__clk = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
