@@ -14,12 +14,11 @@ reg [2:0] ps2_clk_sync;
 reg [9:0] last_buffer;
 reg [7:0] button_times;
 reg release_detected;
-reg key_pressed;
+
 
 initial begin
     button_times=8'b0;
     release_detected=1'b0;
-    key_pressed=1'b0;
 end 
 
 
@@ -33,7 +32,7 @@ wire sampling=ps2_clk_sync[2] & ~ps2_clk_sync[1];
 always @(posedge clk)begin
     if(clrk)begin
         count<=4'd0;w_ptr<=4'd0;r_ptr<=4'd0;
-        ready<=1'b0;overflow<=1'b0;release_detected<=1'b0;key_pressed<=1'b0;
+        ready<=1'b0;overflow<=1'b0;release_detected<=1'b0;
     end else begin
         if(ready)begin
             if(nextdate_n==1'b0)begin
@@ -101,8 +100,8 @@ assign three=ascll % 10;
 assign four=ascll / 10;
 
 
-sevens_high_second third(.num(three),.init(ascll),.seg(seg2));
-sevens_high_second fourth(.num(four),.init(ascll),.seg(seg3));
+sevens_high_second third(.num(three),.ready(release_detected),.seg(seg2));
+sevens_high_second fourth(.num(four),.ready(release_detected),.seg(seg3));
 
 
 wire [7:0] five,six;
@@ -186,12 +185,13 @@ endmodule
 
 
 module sevens_high_second(
-    input [7:0] num,init,
+    input [7:0] num,
+    input ready,
     output reg [6:0] seg
 );
 
     always @(*) begin
-         if(init != 8'd47)begin
+         if(ready ==1'b0)begin
         case(num)
         8'd0: seg = 7'b0000001; 
         8'd1:seg=7'b1001111;
