@@ -14,7 +14,7 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
 
 extern const VlUnpacked<CData/*6:0*/, 256> Vtop__ConstPool__TABLE_h15f1b71f_0;
 extern const VlUnpacked<CData/*6:0*/, 32> Vtop__ConstPool__TABLE_h680f90e3_0;
-extern const VlUnpacked<CData/*7:0*/, 256> Vtop__ConstPool__TABLE_hc133b610_0;
+extern const VlUnpacked<CData/*7:0*/, 256> Vtop__ConstPool__TABLE_ha352da98_0;
 extern const VlUnpacked<CData/*6:0*/, 512> Vtop__ConstPool__TABLE_h6bb23c3e_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
@@ -179,7 +179,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     vlSelf->seg1 = Vtop__ConstPool__TABLE_h680f90e3_0
         [__Vtableidx2];
     __Vtableidx3 = vlSelf->date;
-    vlSelf->top__DOT__ascll = Vtop__ConstPool__TABLE_hc133b610_0
+    vlSelf->top__DOT__ascll = Vtop__ConstPool__TABLE_ha352da98_0
         [__Vtableidx3];
     __Vtableidx4 = ((0x1feU & (VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__ascll), (IData)(0xaU)) 
                                << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
