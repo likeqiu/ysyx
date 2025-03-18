@@ -110,8 +110,6 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     __Vtableidx4 = (0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
     vlSelf->seg5 = Vtop__ConstPool__TABLE_h15f1b71f_0
         [__Vtableidx4];
-    vlSelf->top__DOT__sampling = (IData)((4U == (6U 
-                                                 & (IData)(vlSelf->top__DOT__ps2_clk_sync))));
     vlSelf->date = vlSelf->top__DOT__fifo[(7U & (IData)(vlSelf->top__DOT__r_ptr))];
     if ((0x2fU != (0xffU & ((IData)(0x2fU) + (IData)(vlSelf->date))))) {
         vlSelf->seg2 = ((0x80U & VL_MODDIV_III(32, 
@@ -316,11 +314,11 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         vlSelf->seg3 = 0x7fU;
     }
     __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->date) 
-                              << 1U)) | (IData)(vlSelf->top__DOT__sampling));
+                              << 1U)) | (IData)(vlSelf->ready));
     vlSelf->seg0 = Vtop__ConstPool__TABLE_h92da4cf0_0
         [__Vtableidx1];
     __Vtableidx2 = ((0x1eU & ((IData)(vlSelf->date) 
-                              >> 3U)) | (IData)(vlSelf->top__DOT__sampling));
+                              >> 3U)) | (IData)(vlSelf->ready));
     vlSelf->seg1 = Vtop__ConstPool__TABLE_h92da4cf0_0
         [__Vtableidx2];
 }
@@ -332,8 +330,6 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     // Body
     if (vlSelf->__VstlTriggered.at(0U)) {
         Vtop___024root___stl_sequent__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[1U] = 1U;
-        vlSelf->__Vm_traceActivity[0U] = 1U;
     }
 }
 
@@ -396,7 +392,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__ps2_clk_sync = VL_RAND_RESET_I(3);
     vlSelf->top__DOT__last_buffer = VL_RAND_RESET_I(10);
     vlSelf->top__DOT__button_times = VL_RAND_RESET_I(8);
-    vlSelf->top__DOT__sampling = VL_RAND_RESET_I(1);
     vlSelf->top__DOT____Vlvbound_h1a91ade8__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigrprev__TOP__clk = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {

@@ -64,7 +64,7 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("first ");
     tracep->declBus(c+33,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
-    tracep->declBit(c+16,"assess",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+25,"ready",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBus(c+27,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("fourth ");
@@ -74,7 +74,7 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("second ");
     tracep->declBus(c+34,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
-    tracep->declBit(c+16,"assess",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
+    tracep->declBit(c+25,"ready",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBus(c+28,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("sixth ");
@@ -143,7 +143,7 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
     bufp->fullCData(oldp+13,(vlSelf->top__DOT__ps2_clk_sync),3);
     bufp->fullSData(oldp+14,(vlSelf->top__DOT__last_buffer),10);
     bufp->fullCData(oldp+15,(vlSelf->top__DOT__button_times),8);
-    bufp->fullBit(oldp+16,(vlSelf->top__DOT__sampling));
+    bufp->fullBit(oldp+16,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
     bufp->fullCData(oldp+17,((0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
     bufp->fullCData(oldp+18,((0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
     bufp->fullBit(oldp+19,(vlSelf->clk));
