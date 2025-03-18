@@ -58,10 +58,11 @@ always @(posedge clk)begin
                      button_times <=(last_buffer!=buffer) ? button_times + 1'b1 :button_times;
                  end   
                 
-                    $display("receive %x", buffer[8:1]);
+                    $display("buffer %x", buffer[8:1]);
 
                     if (buffer[8:1] == 8'hF0) begin
                         release_detected <= 1'b1; 
+                        w_ptr<=w_ptr+1'b1;
                     end 
                     last_buffer <= buffer; 
                 
