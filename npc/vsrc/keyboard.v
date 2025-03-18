@@ -49,12 +49,15 @@ always @(posedge clk)begin
         if(sampling)begin
             if(count==4'd10)begin
                 if(buffer[0]==0 && ps2_date && (^buffer[9:1]) )begin
+                    if (buffer[8:1] != 8'hF0) begin
+                        if (!release_detected) begin
                     fifo[w_ptr[2:0]] <= buffer[8:1]; 
                     last_buffer<=buffer;
                     w_ptr<=w_ptr+1'b1;
                     ready<=1'b1;
                     overflow<=overflow | (r_ptr==w_ptr+1'b1);
-                    last_buffer<=buffer;
+                        end
+                    end
 
                     $display("receive %x", buffer[8:1]);
 
