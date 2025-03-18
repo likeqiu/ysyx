@@ -64,14 +64,17 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("first ");
     tracep->declBus(c+33,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
+    tracep->declBus(c+24,"assess",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
     tracep->declBus(c+27,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("fourth ");
     tracep->declBus(c+37,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+35,"init",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
     tracep->declBus(c+30,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("second ");
     tracep->declBus(c+34,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
+    tracep->declBus(c+24,"assess",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
     tracep->declBus(c+28,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("sixth ");
@@ -80,6 +83,7 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("third ");
     tracep->declBus(c+36,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+35,"init",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
     tracep->declBus(c+29,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(2);
 }

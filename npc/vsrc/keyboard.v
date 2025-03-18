@@ -78,8 +78,8 @@ wire [3:0] one,two;
 assign one=date[3:0];
 assign two=date[7:4];
 
-sevens_light_low first(.num(one),.assess(date),.seg(seg0));
-sevens_light_low second(.num(two),.assess(date),.seg(seg1));
+sevens_light_low first(.num(one),.assess(sampling),.seg(seg0));
+sevens_light_low second(.num(two),.assess(sampling),.seg(seg1));
 
 wire [7:0] ascll;
 wire [7:0] three,four;
@@ -114,12 +114,12 @@ endmodule
 
 module sevens_light_low(
     input [3:0] num,
-    input [7:0] assess,
+    input  assess,
     output reg [6:0] seg
 );
 
     always @(*) begin
-        if(assess!=8'd0)begin
+        if(assess!=1'd0)begin
         case(num)
         4'd0: seg = 7'b0000001; 
         4'd1:seg=7'b1001111;
