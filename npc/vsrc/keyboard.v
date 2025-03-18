@@ -3,7 +3,7 @@ module  top(
     output reg [7:0] date,
     output reg ready,
     output reg overflow,
-    output [6:0] seg0,seg1,seg2,seg3,seg4,seg5
+    output reg [6:0] seg0,seg1,seg2,seg3,seg4,seg5
 );
 
 reg [9:0] buffer;
@@ -78,8 +78,8 @@ wire [3:0] one,two;
 assign one=date[3:0];
 assign two=date[7:4];
 
-sevens_light_low first(.num(one),.seg(seg0));
-sevens_light_low second(.num(two),.seg(seg1));
+sevens_light_low first(.num(one),.assess(date),.seg(seg0));
+sevens_light_low second(.num(two),.assess(date),.seg(seg1));
 
 wire [7:0] ascll;
 wire [7:0] three,four;
@@ -88,8 +88,10 @@ assign ascll=date+8'd47;
 assign three=ascll % 10;
 assign four=ascll / 10;
 
-sevens_light_high third(.num(three),.seg(seg2));
-sevens_light_high fourth(.num(four),.seg(seg3));
+
+sevens_high_second third(.num(three),.init(ascll),.seg(seg2));
+sevens_high_second fourth(.num(four),.init(ascll),.seg(seg3));
+
 
 wire [7:0] five,six;
 assign five=button_times % 10;
@@ -112,10 +114,12 @@ endmodule
 
 module sevens_light_low(
     input [3:0] num,
+    input [7:0] assess,
     output reg [6:0] seg
 );
 
     always @(*) begin
+        if(assess!=8'd0)begin
         case(num)
         4'd0: seg = 7'b0000001; 
         4'd1:seg=7'b1001111;
@@ -135,6 +139,9 @@ module sevens_light_low(
             4'd15: seg = 7'b0111000; 
             default: seg = 7'b0000000; 
         endcase
+        end else begin
+            seg = 7'b1111111; 
+        end
     end
 
 endmodule
@@ -146,6 +153,7 @@ module sevens_light_high(
 );
 
     always @(*) begin
+      
         case(num)
         8'd0: seg = 7'b0000001; 
         8'd1:seg=7'b1001111;
@@ -159,7 +167,37 @@ module sevens_light_high(
         8'd9: seg = 7'b0001100; 
         default: seg=7'b1111111;
         endcase
+   
     end
+
+endmodule
+
+
+module sevens_high_second(
+    input [7:0] num,init,
+    output reg [6:0] seg
+);
+
+    always @(*) begin
+         if(init != 8'd47)begin
+        case(num)
+        8'd0: seg = 7'b0000001; 
+        8'd1:seg=7'b1001111;
+        8'd2:seg=7'b0010010;
+        8'd3:seg=7'b0000110;
+        8'd4:seg=7'b1001100;
+        8'd5:seg=7'b0100100;
+        8'd6:seg=7'b1100000;
+        8'd7:seg=7'b0001111; 
+        8'd8: seg = 7'b0000000; 
+        8'd9: seg = 7'b0001100; 
+        default: seg=7'b1111111;
+        endcase
+         end else begin
+            seg=7'b1111111;
+
+         end
+     end
 
 endmodule
 
