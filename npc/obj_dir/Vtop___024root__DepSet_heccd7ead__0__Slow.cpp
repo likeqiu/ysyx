@@ -31,7 +31,7 @@ VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial__TOP\n"); );
     // Body
     vlSelf->top__DOT__button_times = 0U;
-    vlSelf->top__DOT__release_detected = 1U;
+    vlSelf->top__DOT__release_detected = 0U;
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_final(Vtop___024root* vlSelf) {

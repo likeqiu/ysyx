@@ -18,7 +18,7 @@ reg release_detected;
 
 initial begin
     button_times=8'b0;
-    release_detected=1'b0;
+    release_detected=1'b1;
 end 
 
 
@@ -55,6 +55,7 @@ always @(posedge clk)begin
                     ready<=1'b1;
                     overflow<=overflow | (r_ptr==w_ptr+1'b1);
                     release_detected <= 1'b0; 
+                     button_times <=(last_buffer!=buffer) ? button_times + 1'b1 :button_times;
                  end   
                 
                     $display("receive %x", buffer[8:1]);
