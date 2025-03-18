@@ -54,24 +54,32 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->declBus(c+33,"one",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
     tracep->declBus(c+34,"two",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
     tracep->declBus(c+35,"ascll",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
-    tracep->declBus(c+36,"three",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
-    tracep->declBus(c+37,"four",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
-    tracep->declBus(c+17,"five",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
-    tracep->declBus(c+18,"six",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 3,0);
+    tracep->declBus(c+36,"three",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+37,"four",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+17,"five",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+18,"six",-1, FST_VD_IMPLICIT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->pushNamePrefix("fifth ");
+    tracep->declBus(c+17,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+31,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->popNamePrefix(1);
     tracep->pushNamePrefix("first ");
     tracep->declBus(c+33,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
     tracep->declBus(c+27,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("fourth ");
-    tracep->declBus(c+37,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
+    tracep->declBus(c+37,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
     tracep->declBus(c+30,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("second ");
     tracep->declBus(c+34,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
     tracep->declBus(c+28,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(1);
+    tracep->pushNamePrefix("sixth ");
+    tracep->declBus(c+18,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
+    tracep->declBus(c+32,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
+    tracep->popNamePrefix(1);
     tracep->pushNamePrefix("third ");
-    tracep->declBus(c+36,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 3,0);
+    tracep->declBus(c+36,"num",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 7,0);
     tracep->declBus(c+29,"seg",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 6,0);
     tracep->popNamePrefix(2);
 }
@@ -132,8 +140,8 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
     bufp->fullSData(oldp+14,(vlSelf->top__DOT__last_buffer),10);
     bufp->fullCData(oldp+15,(vlSelf->top__DOT__button_times),8);
     bufp->fullBit(oldp+16,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
-    bufp->fullCData(oldp+17,((0xfU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),4);
-    bufp->fullCData(oldp+18,((0xfU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),4);
+    bufp->fullCData(oldp+17,((0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
+    bufp->fullCData(oldp+18,((0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
     bufp->fullBit(oldp+19,(vlSelf->clk));
     bufp->fullBit(oldp+20,(vlSelf->clrk));
     bufp->fullBit(oldp+21,(vlSelf->nextdate_n));
@@ -153,12 +161,12 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
                                       >> 4U))),4);
     bufp->fullCData(oldp+35,((0xffU & ((IData)(0x2fU) 
                                        + (IData)(vlSelf->date)))),8);
-    bufp->fullCData(oldp+36,((0xfU & VL_MODDIV_III(32, 
-                                                   (0xffU 
-                                                    & ((IData)(0x2fU) 
-                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))),4);
-    bufp->fullCData(oldp+37,((0xfU & VL_DIV_III(32, 
-                                                (0xffU 
-                                                 & ((IData)(0x2fU) 
-                                                    + (IData)(vlSelf->date))), (IData)(0xaU)))),4);
+    bufp->fullCData(oldp+36,((0xffU & VL_MODDIV_III(32, 
+                                                    (0xffU 
+                                                     & ((IData)(0x2fU) 
+                                                        + (IData)(vlSelf->date))), (IData)(0xaU)))),8);
+    bufp->fullCData(oldp+37,((0xffU & VL_DIV_III(32, 
+                                                 (0xffU 
+                                                  & ((IData)(0x2fU) 
+                                                     + (IData)(vlSelf->date))), (IData)(0xaU)))),8);
 }

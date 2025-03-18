@@ -40,8 +40,8 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
         bufp->chgSData(oldp+13,(vlSelf->top__DOT__last_buffer),10);
         bufp->chgCData(oldp+14,(vlSelf->top__DOT__button_times),8);
         bufp->chgBit(oldp+15,((IData)((4U == (6U & (IData)(vlSelf->top__DOT__ps2_clk_sync))))));
-        bufp->chgCData(oldp+16,((0xfU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),4);
-        bufp->chgCData(oldp+17,((0xfU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),4);
+        bufp->chgCData(oldp+16,((0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
+        bufp->chgCData(oldp+17,((0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)))),8);
     }
     bufp->chgBit(oldp+18,(vlSelf->clk));
     bufp->chgBit(oldp+19,(vlSelf->clrk));
@@ -62,14 +62,14 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
                                      >> 4U))),4);
     bufp->chgCData(oldp+34,((0xffU & ((IData)(0x2fU) 
                                       + (IData)(vlSelf->date)))),8);
-    bufp->chgCData(oldp+35,((0xfU & VL_MODDIV_III(32, 
-                                                  (0xffU 
-                                                   & ((IData)(0x2fU) 
-                                                      + (IData)(vlSelf->date))), (IData)(0xaU)))),4);
-    bufp->chgCData(oldp+36,((0xfU & VL_DIV_III(32, 
-                                               (0xffU 
-                                                & ((IData)(0x2fU) 
-                                                   + (IData)(vlSelf->date))), (IData)(0xaU)))),4);
+    bufp->chgCData(oldp+35,((0xffU & VL_MODDIV_III(32, 
+                                                   (0xffU 
+                                                    & ((IData)(0x2fU) 
+                                                       + (IData)(vlSelf->date))), (IData)(0xaU)))),8);
+    bufp->chgCData(oldp+36,((0xffU & VL_DIV_III(32, 
+                                                (0xffU 
+                                                 & ((IData)(0x2fU) 
+                                                    + (IData)(vlSelf->date))), (IData)(0xaU)))),8);
 }
 
 void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {

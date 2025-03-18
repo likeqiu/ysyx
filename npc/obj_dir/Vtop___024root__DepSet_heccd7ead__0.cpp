@@ -12,8 +12,8 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_act\n"); );
 }
 
+extern const VlUnpacked<CData/*6:0*/, 256> Vtop__ConstPool__TABLE_h15f1b71f_0;
 extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_hb1f3222a_0;
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h228bbf13_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -24,10 +24,14 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     __Vtableidx1 = 0;
     CData/*3:0*/ __Vtableidx2;
     __Vtableidx2 = 0;
-    CData/*3:0*/ __Vtableidx3;
+    CData/*7:0*/ __Vtableidx3;
     __Vtableidx3 = 0;
-    CData/*3:0*/ __Vtableidx4;
+    CData/*7:0*/ __Vtableidx4;
     __Vtableidx4 = 0;
+    CData/*7:0*/ __Vtableidx5;
+    __Vtableidx5 = 0;
+    CData/*7:0*/ __Vtableidx6;
+    __Vtableidx6 = 0;
     CData/*2:0*/ __Vdly__top__DOT__ps2_clk_sync;
     __Vdly__top__DOT__ps2_clk_sync = 0;
     CData/*3:0*/ __Vdly__top__DOT__count;
@@ -50,11 +54,11 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     __Vdlyvset__top__DOT__fifo__v0 = 0;
     // Body
     __Vdly__top__DOT__ps2_clk_sync = vlSelf->top__DOT__ps2_clk_sync;
-    __Vdly__top__DOT__button_times = vlSelf->top__DOT__button_times;
     __Vdly__overflow = vlSelf->overflow;
     __Vdly__ready = vlSelf->ready;
     __Vdly__top__DOT__w_ptr = vlSelf->top__DOT__w_ptr;
     __Vdly__top__DOT__count = vlSelf->top__DOT__count;
+    __Vdly__top__DOT__button_times = vlSelf->top__DOT__button_times;
     __Vdly__top__DOT__r_ptr = vlSelf->top__DOT__r_ptr;
     __Vdlyvset__top__DOT__fifo__v0 = 0U;
     __Vdly__top__DOT__ps2_clk_sync = ((6U & ((IData)(vlSelf->top__DOT__ps2_clk_sync) 
@@ -145,6 +149,12 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         vlSelf->top__DOT__fifo[__Vdlyvdim0__top__DOT__fifo__v0] 
             = __Vdlyvval__top__DOT__fifo__v0;
     }
+    __Vtableidx5 = (0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
+    vlSelf->seg4 = Vtop__ConstPool__TABLE_h15f1b71f_0
+        [__Vtableidx5];
+    __Vtableidx6 = (0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
+    vlSelf->seg5 = Vtop__ConstPool__TABLE_h15f1b71f_0
+        [__Vtableidx6];
     vlSelf->date = vlSelf->top__DOT__fifo[(7U & (IData)(vlSelf->top__DOT__r_ptr))];
     __Vtableidx1 = (0xfU & (IData)(vlSelf->date));
     vlSelf->seg0 = Vtop__ConstPool__TABLE_hb1f3222a_0
@@ -152,15 +162,15 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     __Vtableidx2 = (0xfU & ((IData)(vlSelf->date) >> 4U));
     vlSelf->seg1 = Vtop__ConstPool__TABLE_hb1f3222a_0
         [__Vtableidx2];
-    __Vtableidx3 = (0xfU & VL_MODDIV_III(32, (0xffU 
-                                              & ((IData)(0x2fU) 
-                                                 + (IData)(vlSelf->date))), (IData)(0xaU)));
-    vlSelf->seg2 = Vtop__ConstPool__TABLE_h228bbf13_0
+    __Vtableidx3 = (0xffU & VL_MODDIV_III(32, (0xffU 
+                                               & ((IData)(0x2fU) 
+                                                  + (IData)(vlSelf->date))), (IData)(0xaU)));
+    vlSelf->seg2 = Vtop__ConstPool__TABLE_h15f1b71f_0
         [__Vtableidx3];
-    __Vtableidx4 = (0xfU & VL_DIV_III(32, (0xffU & 
-                                           ((IData)(0x2fU) 
-                                            + (IData)(vlSelf->date))), (IData)(0xaU)));
-    vlSelf->seg3 = Vtop__ConstPool__TABLE_h228bbf13_0
+    __Vtableidx4 = (0xffU & VL_DIV_III(32, (0xffU & 
+                                            ((IData)(0x2fU) 
+                                             + (IData)(vlSelf->date))), (IData)(0xaU)));
+    vlSelf->seg3 = Vtop__ConstPool__TABLE_h15f1b71f_0
         [__Vtableidx4];
 }
 
