@@ -21,6 +21,7 @@ end
 
 always @(posedge clk)begin
     ps2_clk_sync<={ps2_clk_sync[1:0],ps2_clk};
+    
 
 end
 
@@ -50,10 +51,11 @@ always @(posedge clk)begin
                     w_ptr<=w_ptr+1'b1;
                     ready<=1'b1;
                     overflow<=overflow | (r_ptr==w_ptr+1'b1);
+                    last_buffer<=buffer;
 
-                    button_times<=button_times+1'b1;
+                    button_times<=(last_buffer!=buffer) ? button_times+1'b1 : button_times;
 
-                    $display("receive %d", button_times);
+                    $display("button_times %d", button_times);
                       $display("receive %x", buffer[8:1]);
                 end
                 count<=4'b0;

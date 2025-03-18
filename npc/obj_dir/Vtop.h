@@ -37,6 +37,8 @@ class Vtop VL_NOT_FINAL : public VerilatedModel {
     VL_OUT8(&seg1,6,0);
     VL_OUT8(&seg2,6,0);
     VL_OUT8(&seg3,6,0);
+    VL_OUT8(&seg4,6,0);
+    VL_OUT8(&seg5,6,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.

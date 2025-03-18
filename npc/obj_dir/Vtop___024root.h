@@ -25,10 +25,13 @@ class Vtop___024root final : public VerilatedModule {
     VL_OUT8(seg1,6,0);
     VL_OUT8(seg2,6,0);
     VL_OUT8(seg3,6,0);
+    VL_OUT8(seg4,6,0);
+    VL_OUT8(seg5,6,0);
     CData/*3:0*/ top__DOT__w_ptr;
     CData/*3:0*/ top__DOT__r_ptr;
     CData/*3:0*/ top__DOT__count;
     CData/*2:0*/ top__DOT__ps2_clk_sync;
+    CData/*5:0*/ top__DOT__button_times;
     CData/*0:0*/ top__DOT____Vlvbound_h1a91ade8__0;
     CData/*0:0*/ __Vtrigrprev__TOP__clk;
     CData/*0:0*/ __VactContinue;
