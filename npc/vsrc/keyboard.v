@@ -3,7 +3,7 @@ module  top(
     output reg [7:0] date,
     output reg ready,
     output reg overflow,
-    output [6:0] seg0,seg1,seg2,seg3
+    output [6:0] seg0,seg1,seg2,seg3,seg4,seg5
 );
 
 reg [9:0] buffer;
@@ -12,10 +12,11 @@ reg [3:0] w_ptr,r_ptr;
 reg [3:0] count;
 reg [2:0] ps2_clk_sync;
 reg [9:0] last_buffer;
+reg [5:0] button_times;
 
-/*initial begin
-    $monitor("clk: %b, ps2_clk: %b, ps2_data: %b, date: %b, ready: %b", clk, ps2_clk, ps2_date, date, ready);
-end */
+initial begin
+    button_times=6'b0;
+end 
 
 
 always @(posedge clk)begin
@@ -43,17 +44,23 @@ always @(posedge clk)begin
 
         if(sampling)begin
             if(count==4'd10)begin
-                if(buffer[0]==0 && ps2_date && (^buffer[9:1]) && (last_buffer!=buffer))begin
+                if(buffer[0]==0 && ps2_date && (^buffer[9:1]) )begin
                     fifo[w_ptr[2:0]] <= buffer[8:1]; 
                     last_buffer<=buffer;
                     w_ptr<=w_ptr+1'b1;
                     ready<=1'b1;
                     overflow<=overflow | (r_ptr==w_ptr+1'b1);
+
+                    button_times<=button_times+1'b1;
+
+                    $display("receive %d", button_times);
                       $display("receive %x", buffer[8:1]);
                 end
                 count<=4'b0;
 
             end  else begin
+                w_ptr<=w_ptr;
+                r_ptr<=r_ptr;
                 buffer[count]<=ps2_date;
                 count<=count+1'b1;
             end
@@ -64,9 +71,9 @@ always @(posedge clk)begin
     end
         assign date=fifo[r_ptr[2:0]];
 
-    wire [3:0] one,two;
-    assign one=date[3:0];
-    assign two=date[7:4];
+wire [3:0] one,two;
+assign one=date[3:0];
+assign two=date[7:4];
 
 sevens_light_low first(.num(one),.seg(seg0));
 sevens_light_low second(.num(two),.seg(seg1));
