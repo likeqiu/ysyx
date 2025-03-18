@@ -86,19 +86,24 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                                  & ((IData)(vlSelf->top__DOT__buffer) 
                                                     >> 1U)))))) {
                     __Vdly__top__DOT__button_times 
-                        = (0x3fU & ((IData)(1U) + (IData)(vlSelf->top__DOT__button_times)));
-                    VL_WRITEF("receive %2#\n",6,vlSelf->top__DOT__button_times);
+                        = (0x3fU & (((IData)(vlSelf->top__DOT__last_buffer) 
+                                     != (IData)(vlSelf->top__DOT__buffer))
+                                     ? ((IData)(1U) 
+                                        + (IData)(vlSelf->top__DOT__button_times))
+                                     : (IData)(vlSelf->top__DOT__button_times)));
+                    VL_WRITEF("button_times %2#\n",
+                              6,vlSelf->top__DOT__button_times);
                     __Vdlyvval__top__DOT__fifo__v0 
                         = (0xffU & ((IData)(vlSelf->top__DOT__buffer) 
                                     >> 1U));
                     __Vdlyvset__top__DOT__fifo__v0 = 1U;
                     __Vdlyvdim0__top__DOT__fifo__v0 
                         = (7U & (IData)(vlSelf->top__DOT__w_ptr));
-                    vlSelf->top__DOT__last_buffer = vlSelf->top__DOT__buffer;
                     __Vdly__ready = 1U;
                     VL_WRITEF("receive %x\n",8,(0xffU 
                                                 & ((IData)(vlSelf->top__DOT__buffer) 
                                                    >> 1U)));
+                    vlSelf->top__DOT__last_buffer = vlSelf->top__DOT__buffer;
                     __Vdly__top__DOT__w_ptr = (0xfU 
                                                & ((IData)(1U) 
                                                   + (IData)(vlSelf->top__DOT__w_ptr)));
@@ -107,6 +112,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                            == (0xfU 
                                                & ((IData)(1U) 
                                                   + (IData)(vlSelf->top__DOT__w_ptr)))));
+                    vlSelf->top__DOT__last_buffer = vlSelf->top__DOT__buffer;
                 }
                 __Vdly__top__DOT__count = 0U;
             } else {
