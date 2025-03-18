@@ -82,18 +82,21 @@ sevens_light_low first(.num(one),.seg(seg0));
 sevens_light_low second(.num(two),.seg(seg1));
 
 wire [7:0] ascll;
-assign ascll=date+8'd47;
+wire [7:0] three,four;
 
-wire [3:0] three,four;
+assign ascll=date+8'd47;
 assign three=ascll % 10;
 assign four=ascll / 10;
+
 sevens_light_high third(.num(three),.seg(seg2));
 sevens_light_high fourth(.num(four),.seg(seg3));
 
-wire [3:0] five,six;
+wire [7:0] five,six;
 assign five=button_times % 10;
 assign six=button_times / 10;
 
+sevens_light_high fifth(.num(five),.seg(seg4));
+sevens_light_high sixth(.num(six),.seg(seg5));
 
 
 
@@ -138,22 +141,22 @@ endmodule
 
 
 module sevens_light_high(
-    input [3:0] num,
+    input [7:0] num,
     output reg [6:0] seg
 );
 
     always @(*) begin
         case(num)
-        4'd0: seg = 7'b0000001; 
-        4'd1:seg=7'b1001111;
-        4'd2:seg=7'b0010010;
-        4'd3:seg=7'b0000110;
-        4'd4:seg=7'b1001100;
-        4'd5:seg=7'b0100100;
-        4'd6:seg=7'b1100000;
-        4'd7:seg=7'b0001111; 
-        4'd8: seg = 7'b0000000; 
-        4'd9: seg = 7'b0001100; 
+        8'd0: seg = 7'b0000001; 
+        8'd1:seg=7'b1001111;
+        8'd2:seg=7'b0010010;
+        8'd3:seg=7'b0000110;
+        8'd4:seg=7'b1001100;
+        8'd5:seg=7'b0100100;
+        8'd6:seg=7'b1100000;
+        8'd7:seg=7'b0001111; 
+        8'd8: seg = 7'b0000000; 
+        8'd9: seg = 7'b0001100; 
         default: seg=7'b1111111;
         endcase
     end

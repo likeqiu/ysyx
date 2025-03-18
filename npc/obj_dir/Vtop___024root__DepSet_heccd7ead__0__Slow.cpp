@@ -111,15 +111,14 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     __Vtableidx2 = (0xfU & ((IData)(vlSelf->date) >> 4U));
     vlSelf->seg1 = Vtop__ConstPool__TABLE_hb1f3222a_0
         [__Vtableidx2];
-    __Vtableidx3 = (0xfU & VL_MODDIV_III(32, (0xfU 
-                                              & ((IData)(0xfU) 
+    __Vtableidx3 = (0xfU & VL_MODDIV_III(32, (0xffU 
+                                              & ((IData)(0x2fU) 
                                                  + (IData)(vlSelf->date))), (IData)(0xaU)));
     vlSelf->seg2 = Vtop__ConstPool__TABLE_h228bbf13_0
         [__Vtableidx3];
-    __Vtableidx4 = (0xfU & VL_DIV_III(32, (0xfU & (
-                                                   ((IData)(0x2fU) 
-                                                    + (IData)(vlSelf->date)) 
-                                                   >> 4U)), (IData)(0xaU)));
+    __Vtableidx4 = (0xfU & VL_DIV_III(32, (0xffU & 
+                                           ((IData)(0x2fU) 
+                                            + (IData)(vlSelf->date))), (IData)(0xaU)));
     vlSelf->seg3 = Vtop__ConstPool__TABLE_h228bbf13_0
         [__Vtableidx4];
 }
@@ -192,7 +191,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__count = VL_RAND_RESET_I(4);
     vlSelf->top__DOT__ps2_clk_sync = VL_RAND_RESET_I(3);
     vlSelf->top__DOT__last_buffer = VL_RAND_RESET_I(10);
-    vlSelf->top__DOT__button_times = VL_RAND_RESET_I(6);
+    vlSelf->top__DOT__button_times = VL_RAND_RESET_I(8);
     vlSelf->top__DOT____Vlvbound_h1a91ade8__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigrprev__TOP__clk = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
