@@ -91,15 +91,16 @@ sevens_light_low first(.num(one),.ready(release_detected),.seg(seg0));
 sevens_light_low second(.num(two),.ready(release_detected),.seg(seg1));
 
 wire [7:0] ascll;
-wire [3:0] three,four;
+wire [7:0] three,four;
 
-assign ascll=(date<8'd28) ? date+8'd29 : date+8'd36;
-assign three=ascll[3:0];
-assign four=ascll[7:4];
+key_to_ascii change(.key(date),.ascii(ascll));
+
+assign three=ascll % 10;
+assign four=ascll /10;
 
 
-sevens_light_low third(.num(three),.ready(release_detected),.seg(seg2));
-sevens_light_low fourth(.num(four),.ready(release_detected),.seg(seg3));
+sevens_light_second third(.num(three),.ready(release_detected),.seg(seg2));
+sevens_light_second fourth(.num(four),.ready(release_detected),.seg(seg3));
 
 
 wire [7:0] five,six;
@@ -180,4 +181,81 @@ module sevens_light_high(
     end
 
 endmodule
+module key_to_ascii (
+    input [7:0] key,
+    output reg [7:0] ascii
+);
+
+always @(*) begin
+    case (key)
+        8'h30: ascii = 8'd48;
+        8'h31: ascii = 8'd49;
+        8'h32: ascii = 8'd50;
+        8'h33: ascii = 8'd51;
+        8'h34: ascii = 8'd52;
+        8'h35: ascii = 8'd53;
+        8'h36: ascii = 8'd54;
+        8'h37: ascii = 8'd55;
+        8'h38: ascii = 8'd56;
+        8'h39: ascii = 8'd57;
+        8'h41: ascii = 8'd65;
+        8'h42: ascii = 8'd66;
+        8'h43: ascii = 8'd67;
+        8'h44: ascii = 8'd68;
+        8'h45: ascii = 8'd69;
+        8'h46: ascii = 8'd70;
+        8'h47: ascii = 8'd71;
+        8'h48: ascii = 8'd72;
+        8'h49: ascii = 8'd73;
+        8'h4A: ascii = 8'd74;
+        8'h4B: ascii = 8'd75;
+        8'h4C: ascii = 8'd76;
+        8'h4D: ascii = 8'd77;
+        8'h4E: ascii = 8'd78;
+        8'h4F: ascii = 8'd79;
+        8'h50: ascii = 8'd80;
+        8'h51: ascii = 8'd81;
+        8'h52: ascii = 8'd82;
+        8'h53: ascii = 8'd83;
+        8'h54: ascii = 8'd84;
+        8'h55: ascii = 8'd85;
+        8'h56: ascii = 8'd86;
+        8'h57: ascii = 8'd87;
+        8'h58: ascii = 8'd88;
+        8'h59: ascii = 8'd89;
+        8'h5A: ascii = 8'd90;
+        default: ascii = 8'd0;
+    endcase
+end
+
+endmodule
+
+module sevens_light_second(
+    input [7:0] num,
+    input  ready,
+    output reg [6:0] seg
+);
+
+    always @(*) begin
+        if(ready==1'd0)begin
+        case(num)
+        8'd0: seg = 7'b0000001; 
+        8'd1:seg=7'b1001111;
+        8'd2:seg=7'b0010010;
+        8'd3:seg=7'b0000110;
+        8'd4:seg=7'b1001100;
+        8'd5:seg=7'b0100100;
+        8'd6:seg=7'b1100000;
+        8'd7:seg=7'b0001111; 
+            8'd8: seg = 7'b0000000; 
+            8'd9: seg = 7'b0001100; 
+            default: seg = 7'b0000000; 
+        endcase
+        end else begin
+            seg = 7'b1111111; 
+        end
+    end
+
+endmodule
+
 
