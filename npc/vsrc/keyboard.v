@@ -7,7 +7,7 @@ module  top(
 );
 
 reg [9:0] buffer;
-reg [7:0] fifo [7:0];
+reg [7:0] fifo ;
 reg [3:0] w_ptr,r_ptr;
 reg [3:0] count;
 reg [2:0] ps2_clk_sync;
@@ -50,7 +50,7 @@ always @(posedge clk)begin
             if(count==4'd10)begin
                 if(buffer[0]==0 && ps2_date && (^buffer[9:1]) )begin
                  if (buffer[8:1] != 8'hF0 && last_buffer[8:1]!= 8'hF0) begin
-                    fifo[w_ptr[2:0]] <= buffer[8:1]; 
+                    fifo <= buffer[8:1]; 
                     last_buffer<=buffer;
                     w_ptr<=w_ptr+1'b1;
                     ready<=1'b1;
@@ -83,7 +83,7 @@ always @(posedge clk)begin
         end
 
     end
-        assign date=fifo[r_ptr[2:0]];
+        assign date=fifo;
 
 wire [3:0] one,two;
 assign one=date[3:0];
