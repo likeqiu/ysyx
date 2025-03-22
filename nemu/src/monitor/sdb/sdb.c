@@ -50,7 +50,7 @@ static int cmd_c(char *args) {
 static int cmd_si(char *args)
 {
 
-  cpu_exec(2);
+  cpu_exec(8);
   return 0;
 }
 
