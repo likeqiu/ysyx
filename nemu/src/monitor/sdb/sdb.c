@@ -62,6 +62,12 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_reg_display(char *args){
+
+  isa_reg_display();
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -70,8 +76,8 @@ static struct {
     {"help", "Display information about all supported commands", cmd_help},
     {"c", "Continue the execution of the program", cmd_c},
     {"q", "Exit NEMU", cmd_q},
-    {"si","Directly execute n times",cmd_si},
-
+    {"si","Directly execute n times,(nemu:si n)",cmd_si},
+    {"info","printf the value of reg",cmd_reg_display},
     /* TODO: Add more commands */
 
 };
