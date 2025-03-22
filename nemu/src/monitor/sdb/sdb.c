@@ -60,6 +60,8 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+
+
 static struct {
   const char *name;
   const char *description;
@@ -68,7 +70,8 @@ static struct {
     {"help", "Display information about all supported commands", cmd_help},
     {"c", "Continue the execution of the program", cmd_c},
     {"q", "Exit NEMU", cmd_q},
-    {"si","Directly execute n times",cmd_si},
+    {"si ", "Directly execute n times", cmd_si},
+   // {"info ", "look at the value of reg", cmd_info},
 
     /* TODO: Add more commands */
 
