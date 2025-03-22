@@ -49,8 +49,8 @@ static int cmd_c(char *args) {
 
 static int cmd_si(char *args)
 {
-  const char *last_args = args;
-  cpu_exec(atoi(last_args));
+ //const char *last_args = args;
+  cpu_exec(5);
   return 0;
 }
 
