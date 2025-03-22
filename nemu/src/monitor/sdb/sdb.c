@@ -49,8 +49,10 @@ static int cmd_c(char *args) {
 
 static int cmd_si(char *args)
 {
+  int num = 0;
+  sscanf(args, "%d", &num);
 
-  cpu_exec(8);
+  cpu_exec(num);
   return 0;
 }
 
