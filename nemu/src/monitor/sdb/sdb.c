@@ -49,6 +49,7 @@ static int cmd_c(char *args) {
 
 static int cmd_si(char *args)
 {
+  
   cpu_exec(10);
   return 0;
 }
