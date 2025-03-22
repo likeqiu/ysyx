@@ -49,8 +49,8 @@ static int cmd_c(char *args) {
 
 static int cmd_si(char *args)
 {
- //const char *last_args = args;
-  cpu_exec(5);
+
+  cpu_exec(8);
   return 0;
 }
 
@@ -60,8 +60,6 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
-
-
 static struct {
   const char *name;
   const char *description;
@@ -70,8 +68,7 @@ static struct {
     {"help", "Display information about all supported commands", cmd_help},
     {"c", "Continue the execution of the program", cmd_c},
     {"q", "Exit NEMU", cmd_q},
-    {"si ", "Directly execute n times", cmd_si},
-   // {"info ", "look at the value of reg", cmd_info},
+    {"si","Directly execute n times",cmd_si},
 
     /* TODO: Add more commands */
 
