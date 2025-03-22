@@ -27,6 +27,7 @@ class Vtop___024root final : public VerilatedModule {
     VL_OUT8(seg3,6,0);
     VL_OUT8(seg4,6,0);
     VL_OUT8(seg5,6,0);
+    CData/*7:0*/ top__DOT__fifo;
     CData/*3:0*/ top__DOT__w_ptr;
     CData/*3:0*/ top__DOT__r_ptr;
     CData/*3:0*/ top__DOT__count;
@@ -41,7 +42,6 @@ class Vtop___024root final : public VerilatedModule {
     SData/*9:0*/ top__DOT__last_buffer;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VactIterCount;
-    VlUnpacked<CData/*7:0*/, 8> top__DOT__fifo;
     VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
     VlTriggerVec<1> __VstlTriggered;
     VlTriggerVec<1> __VactTriggered;

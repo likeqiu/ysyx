@@ -119,15 +119,15 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     __Vtableidx7 = (0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
     vlSelf->seg5 = Vtop__ConstPool__TABLE_h15f1b71f_0
         [__Vtableidx7];
-    vlSelf->date = vlSelf->top__DOT__fifo[(7U & (IData)(vlSelf->top__DOT__r_ptr))];
-    __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->date) 
+    __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->top__DOT__fifo) 
                               << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
     vlSelf->seg0 = Vtop__ConstPool__TABLE_h680f90e3_0
         [__Vtableidx1];
-    __Vtableidx2 = ((0x1eU & ((IData)(vlSelf->date) 
+    __Vtableidx2 = ((0x1eU & ((IData)(vlSelf->top__DOT__fifo) 
                               >> 3U)) | (IData)(vlSelf->top__DOT__release_detected));
     vlSelf->seg1 = Vtop__ConstPool__TABLE_h680f90e3_0
         [__Vtableidx2];
+    vlSelf->date = vlSelf->top__DOT__fifo;
     __Vtableidx3 = vlSelf->date;
     vlSelf->top__DOT__ascll = Vtop__ConstPool__TABLE_ha352da98_0
         [__Vtableidx3];
@@ -203,9 +203,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->seg4 = VL_RAND_RESET_I(7);
     vlSelf->seg5 = VL_RAND_RESET_I(7);
     vlSelf->top__DOT__buffer = VL_RAND_RESET_I(10);
-    for (int __Vi0 = 0; __Vi0 < 8; ++__Vi0) {
-        vlSelf->top__DOT__fifo[__Vi0] = VL_RAND_RESET_I(8);
-    }
+    vlSelf->top__DOT__fifo = VL_RAND_RESET_I(8);
     vlSelf->top__DOT__w_ptr = VL_RAND_RESET_I(4);
     vlSelf->top__DOT__r_ptr = VL_RAND_RESET_I(4);
     vlSelf->top__DOT__count = VL_RAND_RESET_I(4);

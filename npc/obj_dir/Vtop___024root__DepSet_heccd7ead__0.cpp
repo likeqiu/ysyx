@@ -48,20 +48,13 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     __Vdly__ready = 0;
     CData/*0:0*/ __Vdly__overflow;
     __Vdly__overflow = 0;
-    CData/*2:0*/ __Vdlyvdim0__top__DOT__fifo__v0;
-    __Vdlyvdim0__top__DOT__fifo__v0 = 0;
-    CData/*7:0*/ __Vdlyvval__top__DOT__fifo__v0;
-    __Vdlyvval__top__DOT__fifo__v0 = 0;
-    CData/*0:0*/ __Vdlyvset__top__DOT__fifo__v0;
-    __Vdlyvset__top__DOT__fifo__v0 = 0;
     // Body
     __Vdly__top__DOT__ps2_clk_sync = vlSelf->top__DOT__ps2_clk_sync;
     __Vdly__overflow = vlSelf->overflow;
     __Vdly__ready = vlSelf->ready;
+    __Vdly__top__DOT__r_ptr = vlSelf->top__DOT__r_ptr;
     __Vdly__top__DOT__w_ptr = vlSelf->top__DOT__w_ptr;
     __Vdly__top__DOT__count = vlSelf->top__DOT__count;
-    __Vdly__top__DOT__r_ptr = vlSelf->top__DOT__r_ptr;
-    __Vdlyvset__top__DOT__fifo__v0 = 0U;
     __Vdly__top__DOT__ps2_clk_sync = ((6U & ((IData)(vlSelf->top__DOT__ps2_clk_sync) 
                                              << 1U)) 
                                       | (IData)(vlSelf->ps2_clk));
@@ -98,30 +91,27 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                              >> 1U))) 
                          & (0xf0U != (0xffU & ((IData)(vlSelf->top__DOT__last_buffer) 
                                                >> 1U))))) {
+                        __Vdly__top__DOT__w_ptr = (0xfU 
+                                                   & ((IData)(1U) 
+                                                      + (IData)(vlSelf->top__DOT__w_ptr)));
+                        __Vdly__overflow = ((IData)(vlSelf->overflow) 
+                                            | ((IData)(vlSelf->top__DOT__r_ptr) 
+                                               == (0xfU 
+                                                   & ((IData)(1U) 
+                                                      + (IData)(vlSelf->top__DOT__w_ptr)))));
                         vlSelf->top__DOT__button_times 
                             = (0xffU & (((IData)(vlSelf->top__DOT__last_buffer) 
                                          != (IData)(vlSelf->top__DOT__buffer))
                                          ? ((IData)(1U) 
                                             + (IData)(vlSelf->top__DOT__button_times))
                                          : (IData)(vlSelf->top__DOT__button_times)));
-                        __Vdlyvval__top__DOT__fifo__v0 
-                            = (0xffU & ((IData)(vlSelf->top__DOT__buffer) 
-                                        >> 1U));
-                        __Vdlyvset__top__DOT__fifo__v0 = 1U;
-                        __Vdlyvdim0__top__DOT__fifo__v0 
-                            = (7U & (IData)(vlSelf->top__DOT__w_ptr));
+                        vlSelf->top__DOT__fifo = (0xffU 
+                                                  & ((IData)(vlSelf->top__DOT__buffer) 
+                                                     >> 1U));
                         __Vdly__ready = 1U;
                         vlSelf->top__DOT__release_detected = 0U;
-                        __Vdly__top__DOT__w_ptr = (0xfU 
-                                                   & ((IData)(1U) 
-                                                      + (IData)(vlSelf->top__DOT__w_ptr)));
                         vlSelf->top__DOT__last_buffer 
                             = vlSelf->top__DOT__buffer;
-                        __Vdly__overflow = ((IData)(vlSelf->overflow) 
-                                            | ((IData)(vlSelf->top__DOT__r_ptr) 
-                                               == (0xfU 
-                                                   & ((IData)(1U) 
-                                                      + (IData)(vlSelf->top__DOT__w_ptr)))));
                     }
                     VL_WRITEF("ascll %3#,three=%3#,four=%3#\n",
                               8,vlSelf->top__DOT__ascll,
@@ -155,29 +145,25 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     }
     vlSelf->top__DOT__count = __Vdly__top__DOT__count;
     vlSelf->top__DOT__w_ptr = __Vdly__top__DOT__w_ptr;
+    vlSelf->top__DOT__r_ptr = __Vdly__top__DOT__r_ptr;
     vlSelf->ready = __Vdly__ready;
     vlSelf->overflow = __Vdly__overflow;
     vlSelf->top__DOT__ps2_clk_sync = __Vdly__top__DOT__ps2_clk_sync;
-    vlSelf->top__DOT__r_ptr = __Vdly__top__DOT__r_ptr;
-    if (__Vdlyvset__top__DOT__fifo__v0) {
-        vlSelf->top__DOT__fifo[__Vdlyvdim0__top__DOT__fifo__v0] 
-            = __Vdlyvval__top__DOT__fifo__v0;
-    }
     __Vtableidx6 = (0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
     vlSelf->seg4 = Vtop__ConstPool__TABLE_h15f1b71f_0
         [__Vtableidx6];
     __Vtableidx7 = (0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
     vlSelf->seg5 = Vtop__ConstPool__TABLE_h15f1b71f_0
         [__Vtableidx7];
-    vlSelf->date = vlSelf->top__DOT__fifo[(7U & (IData)(vlSelf->top__DOT__r_ptr))];
-    __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->date) 
+    __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->top__DOT__fifo) 
                               << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
     vlSelf->seg0 = Vtop__ConstPool__TABLE_h680f90e3_0
         [__Vtableidx1];
-    __Vtableidx2 = ((0x1eU & ((IData)(vlSelf->date) 
+    __Vtableidx2 = ((0x1eU & ((IData)(vlSelf->top__DOT__fifo) 
                               >> 3U)) | (IData)(vlSelf->top__DOT__release_detected));
     vlSelf->seg1 = Vtop__ConstPool__TABLE_h680f90e3_0
         [__Vtableidx2];
+    vlSelf->date = vlSelf->top__DOT__fifo;
     __Vtableidx3 = vlSelf->date;
     vlSelf->top__DOT__ascll = Vtop__ConstPool__TABLE_ha352da98_0
         [__Vtableidx3];
