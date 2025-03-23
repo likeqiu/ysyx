@@ -68,6 +68,19 @@ static int cmd_reg_display(char *args){
   return 0;
 }
 
+
+static int cmd_scan_pmem(char *args)
+{
+  int num = 0;
+  sscanf(args, "%d", &num);
+
+  char *address;
+  address= strtok(args, " ");
+  printf("0x%lx\n",(uintptr_t) address);
+
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -77,7 +90,8 @@ static struct {
     {"c", "Continue the execution of the program", cmd_c},
     {"q", "Exit NEMU", cmd_q},
     {"si","Directly execute n times,(nemu:si n)",cmd_si},
-    {"info","printf the value of reg",cmd_reg_display},
+    {"info","Printf the value of reg",cmd_reg_display},
+    {"x","Scan the pmem (x n EXPR)",cmd_scan_pmem},
     /* TODO: Add more commands */
 
 };
