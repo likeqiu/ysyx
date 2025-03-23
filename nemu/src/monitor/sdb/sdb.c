@@ -18,6 +18,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include<memory/vaddr.h>
+
 
 static int is_batch_mode = false;
 
@@ -74,7 +76,7 @@ static int cmd_scan_pmem(char *args)
   int num = 0;
   sscanf(args, "%d", &num);
   char *endptr;
-  vaddr_t vadd = strtoul(strtok(args, " "), &endptr, 16);
+  vaddr_t vadd = strtoul(strtok(strtok(args, " ")," "), &endptr, 16);
 
   vaddr_read(vadd, 4 * num);
 
