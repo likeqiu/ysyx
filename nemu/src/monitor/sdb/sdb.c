@@ -88,7 +88,7 @@ static int cmd_p(char *args)
 {
   int num_exp = 0;
   bool *success = false;
-  num_exp = expr(args, success);
+  num_exp = expr("3+1+5", success);
   printf("%d", num_exp);
   
 
