@@ -49,7 +49,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"\\(",TK_LEFTBLANK},   //blank
   {"\\)",TK_RIGHTBLANK} ,
-  {"[0~9]+",TK_DECIMAL},
+  {"[0-9]+",TK_DECIMAL},
 };
 
 #define NR_REGEX ARRLEN(rules)
