@@ -78,7 +78,7 @@ static int cmd_scan_pmem(char *args)
   //char *endptr;
   //vaddr_t vadd = strtoul(strtok(strtok(args, " ")," "), &endptr, 16);
 
-  vaddr_read(atoi(args), 4 * sizeof(char));
+  vaddr_read(atoi(args), sizeof(args));
 
   return 0;
 }
