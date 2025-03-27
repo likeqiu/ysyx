@@ -86,9 +86,10 @@ static int cmd_reg_display(char *args){
 
 static int cmd_p(char *args)
 {
-  int num_exp = 0;
-  bool *success = false;
-  num_exp = expr("3+1+5", success);
+  word_t num_exp = 0;
+  bool success = false;
+  char expr1[] = "4 + 3 * (2 - 1)";
+  num_exp = expr(expr1, &success);
   printf("%d", num_exp);
   
 
