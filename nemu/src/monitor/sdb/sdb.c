@@ -89,8 +89,7 @@ static int cmd_p(char *args)
   
   word_t num_exp = 0;
   bool success = false;
-  char expr1[] = "4 + 3 * (2 - 1)";
-  num_exp = expr(expr1, &success);
+  num_exp = expr(args, &success);
   printf("%d", num_exp);
   
 
