@@ -71,7 +71,7 @@ static int cmd_reg_display(char *args){
 }
 
 
-/*static int cmd_scan_pmem(char *args)
+static int cmd_scan_pmem(char *args)
 {
   int num = 0;
   sscanf(args, "%d", &num);
@@ -81,7 +81,7 @@ static int cmd_reg_display(char *args){
   vaddr_read(vadd, 4 * num);
 
   return 0;
-}*/
+}
 
 
 static int cmd_p(char *args)
@@ -91,7 +91,6 @@ static int cmd_p(char *args)
   bool success = false;
   num_exp = expr(args, &success);
   printf("%d", num_exp);
-  
 
   return 0;
 }
@@ -106,7 +105,7 @@ static struct {
     {"q", "Exit NEMU", cmd_q},
     {"si","Directly execute n times,(nemu:si n)",cmd_si},
     {"info","Printf the value of reg",cmd_reg_display},
-    //{"x","Scan the pmem (x n EXPR)",cmd_scan_pmem},
+    {"x","Scan the pmem (x n EXPR)",cmd_scan_pmem},
     {"p","get expression value",cmd_p},
     /* TODO: Add more commands */
 
