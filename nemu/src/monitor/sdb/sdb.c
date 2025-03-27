@@ -83,12 +83,14 @@ static int cmd_scan_pmem(char *args)
   return 0;
 }
 
+extern void cleanup_regex();
 static int cmd_p(char *args)
 {
   int num = 0;
   bool *success = false;
   num = expr(args, success);
   printf("%d", num);
+  cleanup_regex();
 
   return 0;
 }

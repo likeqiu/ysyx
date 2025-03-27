@@ -263,6 +263,14 @@ static u_int32_t eval(int p,int q,bool *success)
       }
 }
 
+void cleanup_regex()
+{
+  for (int i = 0; i < NR_REGEX; i++)
+  {
+    regfree(&re[i]);
+  }
+  
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -275,5 +283,6 @@ word_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
     
 }
+
 
 
