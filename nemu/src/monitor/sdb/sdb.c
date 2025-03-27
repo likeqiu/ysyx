@@ -83,6 +83,16 @@ static int cmd_scan_pmem(char *args)
   return 0;
 }
 
+static int cmd_p(char *args)
+{
+  int num = 0;
+  bool *success = false;
+  num = expr(args, success);
+  printf("%d", num);
+
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -94,6 +104,7 @@ static struct {
     {"si","Directly execute n times,(nemu:si n)",cmd_si},
     {"info","Printf the value of reg",cmd_reg_display},
     {"x","Scan the pmem (x n EXPR)",cmd_scan_pmem},
+    {"p","get expression value",cmd_p},
     /* TODO: Add more commands */
 
 };
