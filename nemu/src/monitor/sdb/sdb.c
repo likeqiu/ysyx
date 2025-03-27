@@ -73,12 +73,12 @@ static int cmd_reg_display(char *args){
 
 static int cmd_scan_pmem(char *args)
 {
-  int num = 0;
-  sscanf(args, "%d", &num);
-  char *endptr;
-  vaddr_t vadd = strtoul(strtok(strtok(args, " ")," "), &endptr, 16);
+  //int num = 0;
+ // sscanf(args, "%d", &num);
+  //char *endptr;
+  //vaddr_t vadd = strtoul(strtok(strtok(args, " ")," "), &endptr, 16);
 
-  vaddr_read(vadd, 4 * num);
+  vaddr_read(atoi(args), 4 * sizeof(char));
 
   return 0;
 }
