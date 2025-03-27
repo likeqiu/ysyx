@@ -86,6 +86,7 @@ static int cmd_reg_display(char *args){
 
 static int cmd_p(char *args)
 {
+  init_regex();
   word_t num_exp = 0;
   bool success = false;
   char expr1[] = "4 + 3 * (2 - 1)";
