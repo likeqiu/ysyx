@@ -73,12 +73,18 @@ static int cmd_reg_display(char *args){
 
 static int cmd_scan_pmem(char *args)
 {
-  //int num = 0;
- // sscanf(args, "%d", &num);
+  int n = 0;
+  vaddr_t vadd;
+  sscanf(args, "%d %x", &n,&vadd);
   //char *endptr;
   //vaddr_t vadd = strtoul(strtok(strtok(args, " ")," "), &endptr, 16);
 
-  vaddr_read(atoi(args), sizeof(args));
+  for (int i = 0; i < n;i++){
+    word_t date;
+     
+    date=vaddr_read(atoi(args), sizeof(args));
+    printf("0x%08x : 0x%08x\n ", vadd + i * 4, date);
+  }
 
   return 0;
 }
