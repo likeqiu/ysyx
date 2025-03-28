@@ -79,8 +79,8 @@ static int cmd_scan_pmem(char *args)
   
   sscanf(args, "%d", &n);
   char *get_vadd = strtok(args," ");
-  vadd = expr(get_vadd, &success);
-
+  vadd = expr(get_vadd, &success); // 大于2*10^10+1*10^9+5*10^8
+                                   // 小于2*10^10+2*10^9+8*10^8
   for (int i = 0; i < n;i++){
     word_t date;
 
