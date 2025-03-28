@@ -31,8 +31,85 @@ static char *code_format =
 "  return 0; "
 "}";
 
+
+uint32_t choose(uint32_t n)
+{
+   return rand() % n;
+  
+}
+
+int count_buf = 0;
+ void gen_num()
+{
+  uint32_t num = rand() % 4294967296U;
+  char num_str[16];
+  snprintf(num_str, sizeof(num_str), "%u", num);
+  for (int i = 0; num_str[i] && count_buf < 65535;i++)
+  {
+    buf[count_buf++] = num_str[i];
+  }
+
+  buf[count_buf] = '\0';
+}
+
+void gen_space(int max_space)
+{
+  int n = choose(max_space + 1);
+  for (int i = 0; i < n && count_buf<66536;i++)
+  {
+    gen(' ');
+  }
+}
+
+ void gen(char c)
+{
+  if(count_buf<65535)
+  {
+  buf[count_buf++] = c;
+  buf[count_buf]='\0';
+  }
+}
+ void gen_rand_op()
+{
+  int rand_temp_num = rand() % 4;
+
+  if (count_buf < 65535)
+  {
+    switch (rand_temp_num)
+    {
+    case 0:
+      buf[count_buf++] = '+';break;
+    case 1:
+      buf[count_buf++] = '-';break;
+    case 2:
+      buf[count_buf++] = '*';break;
+    case 3:
+      buf[count_buf++] = '/';break;
+
+    }
+    buf[count_buf] = '\0';
+  }
+}
+
 static void gen_rand_expr() {
-  buf[0] = '\0';
+  switch(choose(3)){
+    case 0:
+      gen_num();
+      gen_space(3);
+      break;
+    case 1:
+      gen('(');
+      gen_space(3);
+      gen_rand_expr();
+      gen_space(3);
+      gen(')');break;
+
+    default:
+      gen_rand_expr();
+      gen_rand_op();
+      gen_rand_expr();
+      break;
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -44,6 +121,9 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+    memset(buf, 0, sizeof(buf));
+    count_buf = 0;
+
     gen_rand_expr();
 
     sprintf(code_buf, code_format, buf);
@@ -64,6 +144,16 @@ int main(int argc, char *argv[]) {
     pclose(fp);
 
     printf("%u %s\n", result, buf);
+
+    word_t num_exp1=0;
+    bool success = false;
+    num_exp1=expr(buf, &success);
+    if(num_exp1==result)
+    {
+      printf("%u == %u,测试通过", num_exp1, result);
+    }else {
+      printf("%u != %u,测试失败", num_exp1, result);
+    }
   }
   return 0;
 }
