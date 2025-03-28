@@ -76,8 +76,11 @@ static int cmd_scan_pmem(char *args)
   int n = 0;
   vaddr_t vadd;
   sscanf(args, "%d %x", &n,&vadd);
-  //char *endptr;
-  //vaddr_t vadd = strtoul(strtok(strtok(args, " ")," "), &endptr, 16);
+  if (sscanf(args, "%d %x", &n, &vadd) != 2)
+  {
+    printf("Invalid command format. Usage: x <n> <addr> (e.g., x 10 0x80000000)\n");
+    return -1;
+  }
 
   for (int i = 0; i < n;i++){
     word_t date;
