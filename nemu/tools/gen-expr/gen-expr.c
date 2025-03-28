@@ -19,6 +19,8 @@
 #include <time.h>
 #include <assert.h>
 #include <string.h>
+#include<sdb.h>
+
 
 // this should be enough
 static char buf[65536] = {};
@@ -31,14 +33,23 @@ static char *code_format =
 "  return 0; "
 "}";
 
+int count_buf = 0;
 
 uint32_t choose(uint32_t n)
 {
    return rand() % n;
   
 }
+void gen(char c)
+{
+  if (count_buf < 65535)
+  {
+    buf[count_buf++] = c;
+    buf[count_buf] = '\0';
+  }
+}
 
-int count_buf = 0;
+
  void gen_num()
 {
   uint32_t num = rand() % 4294967296U;
@@ -61,14 +72,7 @@ void gen_space(int max_space)
   }
 }
 
- void gen(char c)
-{
-  if(count_buf<65535)
-  {
-  buf[count_buf++] = c;
-  buf[count_buf]='\0';
-  }
-}
+
  void gen_rand_op()
 {
   int rand_temp_num = rand() % 4;
@@ -145,8 +149,8 @@ int main(int argc, char *argv[]) {
 
     printf("%u %s\n", result, buf);
 
-    word_t num_exp1=0;
-    bool success = false;
+    uint32_t num_exp1=0;
+    int success = 0;
     num_exp1=expr(buf, &success);
     if(num_exp1==result)
     {
