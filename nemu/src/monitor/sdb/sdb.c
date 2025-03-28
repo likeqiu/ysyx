@@ -79,7 +79,7 @@ static int cmd_scan_pmem(char *args)
   
   sscanf(args, "%d", &n);
   char *get_vadd = strtok(args," ");
-  printf("%s", get_vadd);
+  printf("%s\n", get_vadd);
   get_vadd = strtok(NULL, " ");
   printf("%s", get_vadd);
   vadd = expr(get_vadd, &success); // 大于2*10^10+1*10^9+5*10^8
