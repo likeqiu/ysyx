@@ -75,16 +75,15 @@ static int cmd_scan_pmem(char *args)
 {
   int n = 0;
   vaddr_t vadd;
-  sscanf(args, "%d %x", &n,&vadd);
-  if (sscanf(args, "%d %x", &n, &vadd) != 2)
-  {
-    printf("Invalid command format. Usage: x <n> <addr> (e.g., x 10 0x80000000)\n");
-    return -1;
-  }
+  bool success = false;  
+  
+  sscanf(args, "%d", &n);
+  char *get_vadd = strtok(args," ");
+  vadd = expr(get_vadd, &success);
 
   for (int i = 0; i < n;i++){
     word_t date;
-     
+
     date=vaddr_read(vadd+i*4,4);
     printf("0x%08x : 0x%08x\n ", vadd + i * 4, date);
   }
