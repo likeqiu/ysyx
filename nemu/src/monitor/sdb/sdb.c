@@ -109,7 +109,7 @@ static int cmd_p(char *args)
 static int cmd_t(char *args)
 {
 
-  FILE *fp = fopen("~/ysyx-workbench/nemu/tools/gen-expr/input", "rb");
+  FILE *fp = fopen("/home/zxj17/ysyx-workbench/nemu/tools/gen-expr/input", "rb");
   if (fp == NULL)
   {
     printf("Failed to open input");
