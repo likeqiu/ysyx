@@ -100,7 +100,8 @@ static bool make_token(char *e) {
 
         position += substr_len;
 
-        if (nr_token < 32){
+        if (nr_token < 65536)
+        {
           tokens[nr_token].type = rules[i].token_type;
           if (substr_len < 32)
           {
@@ -127,7 +128,7 @@ static bool make_token(char *e) {
             
           }
         }
-      }
+        }
 
         break;
       }
