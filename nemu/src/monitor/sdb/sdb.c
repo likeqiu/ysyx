@@ -142,7 +142,7 @@ static int cmd_t(char *args)
     }
     else if (test_result == expect_result)
     {
-      printf("expr:%s ,test: %u ,expect: %u ,test pass\n",expression,test_result,expect_result);
+      printf("expr:%-30s ,test: %10u ,expect: %10u ,test pass\n",expression,test_result,expect_result);
     }
     else
     {
