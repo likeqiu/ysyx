@@ -27,12 +27,12 @@ enum
   TK_EQ = 257,
   TK_LEFTBLANK = 258,
   TK_RIGHTBLANK = 259,
-  TK_DECIMAL = 260, // 十进制数
-  TK_NEQ = 261,     // 不相等
-  TK_HEX = 262,     // 16进制数
+  TK_NEQ = 261, // 不相等
+  TK_HEX = 262, // 16进制数
   TK_REG = 263,
   TK_AND = 264,
   TK_DEREF = 265, // 解引用
+  TK_DECIMAL = 260,//十进制数
 
   /* TODO: Add more token types */
 
@@ -43,23 +43,23 @@ static struct rule {
   int token_type;
 } rules[] = {
 
-  /* TODO: Add more rules.
-   * Pay attention to the precedence level of different rules.
-   */
+    /* TODO: Add more rules.
+     * Pay attention to the precedence level of different rules.
+     */
 
-  {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"-",'-'},
-  {"\\*",'*'},
-  {"\\/",'/'},
-  {"==", TK_EQ},        // equal
-  {"\\(",TK_LEFTBLANK},   //blank
-  {"\\)",TK_RIGHTBLANK} ,
-  {"[0-9]+",TK_DECIMAL},
-  {"!=",TK_NEQ},
-  {"&&",TK_AND},
-  {"0x[0-9a-fA-F]+",TK_HEX},
-  {"\\$[a-z0-9]+",TK_REG},
+    {" +", TK_NOTYPE}, // spaces
+    {"\\+", '+'},      // plus
+    {"-", '-'},
+    {"\\*", '*'},
+    {"\\/", '/'},
+    {"==", TK_EQ},         // equal
+    {"\\(", TK_LEFTBLANK}, // blank
+    {"\\)", TK_RIGHTBLANK},
+    {"!=", TK_NEQ},
+    {"&&", TK_AND},
+    {"0x[0-9a-fA-F]+", TK_HEX},
+    {"\\$[a-z0-9]+", TK_REG},
+    {"[0-9]+", TK_DECIMAL},
 };
 
 #define NR_REGEX ARRLEN(rules)
