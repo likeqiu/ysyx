@@ -115,33 +115,35 @@ static int cmd_t(char *args)
     printf("Failed to open input");
   }
 
+  printf("111\n");
   char line[65536] = {};
+
+  while (fgets(line, sizeof(line), fp) != NULL)
   {
-    while (fgets(line, sizeof(line), fp) != NULL)
+    printf("222");
+    line[strcspn(line, "\n")] = 0;
+    char *true_result = strtok(line, " ");
+    char *expression = true_result + strlen(true_result) + 1;
+
+    bool success = false;
+    uint32_t test_result = expr(expression, &success);
+    uint32_t expect_result = atoi(true_result);
+
+    if (success == false)
     {
-      line[strcspn(line, "\n")] = 0;
-      char *true_result = strtok(line, " ");
-      char *expression = true_result + strlen(true_result) + 1;
-
-      bool success = false;
-      uint32_t test_result = expr(expression, &success);
-      uint32_t expect_result = atoi(true_result);
-
-      if (success == false)
-      {
-        perror("failed to use expr");
-      }
-      else if (test_result == expect_result)
-      {
-        printf("test pass");
-      }
-      else
-      {
-        printf("test result wrong");
-      }
+      perror("failed to use expr");
+    }
+    else if (test_result == expect_result)
+    {
+      printf("test pass");
+    }
+    else
+    {
+      printf("test result wrong");
+    }
     }
     fclose(fp);
-  }
+  
   return 0;
 }
 
