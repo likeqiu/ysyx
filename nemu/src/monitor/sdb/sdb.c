@@ -122,7 +122,13 @@ static int cmd_t(char *args)
   while (fgets(line, sizeof(line), fp) != NULL)
   {
     
-    //line[strcspn(line, "\n")] = 0;
+    line[strcspn(line, "\n")] = 0;
+
+    if(strlen(line)==0)
+    {
+      break;
+    }
+
     char *true_result = strtok(line, " ");
     char *expression  = strtok(NULL, "");
 
