@@ -146,7 +146,7 @@ static int cmd_t(char *args)
     }
     else
     {
-      printf("expr:%s ,test: %u != expect: %u, test result wrong\n",expression, test_result, expect_result);
+      printf("expr:%-30s ,test: %10u != expect: %10u, test result wrong\n",expression, test_result, expect_result);
     }
     }
     fclose(fp);
