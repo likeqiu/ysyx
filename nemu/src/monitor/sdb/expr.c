@@ -75,7 +75,7 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[100];
+  char str[32];
 } Token;
 
 static Token tokens[65536] __attribute__((used)) = {};
@@ -103,7 +103,7 @@ static bool make_token(char *e) {
         if (nr_token < 65536)
         {
           tokens[nr_token].type = rules[i].token_type;
-          if (substr_len < 100)
+          if (substr_len < 32)
           {
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             tokens[nr_token].str[substr_len] = '\0';
@@ -119,7 +119,7 @@ static bool make_token(char *e) {
            * to record the token in the array `tokens'. For certain types
            * of tokens, some extra actions should be performed.
            */
-          if(nr_token<32){
+          if(nr_token<65536){
           switch (rules[i].token_type)
           {
           case TK_NOTYPE:break;  
