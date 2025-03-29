@@ -142,11 +142,11 @@ static int cmd_t(char *args)
     }
     else if (test_result == expect_result)
     {
-      printf("test pass");
+      printf("%u == %u ,test pass",test_result,expect_result);
     }
     else
     {
-      printf("test result wrong");
+      printf("%u != %u test result wrong",test_result,expect_result);
     }
     }
     fclose(fp);
