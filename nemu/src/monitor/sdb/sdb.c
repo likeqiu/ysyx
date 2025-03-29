@@ -116,12 +116,12 @@ static int cmd_t(char *args)
     return 1;
   }
 
-  printf("111\n");
+  
   char line[65536] = {};
 
   while (fgets(line, sizeof(line), fp) != NULL)
   {
-    printf("222");
+    
     line[strcspn(line, "\n")] = 0;
     char *true_result = strtok(line, " ");
     char *expression = true_result + strlen(true_result) + 1;
