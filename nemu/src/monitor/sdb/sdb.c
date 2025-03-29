@@ -124,7 +124,7 @@ static int cmd_t(char *args)
     
     line[strcspn(line, "\n")] = 0;
     char *true_result = strtok(line, " ");
-    char *expression = true_result + strlen(true_result) + 1;
+    char *expression  = strtok(NULL, "");
 
     bool success = false;
     uint32_t test_result = expr(expression, &success);
