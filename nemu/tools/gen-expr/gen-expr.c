@@ -19,7 +19,7 @@
 #include <time.h>
 #include <assert.h>
 #include <string.h>
-#include<sdb.h>
+
 
 
 // this should be enough
@@ -116,7 +116,7 @@ static void gen_rand_expr() {
     }
 }
 
-int main(int argc, char *argv[]) {
+int  main(int argc, char *argv[]) {
   int seed = time(0);
   srand(seed);
   int loop = 1;
@@ -149,15 +149,7 @@ int main(int argc, char *argv[]) {
 
     printf("%u %s\n", result, buf);
 
-    uint32_t num_exp1=0;
-    int success = 0;
-    num_exp1=expr(buf, &success);
-    if(num_exp1==result)
-    {
-      printf("%u == %u,测试通过", num_exp1, result);
-    }else {
-      printf("%u != %u,测试失败", num_exp1, result);
-    }
+  
   }
   return 0;
 }

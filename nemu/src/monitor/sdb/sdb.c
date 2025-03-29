@@ -105,6 +105,46 @@ static int cmd_p(char *args)
   return 0;
 }
 
+
+static int cmd_t(char *args)
+{
+
+  FILE *fp = fopen("input", "r");
+  if (fp == NULL)
+  {
+    printf("Failed to open input");
+  }
+
+  char line[65536] = {};
+  {
+    while (fgets(line, sizeof(line), fp) != NULL)
+    {
+      line[strcspn(line, "\n")] = 0;
+      char *true_result = strtok(line, " ");
+      char *expression = true_result + strlen(true_result) + 1;
+
+      bool success = false;
+      uint32_t test_result = expr(expression, &success);
+      uint32_t expect_result = atoi(true_result);
+
+      if (success == false)
+      {
+        perror("failed to use expr");
+      }
+      else if (test_result == expect_result)
+      {
+        printf("test pass");
+      }
+      else
+      {
+        printf("test result wrong");
+      }
+    }
+    fclose(fp);
+  }
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -117,6 +157,8 @@ static struct {
     {"info","Printf the value of reg",cmd_reg_display},
     {"x","Scan the pmem (x n EXPR)",cmd_scan_pmem},
     {"p","get expression value",cmd_p},
+    {"t","test the expr",cmd_t},
+    
     /* TODO: Add more commands */
 
 };
