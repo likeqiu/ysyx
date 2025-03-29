@@ -113,6 +113,7 @@ static int cmd_t(char *args)
   if (fp == NULL)
   {
     printf("Failed to open input");
+    return 1;
   }
 
   printf("111\n");
