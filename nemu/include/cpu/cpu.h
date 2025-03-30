@@ -40,6 +40,7 @@ typedef struct watchpoint
 extern WP wp_pool[NR_WP];
 extern WP *free_;
 extern WP *head;
+
 extern word_t expr(char *e, bool *success);
 
 extern WP *new_wp(char *expr_str);

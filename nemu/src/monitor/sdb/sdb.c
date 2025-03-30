@@ -69,13 +69,13 @@ static int cmd_reg_display(char *args){
   if(strcmp(args,"r")==0)
   {
   isa_reg_display();
-  }/*else if(strcmp(args,"w")==0)
+  }else if(strcmp(args,"w")==0)
   {
     for (int i = 0; i < NR_WP;i++)
     {
       printf("%d Watchpoint:  str:%s  old_value:%u ", wp_pool[i].NO, wp_pool[i].str, wp_pool[i].old_value);
     }
-  }*/
+  }
   return 0;
 }
 
