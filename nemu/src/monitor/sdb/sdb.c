@@ -163,6 +163,12 @@ static int cmd_t(char *args)
   return 0;
 }
 
+/*static int cmd_w(char *args)
+{
+
+  return 0;
+}*/
+
 static struct {
   const char *name;
   const char *description;
@@ -171,12 +177,13 @@ static struct {
     {"help", "Display information about all supported commands", cmd_help},
     {"c", "Continue the execution of the program", cmd_c},
     {"q", "Exit NEMU", cmd_q},
-    {"si","Directly execute n times,(nemu:si n)",cmd_si},
-    {"info","Printf the value of reg",cmd_reg_display},
-    {"x","Scan the pmem (x n EXPR)",cmd_scan_pmem},
-    {"p","get expression value",cmd_p},
-    {"t","test the expr",cmd_t},
-    
+    {"si", "Directly execute n times,(nemu:si n)", cmd_si},
+    {"info", "Printf the value of reg", cmd_reg_display},
+    {"x", "Scan the pmem (x n EXPR)", cmd_scan_pmem},
+    {"p", "get expression value", cmd_p},
+    {"t", "test the expr", cmd_t},
+    //{"w", " set watchpoint (w expr) ", cmd_w};
+
     /* TODO: Add more commands */
 
 };
