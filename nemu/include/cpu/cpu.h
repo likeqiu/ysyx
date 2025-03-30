@@ -37,6 +37,7 @@ typedef struct watchpoint
     char *str;
     word_t old_value;
 } WP;
+
 extern WP wp_pool[NR_WP];
 extern WP *free_;
 extern WP *head;
