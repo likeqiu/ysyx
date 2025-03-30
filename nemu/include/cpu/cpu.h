@@ -18,6 +18,9 @@
 
 #include <common.h>
 
+
+
+
 void cpu_exec(uint64_t n);
 
 void set_nemu_state(int state, vaddr_t pc, int halt_ret);
@@ -25,5 +28,22 @@ void invalid_inst(vaddr_t thispc);
 
 #define NEMUTRAP(thispc, code) set_nemu_state(NEMU_END, thispc, code)
 #define INV(thispc) invalid_inst(thispc)
+
+#define NR_WP 32
+typedef struct watchpoint
+{
+    int NO;
+    struct watchpoint *next;
+    char *str;
+    word_t old_value;
+} WP;
+extern WP wp_pool[NR_WP];
+extern WP *free_;
+extern WP *head;
+extern word_t expr(char *e, bool *success);
+
+extern WP *new_wp(char *expr_str);
+extern void free_wp(WP *wp);
+extern void init_wp_pool();
 
 #endif
