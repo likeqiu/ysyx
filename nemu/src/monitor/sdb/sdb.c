@@ -163,11 +163,28 @@ static int cmd_t(char *args)
   return 0;
 }
 
-/*static int cmd_w(char *args)
+static int cmd_w(char *args)
 {
-
+  new_wp(args);
   return 0;
-}*/
+}
+
+static int cmd_d(char *args)
+{
+  int i = 0;
+  int NO = atoi(args);
+  for ( i = 0; i < NR_WP;i++)
+  {
+    if(NO==wp_pool[i].NO)
+    {
+      break;
+    }
+  }
+
+  WP *wp = &wp_pool[i];
+  free_wp(wp);
+  return 0;
+}
 
 static struct {
   const char *name;
@@ -182,7 +199,8 @@ static struct {
     {"x", "Scan the pmem (x n EXPR)", cmd_scan_pmem},
     {"p", "get expression value", cmd_p},
     {"t", "test the expr", cmd_t},
-    //{"w", " set watchpoint (w expr) ", cmd_w};
+    {"w", " set watchpoint (w expr) ", cmd_w},
+    {"d","delete watchpoint (d NO)",cmd_d},
 
     /* TODO: Add more commands */
 
