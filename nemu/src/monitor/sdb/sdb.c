@@ -163,9 +163,13 @@ static int cmd_t(char *args)
   return 0;
 }
 
+int count_watchpoint = 0;
 static int cmd_w(char *args)
 {
-  new_wp(args);
+  WP *wp;
+  wp=new_wp(args);
+  printf("NO:%d set success\n",wp->NO);
+  printf("you have set %d watchpoint",count_watchpoint);
   return 0;
 }
 
@@ -183,6 +187,9 @@ static int cmd_d(char *args)
 
   WP *wp = &wp_pool[i];
   free_wp(wp);
+  printf("delete watchpoint success");
+  count_watchpoint--;
+
   return 0;
 }
 
