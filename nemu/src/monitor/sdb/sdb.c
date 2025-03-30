@@ -96,7 +96,7 @@ static int cmd_scan_pmem(char *args)
   for (int i = 0; i < n;i++){
     word_t date;
     date=vaddr_read(vadd+i*4,4);
-    printf("0x%08x : 0x%08x\n ", vadd + i * 4, date);
+    printf("0x%08x : %u\n ", vadd + i * 4, date);
   }
 
   return 0;
