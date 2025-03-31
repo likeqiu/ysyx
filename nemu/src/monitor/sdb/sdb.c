@@ -196,7 +196,7 @@ static int cmd_w(char *args)
   wp=new_wp(args);
   printf("watchpoint NO:%d set success\n",wp->NO);
   count_watchpoint++;
-  printf("you have set %d watchpoint", count_watchpoint);
+  printf("you have set %d watchpoint\n", count_watchpoint);
   return 0;
   }
   else
