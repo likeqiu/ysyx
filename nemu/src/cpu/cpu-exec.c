@@ -41,6 +41,16 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
+  for (int i = 0; i < NR_WP; i++)
+  {
+    if (wp_pool->type=='b')
+    {
+      nemu_state.state = NEMU_STOP;
+      printf("this is breakpoint %d , %s", wp_pool[i].NO, wp_pool[i].str);
+      return;
+    }
+  }
+
 #ifdef CONFIG_WATCHPOINT
   WP *wp=head ;
   while(wp!=NULL)

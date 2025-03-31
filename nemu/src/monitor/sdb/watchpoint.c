@@ -25,6 +25,7 @@ typedef struct watchpoint {
   char *str;
   word_t old_value;
   bool enable;
+  char type;
 
   /* TODO: Add more members if necessary */
 
@@ -45,12 +46,19 @@ WP* new_wp(char *expr_str)
     WP *wp = free_;
     wp->str =strdup(expr_str);
 
-    bool success;
+    
+      bool success;
 
     wp->old_value = expr(wp->str, &success);
     wp->enable = true;
-
-    free_ = wp->next;
+    if (strncmp(wp->str, "$pc == ", 7) == 0)
+    {
+      wp->type = 'b';
+    }else 
+    {
+      wp->type = 'm';
+    }
+     free_ = wp->next;
 
     wp->next = head;
     head = wp;
@@ -81,6 +89,7 @@ void free_wp(WP *wp)
     free(wp->str);
     wp->enable = false;
     wp->old_value = 0;
+    wp->type = 'n';
     wp->next = free_;
     free_ = wp;
     printf("Watchpoint %d deleted\n", wp->NO);
@@ -96,12 +105,12 @@ void init_wp_pool() {
     wp_pool[i].enable = false;
     wp_pool[i].old_value = 0;
     wp_pool[i].str = NULL;
+    wp_pool[i].type = 'n';
   }
 
   head = NULL;
   free_ = wp_pool;
 }
-
 
 
 

@@ -83,7 +83,7 @@ static int cmd_reg_display(char *args){
   {
     for (int i = 0; i < NR_WP;i++)
     {
-      printf("Watchpoint %-5d   str:%-10s  old_value:%-10u  enable:%-4d\n ", wp_pool[i].NO, wp_pool[i].str, wp_pool[i].old_value,wp_pool[i].enable);
+      printf("Watchpoint %-5d   str:%-10s  old_value:%-10u  enable:%-4d  type:%-4c\n ", wp_pool[i].NO, wp_pool[i].str, wp_pool[i].old_value,wp_pool[i].enable,wp_pool[i].type);
     }
   }
   return 0;
