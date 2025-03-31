@@ -36,6 +36,7 @@ typedef struct watchpoint
     struct watchpoint *next;
     char *str;
     word_t old_value;
+    bool enable;
 } WP;
 
 extern WP wp_pool[NR_WP];

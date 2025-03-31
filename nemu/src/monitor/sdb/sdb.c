@@ -66,6 +66,8 @@ static int cmd_help(char *args);
 
 static int cmd_reg_display(char *args){
 
+  if(args!=NULL)
+  {
   if(strcmp(args,"r")==0)
   {
   isa_reg_display();
@@ -73,15 +75,21 @@ static int cmd_reg_display(char *args){
   {
     for (int i = 0; i < NR_WP;i++)
     {
-      printf("Watchpoint %-5d   str:%-10s  old_value:%-10u\n ", wp_pool[i].NO, wp_pool[i].str, wp_pool[i].old_value);
+      printf("Watchpoint %-5d   str:%-10s  old_value:%-10u  enable:%-4d\n ", wp_pool[i].NO, wp_pool[i].str, wp_pool[i].old_value,wp_pool[i].enable);
     }
   }
   return 0;
+}else {
+  printf("missing parameter (info r or w)\n");
+  return 0;
+}
 }
 
 
 static int cmd_scan_pmem(char *args)
 {
+  if(args!=NULL)
+  {
   int n = 0;
   vaddr_t vadd;
   bool success = false;  
@@ -100,11 +108,19 @@ static int cmd_scan_pmem(char *args)
   }
 
   return 0;
+  }
+  else
+  {
+    printf("missing parameter (x n expr)\n");
+    return 0;
+  }
 }
 
 
 static int cmd_p(char *args)
 {
+  if(args!=NULL)
+  {
   
   word_t num_exp = 0;
   bool success = false;
@@ -112,10 +128,16 @@ static int cmd_p(char *args)
   printf("%d", num_exp);
 
   return 0;
+  }
+  else
+  {
+    printf("missing parameter (p expr)\n");
+    return 0;
+  }
 }
 
 
-static int cmd_t(char *args)
+static int cmd_t()
 {
 
   FILE *fp = fopen("/home/zxj17/ysyx-workbench/nemu/tools/gen-expr/input", "r");
@@ -131,6 +153,7 @@ static int cmd_t(char *args)
   while (fgets(line, sizeof(line), fp) != NULL)
   {
     
+
     line[strcspn(line, "\n")] = 0;
 
     if(strlen(line)==0)
@@ -163,18 +186,30 @@ static int cmd_t(char *args)
   return 0;
 }
 
+
 int count_watchpoint = 0;
 static int cmd_w(char *args)
 {
+  if(args !=NULL)
+  {
   WP *wp;
   wp=new_wp(args);
-  printf("NO:%d set success\n",wp->NO);
-  printf("you have set %d watchpoint",count_watchpoint);
+  printf("watchpoint NO:%d set success\n",wp->NO);
+  count_watchpoint++;
+  printf("you have set %d watchpoint", count_watchpoint);
   return 0;
+  }
+  else
+  {
+    printf("missing parameter (w expr)\n");
+    return 0;
+  }
 }
 
 static int cmd_d(char *args)
 {
+  if(args !=NULL)
+  {
   int i = 0;
   int NO = atoi(args);
   for ( i = 0; i < NR_WP;i++)
@@ -187,10 +222,16 @@ static int cmd_d(char *args)
 
   WP *wp = &wp_pool[i];
   free_wp(wp);
-  printf("delete watchpoint success");
+  printf("delete watchpoint success\n");
   count_watchpoint--;
 
   return 0;
+}
+else
+{
+  printf("missing parameter (d NO)\n");
+  return 0;
+}
 }
 
 static struct {

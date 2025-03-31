@@ -24,6 +24,7 @@ typedef struct watchpoint {
   struct watchpoint *next;
   char *str;
   word_t old_value;
+  bool enable;
 
   /* TODO: Add more members if necessary */
 
@@ -47,8 +48,7 @@ WP* new_wp(char *expr_str)
     bool success;
 
     wp->old_value = expr(wp->str, &success);
-
-
+    wp->enable = true;
 
     free_ = wp->next;
 
@@ -79,6 +79,7 @@ void free_wp(WP *wp)
       }
     }
     free(wp->str);
+    wp->enable = false;
     wp->old_value = 0;
     wp->next = free_;
     free_ = wp;
@@ -92,6 +93,9 @@ void init_wp_pool() {
   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
+    wp_pool[i].enable = false;
+    wp_pool[i].old_value = 0;
+    wp_pool[i].str = NULL;
   }
 
   head = NULL;
