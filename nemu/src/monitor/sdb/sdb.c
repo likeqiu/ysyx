@@ -51,11 +51,19 @@ static int cmd_c(char *args) {
 
 static int cmd_si(char *args)
 {
+  if(args!=NULL)
+  {
   int num = 0;
   sscanf(args, "%d", &num);
 
   cpu_exec(num);
   return 0;
+  }
+  else
+  {
+    printf("missing parameter (si n)\n");
+    return 0;
+  }
 }
 
 static int cmd_q(char *args) {
