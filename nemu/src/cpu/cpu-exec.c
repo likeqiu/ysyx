@@ -46,15 +46,18 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   WP *wp=head ;
   while(wp!=NULL)
   {
-    bool sucess;
-    word_t new_value = expr(wp->str, &sucess);
 
-    if(wp->old_value==_this->pc)
+    if (wp->old_value == _this->pc)
     {
       nemu_state.state = NEMU_STOP;
       printf("Hit an breakpoint NO:%-4d %-5u", wp->NO, wp->old_value);
       return;
     }
+
+    bool sucess;
+    word_t new_value = expr(wp->str, &sucess);
+
+   
     if(new_value!=wp->old_value)
     {
       nemu_state.state = NEMU_STOP;

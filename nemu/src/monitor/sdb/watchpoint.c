@@ -49,8 +49,9 @@ WP* new_wp(char *expr_str)
     
       bool success;
 
-    wp->old_value = expr(wp->str, &success);
+    
     wp->enable = true;
+    
     if (strncmp(wp->str, "$pc == ", 7) == 0)
     {
       wp->type = 'b';
@@ -59,6 +60,7 @@ WP* new_wp(char *expr_str)
     else
     {
       wp->type = 'm';
+      wp->old_value = expr(wp->str, &success);
     }
      free_ = wp->next;
 
