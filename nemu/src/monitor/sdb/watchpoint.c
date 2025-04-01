@@ -25,7 +25,7 @@ typedef struct watchpoint {
   char *str;
   word_t old_value;
   bool enable;
-  char type;
+  char type; // b,m,n
 
   /* TODO: Add more members if necessary */
 

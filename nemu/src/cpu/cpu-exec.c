@@ -58,7 +58,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
     word_t new_value = expr(wp->str, &sucess);
 
    
-    if(new_value!=wp->old_value)
+    if(new_value!=wp->old_value && wp->type=='m')
     {
       nemu_state.state = NEMU_STOP;
       
