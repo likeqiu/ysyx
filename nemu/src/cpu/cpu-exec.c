@@ -47,7 +47,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   while(wp!=NULL)
   {
 
-    if (wp->old_value == _this->pc)
+    if (wp->old_value == _this->pc && wp->type=='b')
     {
       nemu_state.state = NEMU_STOP;
       printf("Hit an breakpoint NO:%-4d addr:0x%-5x\n", wp->NO, wp->old_value);
