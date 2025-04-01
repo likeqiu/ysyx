@@ -52,16 +52,19 @@ WP* new_wp(char *expr_str)
     
     wp->enable = true;
 
-    if (strncmp(wp->str, "$pc == ", 7) == 0)
+
+    char *search_pc = strstr(wp->str, "0x");
+
+    if (search_pc!=NULL)
     {
       wp->type = 'b';
-      sscanf(wp->str+7 , "%x", &wp->old_value);
-    }
-    else
-    {
-      wp->type = 'm';
-      wp->old_value = expr(wp->str, &success);
-    }
+      sscanf(search_pc, "%x", &wp->old_value);
+      }
+      else
+      {
+        wp->type = 'm';
+        wp->old_value = expr(wp->str, &success);
+      }
      free_ = wp->next;
 
     wp->next = head;
