@@ -54,7 +54,9 @@ WP* new_wp(char *expr_str)
     if (strncmp(wp->str, "$pc == ", 7) == 0)
     {
       wp->type = 'b';
-    }else 
+      sscanf(wp->str + 7, "%x", &wp->old_value);
+    }
+    else
     {
       wp->type = 'm';
     }
