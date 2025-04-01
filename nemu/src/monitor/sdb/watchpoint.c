@@ -52,10 +52,23 @@ WP* new_wp(char *expr_str)
     
     wp->enable = true;
 
+    char temp[3];
+    
+
+    for (int i=0; i < strlen(wp->str); i++)
+    {
+      if (wp->str[i] == 'c' && wp->str[i - 1] == 'p' && wp->str[i - 2] == '$')
+      {
+        temp[0] = '$';
+        temp[1] = 'p';
+        temp[2] = 'c';
+        break;
+      }
+    }
 
     char *search_pc = strstr(wp->str, "0x");
 
-    if (search_pc!=NULL)
+    if (search_pc!=NULL && (strcmp(temp,"$pc")==0))
     {
       wp->type = 'b';
       sscanf(search_pc, "%x", &wp->old_value);
