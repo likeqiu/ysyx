@@ -50,7 +50,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
     if (wp->old_value == _this->pc)
     {
       nemu_state.state = NEMU_STOP;
-      printf("Hit an breakpoint NO:%-4d %-5u", wp->NO, wp->old_value);
+      printf("Hit an breakpoint NO:%-4d addr:%-5x\n", wp->NO, wp->old_value);
       return;
     }
 
