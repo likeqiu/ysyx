@@ -52,16 +52,29 @@ WP* new_wp(char *expr_str)
     
     wp->enable = true;
 
-    if (strncmp(wp->str, "$pc == ", 7) == 0)
+    char temp[3];
+
+    for (int i = 0; i < strlen(wp->str); i++)
     {
-      wp->type = 'b';
-      sscanf(wp->str , "%x", &wp->old_value);
+      if(wp->str[i]=='c' && wp->str[i-1]=='p' && wp->str[i-2]=='$')
+      {
+        temp[0] = '$';
+        temp[1] = 'p';
+        temp[2] = 'c';
+        break;
+      }
     }
-    else
-    {
-      wp->type = 'm';
-      wp->old_value = expr(wp->str, &success);
-    }
+
+      if (strcmp(temp,"$pc") == 0)
+      {
+        wp->type = 'b';
+        sscanf(wp->str, "%x", &wp->old_value);
+      }
+      else
+      {
+        wp->type = 'm';
+        wp->old_value = expr(wp->str, &success);
+      }
      free_ = wp->next;
 
     wp->next = head;
