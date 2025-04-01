@@ -51,11 +51,11 @@ WP* new_wp(char *expr_str)
 
     
     wp->enable = true;
-    
+
     if (strncmp(wp->str, "$pc == ", 7) == 0)
     {
       wp->type = 'b';
-      sscanf(wp->str + 7, "%x", &wp->old_value);
+      sscanf(wp->str , "%x", &wp->old_value);
     }
     else
     {
