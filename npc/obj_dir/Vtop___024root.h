@@ -14,23 +14,36 @@ class Vtop___024root final : public VerilatedModule {
 
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
-    VL_IN8(reset,0,0);
+    VL_IN8(clrk,0,0);
+    VL_IN8(nextdate_n,0,0);
+    VL_IN8(ps2_clk,0,0);
+    VL_IN8(ps2_date,0,0);
+    VL_OUT8(date,7,0);
+    VL_OUT8(ready,0,0);
+    VL_OUT8(overflow,0,0);
     VL_OUT8(seg0,6,0);
     VL_OUT8(seg1,6,0);
-    VL_IN8(num,7,0);
-    VL_OUT8(led,0,0);
-    CData/*7:0*/ top__DOT__temp_shift;
-    CData/*0:0*/ top__DOT__random;
+    VL_OUT8(seg2,6,0);
+    VL_OUT8(seg3,6,0);
+    VL_OUT8(seg4,6,0);
+    VL_OUT8(seg5,6,0);
+    CData/*7:0*/ top__DOT__fifo;
+    CData/*3:0*/ top__DOT__w_ptr;
+    CData/*3:0*/ top__DOT__r_ptr;
+    CData/*3:0*/ top__DOT__count;
+    CData/*2:0*/ top__DOT__ps2_clk_sync;
+    CData/*7:0*/ top__DOT__button_times;
+    CData/*0:0*/ top__DOT__release_detected;
+    CData/*7:0*/ top__DOT__ascll;
+    CData/*0:0*/ top__DOT____Vlvbound_h1a91ade8__0;
     CData/*0:0*/ __Vtrigrprev__TOP__clk;
-    CData/*0:0*/ __Vtrigrprev__TOP__reset;
     CData/*0:0*/ __VactContinue;
-    IData/*25:0*/ top__DOT__count;
+    SData/*9:0*/ top__DOT__buffer;
+    SData/*9:0*/ top__DOT__last_buffer;
     IData/*31:0*/ __VstlIterCount;
-    IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;
     VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
     VlTriggerVec<1> __VstlTriggered;
-    VlTriggerVec<1> __VicoTriggered;
     VlTriggerVec<1> __VactTriggered;
     VlTriggerVec<1> __VnbaTriggered;
 
