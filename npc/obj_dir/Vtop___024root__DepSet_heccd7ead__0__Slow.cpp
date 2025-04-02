@@ -161,7 +161,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->X2 = VL_RAND_RESET_I(2);
     vlSelf->X3 = VL_RAND_RESET_I(2);
     vlSelf->F = VL_RAND_RESET_I(2);
-    vlSelf->top__DOT__change = VL_RAND_RESET_I(2);
+    vlSelf->top__DOT__out = VL_RAND_RESET_I(2);
     for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
         vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[__Vi0] = VL_RAND_RESET_I(4);
     }

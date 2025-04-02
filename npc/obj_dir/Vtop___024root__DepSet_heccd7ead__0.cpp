@@ -66,7 +66,7 @@ VL_INLINE_OPT void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf) 
             = vlSelf->top__DOT__i0__DOT__i0__DOT__data_list
             [3U];
     }
-    vlSelf->top__DOT__change = vlSelf->top__DOT__i0__DOT__i0__DOT__lut_out;
+    vlSelf->top__DOT__out = vlSelf->top__DOT__i0__DOT__i0__DOT__lut_out;
 }
 
 void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {
@@ -91,19 +91,19 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___nba_sequent__TOP__0\n"); );
     // Body
-    if ((((IData)(vlSelf->top__DOT__change) == (IData)(vlSelf->X0)) 
+    if ((((IData)(vlSelf->top__DOT__out) == (IData)(vlSelf->X0)) 
          & (0U == (IData)(vlSelf->Y)))) {
         vlSelf->F = vlSelf->X0;
     }
-    if ((((IData)(vlSelf->top__DOT__change) == (IData)(vlSelf->X1)) 
+    if ((((IData)(vlSelf->top__DOT__out) == (IData)(vlSelf->X1)) 
          & (1U == (IData)(vlSelf->Y)))) {
         vlSelf->F = vlSelf->X1;
     }
-    if ((((IData)(vlSelf->top__DOT__change) == (IData)(vlSelf->X2)) 
+    if ((((IData)(vlSelf->top__DOT__out) == (IData)(vlSelf->X2)) 
          & (2U == (IData)(vlSelf->Y)))) {
         vlSelf->F = vlSelf->X2;
     }
-    if ((((IData)(vlSelf->top__DOT__change) == (IData)(vlSelf->X3)) 
+    if ((((IData)(vlSelf->top__DOT__out) == (IData)(vlSelf->X3)) 
          & (3U == (IData)(vlSelf->Y)))) {
         vlSelf->F = vlSelf->X3;
     }

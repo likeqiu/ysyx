@@ -30,7 +30,7 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
         bufp->chgCData(oldp+3,(vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[3]),2);
     }
     if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[1U])) {
-        bufp->chgCData(oldp+4,(vlSelf->top__DOT__change),2);
+        bufp->chgCData(oldp+4,(vlSelf->top__DOT__out),2);
         bufp->chgCData(oldp+5,(vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[0]),4);
         bufp->chgCData(oldp+6,(vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[1]),4);
         bufp->chgCData(oldp+7,(vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[2]),4);

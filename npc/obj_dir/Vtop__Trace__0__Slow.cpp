@@ -26,7 +26,7 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->declBus(c+20,"X2",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 1,0);
     tracep->declBus(c+21,"X3",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 1,0);
     tracep->declBus(c+22,"F",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 1,0);
-    tracep->declBus(c+5,"change",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 1,0);
+    tracep->declBus(c+5,"out",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 1,0);
     tracep->pushNamePrefix("i0 ");
     tracep->declBus(c+24,"NR_KEY",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
     tracep->declBus(c+25,"KEY_LEN",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
@@ -104,7 +104,7 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
     bufp->fullCData(oldp+2,(vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[1]),2);
     bufp->fullCData(oldp+3,(vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[2]),2);
     bufp->fullCData(oldp+4,(vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[3]),2);
-    bufp->fullCData(oldp+5,(vlSelf->top__DOT__change),2);
+    bufp->fullCData(oldp+5,(vlSelf->top__DOT__out),2);
     bufp->fullCData(oldp+6,(vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[0]),4);
     bufp->fullCData(oldp+7,(vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[1]),4);
     bufp->fullCData(oldp+8,(vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[2]),4);

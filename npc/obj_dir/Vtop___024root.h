@@ -20,7 +20,7 @@ class Vtop___024root final : public VerilatedModule {
     VL_IN8(X2,1,0);
     VL_IN8(X3,1,0);
     VL_OUT8(F,1,0);
-    CData/*1:0*/ top__DOT__change;
+    CData/*1:0*/ top__DOT__out;
     CData/*1:0*/ top__DOT__i0__DOT__i0__DOT__lut_out;
     CData/*0:0*/ top__DOT__i0__DOT__i0__DOT__hit;
     CData/*0:0*/ __Vtrigrprev__TOP__clk;
