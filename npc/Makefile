@@ -1,5 +1,6 @@
-VSRC = vsrc/light/top.v vsrc/light/light.v 
-CSRC = csrc/light.cpp
+VSRC = vsrc/mux/top.v vsrc/mux/mux.v 
+CSRC = csrc/.cpp
+NXDC = constr/mux.nxdc
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
@@ -13,7 +14,7 @@ all:
 sim:$(VSRCS) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py constr/mux.nxdc auto_bind.cpp
+	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $(NXDC) auto_bind.cpp
 	verilator  --cc --exe --build --noassert $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp --trace-fst --top-module top $(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS))
 
 
