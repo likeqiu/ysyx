@@ -23,17 +23,20 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
     // Init
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode + 1);
     // Body
-    bufp->chgBit(oldp+0,(vlSelf->clk));
-    bufp->chgCData(oldp+1,(vlSelf->select),3);
-    bufp->chgCData(oldp+2,(vlSelf->a),4);
-    bufp->chgCData(oldp+3,(vlSelf->b),4);
-    bufp->chgCData(oldp+4,(vlSelf->result),4);
-    bufp->chgBit(oldp+5,(vlSelf->zero));
-    bufp->chgBit(oldp+6,(vlSelf->cin));
-    bufp->chgBit(oldp+7,(vlSelf->overflow));
-    bufp->chgBit(oldp+8,(vlSelf->compare_out));
-    bufp->chgCData(oldp+9,(vlSelf->seg0),7);
-    bufp->chgCData(oldp+10,(vlSelf->seg1),7);
+    if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[1U])) {
+        bufp->chgCData(oldp+0,(vlSelf->top__DOT__temp_shift),8);
+        bufp->chgBit(oldp+1,(vlSelf->top__DOT__random));
+        bufp->chgIData(oldp+2,(vlSelf->top__DOT__count),26);
+        bufp->chgCData(oldp+3,((0xfU & (IData)(vlSelf->top__DOT__temp_shift))),4);
+        bufp->chgCData(oldp+4,((0xfU & ((IData)(vlSelf->top__DOT__temp_shift) 
+                                        >> 4U))),4);
+    }
+    bufp->chgCData(oldp+5,(vlSelf->seg0),7);
+    bufp->chgCData(oldp+6,(vlSelf->seg1),7);
+    bufp->chgCData(oldp+7,(vlSelf->num),8);
+    bufp->chgBit(oldp+8,(vlSelf->clk));
+    bufp->chgBit(oldp+9,(vlSelf->reset));
+    bufp->chgBit(oldp+10,(vlSelf->led));
 }
 
 void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {
@@ -41,11 +44,8 @@ void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {
     // Init
     Vtop___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vtop___024root*>(voidSelf);
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VlUnpacked<CData/*0:0*/, 1> __Vm_traceActivity;
-    for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
-        __Vm_traceActivity[__Vi0] = 0;
-    }
     // Body
     vlSymsp->__Vm_activity = false;
-    __Vm_traceActivity[0U] = 0U;
+    vlSymsp->TOP.__Vm_traceActivity[0U] = 0U;
+    vlSymsp->TOP.__Vm_traceActivity[1U] = 0U;
 }
