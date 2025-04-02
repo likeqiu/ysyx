@@ -1,5 +1,5 @@
 VSRC = vsrc/mux/top.v vsrc/mux/mux.v 
-CSRC = csrc/.cpp
+CSRC = csrc/mux.cpp
 NXDC = constr/mux.nxdc
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))

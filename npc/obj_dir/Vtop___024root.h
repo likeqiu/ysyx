@@ -14,12 +14,26 @@ class Vtop___024root final : public VerilatedModule {
 
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
-    VL_IN8(rst,0,0);
+    VL_IN8(Y,1,0);
+    VL_IN8(X0,1,0);
+    VL_IN8(X1,1,0);
+    VL_IN8(X2,1,0);
+    VL_IN8(X3,1,0);
+    VL_OUT8(F,1,0);
+    CData/*1:0*/ top__DOT__change;
+    CData/*1:0*/ top__DOT__i0__DOT__i0__DOT__lut_out;
+    CData/*0:0*/ top__DOT__i0__DOT__i0__DOT__hit;
     CData/*0:0*/ __Vtrigrprev__TOP__clk;
     CData/*0:0*/ __VactContinue;
-    VL_OUT16(led,15,0);
-    IData/*31:0*/ top__DOT__u_kdlight__DOT__count;
+    IData/*31:0*/ __VstlIterCount;
+    IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;
+    VlUnpacked<CData/*3:0*/, 4> top__DOT__i0__DOT__i0__DOT__pair_list;
+    VlUnpacked<CData/*1:0*/, 4> top__DOT__i0__DOT__i0__DOT__key_list;
+    VlUnpacked<CData/*1:0*/, 4> top__DOT__i0__DOT__i0__DOT__data_list;
+    VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
+    VlTriggerVec<1> __VstlTriggered;
+    VlTriggerVec<1> __VicoTriggered;
     VlTriggerVec<1> __VactTriggered;
     VlTriggerVec<1> __VnbaTriggered;
 
