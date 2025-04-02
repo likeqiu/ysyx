@@ -77,7 +77,7 @@ static int cmd_reg_display(char *args){
   {
   if(strcmp(args,"r")==0)
   {
-  isa_reg_display();
+    isa_reg_display();
   }else if(strcmp(args,"w")==0)
   {
     for (int i = 0; i < NR_WP;i++)
@@ -97,18 +97,20 @@ static int cmd_scan_pmem(char *args)
 {
   if(args!=NULL)
   {
-  int n = 0;
-  vaddr_t vadd;
-  bool success = false;  
-  
-  sscanf(args, "%d", &n);
-  char *get_vadd = strtok(args," ");
-  printf("%s\n", get_vadd);
-  get_vadd = strtok(NULL, " ");
-  printf("%s", get_vadd);
-  vadd = expr(get_vadd, &success); // 大于2147483648,小于 2281701375
+    int n = 0;
+    vaddr_t vadd;
+    bool success = false;  
+    sscanf(args, "%d", &n);
 
-  for (int i = 0; i < n;i++){
+    char *get_vadd = strtok(args," ");
+    
+
+    get_vadd = strtok(NULL, " ");
+    
+
+    vadd = expr(get_vadd, &success); // 大于2147483648,小于 2281701375
+
+    for (int i = 0; i < n;i++){
     word_t date;
     date=vaddr_read(vadd+i*4,4);
     printf("0x%08x : %u\n ", vadd + i * 4, date);
@@ -132,7 +134,7 @@ static int cmd_p(char *args)
   word_t num_exp = 0;
   bool success = false;
   num_exp = expr(args, &success);
-  printf("%d", num_exp);
+  printf("%d\n", num_exp);
 
   return 0;
   }
@@ -250,10 +252,10 @@ static struct {
     {"c", "Continue the execution of the program", cmd_c},
     {"q", "Exit NEMU", cmd_q},
     {"si", "Directly execute n times,(nemu:si n)", cmd_si},
-    {"info", "Printf the value of reg", cmd_reg_display},
+    {"info", "Printf the value of reg (info r or w)", cmd_reg_display},
     {"x", "Scan the pmem (x n EXPR)", cmd_scan_pmem},
-    {"p", "get expression value", cmd_p},
-    {"t", "test the expr", cmd_t},
+    {"p", "get expression value (p expr)", cmd_p},
+    {"t", "test the expr (t)", cmd_t},
     {"w", " set watchpoint (w expr) ", cmd_w},
     {"d","delete watchpoint (d NO)",cmd_d},
 
