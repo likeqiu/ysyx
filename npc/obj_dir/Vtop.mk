@@ -53,7 +53,7 @@ VM_USER_LDLIBS = \
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
 	auto_bind \
-	 \
+	mux \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
@@ -72,7 +72,7 @@ VPATH += $(VM_USER_DIR)
 
 auto_bind.o: auto_bind.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-.o: csrc/.cpp
+mux.o: csrc/mux.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
