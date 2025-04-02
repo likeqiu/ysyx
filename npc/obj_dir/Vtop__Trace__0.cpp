@@ -24,11 +24,16 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode + 1);
     // Body
     bufp->chgBit(oldp+0,(vlSelf->clk));
-    bufp->chgBit(oldp+1,(vlSelf->en));
-    bufp->chgCData(oldp+2,(vlSelf->D),8);
-    bufp->chgCData(oldp+3,(vlSelf->seg),7);
-    bufp->chgBit(oldp+4,(vlSelf->sympol));
-    bufp->chgCData(oldp+5,(vlSelf->top__DOT__temp_num),3);
+    bufp->chgCData(oldp+1,(vlSelf->select),3);
+    bufp->chgCData(oldp+2,(vlSelf->a),4);
+    bufp->chgCData(oldp+3,(vlSelf->b),4);
+    bufp->chgCData(oldp+4,(vlSelf->result),4);
+    bufp->chgBit(oldp+5,(vlSelf->zero));
+    bufp->chgBit(oldp+6,(vlSelf->cin));
+    bufp->chgBit(oldp+7,(vlSelf->overflow));
+    bufp->chgBit(oldp+8,(vlSelf->compare_out));
+    bufp->chgCData(oldp+9,(vlSelf->seg0),7);
+    bufp->chgCData(oldp+10,(vlSelf->seg1),7);
 }
 
 void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {
