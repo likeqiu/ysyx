@@ -272,11 +272,11 @@ static u_int32_t eval(int p,int q,bool *success)
     return 0;
   }
 
-  u_int32_t val1 = eval(p, op - 1, success);
+  word_t val1 = eval(p, op - 1, success);
     if(!*success)
       return 0;
 
-  u_int32_t val2 = eval(op + 1, q, success);
+  word_t val2 = eval(op + 1, q, success);
     if(!*success)
       return 0;
 
