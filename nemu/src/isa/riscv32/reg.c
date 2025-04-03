@@ -36,7 +36,7 @@ word_t isa_reg_str2val(const char *s, bool *success)
   {
     *success = true;
     
-    return (unsigned int)cpu.pc;
+    return cpu.pc;
   }
   else
   {
