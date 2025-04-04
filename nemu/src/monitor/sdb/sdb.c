@@ -104,7 +104,6 @@ static int cmd_scan_pmem(char *args)
     sscanf(args, "%d", &n);
 
     char *get_vadd = strtok(args," ");
-    
 
     get_vadd = strtok(NULL, " ");
     
