@@ -7,7 +7,7 @@ module  top(
 );
 
 reg [9:0] buffer;
-reg [7:0] fifo ;
+reg [7:0] fifo;
 reg [3:0] w_ptr,r_ptr;
 reg [3:0] count;
 reg [2:0] ps2_clk_sync;

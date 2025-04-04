@@ -1,6 +1,6 @@
-VSRC = vsrc/keyboard.v    
-CSRC = csrc/keyboard.cpp
-NXDC = constr/keyboard.nxdc
+VSRC = vsrc/mux.v  vsrc/top.v   
+CSRC = csrc/mux.cpp
+NXDC = constr/mux.nxdc
 TOPNAME = top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""

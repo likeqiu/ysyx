@@ -12,16 +12,19 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     : VerilatedModel{*_vcontextp__}
     , vlSymsp{new Vtop__Syms(contextp(), _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
-    , select{vlSymsp->TOP.select}
-    , a{vlSymsp->TOP.a}
-    , b{vlSymsp->TOP.b}
-    , result{vlSymsp->TOP.result}
-    , zero{vlSymsp->TOP.zero}
-    , cin{vlSymsp->TOP.cin}
+    , clrk{vlSymsp->TOP.clrk}
+    , nextdate_n{vlSymsp->TOP.nextdate_n}
+    , ps2_clk{vlSymsp->TOP.ps2_clk}
+    , ps2_date{vlSymsp->TOP.ps2_date}
+    , date{vlSymsp->TOP.date}
+    , ready{vlSymsp->TOP.ready}
     , overflow{vlSymsp->TOP.overflow}
-    , compare_out{vlSymsp->TOP.compare_out}
     , seg0{vlSymsp->TOP.seg0}
     , seg1{vlSymsp->TOP.seg1}
+    , seg2{vlSymsp->TOP.seg2}
+    , seg3{vlSymsp->TOP.seg3}
+    , seg4{vlSymsp->TOP.seg4}
+    , seg5{vlSymsp->TOP.seg5}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context
