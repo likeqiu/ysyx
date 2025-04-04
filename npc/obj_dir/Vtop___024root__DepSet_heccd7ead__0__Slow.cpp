@@ -30,8 +30,10 @@ VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial__TOP\n"); );
     // Body
-    vlSelf->top__DOT__button_times = 0U;
-    vlSelf->top__DOT__release_detected = 1U;
+    vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[0U] = 3U;
+    vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[1U] = 2U;
+    vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[2U] = 1U;
+    vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[3U] = 0U;
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_final(Vtop___024root* vlSelf) {
@@ -64,7 +66,7 @@ VL_ATTR_COLD void Vtop___024root___eval_settle(Vtop___024root* vlSelf) {
 #ifdef VL_DEBUG
                 Vtop___024root___dump_triggers__stl(vlSelf);
 #endif
-                VL_FATAL_MT("vsrc/keyboard.v", 1, "", "Settle region did not converge.");
+                VL_FATAL_MT("vsrc/mux/top.v", 1, "", "Settle region did not converge.");
             }
             vlSelf->__VstlIterCount = ((IData)(1U) 
                                        + vlSelf->__VstlIterCount);
@@ -88,58 +90,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 }
 #endif  // VL_DEBUG
 
-extern const VlUnpacked<CData/*6:0*/, 256> Vtop__ConstPool__TABLE_h15f1b71f_0;
-extern const VlUnpacked<CData/*6:0*/, 32> Vtop__ConstPool__TABLE_h680f90e3_0;
-extern const VlUnpacked<CData/*7:0*/, 256> Vtop__ConstPool__TABLE_ha352da98_0;
-extern const VlUnpacked<CData/*6:0*/, 512> Vtop__ConstPool__TABLE_h6bb23c3e_0;
-
-VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___stl_sequent__TOP__0\n"); );
-    // Init
-    CData/*4:0*/ __Vtableidx1;
-    __Vtableidx1 = 0;
-    CData/*4:0*/ __Vtableidx2;
-    __Vtableidx2 = 0;
-    CData/*7:0*/ __Vtableidx3;
-    __Vtableidx3 = 0;
-    SData/*8:0*/ __Vtableidx4;
-    __Vtableidx4 = 0;
-    SData/*8:0*/ __Vtableidx5;
-    __Vtableidx5 = 0;
-    CData/*7:0*/ __Vtableidx6;
-    __Vtableidx6 = 0;
-    CData/*7:0*/ __Vtableidx7;
-    __Vtableidx7 = 0;
-    // Body
-    __Vtableidx6 = (0xffU & VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
-    vlSelf->seg4 = Vtop__ConstPool__TABLE_h15f1b71f_0
-        [__Vtableidx6];
-    __Vtableidx7 = (0xffU & VL_DIV_III(32, (IData)(vlSelf->top__DOT__button_times), (IData)(0xaU)));
-    vlSelf->seg5 = Vtop__ConstPool__TABLE_h15f1b71f_0
-        [__Vtableidx7];
-    __Vtableidx1 = ((0x1eU & ((IData)(vlSelf->top__DOT__fifo) 
-                              << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_h680f90e3_0
-        [__Vtableidx1];
-    __Vtableidx2 = ((0x1eU & ((IData)(vlSelf->top__DOT__fifo) 
-                              >> 3U)) | (IData)(vlSelf->top__DOT__release_detected));
-    vlSelf->seg1 = Vtop__ConstPool__TABLE_h680f90e3_0
-        [__Vtableidx2];
-    vlSelf->date = vlSelf->top__DOT__fifo;
-    __Vtableidx3 = vlSelf->date;
-    vlSelf->top__DOT__ascll = Vtop__ConstPool__TABLE_ha352da98_0
-        [__Vtableidx3];
-    __Vtableidx4 = ((0x1feU & (VL_MODDIV_III(32, (IData)(vlSelf->top__DOT__ascll), (IData)(0xaU)) 
-                               << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
-    vlSelf->seg2 = Vtop__ConstPool__TABLE_h6bb23c3e_0
-        [__Vtableidx4];
-    __Vtableidx5 = ((0x1feU & (VL_DIV_III(32, (IData)(vlSelf->top__DOT__ascll), (IData)(0xaU)) 
-                               << 1U)) | (IData)(vlSelf->top__DOT__release_detected));
-    vlSelf->seg3 = Vtop__ConstPool__TABLE_h6bb23c3e_0
-        [__Vtableidx5];
-}
+void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf);
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -147,11 +98,26 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_stl\n"); );
     // Body
     if (vlSelf->__VstlTriggered.at(0U)) {
-        Vtop___024root___stl_sequent__TOP__0(vlSelf);
+        Vtop___024root___ico_sequent__TOP__0(vlSelf);
         vlSelf->__Vm_traceActivity[1U] = 1U;
         vlSelf->__Vm_traceActivity[0U] = 1U;
     }
 }
+
+#ifdef VL_DEBUG
+VL_ATTR_COLD void Vtop___024root___dump_triggers__ico(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___dump_triggers__ico\n"); );
+    // Body
+    if ((1U & (~ (IData)(vlSelf->__VicoTriggered.any())))) {
+        VL_DBG_MSGF("         No triggers active\n");
+    }
+    if (vlSelf->__VicoTriggered.at(0U)) {
+        VL_DBG_MSGF("         'ico' region trigger index 0 is active: Internal 'ico' trigger - first iteration\n");
+    }
+}
+#endif  // VL_DEBUG
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
@@ -189,30 +155,24 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___ctor_var_reset\n"); );
     // Body
     vlSelf->clk = VL_RAND_RESET_I(1);
-    vlSelf->clrk = VL_RAND_RESET_I(1);
-    vlSelf->nextdate_n = VL_RAND_RESET_I(1);
-    vlSelf->ps2_clk = VL_RAND_RESET_I(1);
-    vlSelf->ps2_date = VL_RAND_RESET_I(1);
-    vlSelf->date = VL_RAND_RESET_I(8);
-    vlSelf->ready = VL_RAND_RESET_I(1);
-    vlSelf->overflow = VL_RAND_RESET_I(1);
-    vlSelf->seg0 = VL_RAND_RESET_I(7);
-    vlSelf->seg1 = VL_RAND_RESET_I(7);
-    vlSelf->seg2 = VL_RAND_RESET_I(7);
-    vlSelf->seg3 = VL_RAND_RESET_I(7);
-    vlSelf->seg4 = VL_RAND_RESET_I(7);
-    vlSelf->seg5 = VL_RAND_RESET_I(7);
-    vlSelf->top__DOT__buffer = VL_RAND_RESET_I(10);
-    vlSelf->top__DOT__fifo = VL_RAND_RESET_I(8);
-    vlSelf->top__DOT__w_ptr = VL_RAND_RESET_I(4);
-    vlSelf->top__DOT__r_ptr = VL_RAND_RESET_I(4);
-    vlSelf->top__DOT__count = VL_RAND_RESET_I(4);
-    vlSelf->top__DOT__ps2_clk_sync = VL_RAND_RESET_I(3);
-    vlSelf->top__DOT__last_buffer = VL_RAND_RESET_I(10);
-    vlSelf->top__DOT__button_times = VL_RAND_RESET_I(8);
-    vlSelf->top__DOT__release_detected = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__ascll = VL_RAND_RESET_I(8);
-    vlSelf->top__DOT____Vlvbound_h1a91ade8__0 = VL_RAND_RESET_I(1);
+    vlSelf->Y = VL_RAND_RESET_I(2);
+    vlSelf->X0 = VL_RAND_RESET_I(2);
+    vlSelf->X1 = VL_RAND_RESET_I(2);
+    vlSelf->X2 = VL_RAND_RESET_I(2);
+    vlSelf->X3 = VL_RAND_RESET_I(2);
+    vlSelf->F = VL_RAND_RESET_I(2);
+    vlSelf->top__DOT__out = VL_RAND_RESET_I(2);
+    for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
+        vlSelf->top__DOT__i0__DOT__i0__DOT__pair_list[__Vi0] = VL_RAND_RESET_I(4);
+    }
+    for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
+        vlSelf->top__DOT__i0__DOT__i0__DOT__key_list[__Vi0] = VL_RAND_RESET_I(2);
+    }
+    for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
+        vlSelf->top__DOT__i0__DOT__i0__DOT__data_list[__Vi0] = VL_RAND_RESET_I(2);
+    }
+    vlSelf->top__DOT__i0__DOT__i0__DOT__lut_out = VL_RAND_RESET_I(2);
+    vlSelf->top__DOT__i0__DOT__i0__DOT__hit = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigrprev__TOP__clk = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
