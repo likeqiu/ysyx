@@ -33,7 +33,6 @@ module seven_segment_display (
 
     always @(*)begin
         casez(num)
-        3'd0:seg=7'b0000001;
         3'd1:seg=7'b1001111;
         3'd2:seg=7'b0010010;
         3'd3:seg=7'b0000110;
