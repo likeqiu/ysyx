@@ -12,7 +12,7 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_act\n"); );
 }
 
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h0a6e02f8_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h13ff2797_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -61,23 +61,30 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                       >> 3U)) != (1U 
                                                   & ((IData)(vlSelf->result) 
                                                      >> 3U))));
+        vlSelf->cin = vlSelf->overflow;
         vlSelf->zero = (0U == (IData)(vlSelf->result));
     } else {
         vlSelf->result = (0xfU & ((IData)(vlSelf->a) 
                                   + (IData)(vlSelf->b)));
-        vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
-                                    >> 3U)) == (1U 
-                                                & ((IData)(vlSelf->b) 
-                                                   >> 3U))) 
-                            & ((1U & ((IData)(vlSelf->a) 
-                                      >> 3U)) != (1U 
-                                                  & ((IData)(vlSelf->result) 
-                                                     >> 3U))));
+        if ((1U & ((~ ((IData)(vlSelf->a) >> 3U)) & 
+                   (~ ((IData)(vlSelf->b) >> 3U))))) {
+            vlSelf->overflow = ((1U & ((IData)(vlSelf->a) 
+                                       >> 3U)) != (1U 
+                                                   & ((IData)(vlSelf->result) 
+                                                      >> 3U)));
+        } else if ((8U & ((IData)(vlSelf->a) & (IData)(vlSelf->b)))) {
+            if (VL_GTS_III(32, 0xfffffff8U, (VL_EXTENDS_II(32,4, (IData)(vlSelf->a)) 
+                                             + VL_EXTENDS_II(32,4, (IData)(vlSelf->b))))) {
+                vlSelf->overflow = 1U;
+            }
+        } else {
+            vlSelf->overflow = 0U;
+        }
         vlSelf->cin = vlSelf->overflow;
         vlSelf->zero = (0U == (IData)(vlSelf->result));
     }
     __Vtableidx1 = vlSelf->result;
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_h0a6e02f8_0
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_h13ff2797_0
         [__Vtableidx1];
 }
 
