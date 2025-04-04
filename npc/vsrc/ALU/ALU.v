@@ -33,7 +33,7 @@ module ALU(
             cin=overflow;
             zero=(result==4'b0) ? 1'b1 : 1'b0;
         end
-
+        3'b001:;
         3'b010: result=~a;
         3'b011:result=a & b;
         3'b100:result=a | b;
@@ -45,6 +45,7 @@ module ALU(
             compare_out=1'b0;
         end
         3'b111:compare_out=($signed(a)==$signed(b)) ? 1'b1 :1'b0;
+
 
 
         endcase
