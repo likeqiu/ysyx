@@ -1,4 +1,4 @@
-VSRC = vsrc/ALU.v  
+VSRC = vsrc/ALU/ALU.v  vsrc/ALU/top.v  
 CSRC = csrc/ALU.cpp
 NXDC = constr/ALU.nxdc
 TOPNAME = top
