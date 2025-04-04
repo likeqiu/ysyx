@@ -52,7 +52,7 @@ module ALU(
 
     always @(*) begin
         
-        
+        if(result[3]==1'b1)begin
         case (~(result[2:0]-1'b1))
                 3'd0: seg0=7'b0000001;
                 3'd1: seg0 = 7'b1111001;
@@ -64,7 +64,20 @@ module ALU(
                 3'd7: seg0 = 7'b0001111;
                 default: seg0 = 7'b1111111; 
         endcase
-        
+        end else begin
+            case (result[2:0])
+                3'd0: seg0=7'b0000001;
+                3'd1: seg0 = 7'b1111001;
+                3'd2: seg0 = 7'b0010010;
+                3'd3: seg0 = 7'b0000110;
+                3'd4: seg0 = 7'b1001100;
+                3'd5: seg0 = 7'b0100100;
+                3'd6: seg0 = 7'b1100000;
+                3'd7: seg0 = 7'b0001111;
+                default: seg0 = 7'b1111111; 
+            endcase
+        end
+
     end
 
 
