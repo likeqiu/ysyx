@@ -54,13 +54,12 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         vlSelf->result = (0xfU & ((IData)(vlSelf->a) 
                                   - (IData)(vlSelf->b)));
         vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
-                                    >> 3U)) == (1U 
+                                    >> 3U)) != (1U 
                                                 & ((IData)(vlSelf->b) 
                                                    >> 3U))) 
-                            & ((1U & ((IData)(vlSelf->a) 
-                                      >> 3U)) != (1U 
-                                                  & ((IData)(vlSelf->result) 
-                                                     >> 3U))));
+                            & (VL_LTS_III(32, 7U, VL_EXTENDS_II(32,4, (IData)(vlSelf->result))) 
+                               | VL_GTS_III(32, 0xfffffff8U, 
+                                            VL_EXTENDS_II(32,4, (IData)(vlSelf->result)))));
         vlSelf->cin = vlSelf->overflow;
         vlSelf->zero = (0U == (IData)(vlSelf->result));
     } else {
