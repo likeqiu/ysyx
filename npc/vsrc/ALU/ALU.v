@@ -20,7 +20,9 @@ module ALU(
 
         case(select)
         3'b000:begin 
-           {cin,result}=$signed(a)+$signed(b);
+            if(a[3]==1'b0 && b[3]==1'b0)begin
+           {cin,result}=a+b;
+            end
             overflow=(a[3]==b[3]) && (a[3]!=result[3]);
             zero=(result==4'b0) ? 1'b1 : 1'b0;
         end
