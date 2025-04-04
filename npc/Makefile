@@ -1,4 +1,4 @@
-VSRC = vsrc/mux.v  vsrc/top.v   
+VSRC = vsrc/mux/mux.v  vsrc/mux/top.v   
 CSRC = csrc/mux.cpp
 NXDC = constr/mux.nxdc
 TOPNAME = top
