@@ -71,7 +71,7 @@ static regex_t re[NR_REGEX] = {};
  */
 void init_regex() {
   int i;
-  char error_msg[128];
+  char error_msg[128];//msg表示信息
   int ret;
 
   for (i = 0; i < NR_REGEX; i ++) {
