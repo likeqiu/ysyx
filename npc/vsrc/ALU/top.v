@@ -11,7 +11,7 @@ module top(
 );
 
 
-ALU test(.clk(clk),.select(select),.a(a),.b(b),.result(result),.zero(zero),.cin(cin),.overflow(overflow),.compare_out(compare_out),.seg0(seg0),.seg1(seg1));    
+ALU test(.clk(clk),.select(select),.a(a),.b(b),.result(result),.zero(zero),.cin(cin),.overflow(overflow),.compare_out(compare_out),.seg0(seg0));    
 
 /*always @(result) begin
     $display("a=%d, b=%d ,result=%d,zero=%d,cin=%d,overflow=%d,compare_out=%d,",a,b,result,zero,cin,overflow,compare_out);
