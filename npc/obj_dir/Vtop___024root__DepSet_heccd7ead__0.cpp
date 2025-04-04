@@ -12,7 +12,7 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_act\n"); );
 }
 
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h34110ce4_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h48596a33_0;
 extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h984c0970_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
@@ -86,7 +86,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         vlSelf->zero = (0U == (IData)(vlSelf->result));
     }
     __Vtableidx1 = vlSelf->result;
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_h34110ce4_0
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_h48596a33_0
         [__Vtableidx1];
     vlSelf->seg1 = Vtop__ConstPool__TABLE_h984c0970_0
         [__Vtableidx1];

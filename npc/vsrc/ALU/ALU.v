@@ -9,6 +9,9 @@ module ALU(
     output reg compare_out,
     output reg [6:0] seg0,seg1
 );
+
+reg [3:0] temp_result;
+
     always @(posedge clk) begin
         result=4'b0;
         zero=1'b0;
@@ -18,7 +21,8 @@ module ALU(
 
         casez(select)
         3'b000:begin 
-           {cin,result}=$signed(a)+$signed(b);
+           {cin,temp_result}=$signed(a)+$signed(b);
+           result={temp_result[3],~(temp_result[2:0]-1'b1)};
             overflow=(a[3]==b[3]) && (a[3]!=result[3]);
             zero=(result==4'b0) ? 1'b1 : 1'b0;
         end
