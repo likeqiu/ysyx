@@ -73,8 +73,12 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                                      >> 3U))));
         vlSelf->zero = (0U == (IData)(vlSelf->result));
     } else {
-        vlSelf->result = (0xfU & ((0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->a))) 
-                                  + (0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->b)))));
+        vlSelf->top__DOT__test__DOT__temp_result = 
+            (0xfU & ((0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->a))) 
+                     + (0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->b)))));
+        vlSelf->result = ((8U & (IData)(vlSelf->top__DOT__test__DOT__temp_result)) 
+                          | (7U & (~ ((IData)(vlSelf->top__DOT__test__DOT__temp_result) 
+                                      - (IData)(1U)))));
         vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
                                     >> 3U)) == (1U 
                                                 & ((IData)(vlSelf->b) 

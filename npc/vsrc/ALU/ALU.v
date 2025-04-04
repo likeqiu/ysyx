@@ -7,10 +7,9 @@ module ALU(
     output reg cin,
     output reg overflow,
     output reg compare_out,
-    output reg [6:0] seg0,seg1
+    output reg [6:0] seg0
 );
 
-reg [3:0] temp_result;
 
     always @(posedge clk) begin
         result=4'b0;
@@ -21,8 +20,7 @@ reg [3:0] temp_result;
 
         casez(select)
         3'b000:begin 
-           {cin,temp_result}=$signed(a)+$signed(b);
-           result={temp_result[3],~(temp_result[2:0]-1'b1)};
+           {cin,result}=$signed(a)+$signed(b);
             overflow=(a[3]==b[3]) && (a[3]!=result[3]);
             zero=(result==4'b0) ? 1'b1 : 1'b0;
         end
@@ -54,29 +52,20 @@ reg [3:0] temp_result;
 
     always @(*) begin
         
-        casez(result)
-        4'd1:begin seg0= 7'b1001111;seg1=7'b0000001;end
-        4'd2:begin seg0=7'b0010010;seg1=7'b0000001;end
-        4'd3:begin seg0=7'b0000110;seg1=7'b0000001;end
-        4'd4:begin seg0= 7'b1001100;seg1=7'b0000001;end
-        4'd5:begin seg0= 7'b0100100;seg1=7'b0000001;end
-        4'd6:begin seg0= 7'b1100000;seg1=7'b0000001;end
-        4'd7:begin seg0= 7'b0001111;seg1=7'b0000001;end
-        4'd8:begin seg0= 7'b0000000;seg1=7'b0000001;end 
-        4'd9:begin seg0=7'b0000100; seg1=7'b0000001;end
-        4'd10:begin seg1= 7'b1001111;seg0=7'b0000001;end
-        4'd11:begin seg0= 7'b1001111;seg1=7'b1001111;end
-        4'd12:begin seg1= 7'b1001111;seg0=7'b0010010;end
-        4'd13:begin seg1= 7'b1001111;seg0=7'b0000110;end                           
-        4'd14:begin seg1= 7'b1001111;seg0=7'b1001100;end    
-        default:begin seg0=7'b0000001;seg1=7'b0000001;end
+        
+        case ($signed(result))
+                4'd1: seg0 = 7'b1111001;
+                4'd2: seg0 = 7'b0100100;
+                4'd3: seg0 = 7'b0110000;
+                4'd4: seg0 = 7'b0011001;
+                4'd5: seg0 = 7'b0010010;
+                4'd6: seg0 = 7'b0000010;
+                4'd7: seg0 = 7'b1111000;
+                4'd8: seg0 = 7'b0000000;
+                default: seg0 = 7'b1111111; 
         endcase
         
     end
-
-
-
-
 
 
 endmodule
