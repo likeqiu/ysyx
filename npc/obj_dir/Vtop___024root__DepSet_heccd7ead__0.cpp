@@ -12,8 +12,7 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_act\n"); );
 }
 
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h48596a33_0;
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h984c0970_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_hd255c44a_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -73,12 +72,8 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                                      >> 3U))));
         vlSelf->zero = (0U == (IData)(vlSelf->result));
     } else {
-        vlSelf->top__DOT__test__DOT__temp_result = 
-            (0xfU & ((0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->a))) 
-                     + (0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->b)))));
-        vlSelf->result = ((8U & (IData)(vlSelf->top__DOT__test__DOT__temp_result)) 
-                          | (7U & (~ ((IData)(vlSelf->top__DOT__test__DOT__temp_result) 
-                                      - (IData)(1U)))));
+        vlSelf->result = (0xfU & ((0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->a))) 
+                                  + (0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->b)))));
         vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
                                     >> 3U)) == (1U 
                                                 & ((IData)(vlSelf->b) 
@@ -90,9 +85,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         vlSelf->zero = (0U == (IData)(vlSelf->result));
     }
     __Vtableidx1 = vlSelf->result;
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_h48596a33_0
-        [__Vtableidx1];
-    vlSelf->seg1 = Vtop__ConstPool__TABLE_h984c0970_0
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_hd255c44a_0
         [__Vtableidx1];
 }
 

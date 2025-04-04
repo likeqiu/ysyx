@@ -24,7 +24,6 @@ class Vtop___024root final : public VerilatedModule {
     VL_OUT8(compare_out,0,0);
     VL_OUT8(seg0,6,0);
     VL_OUT8(seg1,6,0);
-    CData/*3:0*/ top__DOT__test__DOT__temp_result;
     CData/*0:0*/ __Vtrigrprev__TOP__clk;
     CData/*0:0*/ __VactContinue;
     IData/*31:0*/ __VstlIterCount;

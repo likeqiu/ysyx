@@ -74,8 +74,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 }
 #endif  // VL_DEBUG
 
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h48596a33_0;
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h984c0970_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_hd255c44a_0;
 
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -86,9 +85,7 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     __Vtableidx1 = 0;
     // Body
     __Vtableidx1 = vlSelf->result;
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_h48596a33_0
-        [__Vtableidx1];
-    vlSelf->seg1 = Vtop__ConstPool__TABLE_h984c0970_0
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_hd255c44a_0
         [__Vtableidx1];
 }
 
@@ -148,6 +145,5 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->compare_out = VL_RAND_RESET_I(1);
     vlSelf->seg0 = VL_RAND_RESET_I(7);
     vlSelf->seg1 = VL_RAND_RESET_I(7);
-    vlSelf->top__DOT__test__DOT__temp_result = VL_RAND_RESET_I(4);
     vlSelf->__Vtrigrprev__TOP__clk = VL_RAND_RESET_I(1);
 }
