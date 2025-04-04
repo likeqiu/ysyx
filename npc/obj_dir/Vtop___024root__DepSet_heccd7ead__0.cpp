@@ -26,9 +26,13 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     if ((1U & (~ ((IData)(vlSelf->select) >> 2U)))) {
         if ((1U & (~ ((IData)(vlSelf->select) >> 1U)))) {
             if ((1U & (~ (IData)(vlSelf->select)))) {
-                vlSelf->cin = (1U & ((VL_EXTENDS_II(5,4, (IData)(vlSelf->a)) 
-                                      + VL_EXTENDS_II(5,4, (IData)(vlSelf->b))) 
-                                     >> 4U));
+                if ((1U & ((~ ((IData)(vlSelf->a) >> 3U)) 
+                           & (~ ((IData)(vlSelf->b) 
+                                 >> 3U))))) {
+                    vlSelf->cin = (1U & (((IData)(vlSelf->a) 
+                                          + (IData)(vlSelf->b)) 
+                                         >> 4U));
+                }
             }
         }
     }
@@ -72,8 +76,11 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
                                                      >> 3U))));
         vlSelf->zero = (0U == (IData)(vlSelf->result));
     } else {
-        vlSelf->result = (0xfU & ((0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->a))) 
-                                  + (0x1fU & VL_EXTENDS_II(5,4, (IData)(vlSelf->b)))));
+        if ((1U & ((~ ((IData)(vlSelf->a) >> 3U)) & 
+                   (~ ((IData)(vlSelf->b) >> 3U))))) {
+            vlSelf->result = (0xfU & ((IData)(vlSelf->a) 
+                                      + (IData)(vlSelf->b)));
+        }
         vlSelf->overflow = (((1U & ((IData)(vlSelf->a) 
                                     >> 3U)) == (1U 
                                                 & ((IData)(vlSelf->b) 
