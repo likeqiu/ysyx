@@ -18,7 +18,7 @@ module ALU(
         overflow=1'b0;
         compare_out=1'b0;
 
-        casez(select)
+        case(select)
         3'b000:begin 
            {cin,result}=$signed(a)+$signed(b);
             overflow=(a[3]==b[3]) && (a[3]!=result[3]);
