@@ -53,15 +53,15 @@ module ALU(
     always @(*) begin
         
         
-        case ($signed(result))
-                4'd0: seg0=7'b0000001;
-                4'd1: seg0 = 7'b1111001;
-                4'd2: seg0 = 7'b0010010;
-                4'd3: seg0 = 7'b0000110;
-                4'd4: seg0 = 7'b1001100;
-                4'd5: seg0 = 7'b0100100;
-                4'd6: seg0 = 7'b1100000;
-                4'd7: seg0 = 7'b0001111;
+        case (~(result[2:0]-1'b1))
+                3'd0: seg0=7'b0000001;
+                3'd1: seg0 = 7'b1111001;
+                3'd2: seg0 = 7'b0010010;
+                3'd3: seg0 = 7'b0000110;
+                3'd4: seg0 = 7'b1001100;
+                3'd5: seg0 = 7'b0100100;
+                3'd6: seg0 = 7'b1100000;
+                3'd7: seg0 = 7'b0001111;
                 default: seg0 = 7'b1111111; 
         endcase
         
