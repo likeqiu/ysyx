@@ -18,7 +18,6 @@ VL_ATTR_COLD void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial\n"); );
     // Body
     vlSelf->__Vtrigrprev__TOP__clk = vlSelf->clk;
-    vlSelf->__Vtrigrprev__TOP__reset = vlSelf->reset;
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_final(Vtop___024root* vlSelf) {
@@ -51,7 +50,7 @@ VL_ATTR_COLD void Vtop___024root___eval_settle(Vtop___024root* vlSelf) {
 #ifdef VL_DEBUG
                 Vtop___024root___dump_triggers__stl(vlSelf);
 #endif
-                VL_FATAL_MT("vsrc/shifter.v", 3, "", "Settle region did not converge.");
+                VL_FATAL_MT("vsrc/ALU/top.v", 1, "", "Settle region did not converge.");
             }
             vlSelf->__VstlIterCount = ((IData)(1U) 
                                        + vlSelf->__VstlIterCount);
@@ -75,7 +74,8 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 }
 #endif  // VL_DEBUG
 
-extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_hea8de336_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h34110ce4_0;
+extern const VlUnpacked<CData/*6:0*/, 16> Vtop__ConstPool__TABLE_h984c0970_0;
 
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -84,17 +84,12 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     // Init
     CData/*3:0*/ __Vtableidx1;
     __Vtableidx1 = 0;
-    CData/*3:0*/ __Vtableidx2;
-    __Vtableidx2 = 0;
     // Body
-    vlSelf->led = vlSelf->reset;
-    __Vtableidx1 = (0xfU & (IData)(vlSelf->top__DOT__temp_shift));
-    vlSelf->seg0 = Vtop__ConstPool__TABLE_hea8de336_0
+    __Vtableidx1 = vlSelf->result;
+    vlSelf->seg0 = Vtop__ConstPool__TABLE_h34110ce4_0
         [__Vtableidx1];
-    __Vtableidx2 = (0xfU & ((IData)(vlSelf->top__DOT__temp_shift) 
-                            >> 4U));
-    vlSelf->seg1 = Vtop__ConstPool__TABLE_hea8de336_0
-        [__Vtableidx2];
+    vlSelf->seg1 = Vtop__ConstPool__TABLE_h984c0970_0
+        [__Vtableidx1];
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
@@ -108,21 +103,6 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
 }
 
 #ifdef VL_DEBUG
-VL_ATTR_COLD void Vtop___024root___dump_triggers__ico(Vtop___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___dump_triggers__ico\n"); );
-    // Body
-    if ((1U & (~ (IData)(vlSelf->__VicoTriggered.any())))) {
-        VL_DBG_MSGF("         No triggers active\n");
-    }
-    if (vlSelf->__VicoTriggered.at(0U)) {
-        VL_DBG_MSGF("         'ico' region trigger index 0 is active: Internal 'ico' trigger - first iteration\n");
-    }
-}
-#endif  // VL_DEBUG
-
-#ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -132,7 +112,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if (vlSelf->__VactTriggered.at(0U)) {
-        VL_DBG_MSGF("         'act' region trigger index 0 is active: @(posedge clk or posedge reset)\n");
+        VL_DBG_MSGF("         'act' region trigger index 0 is active: @(posedge clk)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -147,7 +127,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__nba(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if (vlSelf->__VnbaTriggered.at(0U)) {
-        VL_DBG_MSGF("         'nba' region trigger index 0 is active: @(posedge clk or posedge reset)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 0 is active: @(posedge clk)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -157,18 +137,16 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___ctor_var_reset\n"); );
     // Body
+    vlSelf->clk = VL_RAND_RESET_I(1);
+    vlSelf->select = VL_RAND_RESET_I(3);
+    vlSelf->a = VL_RAND_RESET_I(4);
+    vlSelf->b = VL_RAND_RESET_I(4);
+    vlSelf->result = VL_RAND_RESET_I(4);
+    vlSelf->zero = VL_RAND_RESET_I(1);
+    vlSelf->cin = VL_RAND_RESET_I(1);
+    vlSelf->overflow = VL_RAND_RESET_I(1);
+    vlSelf->compare_out = VL_RAND_RESET_I(1);
     vlSelf->seg0 = VL_RAND_RESET_I(7);
     vlSelf->seg1 = VL_RAND_RESET_I(7);
-    vlSelf->num = VL_RAND_RESET_I(8);
-    vlSelf->clk = VL_RAND_RESET_I(1);
-    vlSelf->reset = VL_RAND_RESET_I(1);
-    vlSelf->led = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__temp_shift = VL_RAND_RESET_I(8);
-    vlSelf->top__DOT__random = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__count = VL_RAND_RESET_I(26);
     vlSelf->__Vtrigrprev__TOP__clk = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigrprev__TOP__reset = VL_RAND_RESET_I(1);
-    for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
-        vlSelf->__Vm_traceActivity[__Vi0] = 0;
-    }
 }

@@ -59,7 +59,7 @@ module ALU(
         4'd6:begin seg0= 7'b1100000;seg1=7'b0000001;end
         4'd7:begin seg0= 7'b0001111;seg1=7'b0000001;end
         4'd8:begin seg0= 7'b0000000;seg1=7'b0000001;end 
-        4'd9:begin seg0=7'b0001000; seg1=7'b0000001;end
+        4'd9:begin seg0=7'b0000100; seg1=7'b0000001;end
         4'd10:begin seg1= 7'b1001111;seg0=7'b0000001;end
         4'd11:begin seg0= 7'b1001111;seg1=7'b1001111;end
         4'd12:begin seg1= 7'b1001111;seg0=7'b0010010;end
