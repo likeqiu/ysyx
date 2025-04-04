@@ -153,7 +153,7 @@ static int cmd_t()
   if (fp == NULL)
   {
     printf("Failed to open input");
-    return 1;
+    return 0;
   }
 
   
