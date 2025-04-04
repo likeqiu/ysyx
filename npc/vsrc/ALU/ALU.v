@@ -33,17 +33,7 @@ module ALU(
             cin=overflow;
             zero=(result==4'b0) ? 1'b1 : 1'b0;
         end
-        3'b001:begin
-            result=$signed(a)-$signed(b);
 
-            if(a[3]!=b[3])begin
-                overflow=($signed(result)>7 || $signed(result)<-8)? 1'b1 : 1'b0;
-            end else begin
-                overflow=1'b0;
-            end
-            cin=overflow;
-            zero=(result==4'b0) ? 1'b1 : 1'b0;
-        end
         3'b010: result=~a;
         3'b011:result=a & b;
         3'b100:result=a | b;
