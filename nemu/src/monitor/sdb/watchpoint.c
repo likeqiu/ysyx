@@ -48,9 +48,7 @@ WP* new_wp(char *expr_str)
 
     
       bool success;
-
-    
-    wp->enable = true;
+      wp->enable = true;
 
     char temp[3];
     
