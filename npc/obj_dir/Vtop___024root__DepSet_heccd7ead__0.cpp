@@ -14,7 +14,7 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
 
 extern const VlUnpacked<CData/*2:0*/, 512> Vtop__ConstPool__TABLE_ha1d1c4cf_0;
 extern const VlUnpacked<CData/*0:0*/, 512> Vtop__ConstPool__TABLE_h6beafca8_0;
-extern const VlUnpacked<CData/*6:0*/, 8> Vtop__ConstPool__TABLE_hf45eb11d_0;
+extern const VlUnpacked<CData/*6:0*/, 8> Vtop__ConstPool__TABLE_hd3ade9e9_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -32,7 +32,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     vlSelf->sympol = Vtop__ConstPool__TABLE_h6beafca8_0
         [__Vtableidx1];
     __Vtableidx2 = vlSelf->top__DOT__temp_num;
-    vlSelf->seg = Vtop__ConstPool__TABLE_hf45eb11d_0
+    vlSelf->seg = Vtop__ConstPool__TABLE_hd3ade9e9_0
         [__Vtableidx2];
 }
 
