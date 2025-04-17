@@ -56,6 +56,7 @@ static int cmd_si(char *args)
   {
   
   sscanf(args, "%d", &num);
+  printf("%d\n", num);
   }
   else
   {
