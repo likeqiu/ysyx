@@ -1,7 +1,7 @@
 #include <am.h>
 #include <nemu.h>
 
-extern char _heap_start;  //heap表示可用堆空间区域
+extern char _heap_start;                                //heap表示可用堆空间区域
 int main(const char *args);
 
 Area heap = RANGE(&_heap_start, PMEM_END);             // RANGE：宏或函数，构造一个内存区域，
