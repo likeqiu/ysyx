@@ -12,23 +12,24 @@ extern "C" {
 //#define __NATIVE_USE_KLIB__
 
 // string.h
-void  *memset    (void *s, int c, size_t n);
-void  *memcpy    (void *dst, const void *src, size_t n);
-void  *memmove   (void *dst, const void *src, size_t n);
-int    memcmp    (const void *s1, const void *s2, size_t n);
+void *memset    (void *s, int c, size_t n);  // 将一块内存区域的内容全部设置为指定的值
+void *memcpy    (void *dst, const void *src, size_t n); // 将 n 个字节从 src 复制到 dst
+void *memmove   (void *dst, const void *src, size_t n);  // 将源内存区域的内容复制到目标内存区域
+int memcmp      (const void *s1, const void *s2, size_t n); // 用于比较两个内存区域的内容是否相同
 size_t strlen    (const char *s);
-char  *strcat    (char *dst, const char *src);
-char  *strcpy    (char *dst, const char *src);
-char  *strncpy   (char *dst, const char *src, size_t n);
-int    strcmp    (const char *s1, const char *s2);
+char *strcat     (char *dst, const char *src); // 将字符串 src 连接到字符串 dst 的末尾
+char *strcpy     (char *dst, const char *src); // 将字符串 src 复制到 dst
+char *strncpy    (char *dst, const char *src, size_t n); // 将最多 n 个字符从 src 复制到 dst
+int   strcmp     (const char *s1, const char *s2); // 比较两个字符串的字典顺序。
 int    strncmp   (const char *s1, const char *s2, size_t n);
+// 比较两个字符串的前 n 个字符。
 
 // stdlib.h
 void   srand     (unsigned int seed);
 int    rand      (void);
 void  *malloc    (size_t size);
 void   free      (void *ptr);
-int    abs       (int x);
+int    abs       (int x); // 返回整数 x 的绝对值
 int    atoi      (const char *nptr);
 
 // stdio.h
