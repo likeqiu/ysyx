@@ -15,16 +15,21 @@
 
 #include <dlfcn.h>
 #include <capstone/capstone.h>
+// Capstone 的核心功能是反汇编
 #include <common.h>
 
+// dynamic loading动态加载
+// cs_open_dl 是用来加载 Capstone 库中的 cs_open 函数的动态链接函数指针
 static size_t (*cs_disasm_dl)(csh handle, const uint8_t *code,
     size_t code_size, uint64_t address, size_t count, cs_insn **insn);
 static void (*cs_free_dl)(cs_insn *insn, size_t count);
 
 static csh handle;
+// csh 是 Capstone 库中的类型，用来表示一个反汇编上下文句柄，通常是 Capstone 引擎的实例。通过 csh 句柄，库的函数能够知道当前的反汇编上下文，并基于这个上下文进行反汇编处理。
 
+// 用于初始化 Capstone 反汇编引擎的动态加载、设置目标架构和模式等相关配置。这个函数的目的是在程序开始时配置反汇编引擎，并为后续的反汇编操作做好准备。
 void init_disasm() {
-  void *dl_handle;
+  void *dl_handle;//动态加载句柄
   dl_handle = dlopen("tools/capstone/repo/libcapstone.so.5", RTLD_LAZY);
   assert(dl_handle);
 
