@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
   init_monitor(argc, argv);
 #endif
 
-  iringbuf_init();
 
   /* Start engine. */
   engine_start();
