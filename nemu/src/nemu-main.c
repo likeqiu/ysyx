@@ -20,10 +20,10 @@ void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
+void iringbuf_init();
 
-
-
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
@@ -31,9 +31,10 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
-  
-      /* Start engine. */
-      engine_start();
+  iringbuf_init();
+
+  /* Start engine. */
+  engine_start();
 
   return is_exit_status_bad();
 }
