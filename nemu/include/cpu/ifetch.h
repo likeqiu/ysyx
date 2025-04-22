@@ -22,14 +22,14 @@ static inline uint32_t inst_fetch(vaddr_t *pc, int len)
 {
 
   uint32_t inst = vaddr_ifetch(*pc, len);
-  vaddr_t orig_pc = *pc;
+  //vaddr_t orig_pc = *pc;
   (*pc) += len;
 
 
-  char disasm_str[64];
+  /*char disasm_str[64];
   disassemble(disasm_str, sizeof(disasm_str), orig_pc, (uint8_t *)&inst, len);
   log_write("0x%x: %08x %s\n", orig_pc, inst, disasm_str);
-
+*/
 
   return inst;
 }

@@ -102,7 +102,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);
 
-  //log_write("0x%x: %08x %s\n", s->pc, s->isa.inst, p);
+  log_write("0x%x: %08x %s\n", s->pc, s->isa.inst, p);
 #endif
 }
 
