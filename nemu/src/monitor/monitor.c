@@ -23,7 +23,7 @@ void init_difftest(char *ref_so_file, long img_size, int port);
 void init_device();
 void init_sdb();
 void init_disasm();
-
+void iringbuf_init();
 
 static void welcome()
 {
@@ -112,6 +112,8 @@ void init_monitor(int argc, char *argv[])
 
   /* Open the log file. */
   init_log(log_file);
+
+  iringbuf_init();
 
   /* Initialize memory. */
   init_mem();
