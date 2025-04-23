@@ -49,10 +49,12 @@ void init_mem() {
   IFDEF(CONFIG_MEM_RANDOM, memset(pmem, rand(), CONFIG_MSIZE));
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);
 }
-
-word_t paddr_read(paddr_t addr, int len) {
+void iringbuf_dump(vaddr_t error_pc);
+word_t paddr_read(paddr_t addr, int len)
+{
   if (likely(in_pmem(addr))) return pmem_read(addr, len);
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
+  IFDEF(CONFIG_ITRACE, iringbuf_dump(addr));
   out_of_bound(addr);
   return 0;
 }
