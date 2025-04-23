@@ -74,3 +74,4 @@ void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte) {
   }
   cs_free_dl(insn, count);
 }
+

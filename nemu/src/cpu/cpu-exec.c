@@ -26,7 +26,9 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 100
-    
+
+
+
 CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
@@ -78,6 +80,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->snpc = pc;
   isa_exec_once(s);
   cpu.pc = s->dnpc;
+
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
@@ -103,6 +106,9 @@ static void exec_once(Decode *s, vaddr_t pc) {
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);
 
   log_write("0x%x: %08x %s\n", s->pc, s->isa.inst, p);
+
+  void write_iringbuf(vaddr_t pc, uint32_t inst);
+  write_iringbuf(s->pc, s->isa.inst);
 #endif
 }
 
