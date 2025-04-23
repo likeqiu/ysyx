@@ -101,9 +101,7 @@ static int cmd_scan_pmem(char *args)
     int n = 0;
     vaddr_t vadd;
     bool success = false;  
-
-    if(sscanf(args, "%d", &n))
-    {
+    sscanf(args, "%d", &n);
 
     char *get_vadd = strtok(args," ");
 
@@ -117,22 +115,6 @@ static int cmd_scan_pmem(char *args)
     date=vaddr_read(vadd+i*4,4);
     printf("0x%x : %u\n ", vadd + i * 4, date);
   }
-
-}else {
-
-  char *get_vadd = strtok(args, " ");
-
-  get_vadd = strtok(NULL, " ");
-
-  vadd = expr(get_vadd, &success); // 大于2147483648,小于 2281701375
-
-  for (int i = 0; i < 1; i++)
-  {
-    word_t date;
-    date = vaddr_read(vadd + i * 4, 4);
-    printf("0x%x : %u\n ", vadd + i * 4, date);
-  }
-}
 
   return 0;
   }
