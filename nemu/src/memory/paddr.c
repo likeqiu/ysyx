@@ -53,15 +53,25 @@ void init_mem() {
 void iringbuf_dump(vaddr_t error_pc);
 word_t paddr_read(paddr_t addr, int len)
 {
-  if (likely(in_pmem(addr))) return pmem_read(addr, len);
-  IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
+  word_t ret = 0;
+  if (likely(in_pmem(addr)))
+  {
+    ret = pmem_read(addr, len);
+    mtrace_record('R', addr, len, ret);
+    return ret;
+  }
+  IFDEF(CONFIG_DEVICE, ret = mmio_read(addr, len); mtrace_record('R', addr, len, ret); return ret);
   IFDEF(CONFIG_ITRACE, iringbuf_dump(addr));
   out_of_bound(addr);
   return 0;
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
-  if (likely(in_pmem(addr))) { pmem_write(addr, len, data); return; }
-  IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
+  
+  if (likely(in_pmem(addr))) {
+     pmem_write(addr, len, data);
+     mtrace_record('W', addr, len, data);
+     return; }
+  IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); mtrace_record('W', addr, len, data); return);
   out_of_bound(addr);
 }
