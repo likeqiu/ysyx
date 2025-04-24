@@ -18,6 +18,7 @@
 
 #include <common.h>
 #include<iringbuf.h>
+#include<mtrace.h>
 
 
 void cpu_exec(uint64_t n);

@@ -243,6 +243,15 @@ else
 }
 }
 
+static int cmd_st(char *args)
+{
+  vaddr_t start = 0x0;
+  vaddr_t end = 0xfffffff;
+  sscanf(args, "%x %x", &start, &end);
+  mtrace_set_range(start, end);
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -258,6 +267,7 @@ static struct {
     {"t", "test the expr (t)", cmd_t},
     {"w", " set watchpoint (w expr) ", cmd_w},
     {"d","delete watchpoint (d NO)",cmd_d},
+    {"st","set mtrace range",cmd_st},
 
     /* TODO: Add more commands */
 
