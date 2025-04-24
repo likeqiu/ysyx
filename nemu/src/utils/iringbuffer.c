@@ -45,6 +45,8 @@ void write_iringbuf(vaddr_t pc, uint32_t inst)
 
 void iringbuf_dump(vaddr_t error_pc)
 {
+    if(iringbuf_index || iringbuf_full)
+    {
     printf("\n===hit error inst===\n");
     int start = iringbuf_full ? iringbuf_index : 0;
     int count = iringbuf_full ? IRINGBUF_SIZE : iringbuf_index ;
@@ -60,4 +62,5 @@ void iringbuf_dump(vaddr_t error_pc)
     }
 
     printf("=====================================\n");
+}
 }
