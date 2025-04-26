@@ -212,7 +212,7 @@ void ftrace_ret(uint32_t pc)
 
     for (int i = 0; i < indent_level; i++)
     {
-        printf("  ");
+       // printf("  ");
     }
 
     printf("0x%08x: %-6s [%s]\n", pc, "ret", func_name);
