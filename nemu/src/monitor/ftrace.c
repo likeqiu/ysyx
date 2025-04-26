@@ -195,26 +195,30 @@ void ftrace_call(uint32_t pc, uint32_t target_addr)
 {
     const char *func_name = addr_to_func(target_addr);
 
+    printf("0x%08x: ", pc);
     for (int i = 0; i < indent_level; i++)
     {
         printf("  ");
     }
 
-    printf("0x%08x: %-6s [%s@0x%08x]\n", pc, "call", func_name, target_addr);
+    printf(" %-6s [%s@0x%08x]\n", "call", func_name, target_addr);
     indent_level++;
 }
 
 void ftrace_ret(uint32_t pc)
 {
     const char *func_name = addr_to_func(pc);
+    
     if (indent_level > 0)
         indent_level--;
+
+    printf("0x%08x: ", pc);
 
     for (int i = 0; i < indent_level; i++)
     {
         printf("  ");
     }
 
-    printf("0x%08x: %-6s [%s]\n", pc, "ret", func_name);
+    printf(" %-6s [%s]\n",  "ret", func_name);
 }
 
