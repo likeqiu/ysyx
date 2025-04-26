@@ -197,7 +197,7 @@ void ftrace_call(uint32_t pc, uint32_t target_addr)
 
     for (int i = 0; i < indent_level; i++)
     {
-        printf("  ");
+        //printf("  ");
     }
 
     printf("0x%08x: %-6s [%s@0x%08x]\n", pc, "call", func_name, target_addr);
