@@ -111,8 +111,28 @@ static int decode_exec(Decode *s) {
 
 
   INSTPAT("??????? ????? ????? ??? 00000 11011 11", j, J, s->dnpc = s->pc + imm);
-  INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal, J, R(rd) = s->pc + 4; s->dnpc = s->pc + imm; if (rd == 1) ftrace_call(s->pc, s->dnpc)); // 保存返回地址，更新跳转地址
-  INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr, I, R(rd) = s->pc + 4; s->dnpc = src1 + imm; if (rd == 1) {ftrace_call(s->pc, s->dnpc); }else if (rd == 0 && BITS(s->isa.inst, 19, 15) == 1 && imm == 0) ftrace_ret(s->pc));
+  INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal, J, {
+    int rd = 0;
+    word_t src1 = 0, src2 = 0, imm = 0;
+    decode_operand(s, &rd, &src1, &src2, &imm, TYPE_J);
+    R(rd) = s->pc + 4;
+    s->dnpc = s->pc + imm;
+    if (rd == 1)
+      ftrace_call(s->pc, s->dnpc);
+  });
+
+  INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr, I, {
+    int rd = 0;
+    word_t src1 = 0, src2 = 0, imm = 0;
+    int rs1 = BITS(s->isa.inst, 19, 15);
+    decode_operand(s, &rd, &src1, &src2, &imm, TYPE_I);
+    R(rd) = s->pc + 4;
+    s->dnpc = src1 + imm;
+    if (rd == 1)
+      ftrace_call(s->pc, s->dnpc);
+    else if (rd == 0 && rs1 == 1 && imm == 0)
+      ftrace_ret(s->pc);
+  });
 
   //       B型指令格式
   //        [31] [30:25] [24:20] [19:15] [14:12] [11:8] [7]  [6:0]
