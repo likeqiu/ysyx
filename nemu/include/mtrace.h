@@ -9,8 +9,8 @@ void mtrace_record(char type, paddr_t addr, int len, word_t data);
 void mtrace_set_range(vaddr_t start, vaddr_t end);
 
 #else
-#define mtrace_record(type, addr, len, date) ;
-#define mtrace_set_range(start, end) ;
+#define mtrace_record(type, addr, len, date) ((void)0)
+#define mtrace_set_range(start, end) ((void)0)
 //定义为空
 #endif
 
