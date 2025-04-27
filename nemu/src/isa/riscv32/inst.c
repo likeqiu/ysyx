@@ -17,7 +17,7 @@
 #include <cpu/cpu.h>
 #include <cpu/ifetch.h>
 #include <cpu/decode.h>
-#include<ftrace.h>
+#include <ftrace.h>
 
 #define R(i) gpr(i)
 #define Mr vaddr_read
@@ -28,6 +28,8 @@ enum {
   TYPE_N, // none
 };
 
+
+
 #define src1R() do { *src1 = R(rs1); } while (0)
 #define src2R() do { *src2 = R(rs2); } while (0)
 #define immI() do { *imm = SEXT(BITS(i, 31, 20), 12); } while(0)
@@ -37,8 +39,8 @@ enum {
                   (BITS(i, 20, 20) << 11) | (BITS(i, 30, 21) << 1),21);}while(0) // 与0或实现拼接操作
 #define immB() do { *imm = SEXT((BITS(i, 31, 31) << 12) | (BITS(i, 7, 7) << 11) | (BITS(i, 30, 25) << 5) | (BITS(i, 11, 8) << 1), 13);}while(0)
 
-
-static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
+    static void
+    decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst;
   int rs1 = BITS(i, 19, 15);//选取寄存器
   int rs2 = BITS(i, 24, 20);
@@ -112,7 +114,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? ??? 00000 11011 11", j, J, s->dnpc = s->pc + imm);
   INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal, J, R(rd) = s->pc + 4; s->dnpc = s->pc + imm; if (rd == 1) { ftrace_call(s->pc, s->dnpc); } else if (rd == 0 && BITS(s->isa.inst, 19, 15) == 1 && imm == 0) { ftrace_ret(s->pc); }); // 保存返回地址，更新跳转地址
 
-  INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr, I, R(rd) = s->pc + 4; s->dnpc = src1 + imm; if (rd == 1) { ftrace_call(s->pc, s->dnpc); } else if (rd == 0 && BITS(s->isa.inst, 19, 15) == 1 && imm == 0) { ftrace_ret(s->pc); });
+  INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr, I, R(rd) = s->pc + 4; s->dnpc = src1 + imm; if (strcmp(addr_to_func(s->dnpc), "???") != 0) { ftrace_call(s->pc, s->dnpc); } else if (rd == 0 && is_stack_top_ret_addr(s->dnpc)) { ftrace_ret(s->pc); });
 
   //       B型指令格式
   //        [31] [30:25] [24:20] [19:15] [14:12] [11:8] [7]  [6:0]
