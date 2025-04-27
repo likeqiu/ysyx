@@ -4,7 +4,6 @@
 #include<string.h>
 #include<isa.h>
 #include<memory/paddr.h>
-#include<ftrace.h>
 
 typedef struct 
 {
@@ -20,14 +19,6 @@ static char *strtab_data = NULL; // 字符串表的内容
 static uint32_t strtab_size = 0; 
 static int indent_level = 0;//调用层次
 
-#define MAX_CALL_STACK 1024
-
-static struct
-{
-    uint32_t ret_addr;
-    const char *func;
-} call_stack[MAX_CALL_STACK];
-static int stack_top = -1;
 
 //提取符号表信息
 void init_ftrace(const char *elf_file)
@@ -203,7 +194,7 @@ const char *addr_to_func(uint32_t addr)
 {
     for (int i = 0; i < func_count;i++)
     {
-        // 判断当前地址 addr，是不是落在这个函数的地址范围内（[value, value+size)，   value：函数在运行时的虚拟地址
+        // 判断当前地址 addr，是不是落在这个函数的地址范围内（[value, value+size)，value：函数在运行时的虚拟地址
         if (addr >= func_symbols[i].value && addr < func_symbols[i].value + func_symbols[i].size) 
         {
             return strtab_data + func_symbols[i].name_offset;
@@ -227,36 +218,34 @@ uint32_t func_to_addr(const char *func_name)
     return 0;
 }
 
-
 void ftrace_call(uint32_t pc, uint32_t target_addr)
 {
     const char *func_name = addr_to_func(target_addr);
 
-    printf("%*s0x%08x: call [%s@0x%08x]\n", indent_level * 2, "",pc,func_name,target_addr);
-
-    indent_level++;
-
-    if(stack_top < MAX_CALL_STACK-1)
+    printf("0x%08x: ", pc);
+    for (int i = 0; i < indent_level; i++)
     {
-        stack_top++;
-        call_stack[stack_top].ret_addr = pc + 4;
-        call_stack[stack_top].func = func_name;
+        printf("  ");
     }
+
+    printf(" %-6s [%s@0x%08x]\n", "call", func_name, target_addr);
+    indent_level++;
 }
 
 void ftrace_ret(uint32_t pc)
 {
-    indent_level = indent_level > 0 ? indent_level - 1 : 0;
-    const char *func_name = stack_top >= 0 ? call_stack[stack_top].func : addr_to_func(pc);
-    printf("%*s0x%08x: ret  [%s]\n", indent_level * 2, "", pc, func_name);
+    const char *func_name = addr_to_func(pc);
+    
+    if (indent_level > 0)
+        indent_level--;
 
-    if(stack_top >= 0)
+    printf("0x%08x: ", pc);
+
+    for (int i = 0; i < indent_level; i++)
     {
-        stack_top--;
+        printf("  ");
     }
+
+    printf(" %-6s [%s]\n",  "ret", func_name);
 }
 
-bool is_stack_top_ret_addr(uint32_t addr)
-{
-    return stack_top >= 0 && addr == call_stack[stack_top].ret_addr;
-}
