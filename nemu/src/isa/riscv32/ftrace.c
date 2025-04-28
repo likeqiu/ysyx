@@ -4,7 +4,9 @@
 #include <string.h>
 #include <isa.h>
 #include <memory/paddr.h>
-#include <cpu/cpu.h>
+#include "local-include/reg.h"
+
+#define R(i) gpr(i)
 
 typedef struct
 {
@@ -219,17 +221,47 @@ uint32_t func_to_addr(const char *func_name)
     return 0;
 }
 
+#include <cpu/cpu.h> // 假设可以访问寄存器状态
+
 void ftrace_call(uint32_t pc, uint32_t target_addr)
 {
     const char *func_name = addr_to_func(target_addr);
+    bool is_memcpy = (strcmp(func_name, "memcpy") == 0);
 
+    // 打印调用信息
     printf("0x%08x: ", pc);
     for (int i = 0; i < indent_level; i++)
     {
         printf("  ");
     }
+    printf(" %-6s [%s@0x%08x]", "call", func_name, target_addr);
 
-    printf(" %-6s [%s@0x%08x]\n", "call", func_name, target_addr);
+    // 如果是 memcpy，提取参数
+    if (is_memcpy)
+    {
+        // 假设可以访问当前 CPU 状态（寄存器值）
+        uint32_t dest = R(10); // a0
+        uint32_t src = R(11);  // a1
+        uint32_t size = R(12); // a2
+
+        // 分析地址对齐
+        bool dest_aligned = (dest % 4 == 0); // 4 字节对齐
+        bool src_aligned = (src % 4 == 0);
+        const char *alignment = (dest_aligned && src_aligned) ? "aligned" : (dest_aligned || src_aligned) ? "partially aligned"
+                                                                                                          : "unaligned";
+
+        // 分析拷贝长度
+        const char *length_category = (size < 16) ? "short" : (size <= 256) ? "medium"
+                                                                            : "long";
+
+        // 记录信息
+        printf(" {memcpy: dest=0x%08x, src=0x%08x, size=%u, %s, %s}",
+               dest, src, size, alignment, length_category);
+
+        // 可选：将信息保存到文件或数据结构用于后续分析
+        // 例如：fprintf(log_file, "%s,%u,%s\n", alignment, size, length_category);
+    }
+    printf("\n");
     indent_level++;
 }
 
