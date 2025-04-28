@@ -13,6 +13,7 @@ typedef struct
     uint32_t name_offset;
     uint32_t value;
     uint32_t size;
+    uint64_t call_count;
 } FuncSymbol;
 // 保存一个函数符号的信
 
@@ -226,6 +227,15 @@ uint32_t func_to_addr(const char *func_name)
 void ftrace_call(uint32_t pc, uint32_t target_addr)
 {
     const char *func_name = addr_to_func(target_addr);
+
+    for (int i = 0; i < func_count; i++)
+    {
+        if (func_symbols[i].value == target_addr)
+        {
+            func_symbols[i].call_count++;
+            break;
+        }
+    }
     bool is_memcpy = (strcmp(func_name, "memcpy") == 0);
 
     // 打印调用信息
@@ -282,4 +292,25 @@ void ftrace_ret(uint32_t pc)
     }
 
     printf(" %-6s [%s]\n", "ret", func_name);
+}
+
+void ftrace_print_stats()
+{
+    printf("\nFunction Call Statistics:\n");
+    printf("Function Name\tAddress\t\tCall Count\n");
+    for (int i = 0; i < func_count; i++)
+    {
+        const char *name = strtab_data + func_symbols[i].name_offset;
+        printf("%s\t\t0x%08x\t%lu\n", name, func_symbols[i].value, func_symbols[i].call_count);
+    }
+}
+
+// 新增：清理 ftrace 资源
+void ftrace_cleanup()
+{
+    free(func_symbols);
+    free(strtab_data);
+    func_symbols = NULL;
+    strtab_data = NULL;
+    func_count = 0;
 }
