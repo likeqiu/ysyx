@@ -4,6 +4,7 @@
 #include<string.h>
 #include<isa.h>
 #include<memory/paddr.h>
+#include <cpu/cpu.h>
 
 typedef struct 
 {
