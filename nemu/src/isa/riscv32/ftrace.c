@@ -237,10 +237,10 @@ void ftrace_call(uint32_t pc, uint32_t target_addr)
     printf(" %-6s [%s@0x%08x]", "call", func_name, target_addr);
 
     // 如果是 memcpy，提取参数
-    printf("111\n");
+
     if (is_memcpy)
     {
-        printf("2222\n");
+
         // 假设可以访问当前 CPU 状态（寄存器值）
         uint32_t dest = R(10); // a0
         uint32_t src = R(11);  // a1
