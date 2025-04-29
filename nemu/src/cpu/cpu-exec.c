@@ -105,7 +105,14 @@ static void exec_once(Decode *s, vaddr_t pc) {
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);
 
-  log_write("0x%08x:   %08x    %-32s\n", s->pc, s->isa.inst, p);
+  char hex_bytes[20];
+  sprintf(hex_bytes, "%02x %02x %02x %02x",
+          s->isa.inst & 0xff,
+          (s->isa.inst >> 8) & 0xff,
+          (s->isa.inst >> 16) & 0xff,
+          (s->isa.inst >> 24) & 0xff);
+
+  //log_write("0x%08x:   %08x    %-11s %-32s\n", s->pc, inst, hex_bytes,p);
 
   void write_iringbuf(vaddr_t pc, uint32_t inst);
   write_iringbuf(s->pc, s->isa.inst);
