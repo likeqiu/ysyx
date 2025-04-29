@@ -28,7 +28,7 @@ typedef struct {
   uint32_t pc;
   uint32_t target;
   uint64_t count;
-  bool taken;
+  uint64_t taken_count;
   char type[8];
 } BranchStat;
 
@@ -80,7 +80,8 @@ void track_branch(Decode *s, bool taken, uint32_t target, const char *inst_type)
     if (branch_stats[i].pc == s->pc)
     {
       branch_stats[i].count++;
-      branch_stats[i].taken = taken;
+      if (taken)
+        branch_stats[i].taken_count++;
       return;
     }
   }
@@ -91,7 +92,7 @@ void track_branch(Decode *s, bool taken, uint32_t target, const char *inst_type)
     exit(1);
   }
   branch_stats = new_stats;
-  branch_stats[branch_count] = (BranchStat){s->pc, target, 1, taken};
+  branch_stats[branch_count] = (BranchStat){s->pc, target, 1, taken ? 1 : 0,{0}};
 
   strncpy(branch_stats[branch_count].type, inst_type, sizeof(branch_stats[branch_count].type) - 1);//最大复制范围，不足最大就连'\0也复制  
   branch_stats[branch_count].type[sizeof(branch_stats[branch_count].type) - 1] = '\0';
@@ -247,19 +248,17 @@ static int decode_exec(Decode *s) {
 
   return 0;
 }
-
 void printf_branchstat()
 {
   printf("分支指令跟踪 (itrace):\n");
-  printf("PC\t\t目标地址\t计数\ttaken\t跳转\t \n");
+  printf("PC\t\t目标地址\t\t计数\t跳转次数\t跳转率\t类型\n");
   for (int i = 0; i < branch_count; i++)
   {
-    printf("0x%08x\t0x%08x\t%lu\t%d\t%s\n",
-           branch_stats[i].pc,
-           branch_stats[i].target,
-           branch_stats[i].count,
-           branch_stats[i].taken,
-           branch_stats[i].type);
+    double taken_rate = (branch_stats[i].count > 0) ? (double)branch_stats[i].taken_count / branch_stats[i].count * 100 : 0;
+    printf("0x%08x\t0x%08x\t%lu\t%lu\t%.2f%%\t%s\n",
+           branch_stats[i].pc, branch_stats[i].target,
+           branch_stats[i].count, branch_stats[i].taken_count,
+           taken_rate, branch_stats[i].type);
   }
 }
 
