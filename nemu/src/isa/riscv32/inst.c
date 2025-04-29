@@ -251,7 +251,7 @@ static int decode_exec(Decode *s) {
 void printf_branchstat()
 {
   printf("分支指令跟踪 (itrace):\n");
-  printf("PC\t\t目标地址\t\t计数\t跳转\t类型\n");
+  printf("PC\t\t目标地址\t计数\ttaken\t跳转\t类型\n");
   for (int i = 0; i < branch_count; i++)
   {
     printf("0x%08x\t0x%08x\t%lu\t%d\t%s\n",
