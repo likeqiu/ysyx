@@ -252,6 +252,14 @@ static int cmd_st(char *args)
   return 0;
 }
 
+extern void printf_branchstat();
+
+static int cmd_sb(char *args)
+{
+  printf_branchstat();
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -268,6 +276,7 @@ static struct {
     {"w", " set watchpoint (w expr) ", cmd_w},
     {"d","delete watchpoint (d NO)",cmd_d},
     {"st","set mtrace range",cmd_st},
+    {"sb","look at the beq using times",cmd_sb},
 
     /* TODO: Add more commands */
 
