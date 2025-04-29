@@ -29,6 +29,7 @@ typedef struct {
   uint32_t target;
   uint64_t count;
   bool taken;
+  char type[8];
 } BranchStat;
 
 static BranchStat *branch_stats = NULL;
@@ -72,7 +73,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
   }
 }
 
-void track_branch(Decode *s, bool taken, uint32_t target)
+void track_branch(Decode *s, bool taken, uint32_t target, const char *inst_type)
 {
   for (int i = 0; i < branch_count; i++)
   {
@@ -91,6 +92,9 @@ void track_branch(Decode *s, bool taken, uint32_t target)
   }
   branch_stats = new_stats;
   branch_stats[branch_count] = (BranchStat){s->pc, target, 1, taken};
+
+  strncpy(branch_stats[branch_count].type, inst_type, sizeof(branch_stats[branch_count].type) - 1);//最大复制范围，不足最大就连'\0也复制  
+  branch_stats[branch_count].type[sizeof(branch_stats[branch_count].type) - 1] = '\0';
   branch_count++;
 }
 
@@ -158,7 +162,7 @@ static int decode_exec(Decode *s) {
     bool taken = ((src1 != 0));
       if (taken)
         s->dnpc = s->pc + imm;
-      track_branch(s, taken, s->pc + imm);
+      track_branch(s, taken, s->pc + imm,"bnez");
     });
   // INSTPAT("??????? ????? 00000 101 ????? 11000 11", blez, B, if ((int32_t)src1 <= 0) s->dnpc = s->pc + imm); // 允许负数比较 ,这个指令很容易出问题
   // src2 作为操作数，判断是否满足跳转条件。src1是用来和其他寄存器来比较，比如 BEQ、BNE
@@ -167,44 +171,44 @@ static int decode_exec(Decode *s) {
 
         if (taken)
           s->dnpc = s->pc + imm;
-        track_branch(s, taken, s->pc + imm);
+        track_branch(s, taken, s->pc + imm,"bgez");
       });
   INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq, B, {
     bool taken = (src1 == src2);
     if (taken)
       s->dnpc = s->pc + imm;
-    track_branch(s, taken, s->pc + imm);
+    track_branch(s, taken, s->pc + imm,"beg");
   });
   INSTPAT("??????? ????? ????? 001 ????? 11000 11", bne, B, {
     bool taken = (src1 != src2);
     if (taken)
       s->dnpc = s->pc + imm;
-    track_branch(s, taken, s->pc + imm);
+    track_branch(s, taken, s->pc + imm,"bne");
   });
 
   INSTPAT("??????? ????? ????? 101 ????? 11000 11", bge, B, {
     bool taken = (src1 >= src2);
     if (taken)
       s->dnpc = s->pc + imm;
-    track_branch(s, taken, s->pc + imm);
+    track_branch(s, taken, s->pc + imm,"bge");
   });
   INSTPAT("??????? ????? ????? 111 ????? 11000 11", bgeu, B, {
     bool taken = ((uint32_t)src1 >= (uint32_t)src2);
     if (taken)
       s->dnpc = s->pc + imm;
-    track_branch(s, taken, s->pc + imm);
+    track_branch(s, taken, s->pc + imm,"bgeu");
   });
   INSTPAT("??????? ????? ????? 100 ????? 11000 11", blt, B, {
     bool taken = ((int32_t)src1 < (int32_t)src2);
     if (taken)
       s->dnpc = s->pc + imm;
-    track_branch(s, taken, s->pc + imm);
+    track_branch(s, taken, s->pc + imm,"blt");
   });
   INSTPAT("??????? ????? ????? 110 ????? 11000 11", bltu, B, {
     bool taken = ((uint32_t)src1 < (uint32_t)src2);
     if (taken)
       s->dnpc = s->pc + imm;
-    track_branch(s, taken, s->pc + imm);
+    track_branch(s, taken, s->pc + imm,"bltu");
   });
 
   //       R型指令格式
@@ -244,15 +248,20 @@ static int decode_exec(Decode *s) {
   return 0;
 }
 
-
 void printf_branchstat()
 {
-  for (int i = 0; i < branch_count;i++)
+  printf("分支指令跟踪 (itrace):\n");
+  printf("PC\t\t目标地址\t\t计数\t跳转\t类型\n");
+  for (int i = 0; i < branch_count; i++)
   {
-    printf("pc:0x%08x    target:0x%08x   count:%lu   taken:%d\n", branch_stats[i].pc, branch_stats[i].taken, branch_stats[i].count, branch_stats[i].taken);
+    printf("0x%08x\t0x%08x\t%lu\t%d\t%s\n",
+           branch_stats[i].pc,
+           branch_stats[i].target,
+           branch_stats[i].count,
+           branch_stats[i].taken,
+           branch_stats[i].type);
   }
 }
-
 
 int isa_exec_once(Decode *s) {
   s->isa.inst = inst_fetch(&s->snpc, 4);
