@@ -183,6 +183,7 @@ void init_ftrace(const char *elf_file)
             func_symbols[idx].name_offset = symtab[i].st_name;
             func_symbols[idx].value = symtab[i].st_value;
             func_symbols[idx].size = symtab[i].st_size;
+            func_symbols[idx].call_count = 0;
             idx++;
         }
     }
