@@ -255,7 +255,7 @@ void printf_branchstat()
   for (int i = 0; i < branch_count; i++)
   {
     double taken_rate = (branch_stats[i].count > 0) ? (double)branch_stats[i].taken_count / branch_stats[i].count * 100 : 0;
-    printf("0x%08x\t0x%08x\t%lu\t%lu\t   %.2f%%\t%s\n",
+    printf("0x%08x\t0x%08x\t%lu\t%lu\t     %.2f%%\t%s\n",
            branch_stats[i].pc, branch_stats[i].target,
            branch_stats[i].count, branch_stats[i].taken_count,
            taken_rate, branch_stats[i].type);
