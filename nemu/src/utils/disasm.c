@@ -64,6 +64,8 @@ void init_disasm() {
 #endif
 }
 
+
+//执行反汇编
 void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte) {
 	cs_insn *insn;
 	size_t count = cs_disasm_dl(handle, code, nbyte, pc, 0, &insn);
