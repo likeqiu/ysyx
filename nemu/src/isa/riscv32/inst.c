@@ -251,7 +251,7 @@ static int decode_exec(Decode *s) {
 void printf_branchstat()
 {
   printf("分支指令跟踪 (itrace):\n");
-  printf("PC\t\t目标地址\t计数\t跳转次数\t  跳转率\t类型\n");
+  printf("PC\t\t目标地址\t计数\t跳转次数\t跳转率\t类型\n");
   for (int i = 0; i < branch_count; i++)
   {
     double taken_rate = (branch_stats[i].count > 0) ? (double)branch_stats[i].taken_count / branch_stats[i].count * 100 : 0;
