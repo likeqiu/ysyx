@@ -137,20 +137,24 @@ static int decode_exec(Decode *s) {
  // INSTPAT("??????? ????? 00000 101 ????? 11000 11", blez, B, if ((int32_t)src1 <= 0) s->dnpc = s->pc + imm); // 允许负数比较 ,这个指令很容易出问题
   // src2 作为操作数，判断是否满足跳转条件。src1是用来和其他寄存器来比较，比如 BEQ、BNE
   INSTPAT("??????? ????? 00001 101 ????? 11000 11", bgez, B, if ((int32_t)src1 >= 0) s->dnpc = s->pc + imm);
-  INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq, B, { bool taken = (src1 == src2); if (taken) s->dnpc = s->pc + imm;
+  INSTPAT("??????? ????? ????? 000 ????? 11000 11", beq, B, {
+      bool taken = (src1 == src2); 
+      if (taken) s->dnpc = s->pc + imm;
+
           for (int i = 0; i < branch_count;i++)
         {
-          if(branch_stats[i].target==s->pc)
+          if(branch_stats[i].pc==s->pc)
           {
             branch_stats[i].count++;
-            branch_stats[i].taken = true;
+            branch_stats[i].taken = taken;
             return 0;
           }
         }
 
         branch_stats = realloc(branch_stats, (branch_count + 1) * sizeof(BranchStat));
-        branch_stats[branch_count] = (BranchStat){s->pc,s->pc + imm,1,true};
-        branch_count++; });
+        branch_stats[branch_count] = (BranchStat){s->pc, s->pc + imm, 1, taken};
+        branch_count++; 
+      });
   INSTPAT("??????? ????? ????? 001 ????? 11000 11", bne, B, if (src1 != src2) s->dnpc = s->pc + imm);
 
   INSTPAT("??????? ????? ????? 101 ????? 11000 11", bge, B, if ((int32_t)src1 >= (int32_t)src2) s->dnpc = s->pc + imm);
@@ -195,6 +199,16 @@ static int decode_exec(Decode *s) {
 
   return 0;
 }
+
+
+void printf_branchstat()
+{
+  for (int i = 0; i < branch_count;i++)
+  {
+    printf("pc:0x%08x    target:0x%08x   count:%lu   taken:%d\n", branch_stats[i].pc, branch_stats[i].taken, branch_stats[i].count, branch_stats[i].taken);
+  }
+}
+
 
 int isa_exec_once(Decode *s) {
   s->isa.inst = inst_fetch(&s->snpc, 4);
