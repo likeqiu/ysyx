@@ -17,6 +17,22 @@ typedef struct
 } FuncSymbol;
 // 保存一个函数符号的信
 
+typedef struct  
+{
+    const char *alignment;
+    const char *length;
+    uint64_t count;
+    uint64_t total_size;
+} MemcpyStat;;
+
+static MemcpyStat memcpy_stats[3][3] = {
+    // [alignment][length]
+    // alignment: 0=aligned, 1=partially aligned, 2=unaligned
+    // length: 0=short, 1=medium, 2=long
+    {{"aligned", "short", 0, 0}, {"aligned", "medium", 0, 0}, {"aligned", "long", 0, 0}},
+    {{"partially aligned", "short", 0, 0}, {"partially aligned", "medium", 0, 0}, {"partially aligned", "long", 0, 0}},
+    {{"unaligned", "short", 0, 0}, {"unaligned", "medium", 0, 0}, {"unaligned", "long", 0, 0}}};
+
 static FuncSymbol *func_symbols = NULL; // 保存所有函数符号信息的数组
 static int func_count = 0;
 static char *strtab_data = NULL; // 字符串表的内容
@@ -260,19 +276,43 @@ void ftrace_call(uint32_t pc, uint32_t target_addr)
         // 分析地址对齐
         bool dest_aligned = (dest % 4 == 0); // 4 字节对齐
         bool src_aligned = (src % 4 == 0);
-        const char *alignment = (dest_aligned && src_aligned) ? "aligned" : (dest_aligned || src_aligned) ? "partially aligned"
-                                                                                                          : "unaligned";
+        int align_idx = 0;
+        const char *alignment;
 
-        // 分析拷贝长度
-        const char *length_category = (size < 16) ? "short" : (size <= 256) ? "medium"
-                                                                            : "long";
+        if(dest_aligned && src_aligned)
+        {
+            align_idx = 0;
+            alignment = "aligned";
+        }else if(dest_aligned || src_aligned){
+            align_idx = 1;
+            alignment = "partically aligned";
+        }else
+        {
+            align_idx = 2;
+            alignment = "unaligned";
+        }
 
+        int length_idx;
+        const char *length_category;
+
+        if(size<256)
+        {
+            length_idx = 0;
+            length_category = "short";
+        }else if(size<=256)
+        {
+            length_idx = 1;
+            length_category = "medium";
+        }else
+        {
+            length_idx = 2;
+            length_category = "long";
+        }
         // 记录信息
-        printf(" {memcpy: dest=0x%08x, src=0x%08x, size=%u, %s, %s}",
-               dest, src, size, alignment, length_category);
+        printf(" {memcpy: dest=0x%08x, src=0x%08x, size=%u, %s, %s}",dest, src, size, alignment, length_category);
 
-        // 可选：将信息保存到文件或数据结构用于后续分析
-        // 例如：fprintf(log_file, "%s,%u,%s\n", alignment, size, length_category);
+        memcpy_stats[align_idx][length_idx].count++;
+        memcpy_stats[align_idx][length_idx].total_size += size;
     }
     printf("\n");
     indent_level++;
@@ -306,12 +346,18 @@ void ftrace_print_stats()
     }
 }
 
-// 新增：清理 ftrace 资源
-void ftrace_cleanup()
+
+void ftrace_call_memcpy_stats()
 {
-    free(func_symbols);
-    free(strtab_data);
-    func_symbols = NULL;
-    strtab_data = NULL;
-    func_count = 0;
+    printf("\tMemcpy 调用信息统计:\n");
+    printf("对齐判断\t长度\t调用次数\t平均大小\n");
+    for (int i = 0; i < 3;i++)
+    {
+        for (int j = 0; j < 3;j++)
+            if (memcpy_stats[i][j].count > 0)
+            {
+                double avg_size = (memcpy_stats[i][j].total_size / memcpy_stats[i][j].count);
+                printf("%s\t%s\t%lu\t%.2f\n", memcpy_stats[i][j].alignment, memcpy_stats[i][j].length, memcpy_stats[i][j].count, avg_size);
+            }
+    }
 }
