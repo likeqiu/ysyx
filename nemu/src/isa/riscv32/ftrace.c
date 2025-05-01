@@ -22,7 +22,7 @@ typedef struct
     const char *alignment;
     const char *length;
     uint64_t count;
-    uint64_t total_size;
+    uint64_t total_size;//根据平局值大小进行优化，可以一次复制多个
 } MemcpyStat;;
 
 static MemcpyStat memcpy_stats[3][3] = {

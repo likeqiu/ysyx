@@ -30,6 +30,7 @@ typedef struct {
   uint64_t count;
   uint64_t taken_count;
   char type[8];
+
 } BranchStat;
 
 static BranchStat *branch_stats = NULL;

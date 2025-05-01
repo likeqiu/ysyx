@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-//#define __NATIVE_USE_KLIB__
+#define __NATIVE_USE_KLIB__
 
 // string.h
 void *memset    (void *s, int c, size_t n);  // 将一块内存区域的内容全部设置为指定的值
