@@ -42,6 +42,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
 
+  
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
 
@@ -106,7 +107,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst, ilen);
 
-  //log_write("0x%x: %08x %s\n", s->pc, s->isa.inst, p);
+  log_write("0x%x: %08x %s\n", s->pc, s->isa.inst, p);
 
   void write_iringbuf(vaddr_t pc, uint32_t inst);
   write_iringbuf(s->pc, s->isa.inst);
