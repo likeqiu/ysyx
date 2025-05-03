@@ -19,7 +19,8 @@
 
 extern const char *regs[];
 
-bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
+bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc)
+{
 
   for (int i = 0; i < 32; i++)
   {
@@ -30,7 +31,15 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
       return false;
     }
   }
-    return true;
+
+  if (cpu.pc != ref_r->pc)
+  {
+    printf("PC mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
+           (unsigned long)cpu.pc, (unsigned long)ref_r->pc, (unsigned long)pc);
+    return false;
+  }
+
+  return true;
 }
 
 void isa_difftest_attach() {
