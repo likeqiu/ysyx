@@ -18,6 +18,8 @@
 #include <difftest-def.h>
 #include <memory/paddr.h>
 
+//_EXPORT 表示一个符号导出宏，它让 difftest_memcpy 函数在编译时被标记为可以被外部程序调用。如果在你的项目中使用动态库（如 .so 或 .dll），这些标记是确保库能够被正确链接的关键部分。
+
 __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   assert(0);
 }

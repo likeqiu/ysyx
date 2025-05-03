@@ -9,6 +9,7 @@ static int itoa(int num, char *buf);
 
 int printf(const char *fmt, ...)
 {
+
   panic("Not implemented");
 }
 

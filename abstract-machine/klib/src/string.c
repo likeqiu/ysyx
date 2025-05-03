@@ -21,26 +21,24 @@ char *strcpy(char *dst, const char *src) {
     ;
   }
 
-  return dst;//返回基础地质
+  return dst;//返回基础地址
 
   panic("Not implemented");
 }
 
-char *strncpy(char *dst, const char *src, size_t n) {
-
+char *strncpy(char *dst, const char *src, size_t n)
+{
   char *d = dst;
-  while (n && (*d++=*src++))
-  {
+  while (n > 0 && *src)
+  { // 复制非终止符字符
+    *d++ = *src++;
     n--;
   }
-
-  while(n--)
-  {
+  while (n-- > 0)
+  { // 填充剩余空间为 '\0'
     *d++ = '\0';
   }
-
   return dst;
-  panic("Not implemented");
 }
 
 char *strcat(char *dst, const char *src) {
@@ -70,7 +68,7 @@ int strcmp(const char *s1, const char *s2) {
 }
 
 int strncmp(const char *s1, const char *s2, size_t n) {
-  while(n && *s1 && (*s1==*s2))
+  while(n > 0 && *s1 && *s2 && *s1==*s2)
   {
     n--;
     s1++;
@@ -132,10 +130,16 @@ void *memcpy(void *out, const void *in, size_t n) {
 int memcmp(const void *s1, const void *s2, size_t n) {
   const unsigned char *d = s1;
   const unsigned char *p = s2;
-  while (n-- && (*d++==*p++))
+  while (n-- )
   {
+    if(*d != *p){
     return *d - *p;
+    }
+
+    d++;
+    p++;
   }
+
   return 0;
 
   panic("Not implemented");
