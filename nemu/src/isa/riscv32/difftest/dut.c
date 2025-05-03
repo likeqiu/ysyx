@@ -39,9 +39,11 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc)
       return false;
     }
 
-    printf("x1: NEMU=0x%08x REF=0x%08x\n", cpu.gpr[1], ref_r->gpr[1]);
+    
   }
 
+  printf("x1: NEMU=0x%08x REF=0x%08x\n", cpu.gpr[1], ref_r->gpr[1]);
+  
   if (cpu.pc != ref_r->pc)
   {
     printf("PC mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
