@@ -22,31 +22,29 @@ extern const char *regs[];
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc)
 {
 
-  int num_gpr = MUXDEF(CONFIG_RVE, 16, 32);
-  for (int i = 0; i < num_gpr; i++)
+
+  for (int i = 0; i < 32; i++)
   {
 
     if (i == 0 && (cpu.gpr[0] != 0 || ref_r->gpr[0] != 0))
     {
-      printf("Register %s mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
-             regs[i], (unsigned long)cpu.gpr[i], (unsigned long)ref_r->gpr[i], (unsigned long)pc);
+     
       return false;
     }
     if (cpu.gpr[i] != ref_r->gpr[i])
     {
-      printf("Register %s mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
-             regs[i], (unsigned long)cpu.gpr[i], (unsigned long)ref_r->gpr[i], (unsigned long)pc);
+      Log("Register %s mismatch: DUT = 0x%08x, REF = 0x%08x at PC = 0x%08x\n",
+          regs[i], cpu.gpr[i], ref_r->gpr[i],pc);
       return false;
     }
 
     
   }
 
-  printf("x1: NEMU=0x%08x REF=0x%08x\n", cpu.gpr[1], ref_r->gpr[1]);
-  
+
   if (cpu.pc != ref_r->pc)
   {
-    printf("PC mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
+    Log("PC mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
            (unsigned long)cpu.pc, (unsigned long)ref_r->pc, (unsigned long)pc);
     return false;
   }
