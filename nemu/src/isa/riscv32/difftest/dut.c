@@ -25,12 +25,20 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc)
   int num_gpr = MUXDEF(CONFIG_RVE, 16, 32);
   for (int i = 0; i < num_gpr; i++)
   {
+
+    if (i == 0 && (cpu.gpr[0] != 0 || ref_r->gpr[0] != 0))
+    {
+      printf("Register %s mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
+             regs[i], (unsigned long)cpu.gpr[i], (unsigned long)ref_r->gpr[i], (unsigned long)pc);
+      return false;
+    }
     if (cpu.gpr[i] != ref_r->gpr[i])
     {
       printf("Register %s mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
              regs[i], (unsigned long)cpu.gpr[i], (unsigned long)ref_r->gpr[i], (unsigned long)pc);
       return false;
     }
+
   }
 
   if (cpu.pc != ref_r->pc)
