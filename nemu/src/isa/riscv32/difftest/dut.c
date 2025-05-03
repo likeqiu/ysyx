@@ -39,6 +39,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc)
       return false;
     }
 
+    printf("x1: NEMU=0x%08x REF=0x%08x\n", cpu.gpr[1], ref_r->gpr[1]);
   }
 
   if (cpu.pc != ref_r->pc)
@@ -47,6 +48,8 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc)
            (unsigned long)cpu.pc, (unsigned long)ref_r->pc, (unsigned long)pc);
     return false;
   }
+
+
 
   return true;
 }
