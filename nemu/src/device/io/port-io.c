@@ -16,12 +16,14 @@
 #include <device/map.h>
 
 #define PORT_IO_SPACE_MAX 65535
-
+// 定义最大端口 I/O 空间大小为 65535（2^16 - 1，16 （即 0 到 65535，16 位地址空间））
 #define NR_MAP 16
+// NR_MAP 是 "Number of Maps" 的缩写，NR 表示数量
 static IOMap maps[NR_MAP] = {};
 static int nr_map = 0;
 
 /* device interface */
+// 注册新的端口 I/O 映射
 void add_pio_map(const char *name, ioaddr_t addr, void *space, uint32_t len, io_callback_t callback) {
   assert(nr_map < NR_MAP);
   assert(addr + len <= PORT_IO_SPACE_MAX);
@@ -34,8 +36,10 @@ void add_pio_map(const char *name, ioaddr_t addr, void *space, uint32_t len, io_
 }
 
 /* CPU interface */
+// 从端口 I/O 读取数据
 uint32_t pio_read(ioaddr_t addr, int len) {
   assert(addr + len - 1 < PORT_IO_SPACE_MAX);
+  // 由来：mapid 是 "map ID" 的缩写，表示映射在 maps 数组中的索引
   int mapid = find_mapid_by_addr(maps, nr_map, addr);
   assert(mapid != -1);
   return map_read(addr, len, &maps[mapid]);
