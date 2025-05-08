@@ -20,18 +20,21 @@
 #include <SDL2/SDL.h>
 #endif
 
-void init_map();
-void init_serial();
-void init_timer();
-void init_vga();
-void init_i8042();
-void init_audio();
-void init_disk();
-void init_sdcard();
-void init_alarm();
+void init_map();    // 初始化 I/O 映射系统
+void init_serial(); // 初始化串口设备
+void init_timer();  // 初始化定时器设备
+void init_vga();    // 初始化 VGA 设备
+void init_i8042();  // 初始化键盘控制器（i8042）
+void init_audio();  // 初始化音频设备
+void init_disk();   // 初始化磁盘设备
+void init_sdcard(); // 初始化 SD 卡设备
+void init_alarm();  // 初始化告警系统
 
 void send_key(uint8_t, bool);
+
 void vga_update_screen();
+// 声明 VGA 屏幕更新函数
+// 作用：刷新模拟器的显示内容
 
 void device_update() {
   static uint64_t last = 0;
