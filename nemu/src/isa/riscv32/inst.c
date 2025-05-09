@@ -162,11 +162,14 @@ static int decode_exec(Decode *s) {
   #endif
 ); // 保存返回地址，更新跳转地址
 
-  INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr, I, R(rd) = s->pc + 4; s->dnpc = src1 + imm; 
+INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr, I, R(rd) = s->pc + 4; s->dnpc = src1 + imm;
+  #ifdef CONFIG_FTRACE
   if (rd == 1) 
   { ftrace_call(s->pc, s->dnpc); } 
   else if (rd == 0 && BITS(s->isa.inst, 19, 15) == 1 && imm == 0) 
-  { ftrace_ret(s->pc); });
+  { ftrace_ret(s->pc); }
+  #endif
+        );
 
   //       B型指令格式
   //        [31] [30:25] [24:20] [19:15] [14:12] [11:8] [7]  [6:0]
