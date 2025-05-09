@@ -160,6 +160,10 @@ config MTRACE
   help
     Enable tracing of memory read/write operations.
 
+config FTRACE
+bool "Enable to use frace"
+default n    
+
 
 
 config DIFFTEST
