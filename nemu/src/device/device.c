@@ -37,10 +37,10 @@ void vga_update_screen();
 // 作用：刷新模拟器的显示内容
 
 void device_update() {
-  static uint64_t last = 0;
+  static uint64_t last = 0;//只初始化一次
   uint64_t now = get_time();
   if (now - last < 1000000 / TIMER_HZ) {
-    return;
+    return;//限制更新频率
   }
   last = now;
 
@@ -49,6 +49,7 @@ void device_update() {
 #ifndef CONFIG_TARGET_AM
   SDL_Event event;
   while (SDL_PollEvent(&event)) {
+    // 轮询 SDL 事件
     switch (event.type) {
       case SDL_QUIT:
         nemu_state.state = NEMU_QUIT;
@@ -57,7 +58,7 @@ void device_update() {
       // If a key was pressed
       case SDL_KEYDOWN:
       case SDL_KEYUP: {
-        uint8_t k = event.key.keysym.scancode;
+        uint8_t k = event.key.keysym.scancode; //获取键码
         bool is_keydown = (event.key.type == SDL_KEYDOWN);
         send_key(k, is_keydown);
         break;
@@ -69,6 +70,7 @@ void device_update() {
 #endif
 }
 
+// 含义：移除所有未处理的 SDL 事件（非 AM 模式）
 void sdl_clear_event_queue() {
 #ifndef CONFIG_TARGET_AM
   SDL_Event event;
@@ -88,5 +90,6 @@ void init_device() {
   IFDEF(CONFIG_HAS_DISK, init_disk());
   IFDEF(CONFIG_HAS_SDCARD, init_sdcard());
 
+  // 非 AM 模式下初始化告警系统
   IFNDEF(CONFIG_TARGET_AM, init_alarm());
 }
