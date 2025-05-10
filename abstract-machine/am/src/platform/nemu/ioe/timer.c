@@ -1,11 +1,17 @@
 #include <am.h>
 #include <nemu.h>
 
+// 注释：NEMU 的 RTC 寄存器由模拟器自动维护，无需初始化
 void __am_timer_init() {
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  uptime->us = 0;
+  
+  uint32_t high = inl(RTC_ADDR + 4);
+  uint32_t low = inl(RTC_ADDR);
+  // 低地址存储的是低 32 位，高地址存储的是高 32 位，这是小端内存布局
+
+  uptime->us = ((uint64_t)high << 32) | low;
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
