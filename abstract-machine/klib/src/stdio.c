@@ -5,10 +5,92 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-static int itoa(int num, char *buf);
+typedef void (*OutputFunc)(char c, void *data);
+static int itoa(int num, char *buf,int base);
+
+static void format_core(const char *fmt,va_list args,OutputFunc out,void *data)
+{
+  for (const char *p = fmt; *p != '\0';p++)
+  {
+    if(*p != '%')
+    {
+      out(*p, data);
+      continue;
+    }
+
+      p++;
+      switch (*p)
+      {
+      case 's':
+      {
+        const char *s = va_arg(args,const char *);
+        if(s==NULL)
+        {
+          s = "(null)";
+        }
+          while (*s)
+          {
+            out(*s++, data);
+          }
+        break;
+      }
+        
+          
+      case 'd':
+      {
+        int num = va_arg(args, int);
+        char buf[16];
+        itoa(num, buf, 10);
+        for (char *q = buf; *q;q++)
+        {
+          out(*q, data);
+        }
+        break;
+      }
+
+        case 'x':
+        {
+          int num = va_arg(args, int);
+          char buf[16];
+          itoa(num, buf, 16);
+          for (char *q = buf; *q;q++)
+          {
+            out(*q, data);
+          }
+            break;
+          }
+
+          case '%':
+            out('%', data);break;
+
+          default:
+            out(*p, data); break;
+      }
+    
+  }
+}
+
+void sprintf_out(char c, void *data)
+{
+  char **buf = (char **)data;
+  *(*buf)++ = c;
+  // 使用 char ** 是为了在 sprintf_out() 中修改原指针的位置，从而支持连续写入字符。使用char *只在函数内部有效
+}
+
+void printf_out(char c, void *data)
+{
+  putch(c);
+}
 
 int printf(const char *fmt, ...)
 {
+
+  va_list args;
+  va_start(args, fmt);
+
+  format_core(fmt, args, printf_out,NULL );
+  va_end(args);
+  return 0;
 
   panic("Not implemented");
 }
@@ -17,51 +99,15 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   panic("Not implemented");
 }
 
-int sprintf(char *out, const char *fmt, ...) {
+int sprintf(char *str, const char *fmt, ...) {
   va_list args;
-  char *d = out;
-  int count = 0;
-
   va_start(args, fmt);
-
-  while(*fmt)
-  {
-    if(*fmt != '%')
-    {
-      *d++ = *fmt++;
-      count++;
-    }else{
-      fmt++;
-      if(*fmt=='s')
-      {
-        char *s = va_arg(args, char *);//指向char*类型参数
-        while(*s)
-        {
-          *d++ = *s++;
-          count++;
-        }
-        fmt++;
-      }else if(*fmt=='d')
-      {
-        int num = va_arg(args, int);
-        char temp[32];
-        int len = itoa(num, temp);
-        for (int i = 0; i < len;i++)
-        {
-          *d++ = temp[i];
-          count++;
-        }
-        fmt++;
-      }else{
-        //还未支持的格式,直接写入"%
-        *d++ = '%';
-        count++;
-      }
-    }
-  }
-  *d = '\0';
+  char *str_start = str;
+  format_core(fmt, args, sprintf_out, &str);
+  *str = '\0';
   va_end(args);
-  return count;
+  return str - str_start;
+
   panic("Not implemented");
 }
 
@@ -73,39 +119,45 @@ int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
   panic("Not implemented");
 }
 
-static int itoa(int num,char *buf)
+static int itoa(int num,char *buf,int base)
 {
-  char temp[32];
-  int len = 0, i = 0;
-  int is_negative = num < 0;
+  char *p = buf;
+  char *p_start = buf;
 
-  if(is_negative)
+
+  if(num < 0 && base==10)
   {
+
     num = -num;
+    *p++ = '-';
   }
 
-  if(num==0)
+  if(num == 0)
   {
-    temp[i++] = '0';
+    *p++ = '0';
+    *p = '\0';
+    return p - p_start;
   }
 
-  while(num > 0)
-  {
-    temp[i++] = '0' + (num % 10);
-    num /= 10;
+  // 转换为字符串（逆序）
+  while(num>0){
+    int digit = num % base;
+    *p++ = (digit < 10) ? ('0' + digit) : ('a' + digit - 10);
+    num /= base;
   }
 
-  if(is_negative)
+  *p-- = '\0';
+
+  // 反转字符串
+  char *p_end = p;
+  while(p_start < p_end)
   {
-    temp[i++] = '-';
+    char temp = *p_start;
+    *p_start++ = *p_end;
+    *p_end-- = temp;
   }
 
-  while(i>0)
-  {
-    buf[len++] = temp[--i];
-  }
-  buf[len] = '\0';
-  return len;
+  return p - buf;
 }
 
 #endif
