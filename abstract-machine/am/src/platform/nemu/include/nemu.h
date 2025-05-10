@@ -42,7 +42,9 @@
 // KBD_ADDR: Keyboard Address，键盘地址，用于键盘输入
 #define KBD_ADDR        (DEVICE_BASE + 0x0000060)
 // RTC_ADDR: Real-Time Clock Address，实时时钟地址，解地址用于获取时间,，RTC_ADDR 映射的 64 位值表示自某一时刻（通常是模拟器启动时或 Epoch 时间）起经过的微秒数（μs）
+
 #define RTC_ADDR        (DEVICE_BASE + 0x0000048)
+
 // VGACTL_ADDR: VGA Control Address，VGA 控制地址，用于图形显示控制
 #define VGACTL_ADDR     (DEVICE_BASE + 0x0000100)
 // AUDIO_ADDR: Audio Address，音频地址，用于音频设备控制
