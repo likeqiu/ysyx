@@ -13,7 +13,7 @@
 # See the Mulan PSL v2 for more details.
 #**************************************************************************************/
 
-ifdef CONFIG_DIFFTESR
+
 # 变量：定义差分测试引用路径，引用 NEMU_HOME 环境变量和 CONFIG_DIFFTEST_REF_PATH 配置
 # $(call remove_quote,...) 是 Makefile 函数，用于去除 CONFIG_DIFFTEST_REF_PATH 中的引号
 DIFF_REF_PATH = $(NEMU_HOME)/$(call remove_quote,$(CONFIG_DIFFTEST_REF_PATH))
@@ -46,4 +46,4 @@ endif
 # 声明 $(DIFF_REF_SO) 为伪目标
 # 伪目标不会生成实际文件，防止 Makefile 将其视为文件目标
 .PHONY: $(DIFF_REF_SO)
-endif
+
