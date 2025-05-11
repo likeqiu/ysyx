@@ -70,7 +70,8 @@ WP* new_wp(char *expr_str)
     {
       wp->type = 'b';
       sscanf(search_pc, "%x", &wp->old_value);
-      }
+      printf("pc:0x%08x\n", wp->old_value);
+    }
       else
       {
         wp->type = 'm';
