@@ -89,8 +89,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   int ilen = s->snpc - s->pc;
   int i;
   uint8_t *inst = (uint8_t *)&s->isa.inst;
-  void write_iringbuf(vaddr_t pc, uint32_t inst);
-  write_iringbuf(s->pc, s->isa.inst);
+ 
 
 #ifdef CONFIG_ISA_x86
   for (i = 0; i < ilen; i ++) {
@@ -113,6 +112,9 @@ static void exec_once(Decode *s, vaddr_t pc) {
 
   log_write("0x%x: %08x %s\n", s->pc, s->isa.inst, p);
 
+  void write_iringbuf(vaddr_t pc, uint32_t inst);
+  write_iringbuf(s->pc, s->isa.inst);
+  
 #endif
 }
 
