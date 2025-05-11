@@ -91,7 +91,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   uint8_t *inst = (uint8_t *)&s->isa.inst;
   void write_iringbuf(vaddr_t pc, uint32_t inst);
   write_iringbuf(s->pc, s->isa.inst);
-
+  printf("11111\n");
 #ifdef CONFIG_ISA_x86
   for (i = 0; i < ilen; i ++) {
 #else
