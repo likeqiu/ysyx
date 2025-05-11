@@ -122,7 +122,7 @@ void init_monitor(int argc, char *argv[])
   /* Open the log file. */
   init_log(log_file);
 
-  iringbuf_init();
+  IFDEF(CONFIG_ITRACE, iringbuf_init());
 
   /* Initialize memory. */
   init_mem();

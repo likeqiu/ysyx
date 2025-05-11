@@ -1,6 +1,8 @@
 #include <common.h>
 
 
+#ifdef CONFIG_ITRACE
+
 #define IRINGBUF_SIZE 16
 
 extern void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
@@ -64,3 +66,4 @@ void iringbuf_dump(vaddr_t error_pc)
     printf("=====================================\n");
 }
 }
+#endif
