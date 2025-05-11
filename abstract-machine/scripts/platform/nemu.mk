@@ -39,7 +39,7 @@ LDFLAGS   += --gc-sections -e _start
 # - --gc-sections: 启用垃圾回收（Garbage Collection），移除未使用的段，与 -fdata-sections 和 -ffunction-sections 配合使用。
 # - -e _start: 指定程序入口点为 _start 函数。
 
-NEMUFLAGS +=  -l $(shell dirname $(IMAGE).elf)/nemu-log.txt -e $(IMAGE).elf
+NEMUFLAGS += -b -l $(shell dirname $(IMAGE).elf)/nemu-log.txt -e $(IMAGE).elf
 # NEMUFLAGS: 表示 NEMU 模拟器的运行参数（NEMU Flags），用于配置 NEMU 模拟器的行为。
 # 变量名含义：NEMU 表示 NEMU 模拟器，FLAGS 表示参数。
 # - -l $(shell dirname $(IMAGE).elf)/nemu-log.txt: 指定 NEMU 的日志文件路径，保存模拟器运行日志。
