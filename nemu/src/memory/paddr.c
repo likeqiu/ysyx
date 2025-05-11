@@ -64,6 +64,7 @@ word_t paddr_read(paddr_t addr, int len)
   IFDEF(CONFIG_DEVICE, ret = mmio_read(addr, len); mtrace_record('R', addr, len, ret); return ret);
 
   iringbuf_dump(addr);
+  printf("1111\n");
   out_of_bound(addr);
   return 0;
 }
