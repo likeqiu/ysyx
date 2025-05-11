@@ -13,6 +13,7 @@
 # See the Mulan PSL v2 for more details.
 #**************************************************************************************/
 
+ifdef CONFIG_DIFFTEST
 
 # 变量：定义差分测试引用路径，引用 NEMU_HOME 环境变量和 CONFIG_DIFFTEST_REF_PATH 配置
 # $(call remove_quote,...) 是 Makefile 函数，用于去除 CONFIG_DIFFTEST_REF_PATH 中的引号
@@ -27,6 +28,7 @@ DIFF_REF_SO = $(DIFF_REF_PATH)/build/$(GUEST_ISA)-$(call remove_quote,$(CONFIG_D
 # GUEST_ISA 指定目标指令集体系结构
 # SHARE=1 表示构建共享对象
 # ENGINE=interpreter 指定使用解释器引擎
+
 MKFLAGS = GUEST_ISA=$(GUEST_ISA) SHARE=1 ENGINE=interpreter
 
 # 变量：定义差分测试的参数
@@ -47,3 +49,4 @@ endif
 # 伪目标不会生成实际文件，防止 Makefile 将其视为文件目标
 .PHONY: $(DIFF_REF_SO)
 
+endif
