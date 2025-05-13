@@ -57,7 +57,7 @@ enum {
 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst;
-  printf("%u\n", s->isa.inst);
+ // printf("%u\n", s->isa.inst);
   int rs1 = BITS(i, 19, 15); // 选取寄存器
   int rs2 = BITS(i, 24, 20);
   *rd     = BITS(i, 11, 7);
