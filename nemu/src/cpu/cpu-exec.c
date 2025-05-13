@@ -54,6 +54,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
       nemu_state.state = NEMU_STOP;
       printf("Hit an breakpoint NO:%-4d addr:0x%-5x\n", wp->NO, wp->old_value);
       wp = wp->next;
+      return;
       continue;
     }
 
@@ -74,7 +75,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
       wp->old_value = new_value;
       return;
     }
-    wp->old_value = new_value;
     wp = wp->next;
   }
 #endif  
