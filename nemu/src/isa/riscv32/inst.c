@@ -161,11 +161,12 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000000 ????? ????? 111 ????? 01100 11", and, R, R(rd) = src1 & src2);
 
   INSTPAT("0000001 ????? ????? 000 ????? 01100 11", mul, R, R(rd) = ((int32_t)src1 * (int32_t)src2) & 0xffffffff); // 取低32位
+  INSTPAT("0000001 ????? ????? 100 ????? 01100 11", div, R, R(rd) = (src2 == 0) ? -1 : ((src1 == INT32_MIN && src2 == -1) ? INT32_MIN : (int32_t)src1 / (int32_t)src2)); // 除0等于-1
 
   /*
     INSTPAT("0100000 ????? 00000 000 ????? 01100 11", neg, R, R(rd) = -src2);
 
-    INSTPAT("0000001 ????? ????? 100 ????? 01100 11", div, R, R(rd) = (src2 == 0) ? -1 : ((src1 == INT32_MIN && src2 == -1) ? INT32_MIN : (int32_t)src1 / (int32_t)src2)); // 除0等于-1
+   
     INSTPAT("0000001 ????? ????? 110 ????? 01100 11", rem, R, R(rd) = (src2 == 0) ? src1 : ((src1 == INT32_MIN && src2 == -1) ? 0 : (int32_t)src1 % (int32_t)src2));
     // 当src2为0，余数为src1, (src1 == INT32_MIN && src2 == -1)防止溢出，其他情况不会溢出
     INSTPAT("0000001 ????? ????? 001 ????? 01100 11", mulh, R, R(rd) = ((int64_t)(int32_t)src1 * (int64_t)(int32_t)src2) >> 32);
