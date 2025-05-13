@@ -100,4 +100,8 @@ finish:
 #define INSTPAT_START(name) { const void * __instpat_end = &&concat(__instpat_end_, name);
 #define INSTPAT_END(name)   concat(__instpat_end_, name): ; }
 
+/*INSTPAT_START() 的作用是定义一个“块结束地址”标签指针 __instpat_end，供每条 INSTPAT() 宏在匹配成功后 goto *__instpat_end 用，跳出当前匹配块。
+
+这是实现“每条指令匹配成功后立即退出匹配区域”的跳转机制。*/
+
 #endif
