@@ -32,6 +32,7 @@ __attribute__((always_inline))
 static inline void pattern_decode(const char *str, int len,
     uint64_t *key, uint64_t *mask, uint64_t *shift) {
   uint64_t __key = 0, __mask = 0, __shift = 0;
+  // 用于筛选指令中需要匹配的位（1 表示需要匹配，0 表示忽略）。
 #define macro(i) \
   if ((i) >= len) goto finish; \
   else { \
@@ -54,6 +55,8 @@ static inline void pattern_decode(const char *str, int len,
   macro64(0);
   panic("pattern too long");
 #undef macro
+
+/*这里定义了 macro(i) 这个宏，它会处理 pattern 中的第 i 位。但为了避免污染后面的代码（尤其是其它地方也定义了 macro），所以这里 在用完后手动取消掉*/
 finish:
   *key = __key >> __shift;
   *mask = __mask >> __shift;
