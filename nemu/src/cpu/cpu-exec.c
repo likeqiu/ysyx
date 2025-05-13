@@ -48,7 +48,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   while(wp!=NULL)
   {
 
-    printf("%s  0x%08x\n", wp->str, wp->old_value);
+    
     if (wp->old_value == cpu.pc && wp->type == 'b')
     {
       nemu_state.state = NEMU_STOP;
