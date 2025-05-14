@@ -25,7 +25,7 @@ ysyx_25040109_IFU ifu (
     .inst_ifu(inst_ifu)
 );
 
-ysyx_25040109_Register_File #(5,32) regfile(
+ysyx_25040109_RegisterFile #(5,32) regfile(
     .clk(clk),
     .wdata(result),
     .waddr(rd_addr),
