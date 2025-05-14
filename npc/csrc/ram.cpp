@@ -32,33 +32,35 @@ public:
     }
 
     // const：修饰成员函数，表示这个函数不会修改类的成员变量，即函数体内不会改变类的任何成员数据。
-    uint32_t pmem_read(uint32_t addr) const{
-        if(addr % 4 !=0){
-            throw invalid_argument("Unaligned instruction address");
-        }
-
-        // 字地址（即“第几个字”）,右移 2 位实际上是 除以 4
-        size_t word_addr = addr >> 2;
-        if(word_addr >= size){
-            throw out_of_range("Address out of range");
-        }
-
-        return mem[word_addr];
-    }
-
-    void pmem_write(uint32_t addr,uint32_t inst){
+    uint32_t pmem_read(uint32_t addr) const
+    {
         if (addr % 4 != 0)
         {
             throw invalid_argument("Unaligned instruction address");
         }
-        size_t word_addr = addr >> 2;
+        uint32_t offset_addr = addr - 0x80000000;
+        size_t word_addr = offset_addr >> 2;
+        // 字地址（即“第几个字”）,右移 2 位实际上是 除以 4
         if (word_addr >= size)
         {
             throw out_of_range("Address out of range");
         }
+        return mem[word_addr];
+    }
 
+    void pmem_write(uint32_t addr, uint32_t inst)
+    {
+        if (addr % 4 != 0)
+        {
+            throw invalid_argument("Unaligned instruction address");
+        }
+        uint32_t offset_addr = addr - 0x80000000;
+        size_t word_addr = offset_addr >> 2;
+        if (word_addr >= size)
+        {
+            throw out_of_range("Address out of range");
+        }
         mem[word_addr] = inst;
-
     }
 
     void resrt()
@@ -77,7 +79,7 @@ int main(int argc,char **argv){
     top->trace(tfp, 99);
     tfp->open("sim.fst");
 
-    InstructionMemry imem(1024);
+    InstructionMemry imem(16);
 
     imem.pmem_write(0x80000000, 0x00500293);
     imem.pmem_write(0x80000004, 0x00600313);
