@@ -1,23 +1,61 @@
-module top(
-    input  clk,
-    input [2:0] select,
-    input [3:0] a,b,
-    output reg [3:0] result,
-    output reg zero,
-    output reg cin,
-    output reg overflow,
-    output reg compare_out,
-    output reg [6:0] seg0,seg1
+module ysyx_25040109_top(
+    input clk,
+    input rst,
+    input [31:0] inst,
+    input [31:0] pc
+
 );
 
+    wire [31:0] next_pc,inst_ifu,rs1_data,imm,result;
+    wire [4:0] rd_addr;
+    wire reg_write_en;
 
-ALU test(.clk(clk),.select(select),.a(a),.b(b),.result(result),.zero(zero),.cin(cin),.overflow(overflow),.compare_out(compare_out),.seg0(seg0),.seg1(seg1));    
+ysyx_25040109_Reg #(32,32'h80000000) pc_reg(
+    .clk(clk),
+    .rst(rst),
+    .din(next_pc),
+    .dout(pc),
+    .wen(1'b1)
+);
 
-always @(result) begin
-    $display("a=%d, b=%d ,result=%d,zero=%d,cin=%d,overflow=%d,compare_out=%d,",a,b,result,zero,cin,overflow,compare_out);
-end
+ysyx_25040109_IFU ifu (
+    .clk(clk),
+    .inst(inst),
+    .inst_ifu(inst_ifu)
+);
 
-//成功实现功能，但数码管我只设置了0~13
-//引脚对应select (BTNL,BTNC,BTNR) ，zero LD0，compare_out LD1，cin LD2，overflow LD3 
+ysyx_25040109_Register_File #(5,32) regfile(
+    .clk(clk),
+    .wdata(result),
+    .waddr(rd_addr),
+    .wen(reg_write_en),
+    .raddr1(inst_ifu[19:15]),
+    .rdata1(rs1_data)
+);
+
+ysyx_25040109_IDU idu(
+    .inst(inst_ifu),
+    .rd_addr(rd_addr),
+    .imm(imm),
+    .reg_write_en(reg_write_en),
+    .rs1_data(rs1_data)
+);
+
+ysyx_25040109_EXU exu(
+    .rs1_data(rs1_data),
+    .imm(imm),
+    .reg_write_en(reg_write_en),
+    .result(result),
+    .rd_addr(rd_addr),
+    .reg_write_en_out(reg_write_en)
+);
+
+    assign next_pc=pc+4;
+    always @(posedge clk) begin
+        if(!rst) begin
+            $display("PC=0x%h, inst=0x%h, t0(x5)=0x%h, t1(x6)=0x%h",pc,inst_ifu,regfile.rf[5],regfile.rf[6]);
+        end
+    end
+
 
 endmodule
