@@ -2,7 +2,7 @@ module ysyx_25040109_top(
     input clk,
     input rst,
     input [31:0] inst,
-    input [31:0] pc
+    output [31:0] pc
 
 );
 
@@ -20,6 +20,7 @@ ysyx_25040109_Reg #(32,32'h80000000) pc_reg(
 
 ysyx_25040109_IFU ifu (
     .clk(clk),
+    .pc(pc),
     .inst(inst),
     .inst_ifu(inst_ifu)
 );

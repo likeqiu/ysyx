@@ -2,7 +2,7 @@ module ysyx_25040109_IDU(
     input [31:0] inst,
     output [4:0]  rd_addr,
     output [31:0] imm,
-    output reg_wrote_en,
+    output reg_write_en,
     input [31:0] rs1_data
 );
 
