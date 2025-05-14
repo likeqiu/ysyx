@@ -77,7 +77,7 @@ int main(int argc,char **argv){
     top->trace(tfp, 99);
     tfp->open("sim.fst");
 
-    InstructtionMemry imem(1024);
+    InstructionMemry imem(1024);
 
     imem.pmem_write(0x80000000, 0x00500293);
     imem.pmem_write(0x80000004, 0x00600313);
