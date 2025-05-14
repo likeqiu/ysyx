@@ -28,7 +28,7 @@ ysyx_25040109_IFU ifu (
 ysyx_25040109_RegisterFile #(5,32) regfile(
     .clk(clk),
     .wdata(result),
-    .waddr(rd_addr),
+    .waddr(rd_addr_exu),
     .wen(reg_write_en),
     .raddr1(inst_ifu[19:15]),
     .rdata1(rs1_data)
@@ -36,7 +36,7 @@ ysyx_25040109_RegisterFile #(5,32) regfile(
 
 ysyx_25040109_IDU idu(
     .inst(inst_ifu),
-    .rd_addr(rd_addr),
+    .rd_addr(rd_addr_idu),
     .imm(imm),
     .reg_write_en(reg_write_en),
     .rs1_data(rs1_data),
@@ -44,12 +44,12 @@ ysyx_25040109_IDU idu(
 );
 
 ysyx_25040109_EXU exu(
-    .rs1_data(rs1_data),
+    .rs1_data(rs1_data_out),
     .imm(imm),
     .reg_write_en(reg_write_en),
     .result(result),
-    .rd_addr(rd_addr),
-    .rd_addr_out(rd_addr),
+    .rd_addr(rd_addr_idu),
+    .rd_addr_out(rd_addr_exu),
     .reg_write_en_out(reg_write_en)
 );
 
