@@ -8,3 +8,4 @@ module ysyx_25040109_IFU(
     assign inst_ifu=inst;
 
 endmodule
+
