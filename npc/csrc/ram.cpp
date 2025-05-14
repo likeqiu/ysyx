@@ -1,4 +1,4 @@
-#include<Vtop.h>
+#include <Vysyx_25040109_top.h>
 #include<verilated.h>
 #include <verilated_fst_c.h>
 #include<vector>
@@ -70,7 +70,7 @@ public:
 int main(int argc,char **argv){
 
     Verilated::commandArgs(argc, argv);
-    Vtop *top = new Vtop;
+    Vtop *top = new Vysyx_25040109_top;
     Verilated::traceEverOn(true);
     VerilatedFstC *tfp = new VerilatedFstC;
 
