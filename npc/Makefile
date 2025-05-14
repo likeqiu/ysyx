@@ -22,7 +22,7 @@ sim:$(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 waveform: $(VSRC) $(CSRC_WAVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(VSRC) $(CSRC_WAVE) --trace-fst --top-module top 
+	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(VSRC) $(CSRC_WAVE) --trace-fst --top-module $(TOPNAME)
 	./obj_dir/V$(TOPNAME)  +verilator+rand+reset+2
 
 run:
