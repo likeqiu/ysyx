@@ -3,7 +3,8 @@ module ysyx_25040109_IDU(
     output [4:0]  rd_addr,
     output [31:0] imm,
     output reg_write_en,
-    input [31:0] rs1_data
+    input [31:0] rs1_data,
+    output [31:0] rs1_data_out
 );
 
     wire [6:0] opcode=inst[6:0];
@@ -15,7 +16,7 @@ module ysyx_25040109_IDU(
     assign imm={{20{imm_i[11]}},imm_i};
     assign rd_addr=rd;
     assign reg_write_en={opcode == 7'b0010011 && func3==3'b000};
-
+    assign rs1_data_out = rs1_data;
 
 endmodule
 

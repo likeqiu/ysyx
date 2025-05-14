@@ -6,7 +6,7 @@ module ysyx_25040109_top(
 
 );
 
-    wire [31:0] next_pc,inst_ifu,rs1_data,imm,result;
+    wire [31:0] next_pc,inst_ifu,rs1_data,imm,result,rs1_data_out;
     wire [4:0] rd_addr;
     wire reg_write_en;
 
@@ -39,7 +39,8 @@ ysyx_25040109_IDU idu(
     .rd_addr(rd_addr),
     .imm(imm),
     .reg_write_en(reg_write_en),
-    .rs1_data(rs1_data)
+    .rs1_data(rs1_data),
+    .rs1_data_out(rs1_data_out)
 );
 
 ysyx_25040109_EXU exu(
@@ -48,6 +49,7 @@ ysyx_25040109_EXU exu(
     .reg_write_en(reg_write_en),
     .result(result),
     .rd_addr(rd_addr),
+    .rd_addr_out(rd_addr),
     .reg_write_en_out(reg_write_en)
 );
 
