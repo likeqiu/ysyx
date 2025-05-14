@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class InstructtionMemry{
+class InstructionMemry{
 private:
     //32位，4字节
     vector<uint32_t> mem;
@@ -23,7 +23,7 @@ public:
     第一个 size 是 构造函数的参数。
     第二个 size 是 类的成员变量，用来存储对象的状态。
     第三个 size 是 初始化列表中的赋值操作，将构造函数的参数赋值给成员变量。*/
-    InstructtionMemry(size_t size) : size(size){
+    InstructionMemry(size_t size) : size(size){
         if(size == 0){
             throw invalid_argument("Invalid Memory size");
         }
