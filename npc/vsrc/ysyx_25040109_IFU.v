@@ -1,12 +1,12 @@
 module ysyx_25040109_IFU (
+/* verilator lint_off UNUSEDSIGNAL */
     input clk,
     input [31:0] pc,
+    /* verilator lint_on UNUSEDSIGNAL */
     input [31:0] inst,
     output [31:0] inst_ifu
 );
-    /* verilator lint_off UNUSEDSIGNAL */
-    // clk 和 pc 当前未使用，保留以便未来扩展
+
     assign inst_ifu = inst;
-    /* verilator lint_on UNUSEDSIGNAL */
 endmodule
 
