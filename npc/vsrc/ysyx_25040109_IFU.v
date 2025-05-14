@@ -5,7 +5,7 @@ module ysyx_25040109_IFU (
     output [31:0] inst_ifu
 );
     /* verilator lint_off UNUSEDSIGNAL */
-    // clk 和 pc 当前未使用
+    // clk 和 pc 当前未使用，保留以便未来扩展
     assign inst_ifu = inst;
     /* verilator lint_on UNUSEDSIGNAL */
 endmodule
