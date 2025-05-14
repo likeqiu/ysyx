@@ -1,7 +1,7 @@
 VSRC = $(wildcard vsrc/*.v)
 CSRC = csrc/ram.cpp
 NXDC = constr/mux.nxdc
-TOPNAME = top
+TOPNAME =  ysyx_25040109_top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 INC_PATH ?=
