@@ -129,9 +129,9 @@ int main(int argc,char **argv){
             cerr << "Cycle " << cycle << ": " << e.what() << endl;
             break;
         }
-        cout << "Registers: t0(x5)=0x" << hex << top->regfile->rf[5]
+       /* cout << "Registers: t0(x5)=0x" << hex << top->regfile->rf[5]
              << ", t1(x6)=0x" << top->regfile->rf[6]
-             << ", t2(x7)=0x" << top->regfile->rf[7] << dec << endl;
+             << ", t2(x7)=0x" << top->regfile->rf[7] << dec << endl;*/
         cycle++;
     }
 
