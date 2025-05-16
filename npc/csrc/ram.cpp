@@ -116,6 +116,7 @@ int main(int argc,char **argv){
     tfp->dump(sim_time++);*/
     top->rst = 0;
     top->pc = 0x80000000;
+    top->inst = imem.pmem_read(top->pc);
 
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
