@@ -7,6 +7,7 @@
 #include<iostream>
 
 using namespace std;
+Vysyx_25040109_top *top = new Vysyx_25040109_top;
 
 class InstructionMemry{
 private:
@@ -89,7 +90,7 @@ void reset(int n)
 int main(int argc,char **argv){
 
     Verilated::commandArgs(argc, argv);
-    Vysyx_25040109_top *top = new Vysyx_25040109_top;
+    
     Verilated::traceEverOn(true);
     VerilatedFstC *tfp = new VerilatedFstC;
 
