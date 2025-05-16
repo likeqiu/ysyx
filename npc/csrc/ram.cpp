@@ -99,10 +99,10 @@ int main(int argc,char **argv){
 
     InstructionMemry imem(16);
 
-    imem.pmem_write(0x80000000, 0x00500293);
-    imem.pmem_write(0x80000004, 0x00600313);
+    imem.pmem_write(0x80000004, 0x00500293);
+    imem.pmem_write(0x80000008, 0x00600313);
     imem.pmem_write(0x8000000c, 0x00700393);
-    imem.pmem_write(0x80000008, 0x00100073);
+    imem.pmem_write(0x80000010, 0x00100073);
 
     const int max_cycles = 5;
     int cycle = 0;
