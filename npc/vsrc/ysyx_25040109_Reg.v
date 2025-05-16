@@ -1,16 +1,12 @@
-module ysyx_25040109_Reg #(WIDTH = 1, RESET_VAL = 0, RESET_INST=0) (
+module ysyx_25040109_Reg #(WIDTH = 1, RESET_VAL = 0) (
   input clk,
   input rst,
   input [WIDTH-1:0] din,
   output reg [WIDTH-1:0] dout,
-  input wen,
-  output [31:0] inst_ifu
+  input wen
 );
   always @(posedge clk) begin
-    if (rst) begin 
-    dout <= RESET_VAL;
-    inst_ifu<=RESET_INST;
-    end
+    if (rst) dout <= RESET_VAL;
     else if (wen) dout <= din;
   end
 endmodule

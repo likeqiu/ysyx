@@ -8,13 +8,12 @@ module ysyx_25040109_top (
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
 
-    ysyx_25040109_Reg #(32, 32'h80000000,32'h00500293) pc_reg (
+    ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(1'b1),
-        .inst_ifu(inst_ifu)
+        .wen(1'b1)
     );
 
     ysyx_25040109_IFU ifu (
