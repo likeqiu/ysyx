@@ -110,6 +110,7 @@ int main(int argc,char **argv){
 
     top->rst = 1;
     top->clk = 0;
+    top->eval();
     top->clk = 1;
     top->eval();
     tfp->dump(sim_time++);
