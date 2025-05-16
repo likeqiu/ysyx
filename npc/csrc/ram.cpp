@@ -108,12 +108,12 @@ int main(int argc,char **argv){
     vluint64_t sim_time = 0;
     // vl 前缀表示 Verilator Long（Verilator专用）
 
-    top->clk = 0;
+    /*top->clk = 0;
     top->eval();
     top->rst = 1;
     top->clk = 1;
     top->eval();
-    tfp->dump(sim_time++);
+    tfp->dump(sim_time++);*/
     top->rst = 0;
     top->pc = 0x80000000;
 
