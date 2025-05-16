@@ -58,6 +58,10 @@ module ysyx_25040109_top (
             $display("PC=0x%h, inst=0x%h, t0(x5)=0x%h, t1(x6)=0x%h",
                      pc, inst_ifu, regfile.rf[5], regfile.rf[6]);
         end
+
+        if(inst_ifu==32'h00100073)
+        $finish;
+
     end
 endmodule
 
