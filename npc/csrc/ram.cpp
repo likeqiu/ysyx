@@ -123,10 +123,6 @@ int main(int argc,char **argv){
         top->eval();
         tfp->dump(sim_time++);
 
-        top->clk = 1;
-        top->eval();
-        tfp->dump(sim_time++);
-
         try
         {
             top->inst = imem.pmem_read(top->pc);
@@ -138,6 +134,12 @@ int main(int argc,char **argv){
             break;
         }
         cycle++;
+
+        top->clk = 1;
+        top->eval();
+        tfp->dump(sim_time++);
+
+
     }
 
     tfp->close();
