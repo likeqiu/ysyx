@@ -108,14 +108,15 @@ int main(int argc,char **argv){
     vluint64_t sim_time = 0;
     // vl 前缀表示 Verilator Long（Verilator专用）
 
-    top->rst = 1;
     top->clk = 0;
     top->eval();
+    top->rst = 1;
     top->clk = 1;
     top->eval();
     tfp->dump(sim_time++);
     top->rst = 0;
-    
+    top->pc = 0x80000000;
+
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
