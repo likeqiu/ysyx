@@ -70,7 +70,6 @@ public:
     }
 };
 
-void single_cycle();
 
 
 void reset(int n)
@@ -118,7 +117,13 @@ int main(int argc,char **argv){
             break;
         }
 
-        single_cycle(sim_time);
+        top->clk = 0;
+        top->eval();
+        tfp->dump(sim_time++);
+
+        top->clk = 1;
+        top->eval();
+        tfp->dump(sim_time++);
 
         cycle++;
     }
@@ -130,13 +135,4 @@ int main(int argc,char **argv){
     return 0;
 }
 
-void single_cycle(vluint64_t sim_time )
-{
-    top->clk = 0;
-    top->eval();
-    tfp->dump(sim_time++);
 
-    top->clk = 1;
-    top->eval();
-    tfp->dump(sim_time++);
-}
