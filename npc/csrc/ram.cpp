@@ -121,7 +121,7 @@ int main(int argc,char **argv){
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
-    while(cycle < max_cycles &&  !Verilated::gotFinish())
+    while( !Verilated::gotFinish())
     {
         /*try-catch 这就是一个会“抛出异常”的函数。如果你没有用 try-catch，程序会崩溃终止。有了 try-catch，就可以优雅地退出仿真，同时打印有用的调试信息。*/
    
@@ -141,7 +141,7 @@ int main(int argc,char **argv){
             /*e.what() 是 C++ 中异常类（如 std::exception）的一个成员函数，用于返回异常的详细信息（错误描述），类型为 const char,抛出的信息取决于前边定义的throw内容*/
             break;
         }
-        cycle++;
+       
 
         top->clk = 1;
         top->eval();
