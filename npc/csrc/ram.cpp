@@ -124,13 +124,15 @@ int main(int argc,char **argv){
             break;
         }
 
+        top->clk = 1;
+        top->eval();
+        tfp->dump(sim_time++);
+
         top->clk = 0;
         top->eval();
         tfp->dump(sim_time++);
 
-        top->clk = 1;
-        top->eval();
-        tfp->dump(sim_time++);
+
 
         cycle++;
     }
