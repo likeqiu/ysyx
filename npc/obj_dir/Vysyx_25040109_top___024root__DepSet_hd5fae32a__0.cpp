@@ -59,6 +59,9 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                   [5U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
                   [6U]);
     }
+    if (VL_UNLIKELY((0x100073U == vlSelf->inst))) {
+        VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 63, "");
+    }
     __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0U;
     if ((IData)((0x13U == (0x707fU & vlSelf->inst)))) {
         __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 

@@ -59,7 +59,7 @@ module ysyx_25040109_top (
                      pc, inst_ifu, regfile.rf[5], regfile.rf[6]);
         end
 
-        if(inst_ifu==32'h00100073)
+        if(inst==32'h00100073)
         $finish;
 
     end
