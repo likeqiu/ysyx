@@ -70,7 +70,14 @@ public:
     }
 };
 
+void single_cycle()
+{
+    top->clk = 0;
+    top->eval();
 
+    top->clk = 1;
+    top->eval();
+}
 
 void reset(int n)
 {
