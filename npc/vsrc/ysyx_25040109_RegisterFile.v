@@ -18,9 +18,9 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 1,DATA_WIDTH=1)
 
     always @(posedge clk)begin
         if(wen) rf[waddr] <= wdata;
-        rdata1 = (raddr1==0) ? 0 : rf[raddr1];
+        
     end
-    //assign 
+    assign rdata1 = (raddr1==0) ? 0 : rf[raddr1]; 
 
 endmodule
 
