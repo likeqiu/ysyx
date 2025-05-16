@@ -39,7 +39,7 @@ public:
         {
             throw invalid_argument("Unaligned instruction address");
         }
-        uint32_t offset_addr = addr - 0x80000004;
+        uint32_t offset_addr = addr - 0x80000000;
         size_t word_addr = offset_addr >> 2;
         // 字地址（即“第几个字”）,右移 2 位实际上是 除以 4
         if (word_addr >= size)
@@ -55,7 +55,7 @@ public:
         {
             throw invalid_argument("Unaligned instruction address");
         }
-        uint32_t offset_addr = addr - 0x80000004;
+        uint32_t offset_addr = addr - 0x80000000;
         size_t word_addr = offset_addr >> 2;
         if (word_addr >= size)
         {
