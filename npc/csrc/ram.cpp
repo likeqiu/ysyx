@@ -70,16 +70,8 @@ public:
     }
 };
 
-void single_cycle()
-{
-    top->clk = 0;
-    top->eval();
-    tfp->dump(sim_time++);
+void single_cycle();
 
-    top->clk = 1;
-    top->eval();
-    tfp->dump(sim_time++);
-}
 
 void reset(int n)
 {
@@ -137,4 +129,15 @@ int main(int argc,char **argv){
     delete top;
     delete tfp;
     return 0;
+}
+
+void single_cycle()
+{
+    top->clk = 0;
+    top->eval();
+    tfp->dump(sim_time++);
+
+    top->clk = 1;
+    top->eval();
+    tfp->dump(sim_time++);
 }
