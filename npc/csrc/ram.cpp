@@ -108,10 +108,11 @@ int main(int argc,char **argv){
     vluint64_t sim_time = 0;
     // vl 前缀表示 Verilator Long（Verilator专用）
 
+    top->rst = 1;
     top->clk = 0;
     top->eval();
     tfp->dump(sim_time++);
-
+    top->rst = 0;
     top->inst = imem.pmem_read(top->pc);
 
     top->clk = 1;
