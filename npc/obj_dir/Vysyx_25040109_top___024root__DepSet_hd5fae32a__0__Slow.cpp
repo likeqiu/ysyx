@@ -94,17 +94,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
     // Body
     vlSelf->ysyx_25040109_top__DOT__next_pc = ((IData)(4U) 
                                                + vlSelf->pc);
-    vlSelf->ysyx_25040109_top__DOT__rs1_data = ((0U 
-                                                 == 
-                                                 (0x1fU 
-                                                  & (vlSelf->inst 
-                                                     >> 0xfU)))
-                                                 ? 0U
-                                                 : 
-                                                vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                                                [(0x1fU 
-                                                  & (vlSelf->inst 
-                                                     >> 0xfU))]);
 }
 
 VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_stl(Vysyx_25040109_top___024root* vlSelf) {
@@ -116,21 +105,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_stl(Vysyx_25040109_top___0
         Vysyx_25040109_top___024root___stl_sequent__TOP__0(vlSelf);
     }
 }
-
-#ifdef VL_DEBUG
-VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__ico(Vysyx_25040109_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___dump_triggers__ico\n"); );
-    // Body
-    if ((1U & (~ (IData)(vlSelf->__VicoTriggered.any())))) {
-        VL_DBG_MSGF("         No triggers active\n");
-    }
-    if (vlSelf->__VicoTriggered.at(0U)) {
-        VL_DBG_MSGF("         'ico' region trigger index 0 is active: Internal 'ico' trigger - first iteration\n");
-    }
-}
-#endif  // VL_DEBUG
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__act(Vysyx_25040109_top___024root* vlSelf) {

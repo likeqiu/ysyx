@@ -6,34 +6,6 @@
 
 #include "Vysyx_25040109_top___024root.h"
 
-VL_INLINE_OPT void Vysyx_25040109_top___024root___ico_sequent__TOP__0(Vysyx_25040109_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___ico_sequent__TOP__0\n"); );
-    // Body
-    vlSelf->ysyx_25040109_top__DOT__rs1_data = ((0U 
-                                                 == 
-                                                 (0x1fU 
-                                                  & (vlSelf->inst 
-                                                     >> 0xfU)))
-                                                 ? 0U
-                                                 : 
-                                                vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                                                [(0x1fU 
-                                                  & (vlSelf->inst 
-                                                     >> 0xfU))]);
-}
-
-void Vysyx_25040109_top___024root___eval_ico(Vysyx_25040109_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_ico\n"); );
-    // Body
-    if (vlSelf->__VicoTriggered.at(0U)) {
-        Vysyx_25040109_top___024root___ico_sequent__TOP__0(vlSelf);
-    }
-}
-
 void Vysyx_25040109_top___024root___eval_act(Vysyx_25040109_top___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -52,6 +24,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     CData/*0:0*/ __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
     __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0;
     // Body
+    __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0U;
     if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->rst))))) {
         VL_WRITEF("PC=0x%x, inst=0x%x, t0(x5)=0x%x, t1(x6)=0x%x\n",
                   32,vlSelf->pc,32,vlSelf->inst,32,
@@ -59,7 +32,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                   [5U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
                   [6U]);
     }
-    __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0U;
     if ((IData)((0x13U == (0x707fU & vlSelf->inst)))) {
         __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 
             = ((((- (IData)((vlSelf->inst >> 0x1fU))) 
@@ -69,23 +41,12 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         __Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 
             = (0x1fU & (vlSelf->inst >> 7U));
     }
-    vlSelf->pc = ((IData)(vlSelf->rst) ? 0x80000000U
-                   : vlSelf->ysyx_25040109_top__DOT__next_pc);
     if (__Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0) {
         vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[__Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0] 
             = __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
     }
-    vlSelf->ysyx_25040109_top__DOT__rs1_data = ((0U 
-                                                 == 
-                                                 (0x1fU 
-                                                  & (vlSelf->inst 
-                                                     >> 0xfU)))
-                                                 ? 0U
-                                                 : 
-                                                vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                                                [(0x1fU 
-                                                  & (vlSelf->inst 
-                                                     >> 0xfU))]);
+    vlSelf->pc = ((IData)(vlSelf->rst) ? 0x80000000U
+                   : vlSelf->ysyx_25040109_top__DOT__next_pc);
     vlSelf->ysyx_25040109_top__DOT__next_pc = ((IData)(4U) 
                                                + vlSelf->pc);
 }
@@ -101,10 +62,6 @@ void Vysyx_25040109_top___024root___eval_nba(Vysyx_25040109_top___024root* vlSel
     }
 }
 
-void Vysyx_25040109_top___024root___eval_triggers__ico(Vysyx_25040109_top___024root* vlSelf);
-#ifdef VL_DEBUG
-VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__ico(Vysyx_25040109_top___024root* vlSelf);
-#endif  // VL_DEBUG
 void Vysyx_25040109_top___024root___eval_triggers__act(Vysyx_25040109_top___024root* vlSelf);
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__act(Vysyx_25040109_top___024root* vlSelf);
@@ -118,29 +75,10 @@ void Vysyx_25040109_top___024root___eval(Vysyx_25040109_top___024root* vlSelf) {
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval\n"); );
     // Init
-    CData/*0:0*/ __VicoContinue;
     VlTriggerVec<1> __VpreTriggered;
     IData/*31:0*/ __VnbaIterCount;
     CData/*0:0*/ __VnbaContinue;
     // Body
-    vlSelf->__VicoIterCount = 0U;
-    __VicoContinue = 1U;
-    while (__VicoContinue) {
-        __VicoContinue = 0U;
-        Vysyx_25040109_top___024root___eval_triggers__ico(vlSelf);
-        if (vlSelf->__VicoTriggered.any()) {
-            __VicoContinue = 1U;
-            if (VL_UNLIKELY((0x64U < vlSelf->__VicoIterCount))) {
-#ifdef VL_DEBUG
-                Vysyx_25040109_top___024root___dump_triggers__ico(vlSelf);
-#endif
-                VL_FATAL_MT("vsrc/ysyx_25040109_top.v", 1, "", "Input combinational region did not converge.");
-            }
-            vlSelf->__VicoIterCount = ((IData)(1U) 
-                                       + vlSelf->__VicoIterCount);
-            Vysyx_25040109_top___024root___eval_ico(vlSelf);
-        }
-    }
     __VnbaIterCount = 0U;
     __VnbaContinue = 1U;
     while (__VnbaContinue) {
