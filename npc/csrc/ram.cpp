@@ -74,9 +74,11 @@ void single_cycle()
 {
     top->clk = 0;
     top->eval();
+    tfp->dump(sim_time++);
 
     top->clk = 1;
     top->eval();
+    tfp->dump(sim_time++);
 }
 
 void reset(int n)
@@ -125,7 +127,7 @@ int main(int argc,char **argv){
         }
 
         single_cycle();
-        tfp->dump(sim_time++);
+        
 
         cycle++;
     }
