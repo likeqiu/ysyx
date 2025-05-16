@@ -118,8 +118,7 @@ int main(int argc,char **argv){
             break;
         }
 
-        single_cycle();
-        
+        single_cycle(sim_time);
 
         cycle++;
     }
@@ -131,7 +130,7 @@ int main(int argc,char **argv){
     return 0;
 }
 
-void single_cycle()
+void single_cycle(vluint64_t sim_time )
 {
     top->clk = 0;
     top->eval();
