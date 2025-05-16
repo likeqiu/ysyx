@@ -69,6 +69,23 @@ public:
     }
 };
 
+void single_cycle()
+{
+    top->clk = 0;
+    top->eval();
+
+    top->clk = 1;
+    top->eval();
+}
+
+void reset(int n)
+{
+    top->rst = 1;
+    while (n-- > 0)
+        single_cycle();
+    top->rst = 0;
+}
+
 int main(int argc,char **argv){
 
     Verilated::commandArgs(argc, argv);
@@ -89,20 +106,8 @@ int main(int argc,char **argv){
     int cycle = 0;
     vluint64_t sim_time = 0;
     // vl 前缀表示 Verilator Long（Verilator专用）
-    top->rst = 1;
-    for (int i = 0; i < 2; i++)
-    { // 两个时钟周期
-        top->clk = 0;
-        top->eval();
-        tfp->dump(sim_time++);
-        top->clk = 1;
-        top->eval();
-        tfp->dump(sim_time++);
-    }
-    top->rst = 0;
-    top->clk = 0;
-    top->eval();
-    tfp->dump(sim_time++);
+
+    reset(10);
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
@@ -118,11 +123,7 @@ int main(int argc,char **argv){
             break;
         }
 
-        top->clk = 0;
-        top->eval();
-        tfp->dump(sim_time++);
-        top->clk = 1;
-        top->eval();
+        single_cycle();
         tfp->dump(sim_time++);
 
         cycle++;
