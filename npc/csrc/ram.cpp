@@ -108,8 +108,15 @@ int main(int argc,char **argv){
     vluint64_t sim_time = 0;
     // vl 前缀表示 Verilator Long（Verilator专用）
 
-    reset(10);
+    top->clk = 0;
+    top->eval();
+    tfp->dump(sim_time++);
+
     top->inst = imem.pmem_read(top->pc);
+
+    top->clk = 1;
+    top->eval();
+    
     tfp->dump(sim_time++);
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
