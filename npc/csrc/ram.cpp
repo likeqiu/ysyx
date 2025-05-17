@@ -76,7 +76,7 @@ public:
         char inst[4];
         while(file.read(inst,4))
         {
-            pmem_write(addr, *(uint32_t)inst);
+            pmem_write(addr, *(uint32_t*)inst);
             addr += 4;
         }
         file.close();
@@ -92,8 +92,8 @@ extern "C"  int printf_finish(uint32_t inst)
 {
     if (inst == 0x00100073)
     {
-        uint32_t a0 = top->Vysyx_25040109_top_DOT_regfile_DOT_rf[10]; // 从 CPU 的寄存器堆中读取 x10（即 a0）寄存器的值，保存到变量 a0 中。后面用它来判断 ECALL 的返回值
-            printf("finish program\n");
+        uint32_t a0 = top->Vysyx_25040109_top__DOT__regfile__DOT__rf[10] // 从 CPU 的寄存器堆中读取 x10（即 a0）寄存器的值，保存到变量 a0 中。后面用它来判断 ECALL 的返回值
+        printf("finish program\n");
         return 0;
     }
 
