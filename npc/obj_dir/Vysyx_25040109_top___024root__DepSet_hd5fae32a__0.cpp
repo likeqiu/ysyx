@@ -117,7 +117,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     }
     Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->inst, __Vfunc_ysyx_25040109_top__DOT__printf_finish__0__Vfuncout);
     if (VL_UNLIKELY((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__0__Vfuncout))) {
-        VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 73, "");
+        VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 76, "");
     }
     if (((IData)((0x13U == (0x707fU & vlSelf->inst))) 
          | ((0x17U == (0x7fU & vlSelf->inst)) | ((0x37U 
@@ -151,6 +151,8 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[__Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0] 
             = __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
     }
+    vlSelf->a0_out = vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
+        [0xaU];
     vlSelf->ysyx_25040109_top__DOT__rs1_data = ((0U 
                                                  == 
                                                  (0x1fU 

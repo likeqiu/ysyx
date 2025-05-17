@@ -16,6 +16,7 @@ Vysyx_25040109_top::Vysyx_25040109_top(VerilatedContext* _vcontextp__, const cha
     , rst{vlSymsp->TOP.rst}
     , inst{vlSymsp->TOP.inst}
     , pc{vlSymsp->TOP.pc}
+    , a0_out{vlSymsp->TOP.a0_out}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context
