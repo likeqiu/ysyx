@@ -2,7 +2,8 @@ module ysyx_25040109_top (
     input clk,
     input rst,
     input [31:0] inst,
-    output [31:0] pc
+    output [31:0] pc,
+    output [31:0] a0_out
 );
     wire [31:0] next_pc, inst_ifu, rs1_data, imm, result, rs1_data_out;
     wire [4:0] rd_addr_idu, rd_addr_exu;
@@ -60,6 +61,8 @@ module ysyx_25040109_top (
     wire [31:0] jal_target = pc+imm;
     wire [31:0] jalr_target = (rs1_data_out +imm ) & ~1;
     assign next_pc = is_jal ? jal_target : (is_jalr ? jalr_target : pc+4);
+
+    assign a0_out=regfile.rf[10]; 
 
     import "DPI-C" function int printf_finish(int inst);
 
