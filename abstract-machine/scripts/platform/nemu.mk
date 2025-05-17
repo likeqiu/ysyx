@@ -67,7 +67,7 @@ insert-arg: image
 # - 依赖于 image 目标，确保在插入参数前已生成二进制文件。
 # - @python3 $(AM_HOME)/tools/insert-arg.py: 调用 Python 脚本 insert-arg.py 处理参数插入。
 # - $(IMAGE).bin: 输入的二进制文件，包含程序代码。
-# - $(MAINARGS_MAX_LEN): 参数最大长度（64）。
+# - $(MAINARGS_MAX_LEN): 参数最大长度（64）。   
 # - "$(MAINARGS_PLACEHOLDER)": 要替换的占位符字符串。
 # - "$(mainargs)": 实际的主函数参数，由用户提供。
 
