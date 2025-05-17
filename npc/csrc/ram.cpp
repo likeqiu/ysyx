@@ -8,6 +8,7 @@
 #include<fstream>
 
 using namespace std;
+
 Vysyx_25040109_top *top = new Vysyx_25040109_top;
 
 class InstructionMemry{
