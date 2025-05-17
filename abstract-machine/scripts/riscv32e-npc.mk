@@ -9,10 +9,8 @@ COMMON_CFLAGS += -march=rv32e_zicsr -mabi=ilp32e  # overwrite
 # 覆盖链接器输出格式为32位小端RISC-V ELF
 LDFLAGS       += -melf32lriscv                    # overwrite
 
-# AM_SRCS: Abstract Machine Source files
-# 追加NPC平台的libgcc相关源文件，提供基本运算支持
-AM_SRCS += riscv/npc/libgcc/div.S \     # 除法运算的汇编实现
-           riscv/npc/libgcc/muldi3.S \  # 64位乘法运算的汇编实现
-           riscv/npc/libgcc/multi3.c \  # 多精度乘法运算的C实现
-           riscv/npc/libgcc/ashldi3.c \ # 算术左移运算的C实现
-           riscv/npc/libgcc/unused.c    # 未使用的占位符C文件（可能为兼容性保留）
+AM_SRCS += riscv/npc/libgcc/div.S \
+           riscv/npc/libgcc/muldi3.S \
+           riscv/npc/libgcc/multi3.c \
+           riscv/npc/libgcc/ashldi3.c \
+           riscv/npc/libgcc/unused.c
