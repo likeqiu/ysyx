@@ -70,7 +70,19 @@ public:
     }
 };
 
+int printf_finish(uint32_t inst)
+{
+    if (inst == 0x00100073)
+    {
+        printf("finish program\n");
+        return 0;
+    }
 
+    return 1;
+}
+{
+    printf("finish program\n");
+}
 
 int main(int argc,char **argv){
 
