@@ -70,9 +70,9 @@ public:
     }
 };
 
-extern "C"  int printf_finish(int inst)
+extern "C"  int printf_finish(uint32_t inst)
 {
-    if (inst == 1048689)
+    if (inst == 0x00100073)
     {
         printf("finish program\n");
         return 0;
