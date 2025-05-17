@@ -53,7 +53,7 @@ module ysyx_25040109_top (
 
     assign next_pc = pc + 4;
 
-    import "DPI-C" function int printf_finish(input vluint32_t inst);
+    import "DPI-C" function int printf_finish(int inst);
 
     always @(posedge clk) begin
         if (!rst) begin

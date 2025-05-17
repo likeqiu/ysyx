@@ -70,9 +70,9 @@ public:
     }
 };
 
-int printf_finish(vluint32_t inst)
+int printf_finish(int inst)
 {
-    if (inst == 0x00100073)
+    if (inst == 1048689)
     {
         printf("finish program\n");
         return 0;
