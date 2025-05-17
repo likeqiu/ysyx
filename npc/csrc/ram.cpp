@@ -93,7 +93,7 @@ extern "C"  int printf_finish(uint32_t inst)
 {
     if (inst == 0x00100073)
     {
-        uint32_t a0 = top->Vysyx_25040109_top__DOT__regfile__DOT__rf[10] // 从 CPU 的寄存器堆中读取 x10（即 a0）寄存器的值，保存到变量 a0 中。后面用它来判断 ECALL 的返回值
+        uint32_t a0 = top->Vysyx_25040109_top__DOT__regfile__DOT__rf[10]; // 从 CPU 的寄存器堆中读取 x10（即 a0）寄存器的值，保存到变量 a0 中。后面用它来判断 ECALL 的返回值
         printf("finish program\n");
         return 0;
     }
@@ -116,7 +116,7 @@ int main(int argc,char **argv){
     InstructionMemry imem(1024);
 
     if(argc < 2){
-        ceer << "Usage:" << argv[0] << "<bin_file" << endl;
+        cerr << "Usage:" << argv[0] << "<bin_file" << endl;
         return 1;
     }
     /*imem.pmem_write(0x80000000, 0x00500293);
