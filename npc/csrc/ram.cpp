@@ -5,6 +5,7 @@
 #include <cstdint>
 #include<stdexcept>
 #include<iostream>
+#include<fstream>
 
 using namespace std;
 Vysyx_25040109_top *top = new Vysyx_25040109_top;
@@ -64,6 +65,23 @@ public:
         mem[word_addr] = inst;
     }
 
+    void load_bin(const string  &filename){
+        ifstream file(filename, ios::binary);
+        // ios::binary，表示按二进制打开 if (!file)
+
+        if(!file){
+            throw runtime_error("Cannot open file:" + filename);
+        }
+        uint32_t addr = 0x80000000;
+        char inst[4];
+        while(file.read(inst,4))
+        {
+            pmem_write(addr, *(uint32_t)inst);
+            addr += 4;
+        }
+        file.close();
+    }
+
     void resrt()
     {
         fill(mem.begin(), mem.end(),0);
@@ -74,7 +92,8 @@ extern "C"  int printf_finish(uint32_t inst)
 {
     if (inst == 0x00100073)
     {
-        printf("finish program\n");
+        uint32_t a0 = top->Vysyx_25040109_top_DOT_regfile_DOT_rf[10]; // 从 CPU 的寄存器堆中读取 x10（即 a0）寄存器的值，保存到变量 a0 中。后面用它来判断 ECALL 的返回值
+            printf("finish program\n");
         return 0;
     }
 
@@ -93,15 +112,25 @@ int main(int argc,char **argv){
     top->trace(tfp, 99);
     tfp->open("sim.fst");
 
-    InstructionMemry imem(16);
+    InstructionMemry imem(1024);
 
-    imem.pmem_write(0x80000000, 0x00500293);
+    if(argc < 2){
+        ceer << "Usage:" << argv[0] << "<bin_file" << endl;
+        return 1;
+    }
+    /*imem.pmem_write(0x80000000, 0x00500293);
     imem.pmem_write(0x80000004, 0x00600313);
     imem.pmem_write(0x80000008, 0x00700393);
-    imem.pmem_write(0x8000000c, 0x00100073);
+    imem.pmem_write(0x8000000c, 0x00100073);*/
 
-    const int max_cycles = 5;
-    int cycle = 0;
+    try{
+        imem.load_bin(argv[1]);
+    }catch(const exception &e){
+        cerr << "Erroe loading bin:" << e.what() << endl;
+        return 1;
+    }
+    
+
     vluint64_t sim_time = 0;
     // vl 前缀表示 Verilator Long（Verilator专用）
 

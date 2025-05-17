@@ -48,7 +48,7 @@ image: image-dep
 #使用objdump反汇编ELF文件，生成汇编代码到txt 打印提示信息，显示正在生成二进制文件 移除符号表和调试信息 输出格式为纯二进制  从ELF文件生成二进制镜像
 
 run: insert-arg
-	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
+	$(MAKE) -C $(NPC_HOME) ISA=$(ISA) run ARGS=riscv32e-npc IMG=$(IMAGE).bin
 	echo "TODO: add command here to run simulation"
 
 
