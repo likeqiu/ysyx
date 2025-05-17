@@ -53,7 +53,8 @@ module ysyx_25040109_top (
 
     assign next_pc = pc + 4;
 
-    import "DPI-C" function int printf_finish(input uint32_t inst);
+    import "DPI-C" function int printf_finish(input vluint32_t inst);
+
     always @(posedge clk) begin
         if (!rst) begin
             $display("PC=0x%h, inst=0x%h, t0(x5)=0x%h, t1(x6)=0x%h",

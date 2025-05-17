@@ -70,7 +70,7 @@ public:
     }
 };
 
-int printf_finish(uint32_t inst)
+int printf_finish(vluint32_t inst)
 {
     if (inst == 0x00100073)
     {
