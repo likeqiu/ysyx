@@ -70,7 +70,7 @@ public:
     }
 };
 
-int printf_finish(int inst)
+extern "C"  int printf_finish(int inst)
 {
     if (inst == 1048689)
     {
