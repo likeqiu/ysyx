@@ -61,7 +61,7 @@ module ysyx_25040109_top (
                      pc, inst_ifu, regfile.rf[5], regfile.rf[6]);
         end
 
-        if(printf_finish(inst))
+        if(printf_finish(inst) == 0)
         $finish;
 
     end

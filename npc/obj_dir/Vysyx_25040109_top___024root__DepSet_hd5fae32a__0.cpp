@@ -3,6 +3,7 @@
 // See Vysyx_25040109_top.h for the primary calling header
 
 #include "verilated.h"
+#include "verilated_dpi.h"
 
 #include "Vysyx_25040109_top___024root.h"
 
@@ -40,11 +41,15 @@ void Vysyx_25040109_top___024root___eval_act(Vysyx_25040109_top___024root* vlSel
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_act\n"); );
 }
 
+void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(IData/*31:0*/ inst, IData/*31:0*/ &printf_finish__Vfuncrtn);
+
 VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_25040109_top___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___nba_sequent__TOP__0\n"); );
     // Init
+    IData/*31:0*/ __Vfunc_ysyx_25040109_top__DOT__printf_finish__0__Vfuncout;
+    __Vfunc_ysyx_25040109_top__DOT__printf_finish__0__Vfuncout = 0;
     CData/*4:0*/ __Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
     __Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0;
     IData/*31:0*/ __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
@@ -52,6 +57,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     CData/*0:0*/ __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
     __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0;
     // Body
+    __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0U;
     if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->rst))))) {
         VL_WRITEF("PC=0x%x, inst=0x%x, t0(x5)=0x%x, t1(x6)=0x%x\n",
                   32,vlSelf->pc,32,vlSelf->inst,32,
@@ -59,10 +65,10 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                   [5U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
                   [6U]);
     }
-    if (VL_UNLIKELY((0x100073U == vlSelf->inst))) {
-        VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 63, "");
+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->inst, __Vfunc_ysyx_25040109_top__DOT__printf_finish__0__Vfuncout);
+    if (VL_UNLIKELY((0U != __Vfunc_ysyx_25040109_top__DOT__printf_finish__0__Vfuncout))) {
+        VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 65, "");
     }
-    __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0U;
     if ((IData)((0x13U == (0x707fU & vlSelf->inst)))) {
         __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 
             = ((((- (IData)((vlSelf->inst >> 0x1fU))) 
@@ -72,12 +78,12 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         __Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 
             = (0x1fU & (vlSelf->inst >> 7U));
     }
-    vlSelf->pc = ((IData)(vlSelf->rst) ? 0x80000000U
-                   : vlSelf->ysyx_25040109_top__DOT__next_pc);
     if (__Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0) {
         vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[__Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0] 
             = __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
     }
+    vlSelf->pc = ((IData)(vlSelf->rst) ? 0x80000000U
+                   : vlSelf->ysyx_25040109_top__DOT__next_pc);
     vlSelf->ysyx_25040109_top__DOT__rs1_data = ((0U 
                                                  == 
                                                  (0x1fU 
