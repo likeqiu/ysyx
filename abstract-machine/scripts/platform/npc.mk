@@ -21,6 +21,7 @@ LDFLAGS   += --gc-sections -e _start
 # 定义main函数参数的最大长度
 MAINARGS_MAX_LEN = 64
 MAINARGS_PLACEHOLDER = The insert-arg rule in Makefile will insert mainargs here.
+#Makefile 中的 insert-arg 规则会在此处插入 mainargs
 
 # 向CFLAGS添加宏定义，传递参数最大长度和占位符到C代码
 CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=\""$(MAINARGS_PLACEHOLDER)"\"
@@ -31,7 +32,7 @@ CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=\""$(MAI
 insert-arg: image
 	@python $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) "$(MAINARGS_PLACEHOLDER)" "$(mainargs)"
 
-# 调用Python脚本插入参数 
+# 调用Python脚本插入参数 , 输入的二进制镜像文件 参数最大长度 占位符字符串 要插入的实际参数
 
 
 # image: Makefile target
