@@ -7,6 +7,7 @@ module ysyx_25040109_top (
     wire [31:0] next_pc, inst_ifu, rs1_data, imm, result, rs1_data_out;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
+    wire [6:0] opcode = inst_ifu[6:0];
 
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
@@ -45,13 +46,20 @@ module ysyx_25040109_top (
         .rs1_data(rs1_data_out),
         .imm(imm),
         .reg_write_en(reg_write_en_idu),
-        .result(result),
         .rd_addr(rd_addr_idu),
         .rd_addr_out(rd_addr_exu),
-        .reg_write_en_out(reg_write_en_exu)
+        .reg_write_en_out(reg_write_en_exu),
+        .pc(pc), 
+        .opcode(opcode), 
+        .result(result)
+
     );
 
-    assign next_pc = pc + 4;
+    wire is_jal=(opcode==7'b1101111);
+    wire is_jalr=(opcode==7'b1100111 && inst_ifu[14:12] == 3'b000);
+    wire [31:0] jal_target = pc+imm;
+    wire [31:0] jalr_target = (rs1_data_out +imm ) & ~1;
+    assign next_pc = is_jal ? jal_target : (is_jalr ? jalr_target : pc+4);
 
     import "DPI-C" function int printf_finish(int inst);
 

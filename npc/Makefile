@@ -26,7 +26,7 @@ waveform: $(VSRC) $(CSRC)
 	./obj_dir/V$(TOPNAME)  
 
 run:
-	./obj_dir/V$(TOPNAME)  +verilator+rand+reset+2
+	./obj_dir/V$(TOPNAME)  
 
 look:
 	gtkwave sim.fst	
