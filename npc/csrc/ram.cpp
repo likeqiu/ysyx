@@ -119,7 +119,7 @@ int main(int argc,char **argv){
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
     while( !Verilated::gotFinish())
     {
-        /*try-catch 这就是一个会“抛出异常”的函数。如果你没有用 try-catch，程序会崩溃终止。有了 try-catch，就可以优雅地退出仿真，同时打印有用的调试信息。*/
+        
    
 
 
@@ -127,6 +127,7 @@ int main(int argc,char **argv){
         top->eval();
         tfp->dump(sim_time++);
 
+        /*try-catch 这就是一个会“抛出异常”的函数。如果你没有用 try-catch，程序会崩溃终止。有了 try-catch，就可以优雅地退出仿真，同时打印有用的调试信息。*/
         try
         {
             top->inst = imem.pmem_read(top->pc);
