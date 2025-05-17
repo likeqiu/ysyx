@@ -23,10 +23,13 @@ waveform: $(VSRC) $(CSRC)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(VSRC) $(CSRC) --trace-fst --top-module $(TOPNAME)
-	./obj_dir/V$(TOPNAME)  
+
 
 run: waveform
 	./obj_dir/V$(TOPNAME)  
+
+#run:./obj_dir/V$(TOPNAME)  +verilator+rand+reset+2
+
 
 look:
 	gtkwave sim.fst	

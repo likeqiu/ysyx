@@ -10,10 +10,10 @@ module ysyx_25040109_EXU (
     output reg_write_en_out
 );
 
-    wire [31:0] is_auipc = (opcode==7'b0010111);
-    wire [31:0] is_lui   = (opcode==7'b0110111);
-    wire [31:0] is_jal   = (opcode==7'b1101111);
-    wire [31:0] is_jalr  = (opcode==7'b1100111); 
+    wire  is_auipc = (opcode==7'b0010111);
+    wire  is_lui   = (opcode==7'b0110111);
+    wire is_jal   = (opcode==7'b1101111);
+    wire  is_jalr  = (opcode==7'b1100111); 
 
     
     wire [31:0] alu_a=is_auipc ? pc : (is_lui ? 0 : rs1_data);//标记以下，如果程序有问题可能是这
