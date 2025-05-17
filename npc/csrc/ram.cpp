@@ -80,9 +80,8 @@ int printf_finish(int inst)
 
     return 1;
 }
-{
-    printf("finish program\n");
-}
+
+    
 
 int main(int argc,char **argv){
 
