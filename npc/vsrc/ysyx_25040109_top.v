@@ -62,7 +62,7 @@ module ysyx_25040109_top (
     wire is_jalr=(opcode==7'b1100111 && inst_ifu[14:12] == 3'b000);
     wire [31:0] jal_target = pc+imm;
     wire [31:0] jalr_target = (rs1_data_out +imm ) & ~1;
-    
+
     assign next_pc = is_jal ? jal_target : (is_jalr ? jalr_target : pc+4);
     assign a0_out=regfile.rf[10]; 
 
@@ -74,8 +74,10 @@ module ysyx_25040109_top (
                      pc, inst_ifu, regfile.rf[5], regfile.rf[6]);
         end
 
-        if(printf_finish(inst) == 0)
-        $finish;
+        if(printf_finish(inst) == 0 )begin
+            
+            $finish;
+        end
 
     end
 endmodule

@@ -94,14 +94,7 @@ extern "C"  int printf_finish(uint32_t inst)
     if (inst == 0x00100073)
     {
         uint32_t a0 = top->a0_out; // 从 CPU 的寄存器堆中读取 x10（即 a0）寄存器的值，保存到变量 a0 中。后面用它来判断 ECALL 的返回值
-        if (a0 == 0)
-        {
-            printf("Program finished successfully\n");
-        }
-        else
-        {
-            printf("Program failed with exit code %u\n", a0);
-        }
+        printf("finish program\n");
         return 0;
     }
 
@@ -136,9 +129,9 @@ int main(int argc,char **argv){
         return 1;
     }
 
-    imem.pmem_write(0x80000000, 0x00500293);
+    /*imem.pmem_write(0x80000000, 0x00500293);
     imem.pmem_write(0x80000004, 0x00600313);
-    imem.pmem_write(0x80000008, 0x00700393);
+    imem.pmem_write(0x80000008, 0x00700393);*/
 
 
     vluint64_t sim_time = 0;
