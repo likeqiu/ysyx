@@ -147,11 +147,10 @@ int main(int argc,char **argv){
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
-    while( !Verilated::gotFinish())
+    int i = 0;
+    while (!Verilated::gotFinish() && i<10)
     {
-        
-   
-
+        i++;
 
         top->clk = 0;
         top->eval();
