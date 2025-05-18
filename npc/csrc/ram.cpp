@@ -114,15 +114,13 @@ int main(int argc,char **argv){
     tfp->open("sim.fst");
 
     InstructionMemry imem(1024);
+    
 
     if(argc < 2){
         cerr << "Usage:" << argv[0] << "<bin_file" << endl;
         return 1;
     }
-    /*imem.pmem_write(0x80000000, 0x00500293);
-    imem.pmem_write(0x80000004, 0x00600313);
-    imem.pmem_write(0x80000008, 0x00700393);
-    imem.pmem_write(0x8000000c, 0x00100073);*/
+
 
     try{
         imem.load_bin(argv[1]);
@@ -130,7 +128,11 @@ int main(int argc,char **argv){
         cerr << "Erroe loading bin:" << e.what() << endl;
         return 1;
     }
-    
+
+    imem.pmem_write(0x80000000, 0x00500293);
+    imem.pmem_write(0x80000004, 0x00600313);
+    imem.pmem_write(0x80000008, 0x00700393);
+    imem.pmem_write(0x8000000c, 0x00100073);
 
     vluint64_t sim_time = 0;
     // vl 前缀表示 Verilator Long（Verilator专用）
