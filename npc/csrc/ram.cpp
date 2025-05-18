@@ -132,7 +132,7 @@ int main(int argc,char **argv){
     imem.pmem_write(0x80000000, 0x00500293);
     imem.pmem_write(0x80000004, 0x00600313);
     imem.pmem_write(0x80000008, 0x00700393);
-    imem.pmem_write(0x8000000c, 0x00100073);
+
 
     vluint64_t sim_time = 0;
     // vl 前缀表示 Verilator Long（Verilator专用）
