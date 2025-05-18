@@ -18,7 +18,7 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 1,DATA_WIDTH=1)
 
     always @(posedge clk)begin
         if(wen) rf[waddr] <= wdata;
-        $display("waddr=0x%0h  wdata=0x%0h  raddr1=0x%h  rdata1=0x%0h\n",waddr,wdata,raddr1,rdata1);
+        $display("waddr=0x%h  wdata=0x%h  raddr1=0x%h  rdata1=0x%h\n",waddr,wdata,raddr1,rdata1);
     end
     assign rdata1 = (raddr1==0) ? 0 : rf[raddr1]; 
 
