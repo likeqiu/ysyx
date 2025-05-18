@@ -6,6 +6,7 @@ TOPNAME = ysyx_25040109_top
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 INC_PATH ?=
+IMG ?=
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
 
@@ -28,7 +29,7 @@ waveform: $(VSRC) $(CSRC)
 
 
 run: waveform
-	./obj_dir/V$(TOPNAME)  
+	./obj_dir/V$(TOPNAME) $(IMG)
 
 #run:./obj_dir/V$(TOPNAME)  +verilator+rand+reset+2
 
