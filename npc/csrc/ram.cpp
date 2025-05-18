@@ -136,9 +136,9 @@ int main(int argc,char **argv){
         return 1;
     }
 
-    /*imem.pmem_write(0x80000000, 0x00500293);
+    imem.pmem_write(0x80000000, 0x00500293);
     imem.pmem_write(0x80000004, 0x00600313);
-    imem.pmem_write(0x80000008, 0x00700393);*/
+    imem.pmem_write(0x80000008, 0x00700393);
 
 
     vluint64_t sim_time = 0;
