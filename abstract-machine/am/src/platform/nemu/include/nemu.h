@@ -19,6 +19,8 @@
 # define nemu_trap(code) asm volatile ("move $v0, %0; sdbbp" : :"r"(code))
 #elif defined(__riscv)
 # define nemu_trap(code) asm volatile("mv a0, %0; ebreak" : :"r"(code))
+// asm: 关键字，表示后面的内容是汇编指令。
+/*volatile : 这是内联汇编的一个修饰符。它告诉编译器 不要 对这段汇编代码进行优化（例如，移除它、重排它）或者认为它没有副作用。这对于像 ebreak 这种会改变程序流程或与外部环境交互的指令至关重要。*/
 // 对于 RISC-V 架构，将 code 移动到 a0 寄存器，然后使用 ebreak 指令触发断点
 // a0: RISC-V 中用于传递参数的寄存器；ebreak: Environment Break，环境断点 
 #elif defined(__ISA_LOONGARCH32R__)
