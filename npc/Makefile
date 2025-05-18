@@ -7,6 +7,7 @@ CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 INC_PATH ?=
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
+include $(AM_HOME)/Makefile
 
 all:
 	@echo "Write this Makefile by your self."
