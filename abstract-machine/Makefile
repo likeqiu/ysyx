@@ -252,6 +252,8 @@ $(ARCHIVE): $(OBJS)
 -include $(addprefix $(DST_DIR)/, $(addsuffix .d, $(basename $(SRCS))))
 # 包含依赖文件：
 # - 自动包含 gcc 生成的 .d 文件，记录头文件依赖。
+#basename 函数去除文件名中的扩展名,addsuffix 函数为每个文件名添加指定的后缀（这里是 .d）addprefix 函数为每个文件名添加指定的前缀（这里是 $(DST_DIR)/
+#.d 文件实现了自动依赖跟踪，确保 make 能正确处理头文件更改
 
 ## 6. Miscellaneous
 

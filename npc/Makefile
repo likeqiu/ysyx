@@ -8,7 +8,7 @@ CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 INC_PATH ?=
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
-include $(AM_HOME)/Makefile
+
 
 all:
 	@echo "Write this Makefile by your self."
@@ -24,7 +24,7 @@ sim:$(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 waveform: $(VSRC) $(CSRC)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	verilator -Wall --cc --exe  --x-assign unique --x-initial unique --build $(VSRC) $(CSRC) --trace-fst --top-module $(TOPNAME)
+	verilator -Wall --cc --exe  --x-assign unique --x-initial unique --build $(SRCS)  --trace-fst --top-module $(TOPNAME)
 
 
 run: waveform
@@ -37,7 +37,7 @@ look:
 	gtkwave sim.fst	
 
 
-clean:
-	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp
+#clean:
+#	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp
 
 include ../Makefile
