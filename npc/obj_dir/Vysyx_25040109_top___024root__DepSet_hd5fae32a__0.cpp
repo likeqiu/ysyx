@@ -107,7 +107,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     CData/*0:0*/ __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
     __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0;
     // Body
-    VL_WRITEF("waddr=0x%0x  wdata=0x%0x  raddr1=0x%x  rdata1=0x%0x\n\n",
+    VL_WRITEF("waddr=0x%x  wdata=0x%x  raddr1=0x%x  rdata1=0x%x\n\n",
               5,(0x1fU & (vlSelf->inst >> 7U)),32,(
                                                    ((0x6fU 
                                                      == 

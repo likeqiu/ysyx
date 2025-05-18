@@ -9,7 +9,7 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 1,DATA_WIDTH=1)
 );
 
 
-    reg [DATA_WIDTH-1:0] rf[2**ADDR_WIDTH-1:0];
+    reg [DATA_WIDTH-1:0] rf[31:0];
     initial begin
         rf[0]=0;
     end

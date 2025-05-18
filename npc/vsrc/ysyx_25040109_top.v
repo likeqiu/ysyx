@@ -25,7 +25,7 @@ module ysyx_25040109_top (
         .inst_ifu(inst_ifu)
     );
 
-    ysyx_25040109_RegisterFile #(5, 32) regfile (
+    ysyx_25040109_RegisterFile #(32, 32) regfile (
         .clk(clk),
         .wdata(result),
         .waddr(rd_addr_exu),
