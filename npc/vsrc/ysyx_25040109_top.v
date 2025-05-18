@@ -25,14 +25,7 @@ module ysyx_25040109_top (
         .inst_ifu(inst_ifu)
     );
 
-    ysyx_25040109_RegisterFile #(32, 32) regfile (
-        .clk(clk),
-        .wdata(result),
-        .waddr(rd_addr_exu),
-        .wen(reg_write_en_exu),
-        .raddr1(inst_ifu[19:15]),
-        .rdata1(rs1_data)
-    );
+
 
     ysyx_25040109_IDU idu (
         .inst(inst_ifu),
@@ -56,12 +49,21 @@ module ysyx_25040109_top (
 
     );
 
+        ysyx_25040109_RegisterFile #(5, 32) regfile (
+        .clk(clk),
+        .wdata(result),
+        .waddr(rd_addr_exu),
+        .wen(reg_write_en_exu),
+        .raddr1(inst_ifu[19:15]),
+        .rdata1(rs1_data)
+    );
+
     wire is_jal=(opcode==7'b1101111);
     wire is_jalr=(opcode==7'b1100111 && inst_ifu[14:12] == 3'b000);
     wire [31:0] jal_target = pc+imm;
     wire [31:0] jalr_target = (rs1_data_out +imm ) & ~1;
+    
     assign next_pc = is_jal ? jal_target : (is_jalr ? jalr_target : pc+4);
-
     assign a0_out=regfile.rf[10]; 
 
     import "DPI-C" function int printf_finish(int inst);
