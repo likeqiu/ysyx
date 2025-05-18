@@ -84,7 +84,7 @@ image: image-dep
 # - $(IMAGE).bin: 输出的二进制文件。
 
 run: insert-arg
-	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
+	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin     echo "Running test1 in current Makefile"
 # run: 运行目标，用于在 NEMU 模拟器中运行生成的二进制文件。
 # - 依赖于 insert-arg 目标，确保参数已插入二进制文件。
 # - $(MAKE) -C $(NEMU_HOME): 在 NEMU 模拟器目录执行 make 命令，$(NEMU_HOME) 是 NEMU 仓库路径。
