@@ -22,7 +22,7 @@ sim:$(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 
 #$(addprefix -CFLAGS , $(CXXFLAGS)),$(addprefix -LDFLAGS , $(LDFLAGS))编译器和链接器参数
 
-waveform: $(VSRC) $(CSRC)
+waveform: 
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
 	verilator -Wall --cc --exe  --x-assign unique --x-initial unique --build $(SRCS)  --trace-fst --top-module $(TOPNAME)
