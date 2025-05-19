@@ -72,14 +72,13 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___ico_sequent__TOP__0(Vysyx_2504
         = (0x1300000000ULL | (QData)((IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_i_ext)));
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list[2U] 
         = (0x2300000000ULL | (QData)((IData)((((- (IData)(
-                                                          (1U 
-                                                           & (vlSelf->inst 
-                                                              >> 0xbU)))) 
+                                                          (vlSelf->inst 
+                                                           >> 0x1fU))) 
                                                << 0xcU) 
                                               | (IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_s)))));
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__data_list[2U] 
-        = (((- (IData)((1U & (vlSelf->inst >> 0xbU)))) 
-            << 0xcU) | (IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_s));
+        = (((- (IData)((vlSelf->inst >> 0x1fU))) << 0xcU) 
+           | (IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_s));
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list[0U] 
         = (0x6300000000ULL | (QData)((IData)((((- (IData)(
                                                           (vlSelf->inst 
