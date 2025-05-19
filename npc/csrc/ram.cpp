@@ -91,7 +91,7 @@ public:
 
 extern "C"  int printf_finish(uint32_t inst)
 {
-    if (inst == 0x00100073 || inst = 0x00000073)
+    if (inst == 0x00100073 || inst == 0x00000073)
     {
         uint32_t a0 = top->a0_out; // 从 CPU 的寄存器堆中读取 x10（即 a0）寄存器的值，保存到变量 a0 中。后面用它来判断 ECALL 的返回值
         printf("Finish program (%s),a0 (x10) = 0x%x (%d)\n",inst == 0x00100073 ? "EBREAK" : "ECALL", a0, a0);
