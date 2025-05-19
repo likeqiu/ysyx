@@ -24,12 +24,12 @@ module ysyx_25040109_IDU (
 
 
     ysyx_25040109_MuxKeyWithDefault #(8, 7,  32)  imm_select 
-    ( imm,opcode,imm_inv_ext,
+    ( imm,opcode,//imm_inv_ext
+    7'b0000000,
         {
             7'b0010111,imm_u_ext,
             7'b0110111,imm_u_ext,
             7'b0010011,imm_i_ext,
-            7'b0110011,imm_r_ext,
             7'b0100011,imm_s_ext,
             7'b1101111,imm_j_ext,
             7'b1100011,imm_b_ext,
