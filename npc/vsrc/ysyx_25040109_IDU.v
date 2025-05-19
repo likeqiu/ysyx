@@ -23,7 +23,7 @@ module ysyx_25040109_IDU (
     wire [31:0] imm_b_ext = {{19{imm_b[12]}},imm_b,1'b0};
 
 
-    ysyx_25040109_MuxKeyWithDefault #(8, 7,  32)  imm_select 
+    ysyx_25040109_MuxKeyWithDefault #(6, 7,  32)  imm_select 
     ( imm,opcode,//imm_inv_ext
     7'b0000000,
         {
@@ -33,7 +33,7 @@ module ysyx_25040109_IDU (
             7'b0100011,imm_s_ext,
             7'b1101111,imm_j_ext,
             7'b1100011,imm_b_ext,
-            7'b1110011,imm_ebreak_ext
+            //7'b1110011,imm_ebreak_ext
         }
     ); 
     
