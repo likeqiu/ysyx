@@ -10,6 +10,7 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 1,DATA_WIDTH=1)
 
 
     reg [DATA_WIDTH-1:0] rf[31:0];
+    
     initial begin
     integer i;
     for (i = 0; i < 32; i = i + 1) begin

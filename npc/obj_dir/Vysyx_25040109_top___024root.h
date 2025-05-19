@@ -24,6 +24,7 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     IData/*31:0*/ ysyx_25040109_top__DOT__next_pc;
     IData/*31:0*/ ysyx_25040109_top__DOT__rs1_data;
     IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__alu_b;
+    IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;
