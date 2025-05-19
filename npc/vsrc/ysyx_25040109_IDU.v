@@ -19,7 +19,7 @@ module ysyx_25040109_IDU (
     wire [31:0] imm_i_ext={{20{imm_i[11]}},imm_i};
     wire [31:0] imm_u_ext={imm_u,12'b0};
     wire [31:0] imm_j_ext = {{11{imm_j[20]}},imm_j,1'b0};
-    wire [31:0] imm_s_ext = {{20{imm_s[20]}},imm_s};
+    wire [31:0] imm_s_ext = {{20{imm_s[11]}},imm_s};
     wire [31:0] imm_b_ext = {{19{imm_b[12]}},imm_b,1'b0};
 
 
