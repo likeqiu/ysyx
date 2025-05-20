@@ -260,10 +260,11 @@ static int cmd_sb(char *args)
   return 0;
 }
 
-static struct {
+static struct
+{
   const char *name;
   const char *description;
-  int (*handler) (char *);
+  int (*handler)(char *);
 } cmd_table[] = {
     {"help", "Display information about all supported commands", cmd_help},
     {"c", "Continue the execution of the program", cmd_c},
@@ -274,9 +275,9 @@ static struct {
     {"p", "get expression value (p expr)", cmd_p},
     {"t", "test the expr (t)", cmd_t},
     {"w", " set watchpoint (w expr) ", cmd_w},
-    {"d","delete watchpoint (d NO)",cmd_d},
-    {"st","set mtrace range",cmd_st},
-    {"sb","look at the beq using times",cmd_sb},
+    {"d", "delete watchpoint (d NO)", cmd_d},
+    {"st", "set mtrace range", cmd_st},
+    {"sb", "look at the beq using times", cmd_sb},
 
     /* TODO: Add more commands */
 
