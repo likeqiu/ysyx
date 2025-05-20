@@ -94,10 +94,9 @@ extern "C"  int printf_finish(uint32_t inst)
     if (inst == 0x00100073 || inst == 0x00000073)
     {
         uint32_t a0 = top->a0_out; // 从 CPU 的寄存器堆中读取 x10（即 a0）寄存器的值，保存到变量 a0 中。后面用它来判断 ECALL 的返回值
-        printf("Finish program (%s), a0 (x10) = (%d), Hit a \033[1;%dm%s\033[0m TRAP\n",
+        printf("Finish program (%s),  Hit a \033[1;%dm%s\033[0m TRAP\n",
                inst == 0x00100073 ? "EBREAK" : "ECALL",
-               a0,
-               a0 == 0 ? 32 : 31, // 32 = 绿色，31 = 红色
+               a0 == 0 ? 32 : 31, 
                a0 == 0 ? "GOOD" : "BAD");
         return (inst == 0x00000073 && a0 !=0) ? 1 : 0;
     }
@@ -108,7 +107,7 @@ extern "C"  int printf_finish(uint32_t inst)
     
 
 int main(int argc,char **argv){
-    top->a0_out = 1;
+    //top->a0_out = 1;测试
 
     Verilated::commandArgs(argc, argv);
 
