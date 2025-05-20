@@ -55,7 +55,9 @@ module ysyx_25040109_top (
         .waddr(rd_addr_exu),
         .wen(reg_write_en_exu),
         .raddr1(inst_ifu[19:15]),
-        .rdata1(rs1_data)
+        .rdata1(rs1_data),
+        .a0_out(a0_out)
+
     );
 
     wire is_jal=(opcode==7'b1101111);
@@ -64,7 +66,7 @@ module ysyx_25040109_top (
     wire [31:0] jalr_target = (rs1_data_out +imm ) & ~1;
 
     assign next_pc = is_jal ? jal_target : (is_jalr ? jalr_target : pc+4);
-    assign a0_out=regfile.rf[10]; 
+
 
     import "DPI-C" function int printf_finish(int inst);
 

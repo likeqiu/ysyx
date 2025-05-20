@@ -5,7 +5,8 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 1,DATA_WIDTH=1)
     input [ADDR_WIDTH-1:0] waddr,
     input wen,
     input [ADDR_WIDTH-1:0] raddr1,
-    output [DATA_WIDTH-1:0] rdata1
+    output [DATA_WIDTH-1:0] rdata1,
+    output [DATA_WIDTH-1:0] a0_out
 );
 
 
@@ -18,7 +19,7 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 1,DATA_WIDTH=1)
     end
 end
 
-
+    assign a0_out=rf[10]; 
 
     always @(posedge clk)begin
         if(wen) rf[waddr] <= wdata;
