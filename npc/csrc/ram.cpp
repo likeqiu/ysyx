@@ -98,6 +98,7 @@ extern "C"  int printf_finish(uint32_t inst)
 
         return 1;
 }
+}
 
     
 
