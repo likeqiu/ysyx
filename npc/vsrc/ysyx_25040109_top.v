@@ -68,12 +68,12 @@ module ysyx_25040109_top (
     assign next_pc = is_jal ? jal_target : (is_jalr ? jalr_target : pc+4);
 
 
+
     import "DPI-C" function int printf_finish(int inst);
 
     always @(posedge clk) begin
         if (!rst) begin
-            $display("PC=0x%h, inst=0x%h, t0(x5)=0x%h, t1(x6)=0x%h",
-                     pc, inst_ifu, regfile.rf[5], regfile.rf[6]);
+            $display("PC=0x%h, inst=0x%h,",pc, inst_ifu);
         end
 
         if(printf_finish(inst) == 0 )begin

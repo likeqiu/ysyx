@@ -11,6 +11,8 @@ using namespace std;
 
 Vysyx_25040109_top *top = new Vysyx_25040109_top;
 
+
+
 class InstructionMemry{
 private:
     //32位，4字节
@@ -89,7 +91,8 @@ public:
     }
 };
 
-extern "C"  int printf_finish(uint32_t inst)
+extern void print_registers();
+extern "C" int printf_finish(uint32_t inst)
 {
     if (inst == 0x00100073 || inst == 0x00000073)
     {
