@@ -22,7 +22,7 @@ end
 
     always @(posedge clk)begin
         if(wen) rf[waddr] <= wdata;
-        $display("waddr=0x%h  wdata=0x%h  raddr1=0x%h  rdata1=0x%h\n",waddr,wdata,raddr1,rdata1);
+       // $display("waddr=0x%h  wdata=0x%h  raddr1=0x%h  rdata1=0x%h\n",waddr,wdata,raddr1,rdata1);
     end
     assign rdata1 = (raddr1==0) ? 0 : rf[raddr1]; 
 

@@ -75,7 +75,6 @@ module ysyx_25040109_top (
         end
 
         if(printf_finish(inst) == 0 )begin
-            
             $finish;
         end
 
