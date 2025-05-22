@@ -42,7 +42,7 @@ int main(int argc,char **argv){
     top->trace(tfp, 99);
     tfp->open("sim.fst");
 
-        InstructionMemry imem(1024);
+    InstructionMemry imem(1024);
 
     if (argc < 2)
     {
