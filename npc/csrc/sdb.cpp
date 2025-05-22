@@ -73,7 +73,12 @@ static int cmd_si(char *args)
     return 0;
 }
 
-static struct
+static int cmd_q(char *args)
+{
+    return -1;
+}
+
+    static struct
 {
     const char *name;
     const char *description;
@@ -83,6 +88,7 @@ static struct
     {"info", "Display all the reg", cmd_info},
     {"c", "Continue the execution of the program", cmd_c},
     {"si", "Directly execute n times,(npc:si n)", cmd_si},
+    {"q", "Exit NEMU", cmd_q},
 };
 
 #define NR_CMD (int)(sizeof(cmd_table) / sizeof(cmd_table[0]))
