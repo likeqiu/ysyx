@@ -42,7 +42,7 @@ static int cmd_info(char *args)
     // 3. 检查是否成功获取句柄
     if (current_scope == NULL)
     {
-        std::cerr << "Error: Could not find Verilog scope for path: " << scope_path << std::endl;
+        cerr << "Error: Could not find Verilog scope for path: " << scope_path << endl;
         // 如果这里报错，说明你的 scope_path 可能不正确
         // 你可能需要通过仿真器查看 Verilog 模块的层次结构来确认正确的路径
         return;
@@ -52,7 +52,7 @@ static int cmd_info(char *args)
     svSetScope(current_scope);
 
     // 5. 现在可以安全地调用 Verilog task 了
-    std::cout << "C++: Calling Verilog task print_registers in scope: " << scope_path << std::endl;
+    cout << "C++: Calling Verilog task print_registers in scope: " << scope_path << endl;
     print_registers(); // 调用 Verilog 中导出的 task
 
     // 6. (可选) 如果你需要在同一个 C 函数中切换到其他 Verilog 作用域，
