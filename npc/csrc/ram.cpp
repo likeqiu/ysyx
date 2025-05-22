@@ -1,11 +1,7 @@
 
 
 
-#include<vector>
-#include <cstdint>
-#include<stdexcept>
-#include<iostream>
-#include<fstream>
+#include"common.h"
 #include"ram.h"
 #include"sdb.h"
 
