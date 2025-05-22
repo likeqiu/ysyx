@@ -25,7 +25,7 @@ end
         integer i;
         begin
             $display("=== Register File Contents ===");
-            for(int i=0;i<32;i=i+1) begin
+            for( i=0;i<32;i=i+1) begin
                 $display("x%0d: 0x%h (%0d)",i,rf[i],rf[i]);
             end
             $display("=============================");

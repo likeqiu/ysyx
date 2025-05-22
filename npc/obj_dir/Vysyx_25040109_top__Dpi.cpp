@@ -14,3 +14,11 @@
 #include "Vysyx_25040109_top__Dpi.h"
 #include "Vysyx_25040109_top.h"
 
+#ifndef VL_DPIDECL_print_registers_
+#define VL_DPIDECL_print_registers_
+void print_registers() {
+    // DPI export at vsrc/ysyx_25040109_RegisterFile.v:24:10
+    return Vysyx_25040109_top::print_registers();
+}
+#endif
+

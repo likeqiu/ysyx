@@ -17,6 +17,7 @@
 #include "Vysyx_25040109_top___024root.h"
 
 // DPI TYPES for DPI Export callbacks (Internal use)
+using Vysyx_25040109_top__Vcb_print_registers_t = void (*) (Vysyx_25040109_top__Syms* __restrict vlSymsp);
 
 // SYMS CLASS (contains all model state)
 class Vysyx_25040109_top__Syms final : public VerilatedSyms {
@@ -30,6 +31,9 @@ class Vysyx_25040109_top__Syms final : public VerilatedSyms {
 
     // MODULE INSTANCE STATE
     Vysyx_25040109_top___024root   TOP;
+
+    // SCOPE NAMES
+    VerilatedScope __Vscope_ysyx_25040109_top__regfile;
 
     // CONSTRUCTORS
     Vysyx_25040109_top__Syms(VerilatedContext* contextp, const char* namep, Vysyx_25040109_top* modelp);

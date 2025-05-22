@@ -136,6 +136,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_init_sub__TOP__0(Vysyx_250
     for (int i = 0; i < 32; ++i) {
         tracep->declBus(c+36+i*1,"rf",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, true,(i+0), 31,0);
     }
+    tracep->declBus(c+113,"print_registers__Vstatic__i",-1, FST_VD_IMPLICIT,FST_VT_VCD_INTEGER, false,-1, 31,0);
     tracep->pushNamePrefix("unnamedblk1 ");
     tracep->declBus(c+7,"i",-1, FST_VD_IMPLICIT,FST_VT_VCD_INTEGER, false,-1, 31,0);
     tracep->popNamePrefix(3);
@@ -376,4 +377,5 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_full_sub_0(Vysyx_25040109_
     bufp->fullIData(oldp+110,(0x80000000U),32);
     bufp->fullBit(oldp+111,(1U));
     bufp->fullIData(oldp+112,(5U),32);
+    bufp->fullIData(oldp+113,(vlSelf->ysyx_25040109_top__DOT__regfile__DOT__print_registers__Vstatic__i),32);
 }
