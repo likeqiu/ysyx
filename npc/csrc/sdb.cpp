@@ -29,7 +29,7 @@ static char* rl_gets(){
 
 static int cmd_help(char *args);
 
-extern void print_registers();
+extern "C" void print_registers();
 static int cmd_info(char *args)
 {
     print_registers();
