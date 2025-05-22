@@ -46,7 +46,7 @@ static int cmd_info(char *args)
         cerr << "Error: Could not find Verilog scope for path: " << scope_path << endl;
         // 如果这里报错，说明你的 scope_path 可能不正确
         // 你可能需要通过仿真器查看 Verilog 模块的层次结构来确认正确的路径
-        return;
+        return 1;
     }
 
     // 4. 设置当前 DPI 作用域
