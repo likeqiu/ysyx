@@ -25,38 +25,7 @@ static char* rl_gets(){
     return line_read;
 }
 
-
-
-
-
-
-static int cmd_help(char *args){
-    char *arg = strtok(nullptr, " ");
-    int i;
-
-    if (arg == nullptr)
-    {
-        for ( i = 0; i < NR_CMD;i++)
-        {
-            printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
-        }
-    }
-    else
-    {
-        for (i = 0; i < NR_CMD;i++)
-        {
-            if(strcmp(arg,cmd_table[i].name)==0)
-            {
-                printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
-                return 0;
-            }
-        }
-
-        printf("Unkonw command '%s'\n", arg);
-    }
-
-    return 0;
-}
+static int cmd_help(char *args);
 
 extern void printf_register();
 static int cmd_info(char *args)
@@ -83,6 +52,35 @@ static struct
 };
 
 #define NR_CMD (int)(sizeof(cmd_table) / sizeof(cmd_table[0]))
+
+static int cmd_help(char *args)
+{
+    char *arg = strtok(nullptr, " ");
+    int i;
+
+    if (arg == nullptr)
+    {
+        for (i = 0; i < NR_CMD; i++)
+        {
+            printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
+        }
+    }
+    else
+    {
+        for (i = 0; i < NR_CMD; i++)
+        {
+            if (strcmp(arg, cmd_table[i].name) == 0)
+            {
+                printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
+                return 0;
+            }
+        }
+
+        printf("Unkonw command '%s'\n", arg);
+    }
+
+    return 0;
+}
 
 void sdb_mainloop()
 {
