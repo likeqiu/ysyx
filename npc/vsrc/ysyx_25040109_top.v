@@ -82,17 +82,6 @@ module ysyx_25040109_top (
 
     end
 
-        export "DPI-C" task print_registers;
-
-    task print_registers;
-        integer i;
-        begin
-            $display("=== Register File Contents ===");
-            for( i=0;i<32;i=i+1) begin
-                $display("x%0d: 0x%h (%0d)",i,regfile.rf[i],regfile.rf[i]);
-            end
-            $display("=============================");
-        end
-    endtask
+      
 endmodule
 
