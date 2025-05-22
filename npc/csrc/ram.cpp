@@ -10,9 +10,7 @@ using namespace std;
 Vysyx_25040109_top *top = new Vysyx_25040109_top;
 VerilatedFstC *tfp = new VerilatedFstC;
 vluint64_t sim_time = 0;
-
-
-
+InstructionMemry imem(1024);
 
 extern "C" int printf_finish(uint32_t inst)
 {
@@ -42,7 +40,7 @@ int main(int argc,char **argv){
     top->trace(tfp, 99);
     tfp->open("sim.fst");
 
-    InstructionMemry imem(1024);
+ 
 
     if (argc < 2)
     {
