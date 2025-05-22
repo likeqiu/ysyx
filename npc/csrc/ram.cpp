@@ -7,6 +7,7 @@
 #include<iostream>
 #include<fstream>
 #include"ram.h"
+#include"sdb.h"
 
 using namespace std;
 

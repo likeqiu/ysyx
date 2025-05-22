@@ -1,6 +1,7 @@
 VSRC = $(wildcard vsrc/*.v)
-CSRC = $(wildcard csrc/*.cpp)
-SRCS=  $(VSRC) $(CSRC)
+CSRC = $(wildcard csrc/*.cpp) 
+HSRC = $(wildcard csrc/*.h)
+SRCS=  $(VSRC) $(CSRC) 
 NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
 INCFLAGS = $(addprefix -I, $(INC_PATH))

@@ -215,7 +215,6 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
     __Vtemp_h02339d88__0[7U] = (0xb8U | (vlSelf->inst 
                                          >> 0x1dU));
     bufp->chgWData(oldp+94,(__Vtemp_h02339d88__0),234);
-    bufp->chgIData(oldp+102,(vlSelf->ysyx_25040109_top__DOT__regfile__DOT__print_registers__Vstatic__i),32);
 }
 
 void Vysyx_25040109_top___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {

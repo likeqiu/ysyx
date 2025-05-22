@@ -72,9 +72,6 @@ class Vysyx_25040109_top VL_NOT_FINAL : public VerilatedModel {
     /// Retrieve name of this model instance (as passed to constructor).
     const char* name() const;
 
-    /// DPI Export functions
-    static void print_registers();
-
     // Abstract methods from VerilatedModel
     const char* hierName() const override final;
     const char* modelName() const override final;

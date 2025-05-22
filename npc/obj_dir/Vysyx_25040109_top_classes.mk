@@ -24,7 +24,6 @@ VM_TRACE_FST = 1
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
 	Vysyx_25040109_top \
-	Vysyx_25040109_top__Dpi_Export__0 \
 	Vysyx_25040109_top___024root__DepSet_heb1ab049__0 \
 	Vysyx_25040109_top___024root__DepSet_hd5fae32a__0 \
 
