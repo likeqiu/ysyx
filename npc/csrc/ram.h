@@ -9,11 +9,11 @@ using namespace std;
 
 enum class NPC_STATE
 {
-    running = 0;
-    quick = 1;
-    end = 2;
-    halt = 3;
-}
+    RUNNING = 0;
+    QUIT = 1;
+    END = 2;
+    HALT = 3;
+};
 
 extern Vysyx_25040109_top *top;
 extern VerilatedFstC *tfp;
