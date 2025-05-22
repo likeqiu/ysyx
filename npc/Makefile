@@ -1,5 +1,5 @@
 VSRC = $(wildcard vsrc/*.v)
-CSRC = csrc/ram.cpp
+CSRC = $(wildcard csrc/*.cpp)
 SRCS=$(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top

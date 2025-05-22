@@ -91,7 +91,7 @@ public:
     }
 };
 
-extern void print_registers();
+
 extern "C" int printf_finish(uint32_t inst)
 {
     if (inst == 0x00100073 || inst == 0x00000073)

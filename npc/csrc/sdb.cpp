@@ -32,7 +32,8 @@ static struct {
     int (*handle)(char *);
 } cmd_table[] = {
     {"help", "Display information about all supported commands", cmd_help},
-
+    {"info", "Display all the reg", cmd_info},
+    {"c", "Continue the execution of the program", cmd_c},
 };
 
 #define NR_CMD (int)(sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -62,6 +63,19 @@ static int cmd_help(char *args){
         printf("Unkonw command '%s'\n", arg);
     }
 
+    return 0;
+}
+
+extern void printf_register();
+static int cmd_info(char *args)
+{
+    printf_register();
+    return 0;
+}
+
+static int cmd_c(char *args)
+{
+   
     return 0;
 }
 
