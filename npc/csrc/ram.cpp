@@ -185,6 +185,8 @@ int main(int argc,char **argv){
 
     }
 
+    char *args;
+    cmd_info(args);
     tfp->close();
     top->final();
     delete top;
