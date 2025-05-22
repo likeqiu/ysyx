@@ -9,10 +9,10 @@ using namespace std;
 
 enum class NPC_STATE
 {
-    RUNNING = 0;
-    QUIT = 1;
-    END = 2;
-    HALT = 3;
+    RUNNING = 0,
+    QUIT = 1,
+    END = 2,
+    HALT = 3
 };
 
 extern Vysyx_25040109_top *top;
