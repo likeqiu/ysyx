@@ -80,7 +80,6 @@ int main(int argc,char **argv){
    
     while (!Verilated::gotFinish() )
     {
-      
 
         top->clk = 0;
         top->eval();

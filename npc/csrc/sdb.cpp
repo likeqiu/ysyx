@@ -52,9 +52,22 @@ static int cmd_si(char *args)
     sscanf(args, "%d", &ext_num);
     for (int i = 0; i < ext_num;)
     {
+
+        top->clk = 0;
+        top->eval();
+        tfp->dump(sim_time++);
+
         try{
             top->inst = imem.pmem_read(top->pc);
-        }catch
+        }catch(const exception &e)
+        {
+            cerr << "Cycle" << ":" << e.what() << endl;
+            break;
+        }
+
+        top->clk = 1;
+        top->eval();
+        tfp->dump(sim_time++);
     }
 }
 
