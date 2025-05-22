@@ -19,7 +19,7 @@ static char* rl_gets(){
 
     // 确保 line_read 是一个有效的指针（非 NULL），并且用户输入的字符串不为空（至少有一个字符）。
     if(line_read && *line_read){
-        add_history(line_read);
+        //add_history(line_read);
     }
 
     return line_read;
