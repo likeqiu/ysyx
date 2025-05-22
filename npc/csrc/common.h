@@ -6,5 +6,6 @@
 #include <stdexcept> //定义了标准异常类
 #include <iostream>  //提供了输入/输出流的功能。
 #include <fstream> //提供了文件流的功能。
+#include <stdio.h>
 
 #endif

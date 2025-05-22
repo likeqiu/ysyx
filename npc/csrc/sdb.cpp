@@ -1,11 +1,8 @@
 #include<readline/readline.h>
 #include<readline/history.h>
-#include <cstdlib>
-#include <stdio.h>
 #include"ram.h"
 #include <Vysyx_25040109_top___024root.h>
 
-#include<iostream>
 using namespace std;
 
 extern Vysyx_25040109_top *top;
