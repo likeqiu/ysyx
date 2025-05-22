@@ -31,7 +31,35 @@ static int cmd_help(char *args);
 extern "C" void print_registers();
 static int cmd_info(char *args)
 {
-    print_registers();
+    // 1. 定义要设置的作用域的完整层次路径。
+    //    这里假设你的 RegisterFile 模块实例在顶层模块 ysyx_25040109_top 中被命名为 rf_inst。
+    //    如果 RegisterFile 模块本身就是顶层模块，那么路径就是 "ysyx_25040109_RegisterFile"。
+    const char *scope_path = "ysyx_25040109_top.regfile"; // <-- 这里是关键！根据实际实例名修改
+
+    // 2. 获取该作用域的句柄
+    svScope current_scope = svGetScopeFromName(scope_path);
+
+    // 3. 检查是否成功获取句柄
+    if (current_scope == NULL)
+    {
+        std::cerr << "Error: Could not find Verilog scope for path: " << scope_path << std::endl;
+        // 如果这里报错，说明你的 scope_path 可能不正确
+        // 你可能需要通过仿真器查看 Verilog 模块的层次结构来确认正确的路径
+        return;
+    }
+
+    // 4. 设置当前 DPI 作用域
+    svSetScope(current_scope);
+
+    // 5. 现在可以安全地调用 Verilog task 了
+    std::cout << "C++: Calling Verilog task print_registers in scope: " << scope_path << std::endl;
+    print_registers(); // 调用 Verilog 中导出的 task
+
+    // 6. (可选) 如果你需要在同一个 C 函数中切换到其他 Verilog 作用域，
+    //    或者在调用完后恢复到之前的 C 默认作用域，可以保存旧的作用域并恢复。
+    //    svScope old_scope = svSetScope(current_scope); // 传递新 scope，并返回旧 scope
+    //    // ... 其他操作 ...
+    //    svSetScope(old_scope); // 恢复旧 scope
     return 0;
 }
 
