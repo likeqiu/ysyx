@@ -11,19 +11,6 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 1,DATA_WIDTH=1)
 
 
     reg [DATA_WIDTH-1:0] rf[31:0];
-
-      export "DPI-C" task print_registers;
-
-    task print_registers;
-        integer i;
-        begin
-            $display("=== Register File Contents ===");
-            for( i=0;i<32;i=i+1) begin
-                $display("x%0d: 0x%h (%0d)",i,rf[i],rf[i]);
-            end
-            $display("=============================");
-        end
-    endtask
     
     initial begin
     integer i;

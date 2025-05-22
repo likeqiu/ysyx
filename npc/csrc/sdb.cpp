@@ -1,7 +1,8 @@
 #include<readline/readline.h>
 #include<readline/history.h>
 #include <cstdlib>
-#include <Vysyx_25040109_top.h>
+#include <stdio.h>
+#include"ram.h"
 #include <Vysyx_25040109_top___024root.h>
 
 #include<iostream>
@@ -47,6 +48,19 @@ static int cmd_c(char *args)
     return 0;
 }
 
+
+static int cmd_si(char *args)
+{
+    int ext_num = 0;
+    sscanf(args, "%d", ext_num);
+    for (int i = 0;i<ext_num)
+    {
+        try{
+
+        }catch()
+    }
+}
+
 static struct
 {
     const char *name;
@@ -56,6 +70,7 @@ static struct
     {"help", "Display information about all supported commands", cmd_help},
     {"info", "Display all the reg", cmd_info},
     {"c", "Continue the execution of the program", cmd_c},
+    {"si", "Directly execute n times,(npc:si n)", cmd_si},
 };
 
 #define NR_CMD (int)(sizeof(cmd_table) / sizeof(cmd_table[0]))

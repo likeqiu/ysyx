@@ -1,18 +1,18 @@
-#include <Vysyx_25040109_top.h>
-#include<verilated.h>
-#include <verilated_fst_c.h>
-#include"sdb.h"
+
+
+
 #include<vector>
 #include <cstdint>
 #include<stdexcept>
 #include<iostream>
 #include<fstream>
+#include"ram.h"
 
 using namespace std;
 
 Vysyx_25040109_top *top = new Vysyx_25040109_top;
-
-
+VerilatedFstC *tfp = new VerilatedFstC;
+vluint64_t sim_time = 0;
 
 class InstructionMemry{
 private:
@@ -116,7 +116,7 @@ int main(int argc,char **argv){
     Verilated::commandArgs(argc, argv);
 
     Verilated::traceEverOn(true);
-    VerilatedFstC *tfp = new VerilatedFstC;
+    
 
     top->trace(tfp, 99);
     tfp->open("sim.fst");
@@ -142,7 +142,7 @@ int main(int argc,char **argv){
     imem.pmem_write(0x80000008, 0x00700393);*/
 
 
-    vluint64_t sim_time = 0;
+    
     // vl 前缀表示 Verilator Long（Verilator专用）
 
     top->clk = 0;
