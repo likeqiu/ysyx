@@ -29,10 +29,10 @@ static char* rl_gets(){
 
 static int cmd_help(char *args);
 
-extern void printf_register();
+extern void print_registers();
 static int cmd_info(char *args)
 {
-    printf_register();
+    print_registers();
     return 0;
 }
 
