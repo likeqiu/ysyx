@@ -24,6 +24,7 @@ void Vysyx_25040109_top___024root____Vdpiexp_ysyx_25040109_top__DOT__regfile__DO
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiexp_ysyx_25040109_top__DOT__regfile__DOT__print_registers_TOP\n"); );
     // Init
     // Body
+    vlSymsp->TOP.__Vdpi_export_trigger = 1U;
     VL_WRITEF("=== Register File Contents ===\nx0: 0x%x (%0#)\nx1: 0x%x (%0#)\nx2: 0x%x (%0#)\nx3: 0x%x (%0#)\nx4: 0x%x (%0#)\nx5: 0x%x (%0#)\nx6: 0x%x (%0#)\nx7: 0x%x (%0#)\nx8: 0x%x (%0#)\nx9: 0x%x (%0#)\nx10: 0x%x (%0#)\nx11: 0x%x (%0#)\nx12: 0x%x (%0#)\nx13: 0x%x (%0#)\nx14: 0x%x (%0#)\nx15: 0x%x (%0#)\nx16: 0x%x (%0#)\nx17: 0x%x (%0#)\nx18: 0x%x (%0#)\nx19: 0x%x (%0#)\nx20: 0x%x (%0#)\nx21: 0x%x (%0#)\nx22: 0x%x (%0#)\nx23: 0x%x (%0#)\nx24: 0x%x (%0#)\nx25: 0x%x (%0#)\nx26: 0x%x (%0#)\nx27: 0x%x (%0#)\nx28: 0x%x (%0#)\nx29: 0x%x (%0#)\n",
               32,vlSymsp->TOP.ysyx_25040109_top__DOT__regfile__DOT__rf
               [0U],32,vlSymsp->TOP.ysyx_25040109_top__DOT__regfile__DOT__rf
@@ -86,12 +87,14 @@ void Vysyx_25040109_top___024root____Vdpiexp_ysyx_25040109_top__DOT__regfile__DO
               [0x1cU],32,vlSymsp->TOP.ysyx_25040109_top__DOT__regfile__DOT__rf
               [0x1dU],32,vlSymsp->TOP.ysyx_25040109_top__DOT__regfile__DOT__rf
               [0x1dU]);
-    VL_WRITEF("x30: 0x%x (%0#)\nx31: 0x%x (%0#)\n=============================\n",
+    VL_WRITEF("x30: 0x%x (%0#)\nx31: 0x%x (%0#)\n",
               32,vlSymsp->TOP.ysyx_25040109_top__DOT__regfile__DOT__rf
               [0x1eU],32,vlSymsp->TOP.ysyx_25040109_top__DOT__regfile__DOT__rf
               [0x1eU],32,vlSymsp->TOP.ysyx_25040109_top__DOT__regfile__DOT__rf
               [0x1fU],32,vlSymsp->TOP.ysyx_25040109_top__DOT__regfile__DOT__rf
               [0x1fU]);
+    vlSymsp->TOP.ysyx_25040109_top__DOT__regfile__DOT__print_registers__Vstatic__i = 0x20U;
+    VL_WRITEF("=============================\n");
 }
 
 #ifdef VL_DEBUG
@@ -104,6 +107,8 @@ void Vysyx_25040109_top___024root___eval_triggers__ico(Vysyx_25040109_top___024r
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_triggers__ico\n"); );
     // Body
     vlSelf->__VicoTriggered.at(0U) = (0U == vlSelf->__VicoIterCount);
+    vlSelf->__VicoTriggered.at(1U) = vlSelf->__Vdpi_export_trigger;
+    vlSelf->__Vdpi_export_trigger = 0U;
 #ifdef VL_DEBUG
     if (VL_UNLIKELY(vlSymsp->_vm_contextp__->debug())) {
         Vysyx_25040109_top___024root___dump_triggers__ico(vlSelf);
@@ -120,7 +125,9 @@ void Vysyx_25040109_top___024root___eval_triggers__act(Vysyx_25040109_top___024r
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_triggers__act\n"); );
     // Body
-    vlSelf->__VactTriggered.at(0U) = ((IData)(vlSelf->clk) 
+    vlSelf->__VactTriggered.at(0U) = vlSelf->__Vdpi_export_trigger;
+    vlSelf->__Vdpi_export_trigger = 0U;
+    vlSelf->__VactTriggered.at(1U) = ((IData)(vlSelf->clk) 
                                       & (~ (IData)(vlSelf->__Vtrigrprev__TOP__clk)));
     vlSelf->__Vtrigrprev__TOP__clk = vlSelf->clk;
 #ifdef VL_DEBUG

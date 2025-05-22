@@ -26,15 +26,7 @@ static char* rl_gets(){
 }
 
 
-static struct {
-    const char *name;
-    const char *description;
-    int (*handle)(char *);
-} cmd_table[] = {
-    {"help", "Display information about all supported commands", cmd_help},
-    {"info", "Display all the reg", cmd_info},
-    {"c", "Continue the execution of the program", cmd_c},
-};
+
 
 #define NR_CMD (int)(sizeof(cmd_table) / sizeof(cmd_table[0]))
 
@@ -78,6 +70,17 @@ static int cmd_c(char *args)
    
     return 0;
 }
+
+static struct
+{
+    const char *name;
+    const char *description;
+    int (*handle)(char *);
+} cmd_table[] = {
+    {"help", "Display information about all supported commands", cmd_help},
+    {"info", "Display all the reg", cmd_info},
+    {"c", "Continue the execution of the program", cmd_c},
+};
 
 void sdb_mainloop()
 {
