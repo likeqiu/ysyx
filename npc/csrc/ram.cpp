@@ -186,8 +186,7 @@ int main(int argc,char **argv){
 
     }
 
-    char *args;
-    cmd_info(args);
+    sdb_mainloop();
     tfp->close();
     top->final();
     delete top;
