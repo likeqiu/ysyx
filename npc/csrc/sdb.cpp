@@ -5,7 +5,7 @@
 
 using namespace std;
 
-extern Vysyx_25040109_top *top;
+
 
 static char *rl_gets()
 {
