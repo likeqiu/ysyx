@@ -1,6 +1,7 @@
 #include <Vysyx_25040109_top.h>
 #include<verilated.h>
 #include <verilated_fst_c.h>
+#include"sdb.h"
 #include<vector>
 #include <cstdint>
 #include<stdexcept>
