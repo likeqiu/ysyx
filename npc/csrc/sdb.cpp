@@ -2,6 +2,7 @@
 #include<readline/history.h>
 #include <cstdlib>
 #include <Vysyx_25040109_top.h>
+#include <svdpi.h>
 #include<iostream>
 using namespace std;
 
