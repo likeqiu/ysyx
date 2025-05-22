@@ -17,7 +17,7 @@
 #ifndef VL_DPIDECL_print_registers_
 #define VL_DPIDECL_print_registers_
 void print_registers() {
-    // DPI export at vsrc/ysyx_25040109_top.v:87:10
+    // DPI export at vsrc/ysyx_25040109_RegisterFile.v:17:10
     return Vysyx_25040109_top::print_registers();
 }
 #endif

@@ -28,12 +28,12 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     IData/*31:0*/ ysyx_25040109_top__DOT__next_pc;
     IData/*31:0*/ ysyx_25040109_top__DOT__rs1_data;
     IData/*31:0*/ ysyx_25040109_top__DOT__imm;
-    IData/*31:0*/ ysyx_25040109_top__DOT__print_registers__Vstatic__i;
     IData/*19:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_j;
     IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_i_ext;
     IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_j_ext;
     IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__lut_out;
     IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__alu_b;
+    IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__print_registers__Vstatic__i;
     IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VicoIterCount;

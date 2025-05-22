@@ -29,23 +29,14 @@ static char *rl_gets()
 
 static int cmd_help(char *args);
 
-extern "C" void print_registers();
+
 static int cmd_info(char *args)
 {
-    const char *scope_path = "Vysyx_25040109_top"; // <-- 修改这里，加上 'V' 前缀
-
-    svScope current_scope = svGetScopeFromName(scope_path);
-
-    if (current_scope == NULL)
+    for (int i = 0; i < 32; i++)
     {
-        std::cerr << "Error: Could not find Verilog scope for path: " << scope_path << std::endl;
-        return 1;
+        printf("x[%d] = 0x%08x\n", i, top->rootp->ysyx_25040109_top__DOT__regfile__DOT__rf[i]);
     }
 
-    svSetScope(current_scope);
-    std::cout << "C++: Calling Verilog task print_registers in scope: " << scope_path << std::endl;
-    print_registers();
-    
     return 0;
 }
 

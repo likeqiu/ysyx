@@ -16,7 +16,7 @@ extern "C" {
 
 
     // DPI EXPORTS
-    // DPI export at vsrc/ysyx_25040109_top.v:87:10
+    // DPI export at vsrc/ysyx_25040109_RegisterFile.v:17:10
     extern void print_registers();
 
     // DPI IMPORTS
