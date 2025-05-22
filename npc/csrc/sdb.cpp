@@ -7,8 +7,7 @@ using namespace std;
 
 extern Vysyx_25040109_top *top;
 
-static char *
-rl_gets()
+static char *rl_gets()
 {
     static char *line_read = nullptr;
 
@@ -32,7 +31,7 @@ static int cmd_help(char *args);
 extern "C" void print_registers();
 static int cmd_info(char *args)
 {
-    const char *scope_path = "ysyx_25040109_top"; // <-- 修改这里，加上 'V' 前缀
+    const char *scope_path = "Vysyx_25040109_top"; // <-- 修改这里，加上 'V' 前缀
 
     svScope current_scope = svGetScopeFromName(scope_path);
 
