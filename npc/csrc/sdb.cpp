@@ -5,11 +5,11 @@
 #include<iostream>
 using namespace std;
 
+extern Vysyx_25040109_top *top;
 
-
-
-
-static char* rl_gets(){
+static char *
+rl_gets()
+{
     static char *line_read = nullptr;
 
     if(line_read){
