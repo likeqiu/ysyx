@@ -42,6 +42,8 @@ static int cmd_info(char *args)
 static int cmd_c(char *args)
 {
 
+    
+
     while (!Verilated::gotFinish())
     {
 
