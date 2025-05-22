@@ -95,6 +95,6 @@ public:
     }
 };
 
-
+InstructionMemry imem(1024);
 
 #endif
