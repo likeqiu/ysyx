@@ -69,6 +69,8 @@ static int cmd_si(char *args)
         top->eval();
         tfp->dump(sim_time++);
     }
+
+    return 0;
 }
 
 static struct
