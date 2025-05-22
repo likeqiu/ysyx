@@ -95,6 +95,6 @@ public:
     }
 };
 
-extern InstructionMemry imem;
+InstructionMemry imem(1024);
 
 #endif
