@@ -35,7 +35,7 @@ static int cmd_info(char *args)
     // 1. 定义要设置的作用域的完整层次路径。
     //    这里假设你的 RegisterFile 模块实例在顶层模块 ysyx_25040109_top 中被命名为 rf_inst。
     //    如果 RegisterFile 模块本身就是顶层模块，那么路径就是 "ysyx_25040109_RegisterFile"。
-    const char *scope_path = "ysyx_25040109_top.regfile"; // <-- 这里是关键！根据实际实例名修改
+    const char *scope_path = "Vysyx_25040109_top.regfile"; // <-- 这里是关键！根据实际实例名修改
 
     // 2. 获取该作用域的句柄
     svScope current_scope = svGetScopeFromName(scope_path);
