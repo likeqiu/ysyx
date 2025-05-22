@@ -2,7 +2,6 @@
 #include<readline/history.h>
 #include <cstdlib>
 #include <Vysyx_25040109_top.h>
-#include <verilated.h>
 using namespace std;
 
 
