@@ -18,7 +18,7 @@ enum class NPC_STATE
 extern Vysyx_25040109_top *top;
 extern VerilatedFstC *tfp;
 extern vluint64_t sim_time;
-extern int npc_state;
+extern NPC_STATE npc_state;
 
 class InstructionMemry
 {

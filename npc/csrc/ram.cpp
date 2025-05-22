@@ -11,7 +11,7 @@ Vysyx_25040109_top *top = new Vysyx_25040109_top;
 VerilatedFstC *tfp = new VerilatedFstC;
 vluint64_t sim_time = 0;
 InstructionMemry imem(1024);
-int npc_state = HALT;
+NPC_STATE npc_state = HALT;
 
 extern "C" int
 printf_finish(uint32_t inst)
