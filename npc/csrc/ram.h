@@ -6,7 +6,7 @@
 #include <verilated.h>
 #include "common.h"
 using namespace std;
-using namespace NPC_STATE;
+
 
 enum class NPC_STATE
 {
