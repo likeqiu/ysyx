@@ -50,7 +50,7 @@ static int cmd_si(char *args)
 {
     int ext_num = 0;
     sscanf(args, "%d", &ext_num);
-    for (int i = 0; i < ext_num;)
+    for (int i = 0; i < ext_num;i++)
     {
 
         top->clk = 0;
