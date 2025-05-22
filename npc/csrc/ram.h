@@ -10,7 +10,7 @@ using namespace std;
 extern Vysyx_25040109_top *top;
 extern VerilatedFstC *tfp;
 extern vluint64_t sim_time;
-extern InstructionMemry imem;
+
 
 class InstructionMemry
 {
@@ -94,5 +94,7 @@ public:
         fill(mem.begin(), mem.end(), 0);
     }
 };
+
+extern InstructionMemry imem;
 
 #endif
