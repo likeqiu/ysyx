@@ -108,7 +108,7 @@ extern "C" int printf_finish(uint32_t inst)
     return 1;
 }
 
-    
+extern "C" void print_registers();
 
 int main(int argc,char **argv){
     //top->a0_out = 1;测试
@@ -186,7 +186,7 @@ int main(int argc,char **argv){
 
     }
 
-    extern "C" void print_registers();
+ 
     sdb_mainloop();
     tfp->close();
     top->final();
