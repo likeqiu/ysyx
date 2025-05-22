@@ -28,7 +28,7 @@ static char* rl_gets(){
 
 
 
-#define NR_CMD (int)(sizeof(cmd_table) / sizeof(cmd_table[0]))
+
 
 static int cmd_help(char *args){
     char *arg = strtok(nullptr, " ");
@@ -81,6 +81,8 @@ static struct
     {"info", "Display all the reg", cmd_info},
     {"c", "Continue the execution of the program", cmd_c},
 };
+
+#define NR_CMD (int)(sizeof(cmd_table) / sizeof(cmd_table[0]))
 
 void sdb_mainloop()
 {
