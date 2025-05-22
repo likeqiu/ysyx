@@ -44,7 +44,7 @@ static struct
 {
     const char *name;
     const char *description;
-    int (*handle)(char *);
+    int (*handler)(char *);
 } cmd_table[] = {
     {"help", "Display information about all supported commands", cmd_help},
     {"info", "Display all the reg", cmd_info},
@@ -95,12 +95,12 @@ void sdb_mainloop()
         if(args >= str_end){
             args = NULL;
         }
-    }
+    
 
     int i;
     for (i = 0; i < NR_CMD;i++)
     {
-        if (strcmp(cmd, cmd_table[i].name) == 0)
+        if (strcmp(cmd,cmd_table[i].name) == 0)
         {
             if(cmd_table[i].handler(args) < 0){
                 return;
@@ -112,4 +112,5 @@ void sdb_mainloop()
     if(i==NR_CMD){
         printf("Unknown comand '%s'\n", cmd);
     }
+}
 }
