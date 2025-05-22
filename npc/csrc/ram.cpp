@@ -43,13 +43,12 @@ int main(int argc,char **argv){
     tfp->open("sim.fst");
 
     InstructionMemry imem(1024);
-    
 
-    if(argc < 2){
+    if (argc < 2)
+    {
         cerr << "Usage:" << argv[0] << "<bin_file" << endl;
         return 1;
     }
-
 
     try{
         imem.load_bin(argv[1]);
