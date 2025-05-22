@@ -4,6 +4,7 @@
 #include <Vysyx_25040109_top.h>
 #include <verilated_fst_c.h>
 #include <verilated.h>
+using namespace std;
 
 extern Vysyx_25040109_top *top;
 extern VerilatedFstC *tfp;
