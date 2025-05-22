@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <Vysyx_25040109_top.h>
 #include <Vysyx_25040109_top___024root.h>
-#include <svdpi.h>
+
 #include<iostream>
 using namespace std;
 
