@@ -53,8 +53,8 @@ static int cmd_si(char *args)
     for (int i = 0; i < ext_num;)
     {
         try{
-
-        }catch()
+            top->inst = imem.pmem_read(top->pc);
+        }catch
     }
 }
 
