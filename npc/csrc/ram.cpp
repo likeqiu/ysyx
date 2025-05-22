@@ -11,8 +11,10 @@ Vysyx_25040109_top *top = new Vysyx_25040109_top;
 VerilatedFstC *tfp = new VerilatedFstC;
 vluint64_t sim_time = 0;
 InstructionMemry imem(1024);
+int npc_state = halt;
 
-extern "C" int printf_finish(uint32_t inst)
+extern "C" int
+printf_finish(uint32_t inst)
 {
     if (inst == 0x00100073 || inst == 0x00000073)
     {
@@ -75,7 +77,7 @@ int main(int argc,char **argv){
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
-    
+
 
  
     sdb_mainloop();

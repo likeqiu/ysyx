@@ -42,11 +42,7 @@ static int cmd_info(char *args)
 static int cmd_c(char *args)
 {
 
-    if (!Verilated::gotFinish())
-    {
-        printf("The program had run finish\n");
-    }
-
+        
         while (!Verilated::gotFinish())
         {
 

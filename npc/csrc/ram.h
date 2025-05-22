@@ -7,10 +7,18 @@
 #include "common.h"
 using namespace std;
 
+enum class NPC_STATE
+{
+    running = 0;
+    quick = 1;
+    end = 2;
+    halt = 3;
+}
+
 extern Vysyx_25040109_top *top;
 extern VerilatedFstC *tfp;
 extern vluint64_t sim_time;
-
+extern int npc_state;
 
 class InstructionMemry
 {
