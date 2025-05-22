@@ -186,6 +186,7 @@ int main(int argc,char **argv){
 
     }
 
+    extern "C" void print_registers();
     sdb_mainloop();
     tfp->close();
     top->final();
