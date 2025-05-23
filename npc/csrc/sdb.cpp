@@ -36,6 +36,8 @@ static int cmd_info(char *args)
         printf("x[%d] = 0x%08x\n", i, top->rootp->ysyx_25040109_top__DOT__regfile__DOT__rf[i]);
     }
 
+    printf("pc = 0x%08x\n", i, top->pc);
+
     return 0;
 }
 
