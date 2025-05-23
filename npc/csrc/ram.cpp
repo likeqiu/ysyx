@@ -32,7 +32,7 @@ printf_finish(uint32_t inst)
 
 static uint8_t pmem[0x8000000] PG_ALIGN = {};
 
-uint8_t *guest_to_host(uint32_t paddr) { return pmem + paddr - CONFIG_MBASE; }
+uint8_t *guest_to_host(uint32_t paddr) { return pmem + paddr - 0x80000000; }
 
 static inline uint32_t host_read(void *addr, int len)
 {
@@ -44,9 +44,9 @@ static inline uint32_t host_read(void *addr, int len)
         return *(uint16_t *)addr;
     case 4:
         return *(uint32_t *)addr;
-        IFDEF(CONFIG_ISA64, case 8 : return *(uint64_t *)addr);
+ 
     default:
-        MUXDEF(CONFIG_RT_CHECK, assert(0), return 0);
+        assert(0);
     }
 }
 
