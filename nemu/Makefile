@@ -65,7 +65,7 @@ CFLAGS_BUILD += $(if $(CONFIG_CC_ASAN),-fsanitize=address,)
 CFLAGS_TRACE += -DITRACE_COND=$(if $(CONFIG_ITRACE_COND),$(call remove_quote,$(CONFIG_ITRACE_COND)),true)
 # 变量 CFLAGS_TRACE：跟踪指令的条件，定义 ITRACE_COND 宏，默认为 true 或 CONFIG_ITRACE_COND 的值（通过 remove_quote 去掉引号）
 CFLAGS  += $(CFLAGS_BUILD) $(CFLAGS_TRACE) -D__GUEST_ISA__=$(GUEST_ISA)
-# 变量 CFLAGS：最终的编译器标志，包含 CFLAGS_BUILD、CFLAGS_TRACE 和目标指令集宏 __GUEST_ISA__
+# 变量 CFLAGS：最终的编译器标志，包含 CFLAGS_BUILD、CFLAGS_TRACE 和目标指令集宏 __GUEST_ISA__   
 LDFLAGS += $(CFLAGS_BUILD)
 # 变量 LDFLAGS：链接器标志，包含 CFLAGS_BUILD 中的优化选项
 
