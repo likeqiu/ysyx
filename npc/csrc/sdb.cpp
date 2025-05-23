@@ -42,9 +42,16 @@ static int cmd_info(char *args)
 static int cmd_c(char *args)
 {
 
-        
+
+
+        if(npc_state==NPC_STATE::END)
+        {
+            printf("The program had run finish \n");
+            return 0;
+        }
         while (!Verilated::gotFinish())
         {
+            
 
             top->clk = 0;
             top->eval();
@@ -73,6 +80,11 @@ static int cmd_c(char *args)
 
 static int cmd_si(char *args)
 {
+    if (npc_state == NPC_STATE::END)
+    {
+        printf("The program had run finish \n");
+        return 0;
+    }
     int ext_num = 0;
     sscanf(args, "%d", &ext_num);
     for (int i = 0; i < ext_num;i++)

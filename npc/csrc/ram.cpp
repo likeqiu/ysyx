@@ -1,7 +1,4 @@
 
-
-
-
 #include"ram.h"
 #include"sdb.h"
 
@@ -23,6 +20,8 @@ printf_finish(uint32_t inst)
                inst == 0x00100073 ? "EBREAK" : "ECALL",
                a0 == 0 ? 32 : 31, 
                a0 == 0 ? "GOOD" : "BAD");
+
+        npc_state = NPC_STATE::END;
         return (inst == 0x00000073 && a0 !=0) ? 1 : 0;
     }
 
