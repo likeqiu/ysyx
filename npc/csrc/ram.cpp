@@ -28,9 +28,28 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
-static inline uint32_t host_read(void *addr)
+uint8_t *guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
+
+static inline word_t host_read(void *addr, int len)
 {
-    return *(uint32_t *)addr;
+    switch (len)
+    {
+    case 1:
+        return *(uint8_t *)addr;
+    case 2:
+        return *(uint16_t *)addr;
+    case 4:
+        return *(uint32_t *)addr;
+        IFDEF(CONFIG_ISA64, case 8 : return *(uint64_t *)addr);
+    default:
+        MUXDEF(CONFIG_RT_CHECK, assert(0), return 0);
+    }
+}
+
+static word_t pmem_read(paddr_t addr, int len)
+{
+    word_t ret = host_read(guest_to_host(addr), len);
+    return ret;
 }
 
 int main(int argc,char **argv){
@@ -79,7 +98,7 @@ int main(int argc,char **argv){
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
     uint32_t addr = 0x80000000;
-    printf("addr:%u\n", host_read(addr));
+    printf("addr:%u\n", pmem_read(addr));
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
 
