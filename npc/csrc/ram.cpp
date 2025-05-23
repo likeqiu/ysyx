@@ -28,7 +28,10 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
-
+static inline uint32_t host_read(void *addr)
+{
+    return *(uint32_t *)addr;
+}
 
 int main(int argc,char **argv){
     //top->a0_out = 1;测试
@@ -74,6 +77,8 @@ int main(int argc,char **argv){
 
 
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
+
+    printf("addr:%u\n", host_read(0x80000000));
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
 

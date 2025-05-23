@@ -6,7 +6,7 @@
 using namespace std;
 
 
-
+    
 static char *rl_gets()
 {
     static char *line_read = nullptr;
