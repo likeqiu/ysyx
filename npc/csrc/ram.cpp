@@ -28,9 +28,9 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
-uint8_t *guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
+uint8_t *guest_to_host(uint32_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 
-static inline word_t host_read(void *addr, int len)
+static inline uint32_t host_read(void *addr, int len)
 {
     switch (len)
     {
@@ -46,9 +46,9 @@ static inline word_t host_read(void *addr, int len)
     }
 }
 
-static word_t pmem_read(paddr_t addr, int len)
+static uint32_t pmem_read(uint32_t addr, int len)
 {
-    word_t ret = host_read(guest_to_host(addr), len);
+    uint32_t ret = host_read(guest_to_host(addr), len);
     return ret;
 }
 
