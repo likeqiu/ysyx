@@ -102,7 +102,7 @@ int main(int argc,char **argv){
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
     uint32_t addr = 0x80000000-4;
-    printf("addr:%u\n", pmem_read(addr,4));
+    printf("addr:0x%x    %u\n",addr, pmem_read(addr,4));
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
 
