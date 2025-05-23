@@ -28,6 +28,10 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
+#define PG_ALIGN __attribute((aligned(4096)))
+
+static uint8_t pmem[0x8000000] PG_ALIGN = {};
+
 uint8_t *guest_to_host(uint32_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 
 static inline uint32_t host_read(void *addr, int len)
