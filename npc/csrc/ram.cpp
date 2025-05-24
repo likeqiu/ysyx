@@ -21,7 +21,7 @@ printf_finish(uint32_t inst)
              << (a0 == 0 ? "GOOD" : "BAD") << "\033[0m TRAP\n";
 
         npc_state = NPC_STATE::END;
-        return (inst == 0x00000073 && a0 ==0) ? 1 : 0;
+        return (inst == 0x00000073 && a0 !=0) ? 1 : 0;
     }
 
     return 1;
