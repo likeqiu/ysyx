@@ -56,8 +56,7 @@ public:
         }
         if (addr < 0x80000000)
         {
-            throw invalid_argument("The paddr range between 【0x80000000,    0x%08x   】",size*4 + 0x80000000);
-            return;
+            throw out_of_range("Address out of range");
         }
         uint32_t offset_addr = addr - 0x80000000;
         size_t word_addr = offset_addr >> 2;
@@ -78,7 +77,7 @@ public:
         }
         if (addr < 0x80000000)
         {
-            throw invalid_argument("The paddr range between 【0x80000000,    0x%08x   】", size*4 + 0x80000000);
+            throw out_of_range("Address out of range");
             return;
         }
 
