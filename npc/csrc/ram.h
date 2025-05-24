@@ -86,36 +86,39 @@ public:
             }
         }
 
-    void pmem_write(uint32_t addr, uint32_t inst)
-    {
-
-        if(!in_pmem(addr)){
-            throw std:: : out_of_range("Address out of range :" + std::to_string(addr));
-        }
-
-        if(len != 1 && len !=2 && len != 4)
+        void pmem_write(uint32_t addr, int len, uint32_t data)
         {
-            throw std::invalid_argument("Invalid write length : " + std::to_string(len));
 
-        }
+            if (!in_pmem(addr))
+            {
+                throw std::out_of_range("Address out of range :" + std::to_string(addr));
+            }
 
-        uint32_t offset_addr = addr - CONFIG_MBASE;
-        if(offset_addr +len >size){
-            throw std::out_of_range("Write beyond memory bounds");
-        }
+            if (len != 1 && len != 2 && len != 4)
+            {
+                throw std::invalid_argument("Invalid write length : " + std::to_string(len));
+            }
 
-        switch (len)
-        {
-        case 1:
-            pmem[offset_addr] = static_cast<uint8_t>(data);break;
-        case 2:
-            pmem[offset_addr] = static_case<uint16_t>(data);break;
-        case 4:
-            pmem[offset_addr] = static_cast<uint32_t>(data);
-            break;
-        default:
-            throw std::invalid_argument("Unsupported write length");
-        }
+            uint32_t offset_addr = addr - CONFIG_MBASE;
+            if (offset_addr + len > size)
+            {
+                throw std::out_of_range("Write beyond memory bounds");
+            }
+
+            switch (len)
+            {
+            case 1:
+                pmem[offset_addr] = static_cast<uint8_t>(data);
+                break;
+            case 2:
+                pmem[offset_addr] = static_case<uint16_t>(data);
+                break;
+            case 4:
+                pmem[offset_addr] = static_cast<uint32_t>(data);
+                break;
+            default:
+                throw std::invalid_argument("Unsupported write length");
+            }
     }
 
     void load_bin(const std::string &filename)
@@ -131,7 +134,7 @@ public:
         char inst[4];
         while (file.read(inst, 4))
         {
-            pmem_write(addr, *(uint32_t *)inst);
+            pmem_write(addr, 4,*(uint32_t *)inst);
             addr += 4;
         }
         file.close();
