@@ -54,27 +54,39 @@ public:
         {
             throw invalid_argument("Unaligned instruction address");
         }
+        if (addr < 0x80000000)
+        {
+            throw invalid_argument("Address out of range between 【0x80000000,    0x%08x   】", mem_size + 0x80000000);
+            return;
+        }
         uint32_t offset_addr = addr - 0x80000000;
         size_t word_addr = offset_addr >> 2;
         // 字地址（即“第几个字”）,右移 2 位实际上是 除以 4
         if (word_addr >= size)
         {
-            throw out_of_range("Address out of range");
+            throw out_of_range("Address out of range between 【0x80000000,    0x%08x   】", mem_size + 0x80000000);
         }
         return mem[word_addr];
     }
 
     void pmem_write(uint32_t addr, uint32_t inst)
     {
+    
         if (addr % 4 != 0)
         {
             throw invalid_argument("Unaligned instruction address");
         }
+        if (addr < 0x80000000)
+        {
+            throw invalid_argument("Address out of  range between 【0x80000000,    0x%08x   】", mem_size + 0x80000000);
+            return;
+        }
+
         uint32_t offset_addr = addr - 0x80000000;
         size_t word_addr = offset_addr >> 2;
-        if (word_addr >= size)
+        if (word_addr >= size )
         {
-            throw out_of_range("Address out of range");
+            throw out_of_range("Address out of range between 【0x80000000,    0x%08x   】", mem_size + 0x80000000);
         }
         mem[word_addr] = inst;
     }

@@ -133,7 +133,16 @@ static int cmd_x(char *args)
 
     for (int i = 0; i < times;i++)
     {
-        printf("addr:0x%08x  data: 0x%08x \n",addr,imem.pmem_read(addr));
+        try
+        {
+            uint32_t data = imem.pmem_read(top->pc);
+        }
+        catch (const exception &e)
+        {
+            cerr << "Cycle" << ":" << e.what() << endl;
+            return 1;
+        }
+        printf("addr:0x%08x  data: 0x%08x \n",addr,data);
         addr += 4;
     }
 
