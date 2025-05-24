@@ -135,7 +135,7 @@ public:
         while (file.read(inst, 4))
         {
             pmem_write(addr, 4,*(uint32_t *)inst);
-            printf("%x\n", inst);
+            printf("%x\n", *(uint32_t *)inst);
             addr += 4;
         }
         file.close();
