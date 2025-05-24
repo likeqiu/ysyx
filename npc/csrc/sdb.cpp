@@ -62,7 +62,7 @@ static int cmd_c(char *args)
             /*try-catch 这就是一个会“抛出异常”的函数。如果你没有用 try-catch，程序会崩溃终止。有了 try-catch，就可以优雅地退出仿真，同时打印有用的调试信息。*/
             try
             {
-                top->inst = imem.pmem_read(top->pc);
+                top->inst = pmem.pmem_read(top->pc,4);
             }
             catch (const exception &e)
             {
@@ -97,7 +97,7 @@ static int cmd_si(char *args)
         tfp->dump(sim_time++);
 
         try{
-            top->inst = imem.pmem_read(top->pc);
+            top->inst = pmem.pmem_read(top->pc);
         }catch(const exception &e)
         {
             cerr << "Cycle" << ":" << e.what() << endl;
@@ -135,7 +135,7 @@ static int cmd_x(char *args)
     {
         try
         {
-            uint32_t data = imem.pmem_read(addr);
+            uint32_t data = pmem.pmem_read(addr);
             printf("addr:0x%08x  data: 0x%08x \n", addr, data);
         }
         catch (const exception &e)

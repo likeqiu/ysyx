@@ -2,12 +2,12 @@
 #include"ram.h"
 #include"sdb.h"
 
-using namespace std;
+
 
 Vysyx_25040109_top *top = new Vysyx_25040109_top;
 VerilatedFstC *tfp = new VerilatedFstC;
 vluint64_t sim_time = 0;
-InstructionMemry imem(0x8000000);
+PhysicalMemory pmem(0x8000000);
 NPC_STATE npc_state = NPC_STATE::HALT;
 
 extern "C" int
@@ -16,10 +16,8 @@ printf_finish(uint32_t inst)
     if (inst == 0x00100073 || inst == 0x00000073)
     {
         uint32_t a0 = top->a0_out; // 从 CPU 的寄存器堆中读取 x10（即 a0）寄存器的值，保存到变量 a0 中。后面用它来判断 ECALL 的返回值
-        printf("Finish program (%s),  Hit a \033[1;%dm%s\033[0m TRAP\n",
-               inst == 0x00100073 ? "EBREAK" : "ECALL",
-               a0 == 0 ? 32 : 31, 
-               a0 == 0 ? "GOOD" : "BAD");
+        std::count << "Finish program (" << (inst == 0x00100073 ? "RBREAK" : "ECALL") << ") ,Hit a \033[1;" << "), Hit a \033[1;" << (a0 == 0 ? 32 : 31) << "m"
+                   << (a0 == 0 ? "GOOD" : "BAD") << "\033[0m TRAP\n";
 
         npc_state = NPC_STATE::END;
         return (inst == 0x00000073 && a0 !=0) ? 1 : 0;
@@ -44,14 +42,14 @@ int main(int argc,char **argv){
 
     if (argc < 2)
     {
-        cerr << "Usage:" << argv[0] << "<bin_file" << endl;
+        std::cerr << "Usage:" << argv[0] << "<bin_file" << std::endl;
         return 1;
     }
 
     try{
-        imem.load_bin(argv[1]);
-    }catch(const exception &e){
-        cerr << "Erroe loading bin:" << e.what() << endl;
+        pmem.load_bin(argv[1]);
+    }catch(const std::exception &e){
+        std::cerr << "Erroe loading bin:" << e.what() << std::endl;
         return 1;
     }
 
@@ -72,7 +70,7 @@ int main(int argc,char **argv){
     top->rst = 0;
 
 
-    cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
+    std::cout << "After reset: PC = 0x" <<std::hex << top->pc << std::dec << std::endl;
 
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/

@@ -6,7 +6,10 @@
 #include <verilated.h>
 #include "common.h"
 
-
+#define CONFIG_MBASE 0x80000000
+#define CONFIG_MSIZE 0x8000000
+#define PMEM_LEFT CONFIG_MBASE
+#define PMEM_RIGHT (CONFIG_MBASE + CONFIG_MSIZE - 1)
 
 
 enum class NPC_STATE
@@ -22,12 +25,16 @@ extern VerilatedFstC *tfp;
 extern vluint64_t sim_time;
 extern NPC_STATE npc_state;
 
-class InstructionMemry
+class PhysicalMemory
 {
 private:
     // 32位，4字节
-    std::vector<uint32_t> mem;
+    std::vector<uint8_t>pmem;
     std::size_t size;
+
+    bool in_pmem(uint32_t addr) const{
+        return addr >= PMEM_LEFT && addr <= PMEM_RIGHT;
+    }
 
 public:
     /*
@@ -38,57 +45,77 @@ public:
     第一个 size 是 构造函数的参数。
     第二个 size 是 类的成员变量，用来存储对象的状态。
     第三个 size 是 初始化列表中的赋值操作，将构造函数的参数赋值给成员变量。*/
-    InstructionMemry(std::size_t mem_size) : size(mem_size)
+    PhysicalMemory(std::size_t mem_size) : size(mem_size)
     {
         if (mem_size == 0)
         {
             throw std::invalid_argument("Invalid Memory size");
         }
 
-        mem.resize(mem_size, 0);
+        pmem.resize(mem_size, 0);
     }
 
     // const：修饰成员函数，表示这个函数不会修改类的成员变量，即函数体内不会改变类的任何成员数据。
-    uint32_t pmem_read(uint32_t addr) const
+    uint32_t pmem_read(uint32_t addr,int len) const
     {
-        if (addr % 4 != 0)
+        if (len != 1 && len != 2 && len != 4)
         {
-            throw std::invalid_argument("Unaligned instruction address");
+            throw std::invalid_argument("Invalid read length: " + std::to_string(len));
         }
-        if (addr < 0x80000000)
+        if (!in_pmem(addr))
         {
-            throw std::out_of_range("Address out of range");
+            throw std::out_of_range("Address out of range:" + std::to_string(addr));
         }
-        uint32_t offset_addr = addr - 0x80000000;
-        std::size_t word_addr = offset_addr >> 2;
-        // 字地址（即“第几个字”）,右移 2 位实际上是 除以 4
-        if (word_addr >= size)
-        {
-            throw std::out_of_range("Address out of range");
+
+        uint32_t offset_addr = addr - CONFIG_MBASE;
+     
+
+        if(offset_addr+len>size){
+            throw std::out_of_range("Read beyond memory bounds");
         }
-        return mem[word_addr];
-    }
+
+        switch(len){
+            case 1:
+                return pmem[offset_addr];
+            case 2:
+                return *(uint16_t *)&pmem[offset_addr];
+            case 4:
+                return *(uint32_t *)&pmem[offset_addr];
+            default:
+                throw std::invalid_argument("Unsupport read length");
+            }
+        }
 
     void pmem_write(uint32_t addr, uint32_t inst)
     {
 
-        if (addr % 4 != 0)
-        {
-            throw std::invalid_argument("Unaligned instruction address");
-        }
-        if (addr < 0x80000000)
-        {
-            throw std::out_of_range("Address out of range");
-            return;
+        if(!in_pmem(addr)){
+            throw std:: : out_of_range("Address out of range :" + std::to_string(addr));
         }
 
-        uint32_t offset_addr = addr - 0x80000000;
-        std::size_t word_addr = offset_addr >> 2;
-        if (word_addr >= size)
+        if(len != 1 && len !=2 && len != 4)
         {
-            throw std::out_of_range("Address out of range");
+            throw std::invalid_argument("Invalid write length : " + std::to_string(len));
+
         }
-        mem[word_addr] = inst;
+
+        uint32_t offset_addr = addr - CONFIG_MBASE;
+        if(offset_addr +len >size){
+            throw std::out_of_range("Write beyond memory bounds");
+        }
+
+        switch (len)
+        {
+        case 1:
+            pmem[offset_addr] = static_cast<uint8_t>(data);break;
+        case 2:
+            pmem[offset_addr] = static_case<uint16_t>(data);break;
+        case 4:
+            pmem[offset_addr] = static_cast<uint32_t>(data);
+            break;
+        default:
+            throw std::invalid_argument("Unsupported write length");
+        }
     }
 
     void load_bin(const std::string &filename)
@@ -100,7 +127,7 @@ public:
         {
             throw std::runtime_error("Cannot open file:" + filename);
         }
-        uint32_t addr = 0x80000000;
+        uint32_t addr = CONFIG_MBASE;
         char inst[4];
         while (file.read(inst, 4))
         {
@@ -110,12 +137,16 @@ public:
         file.close();
     }
 
-    void resrt()
+    void reset()
     {
         std::fill(mem.begin(), mem.end(), 0);
     }
+
+    std::size_t get_size() const{
+        return size;
+    }
 };
 
-extern InstructionMemry imem;
+extern PhysicalMemory imem;
 
 #endif

@@ -14,7 +14,7 @@
 ***************************************************************************************/
 
 
-#include"common.h"
+#include"ram.h"
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -287,6 +287,7 @@ static u_int32_t eval(int p,int q,bool *success)
     if(*success == 0)
       return 0;
 
+   
     return vaddr_read(addr, 4);
   }
 
