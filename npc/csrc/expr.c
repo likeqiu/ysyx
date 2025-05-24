@@ -63,7 +63,7 @@ static struct rule {
     {"[0-9]+", TK_DECIMAL},
 };
 
-#define NR_REGEX ARRLEN(rules)
+#define NR_REGEX (int)(sizeof(rules) / sizeof(rules[0]))
 
 static regex_t re[NR_REGEX] = {};
 
