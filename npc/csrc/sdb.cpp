@@ -133,7 +133,7 @@ static int cmd_x(char *args)
 
     for (int i = 0; i < times;i++)
     {
-        printf("addr:0x%08x  data: 0x%08x \n",addr,imm.pmem_read(addr));
+        printf("addr:0x%08x  data: 0x%08x \n",addr,imem.pmem_read(addr));
         addr += 4;
     }
 
