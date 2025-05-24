@@ -111,7 +111,7 @@ public:
                 pmem[offset_addr] = static_cast<uint8_t>(data);
                 break;
             case 2:
-                pmem[offset_addr] = static_case<uint16_t>(data);
+                pmem[offset_addr] = static_cast<uint16_t>(data);
                 break;
             case 4:
                 pmem[offset_addr] = static_cast<uint32_t>(data);
@@ -142,7 +142,7 @@ public:
 
     void reset()
     {
-        std::fill(mem.begin(), mem.end(), 0);
+        std::fill(pmem.begin(), pmem.end(), 0);
     }
 
     std::size_t get_size() const{
