@@ -27,6 +27,17 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
+int monitor_pc(paddr_t pc)
+{
+    for (int i = 0; i < NR_WP;i++)
+    {
+        if (pc == top->pc)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 int main(int argc,char **argv){
     //top->a0_out = 1;测试
@@ -39,7 +50,8 @@ int main(int argc,char **argv){
     top->trace(tfp, 99);
     tfp->open("sim.fst");
 
- 
+    init_regex();
+    init_wp_pool();
 
     if (argc < 2)
     {

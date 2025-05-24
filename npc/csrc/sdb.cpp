@@ -150,6 +150,45 @@ static int cmd_x(char *args)
         return 0;
 }
 
+
+static int cmd_p(char *args)
+{
+    
+    bool success = false;
+    word_t result = 0;
+    result=expr(args, &success);
+    cout << result << endl;
+    return 0;
+}
+
+int count_watchpoint = 0;
+static int cmd_w(char *args)
+{
+    WP *wp;
+    wp = new_wp(args);
+    printf("watchpoint NO:%-4d type:%-6c set success\n", wp->NO, wp->type);
+    return 0;
+}
+
+static int cmd_d(char *args)
+{
+    int i = 0;
+    int NO = atoi(args);
+    for (i = 0; i < NR_WP;i++)
+    {
+        if(NO==wp_pool[i].NO)
+        {
+            break;
+        }
+    }
+
+    WP *wp = &wp_pool[i];
+    free_wp(wp);
+    printf("delete watchpoint success\n");
+    count_watchpoint--;
+    return 0;
+}
+
 static struct
 {
     const char *name;
@@ -161,10 +200,11 @@ static struct
     {"c", "Continue the execution of the program", cmd_c},
     {"si", "Directly execute n times,(npc:si n)", cmd_si},
     {"q", "Exit NEMU", cmd_q},
-    {"x","scan the memory n times (x n addr)",cmd_x},
+    {"x", "scan the memory n times (x n addr)", cmd_x},
+    {"p", "Get  the value of the  expresson (p expr) ", cmd_p},
+    {"w", "Set the watchpoint", cmd_w},
+    {"d", "Delete the watchpoint", cmd_d},
 };
-
-
 
 #define NR_CMD (int)(sizeof(cmd_table) / sizeof(cmd_table[0]))
 

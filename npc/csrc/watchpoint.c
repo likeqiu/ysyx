@@ -16,10 +16,11 @@
 #include "common.h"
 #include<string.h>
 
+extern word_t expr(char *e, bool *success);
 
 #define NR_WP 32
 
-typedef struct watchpoint {
+    typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
   char *str;

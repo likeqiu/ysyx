@@ -4,6 +4,7 @@
 #include <Vysyx_25040109_top.h>
 #include <verilated_fst_c.h>
 #include <verilated.h>
+#include <Vysyx_25040109_top___024root.h>
 #include "common.h"
 
 #define CONFIG_MBASE 0x80000000
@@ -11,6 +12,29 @@
 #define PMEM_LEFT CONFIG_MBASE
 #define PMEM_RIGHT (CONFIG_MBASE + CONFIG_MSIZE - 1)
 
+extern word_t expr(char *e, bool *success);
+
+extern void init_wp_pool();
+extern void init_regex();
+
+typedef struct watchpoint
+{
+    int NO;
+    struct watchpoint *next;
+    char *str;
+    word_t old_value;
+    bool enable;
+    char type; // b,m,n
+
+    /* TODO: Add more members if necessary */
+
+} WP;
+#define NR_WP 32
+extern WP wp_pool[NR_WP];
+extern WP *free_;
+extern WP *head;
+extern WP *new_wp(char *expr_str);
+extern void free_wp(WP *wp);
 
 enum class NPC_STATE
 {
@@ -74,6 +98,8 @@ public:
             throw std::out_of_range("Read beyond memory bounds");
         }
 
+
+
         switch(len){
             case 1:
                 return pmem[offset_addr];
@@ -84,6 +110,7 @@ public:
             default:
                 throw std::invalid_argument("Unsupport read length");
             }
+
         }
 
         void pmem_write(uint32_t addr, int len, uint32_t data)
@@ -111,10 +138,11 @@ public:
                 pmem[offset_addr] = static_cast<uint8_t>(data);
                 break;
             case 2:
-                pmem[offset_addr] = static_cast<uint16_t>(data);
+                *(uint16_t *)&pmem[offset_addr] = static_cast<uint16_t>(data);
                 break;
             case 4:
-                pmem[offset_addr] = static_cast<uint32_t>(data);
+                *(uint32_t *)&pmem[offset_addr] = static_cast<uint32_t>(data);
+                // 将 data 的 4 字节二进制内容，按 uint32_t 类型，写入 pmem 中以 offset_addr 为起点的 4 个字节。
                 break;
             default:
                 throw std::invalid_argument("Unsupported write length");
@@ -135,7 +163,7 @@ public:
         while (file.read(inst, 4))
         {
             pmem_write(addr, 4,*(uint32_t *)inst);
-            printf("addr : 0x%x %x\n", addr,*(uint32_t *)inst);
+            //printf("addr : 0x%x   0x%08x\n", addr,*(uint32_t *)inst);
             addr += 4;
         }
         file.close();

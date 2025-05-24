@@ -15,6 +15,7 @@
 
 
 #include"ram.h"
+#include"reg.h"
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -22,29 +23,7 @@
 #include <regex.h>
 
 
-word_t isa_reg_str2val(const char *s, bool *success)
-{
-  if (strcmp("pc", s) == 0)
-  {
-    *success = true;
 
-    return cpu.pc;
-  }
-  else
-  {
-    for (int i = 0; i < 32; i++)
-    {
-      if (strcmp(regs[i], s) == 0)
-      {
-        *success = true;
-        return gpr(i);
-      }
-    }
-  }
-
-  *success = false;
-  return 0;
-}
 
 enum
 {
@@ -103,7 +82,7 @@ void init_regex() {
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
-      throw::runtime_error(string("正则表达式"))
+      throw std::runtime_error(std::string("正则表达式"));
     }
   }
 }
@@ -117,6 +96,8 @@ static Token tokens[65536] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
+  
+
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -124,25 +105,31 @@ static bool make_token(char *e) {
   nr_token = 0;
 
   while (e[position] != '\0') {
+    
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
-      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
+  
+      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0)
+      {
+        
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-       // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-         //  i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        //Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+          // i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
 
         if (nr_token < 65536)
         {
-          
+        
+
           tokens[nr_token].type = rules[i].token_type;
           
           if (substr_len < 32)
           {
             strncpy(tokens[nr_token].str, substr_start, substr_len);
+            
             tokens[nr_token].str[substr_len] = '\0';
           }
           else
@@ -170,6 +157,7 @@ static bool make_token(char *e) {
         break;
       }
     }
+  
 
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
@@ -288,7 +276,7 @@ static u_int32_t eval(int p,int q,bool *success)
       return 0;
 
    
-    return vaddr_read(addr, 4);
+    return pmem.pmem_read(addr, 4);
   }
 
   int op = find_main_operator(p, q);
@@ -345,10 +333,15 @@ void cleanup_regex()
 }
 
 word_t expr(char *e, bool *success) {
+ 
   if (!make_token(e)) {
+    
     *success = false;
     return 0;
   }
+
+  
+
   for (int i = 0; i < nr_token;i++)
   {
     if(tokens[i].type=='*' && 
@@ -361,7 +354,9 @@ word_t expr(char *e, bool *success) {
       }
   }
 
-    *success = true;
+  
+
+  *success = true;
   return eval(0, nr_token - 1, success);
   /* TODO: Insert codes to evaluate the expression. */
     
