@@ -150,6 +150,6 @@ public:
     }
 };
 
-extern PhysicalMemory imem;
+extern PhysicalMemory pmem;
 
 #endif
