@@ -7,9 +7,11 @@
 #include <iostream>  //提供了输入/输出流的功能。
 #include <fstream> //提供了文件流的功能。
 #include <stdio.h>
+#include<assert.h>
+#include<string.h>
 
 #define word_t uint32_t
-typedef word_t vaddr_t;
+    typedef word_t vaddr_t;
 typedef uint32_t paddr_t;
 
 #endif
