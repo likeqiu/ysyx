@@ -46,7 +46,6 @@ static int cmd_c(char *args)
 {
 
 
-
         if(npc_state==NPC_STATE::END)
         {
             printf("The program had run finish \n");
@@ -122,6 +121,9 @@ static int cmd_q(char *args)
 
 static int cmd_x(char *args)
 {
+
+    int times = 0;
+    paddr_t addr = 0;
     
     return 0;
 }
