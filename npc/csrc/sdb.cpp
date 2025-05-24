@@ -135,7 +135,7 @@ static int cmd_x(char *args)
     {
         try
         {
-            uint32_t data = pmem.pmem_read(addr);
+            uint32_t data = pmem.pmem_read(addr,4);
             printf("addr:0x%08x  data: 0x%08x \n", addr, data);
         }
         catch (const exception &e)
