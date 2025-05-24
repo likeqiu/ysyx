@@ -37,14 +37,14 @@ public:
     第一个 size 是 构造函数的参数。
     第二个 size 是 类的成员变量，用来存储对象的状态。
     第三个 size 是 初始化列表中的赋值操作，将构造函数的参数赋值给成员变量。*/
-    InstructionMemry(size_t size) : size(size)
+    InstructionMemry(size_t mem_size) : size(mem_size)
     {
-        if (size == 0)
+        if (mem_size == 0)
         {
             throw invalid_argument("Invalid Memory size");
         }
 
-        mem.resize(size, 0);
+        mem.resize(mem_size, 0);
     }
 
     // const：修饰成员函数，表示这个函数不会修改类的成员变量，即函数体内不会改变类的任何成员数据。
