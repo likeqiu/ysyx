@@ -31,6 +31,7 @@ static int cmd_help(char *args);
 
 static int cmd_info(char *args)
 {
+
     for (int i = 0; i < 32; i++)
     {
         printf("x[%d] = 0x%08x\n", i, top->rootp->ysyx_25040109_top__DOT__regfile__DOT__rf[i]);
@@ -116,8 +117,16 @@ static int cmd_q(char *args)
 {
     return -1;
 }
+    
 
-    static struct
+
+static int cmd_x(char *args)
+{
+    
+    return 0;
+}
+
+static struct
 {
     const char *name;
     const char *description;
@@ -128,7 +137,10 @@ static int cmd_q(char *args)
     {"c", "Continue the execution of the program", cmd_c},
     {"si", "Directly execute n times,(npc:si n)", cmd_si},
     {"q", "Exit NEMU", cmd_q},
+    {"x","scan the memory n times (x n addr)",cmd_x},
 };
+
+
 
 #define NR_CMD (int)(sizeof(cmd_table) / sizeof(cmd_table[0]))
 

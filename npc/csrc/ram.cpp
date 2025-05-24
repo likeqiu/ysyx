@@ -28,33 +28,6 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
-#define PG_ALIGN __attribute((aligned(4096)))
-
-static uint8_t pmem[0x8000000] PG_ALIGN = {};
-
-uint8_t *guest_to_host(uint32_t paddr) { return pmem + paddr - 0x80000000; }
-
-static inline uint32_t host_read(void *addr, int len)
-{
-    switch (len)
-    {
-    case 1:
-        return *(uint8_t *)addr;
-    case 2:
-        return *(uint16_t *)addr;
-    case 4:
-        return *(uint32_t *)addr;
- 
-    default:
-        assert(0);
-    }
-}
-
-static uint32_t pmem_read(uint32_t addr, int len)
-{
-    uint32_t ret = host_read(guest_to_host(addr), len);
-    return ret;
-}
 
 int main(int argc,char **argv){
     //top->a0_out = 1;测试
@@ -101,8 +74,6 @@ int main(int argc,char **argv){
 
     cout << "After reset: PC = 0x" << hex << top->pc << dec << endl;
 
-    uint32_t addr = 0x87ffffff;
-    printf("addr:0x%x    %u\n", addr, pmem_read(addr, 4));
 
     /*Verilated::gotFinish() 是 Verilator 仿真库中的一个 静态函数，用于判断 Verilog 仿真模型是否调用了 $finish 系统任务。*/
 

@@ -8,4 +8,6 @@
 #include <fstream> //提供了文件流的功能。
 #include <stdio.h>
 
+#define word_t uint32_t
+
 #endif
