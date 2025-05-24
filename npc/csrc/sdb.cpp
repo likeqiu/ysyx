@@ -125,9 +125,11 @@ static int cmd_x(char *args)
     int times =0;
     sscanf(args, "%d", &times);
     strtok(args," ");
-    
+    printf("%d\n", times);
     char *temp = strtok(NULL, " ");
     uint32_t addr=strtol(temp,NULL,0);
+
+    printf("addr:0x%08x", addr);
 
     for (int i = 0; i < times;i++)
     {
