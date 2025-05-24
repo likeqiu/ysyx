@@ -127,7 +127,7 @@ static int cmd_x(char *args)
     strtok(args," ");
     
     char *temp = strtok(NULL, " ");
-    uint32_t addr=strtlo(temp,NULL,0);
+    uint32_t addr=strtol(temp,NULL,0);
 
     for (int i = 0; i < times;i++)
     {
