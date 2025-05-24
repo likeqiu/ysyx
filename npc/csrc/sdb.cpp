@@ -97,7 +97,7 @@ static int cmd_si(char *args)
         tfp->dump(sim_time++);
 
         try{
-            top->inst = pmem.pmem_read(top->pc);
+            top->inst = pmem.pmem_read(top->pc,4);
         }catch(const exception &e)
         {
             cerr << "Cycle" << ":" << e.what() << endl;
