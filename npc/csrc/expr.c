@@ -79,7 +79,7 @@ void init_regex() {
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
-      panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
+      throw std::runtime_error(std::string("正则表达式编译失败: ") + error_msg + "\n" + rules[i].regex);
     }
   }
 }
