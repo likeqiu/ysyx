@@ -122,10 +122,19 @@ static int cmd_q(char *args)
 static int cmd_x(char *args)
 {
 
-    int times = 0;
-    paddr_t addr = 0;
+    int times =0;
+    sscanf(args, "%d", &times);
+    strtok(args," ");
     
-    return 0;
+    char *temp = strtok(NULL, " ");
+    uint32_t addr=strtlo(temp,NULL,0);
+
+    for (int i = 0; i < times;i++)
+    {
+        imem.pmem_read(addr);
+    }
+
+        return 0;
 }
 
 static struct
