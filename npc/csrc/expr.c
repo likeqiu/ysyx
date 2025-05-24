@@ -20,7 +20,31 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-extern word_t vaddr_read(vaddr_t addr, int len);
+
+
+word_t isa_reg_str2val(const char *s, bool *success)
+{
+  if (strcmp("pc", s) == 0)
+  {
+    *success = true;
+
+    return cpu.pc;
+  }
+  else
+  {
+    for (int i = 0; i < 32; i++)
+    {
+      if (strcmp(regs[i], s) == 0)
+      {
+        *success = true;
+        return gpr(i);
+      }
+    }
+  }
+
+  *success = false;
+  return 0;
+}
 
 enum
 {
@@ -79,7 +103,7 @@ void init_regex() {
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
-      throw runtime_error(string("正则表达式"))
+      throw::runtime_error(string("正则表达式"))
     }
   }
 }
