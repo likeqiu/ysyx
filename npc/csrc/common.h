@@ -9,9 +9,11 @@
 #include <stdio.h>
 #include<assert.h>
 #include<string.h>
+#include<debug.h>
 
 #define word_t uint32_t
     typedef word_t vaddr_t;
 typedef uint32_t paddr_t;
+
 
 #endif
