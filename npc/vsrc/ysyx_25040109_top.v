@@ -134,7 +134,7 @@ module ysyx_25040109_top (
             if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end
-            monitor_pc(pc);
+            //monitor_pc(pc);
         end
         if (!rst && debug_action == 4'd2) begin
             for (integer i = 0; i < 32; i = i + 1) begin

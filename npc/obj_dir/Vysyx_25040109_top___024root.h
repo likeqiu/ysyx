@@ -20,6 +20,7 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         VL_IN8(debug_cmd,3,0);
         CData/*0:0*/ ysyx_25040109_top__DOT__reg_write_en_idu;
         CData/*3:0*/ ysyx_25040109_top__DOT__debug_action;
+        CData/*0:0*/ ysyx_25040109_top__DOT__addr_valid;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__hit;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__reg_write_select__DOT__i0__DOT__lut_out;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__reg_write_select__DOT__i0__DOT__hit;
@@ -78,9 +79,9 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         VlUnpacked<IData/*31:0*/, 32> ysyx_25040109_top__DOT__regfile__DOT__rf;
         VlUnpacked<CData/*7:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__pair_list;
         VlUnpacked<CData/*3:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list;
-        VlUnpacked<CData/*3:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list;
     };
     struct {
+        VlUnpacked<CData/*3:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list;
         VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;
     };
     VlTriggerVec<1> __VstlTriggered;
