@@ -21,9 +21,9 @@ int monitor_pc(paddr_t pc)
 
         bool success = false;
         word_t new_value = expr(wp->str, &success);
-        if (new_value != wp->old_value) //&& wp->type == 'm')
+        if (new_value != wp->old_value && wp->type == 'm')
         {
-            std::cout << "The value changed from    " << wp->old_value << "       to     "  << new_value << std::endl;
+            std::cout << "The value changed from  " << wp->old_value << "       to   "  << new_value << std::endl;
 
             wp->old_value = new_value;
             return 1;
@@ -102,8 +102,8 @@ static int cmd_c(char *args)
             top->eval();
             tfp->dump(sim_time++);
 
-            if (monitor_pc(top->pc))
-                return 0;
+           // if (monitor_pc(top->pc))
+             //   return 0;
         }
 
     return 0;
