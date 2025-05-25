@@ -28,12 +28,12 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
-extern "C" int monitor_pc(paddr_t next_pc)
+extern "C" int monitor_pc(paddr_t pc)
 {
     for (int i = 0; i < NR_WP;i++)
     {
         WP *wp = &wp_pool[i];
-        if (wp->old_value + 4 >= next_pc)
+        if (wp->old_value + 4 >= top->pc && top->pc!=0)
         {
             std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
             return 1;
