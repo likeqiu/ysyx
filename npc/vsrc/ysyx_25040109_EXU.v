@@ -63,7 +63,7 @@ module ysyx_25040109_EXU (
     ysyx_25040109_MuxKeyWithDefalut #(3,7,32) next_pc_select(
         .out(next_pc),
         .key(opcode),
-        .defalut_out(pc+4),
+        .default_out(pc+4),
         .lut({
             7'b1101111,jal_target,
             7'b1100111,jalr_target,
