@@ -32,7 +32,7 @@ extern "C" int monitor_pc(paddr_t next_pc)
 {
     for (int i = 0; i < NR_WP;i++)
     {
-        WP *wp = wp_pool[i];
+        WP *wp = &wp_pool[i];
         if (wp->old_value + 4 >= next_pc)
         {
             std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
