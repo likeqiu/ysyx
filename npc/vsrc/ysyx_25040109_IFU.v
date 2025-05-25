@@ -11,7 +11,9 @@ module ysyx_25040109_IFU (
 
  
     wire [31:0] inst_raw;
-   assign inst_raw = pmem_read(pc, inst_raw);
+   always @(posedge clk) begin
+        pmem_read(pc, inst_raw);
+    end
 
     // 使用 Reg 模板存储指令
     ysyx_25040109_Reg #(32, 32'h0) inst_reg (
