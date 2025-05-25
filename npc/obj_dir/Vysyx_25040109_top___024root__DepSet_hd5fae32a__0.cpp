@@ -201,8 +201,8 @@ void Vysyx_25040109_top___024root___eval_act(Vysyx_25040109_top___024root* vlSel
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_act\n"); );
 }
 
-void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__monitor_pc_TOP(IData/*31:0*/ pc, IData/*31:0*/ &monitor_pc__Vfuncrtn);
 void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(IData/*31:0*/ inst, IData/*31:0*/ &printf_finish__Vfuncrtn);
+void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__monitor_pc_TOP(IData/*31:0*/ pc, IData/*31:0*/ &monitor_pc__Vfuncrtn);
 
 VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_25040109_top___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -225,13 +225,11 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         VL_WRITEF("PC=0x%x, inst=0x%x,\n",32,vlSelf->pc,
                   32,vlSelf->inst);
     }
-    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__monitor_pc_TOP(vlSelf->pc, __Vfunc_ysyx_25040109_top__DOT__monitor_pc__0__Vfuncout);
-    if (VL_UNLIKELY((0U != __Vfunc_ysyx_25040109_top__DOT__monitor_pc__0__Vfuncout))) {
-        VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 85, "");
-    }
     Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->inst, __Vfunc_ysyx_25040109_top__DOT__printf_finish__1__Vfuncout);
-    if (VL_UNLIKELY((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__1__Vfuncout))) {
-        VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 88, "");
+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__monitor_pc_TOP(vlSelf->pc, __Vfunc_ysyx_25040109_top__DOT__monitor_pc__0__Vfuncout);
+    if (VL_UNLIKELY(((0U != __Vfunc_ysyx_25040109_top__DOT__monitor_pc__0__Vfuncout) 
+                     | (0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__1__Vfuncout)))) {
+        VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 85, "");
     }
     if (((IData)((0x13U == (0x707fU & vlSelf->inst))) 
          | ((0x17U == (0x7fU & vlSelf->inst)) | ((0x37U 
