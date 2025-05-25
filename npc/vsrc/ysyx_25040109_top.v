@@ -3,7 +3,7 @@ module ysyx_25040109_top (
     input rst,
     input [3:0]  debug_cmd,
     input [31:0] debug_addr,
-    input [31:0] inst,
+    output [31:0] inst,
     output [31:0] pc,
     output [31:0] a0_out
 );
