@@ -11,10 +11,12 @@ int monitor_pc(paddr_t pc)
     for (; wp != nullptr;)
     {
 
-        if (wp->old_value + 4 >= pc && wp->old_value != 0)
+        if (wp->old_value == pc && wp->type == 'b')
         {
             std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
+            wp = wp->next;
             return 1;
+            continue;
         }
 
         bool success = false;
