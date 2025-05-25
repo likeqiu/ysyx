@@ -7,7 +7,7 @@
 Vysyx_25040109_top *top = new Vysyx_25040109_top;
 VerilatedFstC *tfp = new VerilatedFstC;
 vluint64_t sim_time = 0;
-PhysicalMemory pmem(0x8000000);
+alignas(4096)  PhysicalMemory pmem(0x8000000);
 NPC_STATE npc_state = NPC_STATE::HALT;
 
 extern "C" int

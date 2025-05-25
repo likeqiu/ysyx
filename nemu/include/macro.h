@@ -91,6 +91,8 @@
 #define ROUNDDOWN(a, sz) ((((uintptr_t)a)) & ~((sz) - 1))
 
 #define PG_ALIGN __attribute((aligned(4096)))
+//__attribute__((aligned(4096))) 是 GCC 的语法，用于指定变量的对齐方式。
+//  4096 表示内存块按 4KB(4096字节)对齐。
 
 #if !defined(likely)
 #define likely(cond)   __builtin_expect(cond, 1)
