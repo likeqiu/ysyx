@@ -5,6 +5,66 @@
 
 using namespace std;
 
+
+extern "C" void pmem_read(uint32_t addr,uint32_t *data){
+    *data = pmem.pmem_read(addr, 4);
+}
+
+extern "C" void pmem_write(uint32_t addr,uint32_t data,uint32_t len)
+{
+    pmem.pmem_write(addr, len, data);
+}
+
+extern "C" void step_complete()
+{
+    std::cout << "Single step completed\n";
+}
+
+extern "C" void sdb_read_reg(uint32_t index,uint32_t *value)
+{
+    printf("x%d:  0x%08x\n", index, *value);
+}
+
+extern "C" void sdb_scan_mem(uint32_t addr,uint32_t *value)
+{
+    printf("Memory [0x%08x]: 0x08x\n", addr, *value);
+}
+
+extern "C" int cmd_si(char *args)
+{
+    if(npc_state==NPC_STATE::END)
+    {
+        printf("The program has finisher\n");
+        return 0;
+    }
+
+    int step_num = 1;
+    if(args)
+     {
+        sscanf(args, "%d", &step_num);
+     }
+
+     for (int i = 0; i < step_num;i++)
+     {
+         top->clk = 0;
+         top->debug_cmd = 1;
+         top->eval();
+         tfp->dump(sim_time++);
+
+         top->clk = 1;
+         top->eval();
+         tfp->dump(sim_time++);
+
+         top->debug_cmd = 0;
+
+         if(monitor_pc(top->pc))
+         {
+             return 0;
+         }
+     }
+     return 0;
+}
+
 extern "C" int monitor_pc(paddr_t pc)
 {
     WP *wp = head;
@@ -120,7 +180,7 @@ static int cmd_c(char *args)
 }
 
 
-extern "C"  int cmd_si(char *args)
+/*extern "C"  int cmd_si(char *args)
 {
 
     if (npc_state == NPC_STATE::END)
@@ -155,7 +215,7 @@ extern "C"  int cmd_si(char *args)
     }
 
     return 0;
-}
+}*/
 
 
 
