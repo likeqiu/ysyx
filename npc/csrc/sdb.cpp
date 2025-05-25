@@ -27,7 +27,7 @@ extern "C" void sdb_read_reg(uint32_t index,uint32_t *value)
 
 extern "C" void sdb_scan_mem(uint32_t addr,uint32_t *value)
 {
-    printf("Memory [0x%08x]: 0x08x\n", addr, *value);
+    printf("Memory [0x%08x]: 0x%08x\n", addr, *value);
 }
 
 extern "C" int monitor_pc(paddr_t pc)
