@@ -81,12 +81,10 @@ module ysyx_25040109_top (
             $display("PC=0x%h, inst=0x%h,",pc, inst_ifu);
         end
 
-         if(monitor_pc(pc) != 0)begin
+         if(monitor_pc(pc) != 0  || printf_finish(inst) == 0)begin
             $finish;
          end
-        if(printf_finish(inst) == 0 )begin
-            $finish;
-        end
+       
 
     end
 
