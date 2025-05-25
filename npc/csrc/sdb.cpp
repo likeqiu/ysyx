@@ -78,8 +78,7 @@ static int cmd_c(char *args)
         }
         while (!Verilated::gotFinish())
         {
-            if(monitor_pc(top->pc))
-                return 0;
+          
 
             top->clk = 0;
             top->eval();
@@ -100,6 +99,9 @@ static int cmd_c(char *args)
             top->clk = 1;
             top->eval();
             tfp->dump(sim_time++);
+
+            if (monitor_pc(top->pc))
+                return 0;
         }
 
     return 0;
@@ -119,9 +121,8 @@ static int cmd_si(char *args)
     for (int i = 0; i < ext_num;i++)
     {
 
-        if (monitor_pc(top->pc))
-            return 0;
-            
+        
+
         top->clk = 0;
         top->eval();
         tfp->dump(sim_time++);
@@ -137,6 +138,9 @@ static int cmd_si(char *args)
         top->clk = 1;
         top->eval();
         tfp->dump(sim_time++);
+
+        if (monitor_pc(top->pc))
+            return 0;
     }
 
     return 0;
