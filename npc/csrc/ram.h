@@ -4,6 +4,7 @@
 #include <Vysyx_25040109_top.h>
 #include <verilated_fst_c.h>
 #include <verilated.h>
+#include <Vysyx_25040109_top___024root.h>
 #include "common.h"
 
 #define CONFIG_MBASE 0x80000000
@@ -11,6 +12,29 @@
 #define PMEM_LEFT CONFIG_MBASE
 #define PMEM_RIGHT (CONFIG_MBASE + CONFIG_MSIZE - 1)
 
+extern word_t expr(char *e, bool *success);
+
+extern void init_wp_pool();
+extern void init_regex();
+
+typedef struct watchpoint
+{
+    int NO;
+    struct watchpoint *next;
+    char *str;
+    word_t old_value;
+    bool enable;
+    char type; // b,m,n
+
+    /* TODO: Add more members if necessary */
+
+} WP;
+#define NR_WP 32
+extern WP wp_pool[NR_WP];
+extern WP *free_;
+extern WP *head;
+extern WP *new_wp(char *expr_str);
+extern void free_wp(WP *wp);
 
 enum class NPC_STATE
 {
@@ -29,10 +53,11 @@ class PhysicalMemory
 {
 private:
     // 32位，4字节
-    std::vector<uint8_t>pmem;
+    std::vector<uint8_t> pmem;
     std::size_t size;
 
-    bool in_pmem(uint32_t addr) const{
+    bool in_pmem(uint32_t addr) const
+    {
         return addr >= PMEM_LEFT && addr <= PMEM_RIGHT;
     }
 
@@ -56,7 +81,7 @@ public:
     }
 
     // const：修饰成员函数，表示这个函数不会修改类的成员变量，即函数体内不会改变类的任何成员数据。
-    uint32_t pmem_read(uint32_t addr,int len) const
+    uint32_t pmem_read(uint32_t addr, int len) const
     {
         if (len != 1 && len != 2 && len != 4)
         {
@@ -68,57 +93,59 @@ public:
         }
 
         uint32_t offset_addr = addr - CONFIG_MBASE;
-     
 
-        if(offset_addr+len>size){
+        if (offset_addr + len > size)
+        {
             throw std::out_of_range("Read beyond memory bounds");
         }
 
-        switch(len){
-            case 1:
-                return pmem[offset_addr];
-            case 2:
-                return *(uint16_t *)&pmem[offset_addr];
-            case 4:
-                return *(uint32_t *)&pmem[offset_addr];
-            default:
-                throw std::invalid_argument("Unsupport read length");
-            }
+        switch (len)
+        {
+        case 1:
+            return pmem[offset_addr];
+        case 2:
+            return *(uint16_t *)&pmem[offset_addr];
+        case 4:
+            return *(uint32_t *)&pmem[offset_addr];
+        default:
+            throw std::invalid_argument("Unsupport read length");
+        }
+    }
+
+    void pmem_write(uint32_t addr, int len, uint32_t data)
+    {
+
+        if (!in_pmem(addr))
+        {
+            throw std::out_of_range("Address out of range :" + std::to_string(addr));
         }
 
-        void pmem_write(uint32_t addr, int len, uint32_t data)
+        if (len != 1 && len != 2 && len != 4)
         {
+            throw std::invalid_argument("Invalid write length : " + std::to_string(len));
+        }
 
-            if (!in_pmem(addr))
-            {
-                throw std::out_of_range("Address out of range :" + std::to_string(addr));
-            }
+        uint32_t offset_addr = addr - CONFIG_MBASE;
+        if (offset_addr + len > size)
+        {
+            throw std::out_of_range("Write beyond memory bounds");
+        }
 
-            if (len != 1 && len != 2 && len != 4)
-            {
-                throw std::invalid_argument("Invalid write length : " + std::to_string(len));
-            }
-
-            uint32_t offset_addr = addr - CONFIG_MBASE;
-            if (offset_addr + len > size)
-            {
-                throw std::out_of_range("Write beyond memory bounds");
-            }
-
-            switch (len)
-            {
-            case 1:
-                pmem[offset_addr] = static_cast<uint8_t>(data);
-                break;
-            case 2:
-                pmem[offset_addr] = static_cast<uint16_t>(data);
-                break;
-            case 4:
-                pmem[offset_addr] = static_cast<uint32_t>(data);
-                break;
-            default:
-                throw std::invalid_argument("Unsupported write length");
-            }
+        switch (len)
+        {
+        case 1:
+            pmem[offset_addr] = static_cast<uint8_t>(data);
+            break;
+        case 2:
+            *(uint16_t *)&pmem[offset_addr] = static_cast<uint16_t>(data);
+            break;
+        case 4:
+            *(uint32_t *)&pmem[offset_addr] = static_cast<uint32_t>(data);
+            // 将 data 的 4 字节二进制内容，按 uint32_t 类型，写入 pmem 中以 offset_addr 为起点的 4 个字节。
+            break;
+        default:
+            throw std::invalid_argument("Unsupported write length");
+        }
     }
 
     void load_bin(const std::string &filename)
@@ -134,8 +161,8 @@ public:
         char inst[4];
         while (file.read(inst, 4))
         {
-            pmem_write(addr, 4,*(uint32_t *)inst);
-            printf("addr : 0x%x %x\n", addr,*(uint32_t *)inst);
+            pmem_write(addr, 4, *(uint32_t *)inst);
+            // printf("addr : 0x%x   0x%08x\n", addr,*(uint32_t *)inst);
             addr += 4;
         }
         file.close();
@@ -146,7 +173,8 @@ public:
         std::fill(pmem.begin(), pmem.end(), 0);
     }
 
-    std::size_t get_size() const{
+    std::size_t get_size() const
+    {
         return size;
     }
 };
