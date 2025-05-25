@@ -87,13 +87,16 @@ static int cmd_c(char *args)
         while (!Verilated::gotFinish())
         {
 
-            if (monitor_pc(top->pc))
-                return 0;
+          
             top->clk = 0;
             top->eval();
             tfp->dump(sim_time++);
 
             /*try-catch 这就是一个会“抛出异常”的函数。如果你没有用 try-catch，程序会崩溃终止。有了 try-catch，就可以优雅地退出仿真，同时打印有用的调试信息。*/
+
+            if (monitor_pc(top->pc))
+                return 0;
+
             try
             {
                 top->inst = pmem.pmem_read(top->pc,4);
