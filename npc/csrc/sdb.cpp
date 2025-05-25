@@ -21,7 +21,7 @@ int monitor_pc(paddr_t pc)
         word_t new_value = expr(wp->str, &success);
         if (new_value != wp->old_value)
         {
-            std::cout << "The value changed from" << wp->old_value << "to" << new_value << std::endl;
+            std::cout << "The value changed from       " << wp->old_value << "to     "  << new_value << std::endl;
 
             wp->old_value = new_value;
             return 1;
