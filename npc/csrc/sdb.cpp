@@ -147,8 +147,8 @@ static int cmd_si(char *args)
         top->eval();
         tfp->dump(sim_time++);
 
-        if (monitor_pc(top->pc))
-            return 0;
+       // if (monitor_pc(top->pc))
+        //    return 0;
     }
 
     return 0;
