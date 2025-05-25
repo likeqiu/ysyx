@@ -70,6 +70,22 @@ module ysyx_25040109_top (
 
 
     import "DPI-C" function int printf_finish(int inst);
+    import "DPI-C" function int monitor_pc(int pc);
+
+
+    
+    function int monitor_pc(int pc);
+        
+    int evaluation=0;
+
+    evaluation=monitor_pc(next_pc);
+
+    if(evaluation)begin
+        $stop;
+    end
+        
+    endfunction
+
 
     always @(posedge clk) begin
         if (!rst) begin

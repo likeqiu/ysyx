@@ -8,6 +8,7 @@ Vysyx_25040109_top *top = new Vysyx_25040109_top;
 VerilatedFstC *tfp = new VerilatedFstC;
 vluint64_t sim_time = 0;
 alignas(4096)  PhysicalMemory pmem(0x8000000);
+//gcc对齐4k
 NPC_STATE npc_state = NPC_STATE::HALT;
 
 extern "C" int
@@ -27,12 +28,24 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
-int monitor_pc(paddr_t pc)
+extern "C" int monitor_pc(paddr_t next_pc)
 {
     for (int i = 0; i < NR_WP;i++)
     {
-        if (pc == top->pc)
+        WP *wp = wp_pool[i];
+        if (wp->old_value + 4 >= next_pc)
         {
+            std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
+            return 1;
+        }
+
+        bool suceess = false;
+        word_t new_value = expr(wp->str, &suceess);
+        if(new_value != wp->old_value)
+        {
+            std::cout << "The value changed from" << wp->old_value << "to" << new_value << std::endl;
+
+            wp->old_value = new_value;
             return 1;
         }
     }
