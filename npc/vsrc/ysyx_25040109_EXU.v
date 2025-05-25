@@ -29,7 +29,7 @@ module ysyx_25040109_EXU (
     ysyx_25040109_MuxKeyWithDefault #(3,7,32) alu_a_select(
         .out(alu_a),
         .key(opcode),
-        .defalut_out(rs1_data),
+        .default_out(rs1_data),
         .lut({
             7'b0010111, pc,        // auipc
             7'b0110111, 32'b0,     // lui
