@@ -82,7 +82,7 @@ module ysyx_25040109_top (
         end
 
          if(monitor_pc(pc) != 0)begin
-            $stop;
+            $finish;
          end
         if(printf_finish(inst) == 0 )begin
             $finish;
