@@ -86,8 +86,9 @@ static int cmd_c(char *args)
         }
         while (!Verilated::gotFinish())
         {
-          
 
+            if (monitor_pc(top->pc))
+                return 0;
             top->clk = 0;
             top->eval();
             tfp->dump(sim_time++);
@@ -108,8 +109,7 @@ static int cmd_c(char *args)
             top->eval();
             tfp->dump(sim_time++);
 
-            if (monitor_pc(top->pc))
-                return 0;
+           
         }
 
     return 0;
