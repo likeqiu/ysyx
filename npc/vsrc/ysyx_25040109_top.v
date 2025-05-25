@@ -130,7 +130,7 @@ module ysyx_25040109_top (
               if(printf_finish(inst) == 0 )
             $finish;
 
-            monitor_pc(pc);
+           // monitor_pc(pc);
         
         end
 
