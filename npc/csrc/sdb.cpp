@@ -14,14 +14,14 @@ int monitor_pc(paddr_t pc)
         if (wp->old_value == pc && wp->type == 'b')
         {
             std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
-            //wp = wp->next;
+            wp = wp->next;
             return 1;
-            //continue;
+            continue;
         }
 
         bool success = false;
         word_t new_value = expr(wp->str, &success);
-        if (new_value != wp->old_value && wp->type == 'm')
+        if (new_value != wp->old_value) //&& wp->type == 'm')
         {
             std::cout << "The value changed from    " << wp->old_value << "       to     "  << new_value << std::endl;
 
