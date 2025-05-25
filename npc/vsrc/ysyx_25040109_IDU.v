@@ -4,7 +4,9 @@ module ysyx_25040109_IDU (
     output [31:0] imm,
     output reg_write_en,
     input [31:0] rs1_data,
+    /* verilator lint_off UNUSEDSIGNAL */
     input [31:0] rs2_data,
+    /* verilator lint_on UNUSEDSIGNAL */
     output [31:0] rs1_data_out
 );
     wire [6:0] opcode = inst[6:0];
