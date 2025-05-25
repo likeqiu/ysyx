@@ -30,7 +30,7 @@ printf_finish(uint32_t inst)
 
 extern "C" int monitor_pc(paddr_t pc)
 {
-    WP *wp = &head;
+    WP *wp = head;
     for (; wp != nullptr;)
     {
         
