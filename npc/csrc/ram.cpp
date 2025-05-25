@@ -73,8 +73,7 @@ int main(int argc,char **argv){
     tfp->dump(sim_time++);
     top->rst = 0;
 
-    top->pc=0x80000000
-
+    top->pc = 0x80000000;
 
     std::cout << "After reset: PC = 0x" <<std::hex << top->pc << std::dec << std::endl;
 
