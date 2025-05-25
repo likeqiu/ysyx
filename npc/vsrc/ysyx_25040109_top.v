@@ -70,7 +70,7 @@ module ysyx_25040109_top (
 
 
     import "DPI-C" function int printf_finish(int inst);
-    import "DPI-C" function int monitor_pc(int pc);
+    
 
 
 
@@ -81,10 +81,9 @@ module ysyx_25040109_top (
             $display("PC=0x%h, inst=0x%h,",pc, inst_ifu);
         end
 
-         if(monitor_pc(pc) == 1  || printf_finish(inst) == 0)begin
+        if(printf_finish(inst) == 0 )begin
             $finish;
-         end
-       
+        end
 
     end
 
