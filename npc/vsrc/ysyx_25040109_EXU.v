@@ -26,7 +26,7 @@ module ysyx_25040109_EXU (
   
     wire [31:0] alu_a,alu_b,alu_out;
 
-    ysyx_25040109_MuKeyWithDefault #(3,7,32) alu_a_select(
+    ysyx_25040109_MuxKeyWithDefault #(3,7,32) alu_a_select(
         .out(alu_a),
         .key(opcode),
         .defalut_out(rs1_data),
