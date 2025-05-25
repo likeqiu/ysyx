@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int monitor_pc(paddr_t pc)
+extern "C" int monitor_pc(paddr_t pc)
 {
     WP *wp = head;
     for (; wp != nullptr;)
