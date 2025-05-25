@@ -14,6 +14,7 @@ module ysyx_25040109_EXU (
     output [31:0] next_pc
 );
 
+/* verilator lint_off UNUSEDSIGNAL */
     wire is_auipc = (opcode == 7'b0010111);
     wire is_lui = (opcode == 7'b0110111);
     wire is_jal = (opcode == 7'b1101111);
@@ -21,7 +22,7 @@ module ysyx_25040109_EXU (
     wire is_addi = (opcode == 7'b0010011 && funct3 == 3'b000);
     wire is_lw = (opcode == 7'b0000011 && funct3 == 3'b010);
     wire is_branch = (opcode == 7'b1100011 && funct3 == 3'b000);
-
+/* verilator lint_on UNUSEDSIGNAL */
     
   
     wire [31:0] alu_a,alu_b,alu_out;
