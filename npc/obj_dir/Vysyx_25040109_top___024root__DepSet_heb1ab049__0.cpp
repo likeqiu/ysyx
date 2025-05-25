@@ -20,6 +20,18 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     printf_finish__Vfuncrtn = printf_finish__Vfuncrtn__Vcvt;
 }
 
+extern "C" int monitor_pc(int pc);
+
+VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__monitor_pc_TOP(IData/*31:0*/ pc, IData/*31:0*/ &monitor_pc__Vfuncrtn) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__monitor_pc_TOP\n"); );
+    // Body
+    int pc__Vcvt;
+    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) pc__Vcvt = pc;
+    int monitor_pc__Vfuncrtn__Vcvt;
+    monitor_pc__Vfuncrtn__Vcvt = monitor_pc(pc__Vcvt);
+    monitor_pc__Vfuncrtn = monitor_pc__Vfuncrtn__Vcvt;
+}
+
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__ico(Vysyx_25040109_top___024root* vlSelf);
 #endif  // VL_DEBUG

@@ -16,6 +16,8 @@ extern "C" {
 
 
     // DPI IMPORTS
+    // DPI import at vsrc/ysyx_25040109_top.v:73:33
+    extern int monitor_pc(int pc);
     // DPI import at vsrc/ysyx_25040109_top.v:72:33
     extern int printf_finish(int inst);
 
