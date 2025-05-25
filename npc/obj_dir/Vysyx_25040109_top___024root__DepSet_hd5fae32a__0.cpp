@@ -131,7 +131,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                   32,vlSelf->ysyx_25040109_top__DOT__inst_ifu);
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->inst, __Vfunc_ysyx_25040109_top__DOT__printf_finish__6__Vfuncout);
         if (VL_UNLIKELY((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__6__Vfuncout))) {
-            VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 131, "");
+            VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 137, "");
         }
     }
     if (((~ (IData)(vlSelf->rst)) & (2U == (IData)(vlSelf->ysyx_25040109_top__DOT__debug_action)))) {
@@ -233,6 +233,9 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[0x1fU] 
             = __Vtask_ysyx_25040109_top__DOT__sdb_read_reg__7__value;
     }
+    if ((1U == (IData)(vlSelf->debug_cmd))) {
+        vlSelf->inst = vlSelf->ysyx_25040109_top__DOT__inst_ifu;
+    }
     if (((IData)(vlSelf->ysyx_25040109_top__DOT__reg_write_en_idu) 
          & (1U == (IData)(vlSelf->debug_cmd)))) {
         __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 
@@ -257,7 +260,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     }
     vlSelf->a0_out = vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
         [0xaU];
-    vlSelf->ysyx_25040109_top__DOT__inst_ifu = vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_raw;
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__pair_list[0U] 
         = (0x6f00000000ULL | (QData)((IData)(vlSelf->pc)));
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__pair_list[2U] 
@@ -276,7 +278,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         = vlSelf->pc;
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__data_list[2U] 
         = vlSelf->pc;
-    vlSelf->inst = vlSelf->ysyx_25040109_top__DOT__inst_ifu;
+    vlSelf->ysyx_25040109_top__DOT__inst_ifu = vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_raw;
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list[5U] 
         = (0x3700000000ULL | (QData)((IData)((0xfffff000U 
                                               & vlSelf->ysyx_25040109_top__DOT__inst_ifu))));
