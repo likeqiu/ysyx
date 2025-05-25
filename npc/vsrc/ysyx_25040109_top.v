@@ -3,7 +3,7 @@ module ysyx_25040109_top (
     input rst,
     input [3:0]  debug_cmd,
     input [31:0] debug_addr,
-    output [31:0] inst,
+    output reg [31:0]  inst,
     output [31:0] pc,
     output [31:0] a0_out
 );
@@ -100,8 +100,14 @@ module ysyx_25040109_top (
     wire is_sw =(opcode == 7'b0100011 && funct3==3'b010);
     wire is_lw =(opcode == 7'b0000011 && funct3==3'b010);
     wire [31:0] mem_addr = rs1_data_out+imm;
-    assign inst = inst_ifu;
+     wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF);
+    wire debug_addr_valid = (debug_addr >= 32'h80000000) && (debug_addr <= 32'h87FFFFFF);
 
+    always @(posedge clk) begin
+        if (step_en) begin
+            inst <= inst_ifu;
+        end
+    end
 
     always @(posedge clk) begin
         if(step_en && is_sw)begin
