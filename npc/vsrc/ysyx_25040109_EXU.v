@@ -60,7 +60,7 @@ module ysyx_25040109_EXU (
     );
 
 
-    ysyx_25040109_MuxKeyWithDefalut #(3,7,32) next_pc_select(
+    ysyx_25040109_MuxKeyWithDefault #(3,7,32) next_pc_select(
         .out(next_pc),
         .key(opcode),
         .default_out(pc+4),
