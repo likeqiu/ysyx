@@ -120,7 +120,7 @@ static int cmd_c(char *args)
 }
 
 
-extern "C" static int cmd_si(char *args)
+extern "C"  int cmd_si(char *args)
 {
 
     if (npc_state == NPC_STATE::END)
