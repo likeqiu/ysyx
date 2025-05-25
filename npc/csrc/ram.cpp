@@ -28,32 +28,7 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
-extern "C" int monitor_pc(paddr_t pc)
-{
-    WP *wp = head;
-    for (; wp != nullptr;)
-    {
-        
-        if (wp->old_value + 4 >= pc && wp->old_value!=0)
-        {
-            std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
-            return 1;
-        }
 
-        bool success = false;
-        word_t new_value = expr(wp->str, &success);
-        if(new_value != wp->old_value)
-        {
-            std::cout << "The value changed from" << wp->old_value << "to" << new_value << std::endl;
-
-            wp->old_value = new_value;
-            return 1;
-        }
-
-        wp = wp->next;
-    }
-    return 0;
-}
 
 int main(int argc,char **argv){
     //top->a0_out = 1;测试

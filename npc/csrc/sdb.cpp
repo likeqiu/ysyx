@@ -5,8 +5,33 @@
 
 using namespace std;
 
+int monitor_pc(paddr_t pc)
+{
+    WP *wp = head;
+    for (; wp != nullptr;)
+    {
 
-    
+        if (wp->old_value + 4 >= pc && wp->old_value != 0)
+        {
+            std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
+            return 1;
+        }
+
+        bool success = false;
+        word_t new_value = expr(wp->str, &success);
+        if (new_value != wp->old_value)
+        {
+            std::cout << "The value changed from" << wp->old_value << "to" << new_value << std::endl;
+
+            wp->old_value = new_value;
+            return 1;
+        }
+
+        wp = wp->next;
+    }
+    return 0;
+}
+
 static char *rl_gets()
 {
     static char *line_read = nullptr;
@@ -53,7 +78,8 @@ static int cmd_c(char *args)
         }
         while (!Verilated::gotFinish())
         {
-            
+            if(monitor_pc(top->pc))
+                return 0;
 
             top->clk = 0;
             top->eval();
@@ -82,6 +108,7 @@ static int cmd_c(char *args)
 
 static int cmd_si(char *args)
 {
+
     if (npc_state == NPC_STATE::END)
     {
         printf("The program had run finish \n");
@@ -92,6 +119,9 @@ static int cmd_si(char *args)
     for (int i = 0; i < ext_num;i++)
     {
 
+        if (monitor_pc(top->pc))
+            return 0;
+            
         top->clk = 0;
         top->eval();
         tfp->dump(sim_time++);
