@@ -13,13 +13,14 @@ module ysyx_25040109_top (
     wire step_en = (debug_cmd == 4'd1);
     wire [6:0] opcode = inst_ifu[6:0];
     wire [2:0] funct3 = inst_ifu[14:12];
+    wire fetch_en = !rst;
 
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(step_en)
+        .wen(step_en && fetch_en)
     );
 
     ysyx_25040109_IFU ifu (
@@ -104,7 +105,7 @@ module ysyx_25040109_top (
     wire debug_addr_valid = (debug_addr >= 32'h80000000) && (debug_addr <= 32'h87FFFFFF);
 
     always @(posedge clk) begin
-        if (step_en) begin
+        if (step_en && fetch_en) begin
             inst <= inst_ifu;
         end
     end
