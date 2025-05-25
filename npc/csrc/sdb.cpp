@@ -87,6 +87,7 @@ static int cmd_c(char *args)
         while (!Verilated::gotFinish())
         {
 
+
           
             top->clk = 0;
             top->eval();
@@ -119,7 +120,7 @@ static int cmd_c(char *args)
 }
 
 
-static int cmd_si(char *args)
+extern "C" static int cmd_si(char *args)
 {
 
     if (npc_state == NPC_STATE::END)
@@ -133,7 +134,6 @@ static int cmd_si(char *args)
     {
 
         
-
         top->clk = 0;
         top->eval();
         tfp->dump(sim_time++);
@@ -157,6 +157,8 @@ static int cmd_si(char *args)
     return 0;
 }
 
+
+
 static int cmd_q(char *args)
 {
     return -1;
@@ -168,7 +170,7 @@ static int cmd_x(char *args)
 {
 
     int times =0;
-    sscanf(args, "%d", &times);
+    sscanf(args, "%d", &times);  
     strtok(args," ");
   
     char *temp = strtok(NULL, " ");
