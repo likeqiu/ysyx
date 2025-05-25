@@ -30,10 +30,11 @@ printf_finish(uint32_t inst)
 
 extern "C" int monitor_pc(paddr_t pc)
 {
-    for (int i = 0; i < NR_WP;i++)
+    WP *wp = &head;
+    for (; wp != nullptr;)
     {
-        WP *wp = &wp_pool[i];
-        if (wp->old_value + 4 >= pc && pc!=0)
+        
+        if (wp->old_value + 4 >= pc && wp->old_value!=0)
         {
             std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
             return 1;
@@ -48,6 +49,8 @@ extern "C" int monitor_pc(paddr_t pc)
             wp->old_value = new_value;
             return 1;
         }
+
+        wp = wp->next;
     }
     return 0;
 }
