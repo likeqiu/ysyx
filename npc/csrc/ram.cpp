@@ -21,7 +21,7 @@ printf_finish(uint32_t inst)
              << "), Hit a \033[1;" << (a0 == 0 ? 32 : 31) << "m"
              << (a0 == 0 ? "GOOD" : "BAD") << "\033[0m TRAP\n";
 
-        npc_state = NPC_STATE::END;
+        npc_state = (inst == 0x00000073 && a0 != 0) ? NPC_STATE::HALT : NPC_STATE::END;
         return (inst == 0x00000073 && a0 !=0) ? 1 : 0;
     }
 

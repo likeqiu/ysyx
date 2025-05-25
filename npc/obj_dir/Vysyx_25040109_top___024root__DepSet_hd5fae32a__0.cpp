@@ -227,7 +227,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     }
     Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__monitor_pc_TOP(vlSelf->pc, __Vfunc_ysyx_25040109_top__DOT__monitor_pc__0__Vfuncout);
     if (VL_UNLIKELY((0U != __Vfunc_ysyx_25040109_top__DOT__monitor_pc__0__Vfuncout))) {
-        VL_STOP_MT("vsrc/ysyx_25040109_top.v", 85, "");
+        VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 85, "");
     }
     Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->inst, __Vfunc_ysyx_25040109_top__DOT__printf_finish__1__Vfuncout);
     if (VL_UNLIKELY((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__1__Vfuncout))) {

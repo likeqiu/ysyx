@@ -34,6 +34,11 @@ extern "C" int monitor_pc(paddr_t pc)
     return 0;
 }
 
+/*extern "C" npc_state_set()
+{
+    ;
+}*/
+
 static char *rl_gets()
 {
     static char *line_read = nullptr;
@@ -69,6 +74,7 @@ static int cmd_info(char *args)
     return 0;
 }
 
+extern int printf_finish(uint32_t inst);
 static int cmd_c(char *args)
 {
 
@@ -78,7 +84,7 @@ static int cmd_c(char *args)
             printf("The program had run finish \n");
             return 0;
         }
-        while (!Verilated::gotFinish())
+        while (npc_state!=NPC_STATE::END)
         {
           
 
