@@ -84,7 +84,7 @@ static int cmd_c(char *args)
             printf("The program had run finish \n");
             return 0;
         }
-        while (npc_state!=NPC_STATE::END)
+        while (npc_state != NPC_STATE::END && !Verilated::gotFinish())
         {
           
 
