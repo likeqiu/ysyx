@@ -84,7 +84,7 @@ static int cmd_c(char *args)
             printf("The program had run finish \n");
             return 0;
         }
-        while (npc_state != NPC_STATE::END && !Verilated::gotFinish())
+        while (!Verilated::gotFinish())
         {
           
 
@@ -108,8 +108,8 @@ static int cmd_c(char *args)
             top->eval();
             tfp->dump(sim_time++);
 
-           // if (monitor_pc(top->pc))
-             //   return 0;
+            if (monitor_pc(top->pc))
+                return 0;
         }
 
     return 0;
@@ -147,8 +147,8 @@ static int cmd_si(char *args)
         top->eval();
         tfp->dump(sim_time++);
 
-       // if (monitor_pc(top->pc))
-        //    return 0;
+       if (monitor_pc(top->pc))
+            return 0;
     }
 
     return 0;
