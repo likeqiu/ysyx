@@ -104,14 +104,43 @@ module ysyx_25040109_top (
 
 
     always @(posedge clk) begin
-        if (!rst) begin
+        if(step_en && is_sw)begin
+            pmem_write(mem_addr,rs2_data,4);
+            sdb_scan_mem(mem_addr,rs2_data);
+        end
+
+        if(step_en && is_lw)begin
+            pmem_read(mem_addr,mem_data);
+            sdb_scan_mem(mem_addr,mem_data);
+        end
+
+        if(debug_cmd==4'd3 )begin
+            pmem_read(debug_addr,mem_data);
+        end
+
+        if(step_en)
+        step_complete();
+    end
+
+
+    always @(posedge clk) begin
+        if (!rst && debug_action==4'd1) begin
             $display("PC=0x%h, inst=0x%h,",pc, inst_ifu);
-        end
-
-        if(printf_finish(inst) == 0 )begin
+            
+              if(printf_finish(inst) == 0 )
             $finish;
+
+            monitor_pc(pc);
+        
         end
 
+      
+
+   if (!rst && debug_action == 4'd2) begin
+            for (integer i = 0; i < 32; i = i + 1) begin
+                sdb_read_reg(i, regfile.rf[i]);
+            end
+        end
     end
 
       
