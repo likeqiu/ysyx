@@ -3,7 +3,7 @@ module ysyx_25040109_IFU (
     input clk,
     input [31:0] pc,
     /* verilator lint_on UNUSEDSIGNAL */
-    output [31:0] inst_ifu,
+    output [31:0] inst_ifu
     
 );
 

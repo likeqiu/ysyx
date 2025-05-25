@@ -139,7 +139,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                   32,vlSelf->ysyx_25040109_top__DOT__inst_ifu);
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->ysyx_25040109_top__DOT__inst_ifu, __Vfunc_ysyx_25040109_top__DOT__printf_finish__7__Vfuncout);
         if (VL_UNLIKELY((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__7__Vfuncout))) {
-            VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 135, "");
+            VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 136, "");
         }
     }
     if (((~ (IData)(vlSelf->rst)) & (2U == (IData)(vlSelf->ysyx_25040109_top__DOT__debug_action)))) {
@@ -241,9 +241,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[0x1fU] 
             = __Vtask_ysyx_25040109_top__DOT__sdb_read_reg__8__value;
     }
-    if ((1U == (IData)(vlSelf->debug_cmd))) {
-        vlSelf->inst = vlSelf->ysyx_25040109_top__DOT__inst_ifu;
-    }
     if (((IData)(vlSelf->ysyx_25040109_top__DOT__reg_write_en_idu) 
          & (1U == (IData)(vlSelf->debug_cmd)))) {
         __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 
@@ -252,6 +249,9 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         __Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 
             = (0x1fU & (vlSelf->ysyx_25040109_top__DOT__inst_ifu 
                         >> 7U));
+    }
+    if (((1U == (IData)(vlSelf->debug_cmd)) & (~ (IData)(vlSelf->rst)))) {
+        vlSelf->inst = vlSelf->ysyx_25040109_top__DOT__inst_ifu;
     }
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__result_select__DOT__i0__DOT__pair_list[0U] 
         = (0x300000000ULL | (QData)((IData)(vlSelf->ysyx_25040109_top__DOT__mem_data)));
@@ -263,7 +263,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     }
     if (vlSelf->rst) {
         vlSelf->pc = 0x80000000U;
-    } else if ((1U == (IData)(vlSelf->debug_cmd))) {
+    } else if (((~ (IData)(vlSelf->rst)) & (1U == (IData)(vlSelf->debug_cmd)))) {
         vlSelf->pc = vlSelf->ysyx_25040109_top__DOT__next_pc;
     }
     vlSelf->a0_out = vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
