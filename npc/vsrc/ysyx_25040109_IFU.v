@@ -12,7 +12,7 @@ module ysyx_25040109_IFU (
         
 
  
-    reg [31:0] inst_raw;
+  
     wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
    always @(posedge clk) begin
        if (pc_valid) begin
