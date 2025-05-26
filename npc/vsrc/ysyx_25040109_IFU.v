@@ -12,14 +12,26 @@ module ysyx_25040109_IFU (
         
 
  
+
     reg [31:0] inst_raw;
-    wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
-   always @(posedge clk) begin
-       if (pc_valid) begin
-            pmem_read(pc, inst_raw);
-       end else begin
-            inst_raw<=32'h0;
-       end
+    reg [31:0] inst_read;
+
+    // DPI-C 调用存储到中间信号
+    always @(posedge clk) begin
+        if (!rst && pc >= 32'h80000000 && pc <= 32'h87FFFFFF) begin
+            pmem_read(pc, inst_read);
+        end else begin
+            inst_read <= 32'h0;
+        end
+    end
+
+    // 统一使用非阻塞赋值
+    always @(posedge clk) begin
+        if (!rst && pc >= 32'h80000000 && pc <= 32'h87FFFFFF) begin
+            inst_raw <= inst_read;
+        end else begin
+            inst_raw <= 32'h0;
+        end
     end
 
     assign inst_ifu=inst_raw;
