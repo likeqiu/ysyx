@@ -5,7 +5,7 @@ module ysyx_25040109_top (
     output [31:0] pc,
     output [31:0] a0_out
 );
-    wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result, rs1_data_out;
+    wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;
     reg  [31:0] mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
