@@ -4,7 +4,7 @@ module ysyx_25040109_IFU (
     input [31:0] pc,
     input rst,
     /* verilator lint_on UNUSEDSIGNAL */
-   output reg [31:0] inst_ifu  // 修改1：改为wire类型，默认即可
+   output  [31:0] inst_ifu  // 修改1：改为wire类型，默认即可
 );
     import "DPI-C" function void pmem_read(input int addr, output int data);
 
