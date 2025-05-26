@@ -19,7 +19,7 @@ module ysyx_25040109_EXU (
     wire [31:0] alu_out; // ALU result
 
     // ALU A selection
-    ysyx_25040109_MuxKeyWithDefault #(4, 7, 32) alu_a_select( // Added R-type
+    ysyx_25040109_MuxKeyWithDefault #(3, 7, 32) alu_a_select( // Added R-type
         .out(alu_a),
         .key(opcode),
         .default_out(rs1_data), // Default for R-type, I-type (addi, lw, jalr), S-type, B-type

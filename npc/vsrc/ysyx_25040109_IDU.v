@@ -10,7 +10,7 @@ module ysyx_25040109_IDU (
     output [31:0] rs1_data_out
 );
     wire [6:0] opcode = inst[6:0];
-    wire [2:0] funct3 = inst[14:12];
+  //  wire [2:0] funct3 = inst[14:12];
     wire [11:0] imm_i = inst[31:20];
     wire [19:0] imm_u = inst[31:12];
     wire [20:1] imm_j = {inst[31], inst[19:12], inst[20], inst[30:21]};
@@ -44,7 +44,7 @@ module ysyx_25040109_IDU (
     // Updated reg_write_select to include R-type, I-type (ALU, Load, JAL, JALR), U-type.
     // S-type and B-type do not write to rd.
     // This is a simplified example; a full RISC-V would have more detailed conditions.
-    ysyx_25040109_MuxKeyWithDefault #(10, 7, 1) reg_write_select ( // Key is opcode only now
+    ysyx_25040109_MuxKeyWithDefault #(7, 7, 1) reg_write_select ( // Key is opcode only now
         .out(reg_write_en),
         .key(opcode),
         .default_out(1'b0), // Default to no write
