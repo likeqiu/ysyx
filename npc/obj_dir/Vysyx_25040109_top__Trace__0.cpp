@@ -339,7 +339,7 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
                                               + vlSelf->pc) 
                                              >> 0x12U));
     bufp->chgWData(oldp+206,(__Vtemp_hc92765bb__0),117);
-    bufp->chgBit(oldp+210,(((~ (IData)(vlSelf->ysyx_25040109_top__DOT__ifu__DOT__rst)) 
+    bufp->chgBit(oldp+210,(((~ (IData)(vlSelf->rst)) 
                             & ((0x80000000U <= vlSelf->pc) 
                                & (0x87ffffffU >= vlSelf->pc)))));
     bufp->chgBit(oldp+211,(((~ (IData)(vlSelf->rst)) 

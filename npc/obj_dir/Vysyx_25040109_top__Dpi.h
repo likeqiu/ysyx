@@ -16,19 +16,19 @@ extern "C" {
 
 
     // DPI IMPORTS
-    // DPI import at vsrc/ysyx_25040109_top.v:81:33
+    // DPI import at vsrc/ysyx_25040109_top.v:82:33
     extern int monitor_pc(int pc);
-    // DPI import at vsrc/ysyx_25040109_top.v:78:34
-    extern void pmem_read(int addr, int* data);
     // DPI import at vsrc/ysyx_25040109_top.v:79:34
+    extern void pmem_read(int addr, int* data);
+    // DPI import at vsrc/ysyx_25040109_top.v:80:34
     extern void pmem_write(int addr, int data, int len);
-    // DPI import at vsrc/ysyx_25040109_top.v:80:33
+    // DPI import at vsrc/ysyx_25040109_top.v:81:33
     extern int printf_finish(int inst);
-    // DPI import at vsrc/ysyx_25040109_top.v:82:34
-    extern void sdb_read_reg(int index, int* value);
     // DPI import at vsrc/ysyx_25040109_top.v:83:34
-    extern void sdb_scan_mem(int addr, int* value);
+    extern void sdb_read_reg(int index, int* value);
     // DPI import at vsrc/ysyx_25040109_top.v:84:34
+    extern void sdb_scan_mem(int addr, int* value);
+    // DPI import at vsrc/ysyx_25040109_top.v:85:34
     extern void step_complete();
 
 #ifdef __cplusplus
