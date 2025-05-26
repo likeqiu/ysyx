@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 module ysyx_25040109_EXU (
     input [31:0] rs1_data,
     input [31:0] rs2_data,
@@ -70,4 +71,5 @@ module ysyx_25040109_EXU (
     assign reg_write_en_out = reg_write_en;
 
 endmodule
+  /* verilator lint_on UNUSEDSIGNAL */
 

@@ -9,7 +9,7 @@ module ysyx_25040109_IDU (
     /* verilator lint_on UNUSEDSIGNAL */
     output [31:0] rs1_data_out
 );
-   /* verilator lint_off UNUSEDSIGNAL */
+  
     wire [6:0] opcode = inst[6:0];
     wire [2:0] funct3 = inst[14:12];
     wire [11:0] imm_i = inst[31:20];
@@ -23,7 +23,7 @@ module ysyx_25040109_IDU (
     wire [31:0] imm_j_ext = {{11{imm_j[20]}}, imm_j, 1'b0};
     wire [31:0] imm_s_ext = {{20{imm_s[11]}}, imm_s};
     wire [31:0] imm_b_ext = {{19{imm_b[12]}}, imm_b, 1'b0};
-     /* verilator lint_on UNUSEDSIGNAL */
+    
 
 
     ysyx_25040109_MuxKeyWithDefault #(7, 7,  32)  imm_select 
