@@ -72,33 +72,34 @@ extern "C" int cmd_si(char *args)
         sscanf(args, "%d", &step_num);
      }
 
-     for (int i = 0; i < step_num;i++)
+     try
      {
-         top->clk = 0;
-         top->debug_cmd = 1;
-         top->eval();
-         tfp->dump(sim_time++);
 
-         top->clk = 1;
-         top->eval();
-         tfp->dump(sim_time++);
-
-         top->debug_cmd = 0;
-
-         if(monitor_pc(top->pc))
+         for (int i = 0; i < step_num; i++)
          {
-             return 0;
+             top->clk = 0;
+             top->debug_cmd = 1;
+             top->eval();
+             tfp->dump(sim_time++);
+
+             top->clk = 1;
+             top->eval();
+             tfp->dump(sim_time++);
+
+             top->debug_cmd = 0;
+
+             if (monitor_pc(top->pc))
+             {
+                 return 0;
+             }
+             catch (const std::exception &e)
+             {
+                 std::cerr << "Error in cycle" << sim_time << ":" << e.what() << std::endl;
+                 return 1;
+             }
          }
-         catch (const std::exception &e)
-         {
-             std::cerr << "Error in cycle" << sim_time << ":" << e.what() << std::endl;
-             return 1;
-         }
+         return 0;
      }
-     return 0;
-}
-
-
 
 /*extern "C" npc_state_set()
 {
