@@ -29,7 +29,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     SData/*11:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_s;
     SData/*11:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_b;
     SData/*9:0*/ ysyx_25040109_top__DOT__idu__DOT____Vcellinp__reg_write_select__key;
-    VL_IN(debug_addr,31,0);
     VL_OUT(inst,31,0);
     VL_OUT(pc,31,0);
     VL_OUT(a0_out,31,0);
