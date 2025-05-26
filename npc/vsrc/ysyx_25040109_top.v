@@ -133,7 +133,7 @@ module ysyx_25040109_top (
     always @(posedge clk) begin
         if (!rst && debug_action == 4'd1 ) begin
             $display("PC=0x%h, inst=0x%h", pc, inst_ifu);
-            if (printf_finish(inst_ifu) == 0 && fetch_en) begin
+            if (printf_finish(inst_ifu) == 0 ) begin
                 $finish;
             end
             //monitor_pc(pc);

@@ -33,7 +33,7 @@ extern "C" void sdb_scan_mem(uint32_t addr,uint32_t *value)
 extern "C" int monitor_pc(paddr_t pc)
 {
     WP *wp = head;
-    for (; wp != nullptr;)
+    for (; wp != nullptr; )
     {
 
         if (wp->old_value == pc && wp->type == 'b')
@@ -41,7 +41,6 @@ extern "C" int monitor_pc(paddr_t pc)
             std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
             wp = wp->next;
             return 1;
-            continue;
         }
 
         bool success = false;
@@ -63,7 +62,7 @@ extern "C" int cmd_si(char *args)
 {
     if(npc_state==NPC_STATE::END)
     {
-        printf("The program has finisher\n");
+        printf("The program has finished\n");
         return 0;
     }
 
@@ -89,6 +88,9 @@ extern "C" int cmd_si(char *args)
          if(monitor_pc(top->pc))
          {
              return 0;
+         }catch (const std::expection &e){
+             std::cerr << "Error in cycle" << sim_time << ":" << e.what() << std::endl;
+             return 1;
          }
      }
      return 0;
@@ -146,7 +148,7 @@ static int cmd_c(char *args)
             printf("The program had run finish \n");
             return 0;
         }
-        while (!Verilated::gotFinish())
+        while (!Verilated::gotFinish() && npc_state != NPC_STATE::END)
         {
 
 
@@ -155,20 +157,7 @@ static int cmd_c(char *args)
             top->eval();
             tfp->dump(sim_time++);
 
-            /*try-catch 这就是一个会“抛出异常”的函数。如果你没有用 try-catch，程序会崩溃终止。有了 try-catch，就可以优雅地退出仿真，同时打印有用的调试信息。*/
-
-           
-
-            try
-            {
-                top->inst = pmem.pmem_read(top->pc,4);
-            }
-            catch (const exception &e)
-            {
-                cerr << "Cycle" << ":" << e.what() << endl;
-                /*e.what() 是 C++ 中异常类（如 std::exception）的一个成员函数，用于返回异常的详细信息（错误描述），类型为 const char,抛出的信息取决于前边定义的throw内容*/
-                break;
-            }
+  
 
             top->clk = 1;
             top->eval();
