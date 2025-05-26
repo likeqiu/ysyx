@@ -4,22 +4,14 @@ module ysyx_25040109_IFU (
     input [31:0] pc,
     input rst,
     /* verilator lint_on UNUSEDSIGNAL */
-    output reg [31:0] inst_ifu
-    
+   output [31:0] inst_ifu  // 修改1：改为wire类型，默认即可
 );
+    import "DPI-C" function void pmem_read(input int addr, output int data);
 
-    import "DPI-C" function void pmem_read(input int addr,output int data);
-        
-  
     wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
-   always @(*) begin
-       if (pc_valid) begin
-            pmem_read(pc, inst_ifu);
-       end else begin
-            inst_ifu=32'h0;
-       end
-        
-    end
+    wire [31:0] inst_raw;
+    pmem_read(pc, inst_raw);  // 修改2：使用中间变量inst_raw
+    assign inst_ifu = pc_valid ? inst_raw : 32'h0;
 
 
 

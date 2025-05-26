@@ -1,7 +1,7 @@
 module ysyx_25040109_top (
     input clk,
     input rst,
-    output reg [31:0]  inst,
+    output  [31:0]  inst,
     output [31:0] pc,
     output [31:0] a0_out
 );
@@ -9,16 +9,18 @@ module ysyx_25040109_top (
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
     wire step_en =1'b1;
-    wire [6:0] opcode = inst_ifu[6:0];
-    wire [2:0] funct3 = inst_ifu[14:12];
+    
+    wire [31:0] inst_reg;
+    wire [6:0] opcode = inst_reg[6:0];
+    wire [2:0] funct3 = inst_reg[14:12];
 
 
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
         .rst(rst),
-        .din(next_pc),
-        .dout(pc),
-        .wen(step_en)
+        .din(inst_ifu),
+        .dout(inst_reg),
+        .wen(1'b1)
     );
 
     ysyx_25040109_IFU ifu (
@@ -31,7 +33,7 @@ module ysyx_25040109_top (
 
 
     ysyx_25040109_IDU idu (
-        .inst(inst_ifu),
+        .inst(inst_reg),
         .rd_addr(rd_addr_idu),
         .imm(imm),
         .reg_write_en(reg_write_en_idu),
@@ -63,8 +65,8 @@ module ysyx_25040109_top (
         .wdata(result),
         .waddr(rd_addr_exu),
         .wen(reg_write_en_exu && step_en),
-        .raddr1(inst_ifu[19:15]),
-        .raddr2(inst_ifu[24:20]),
+        .raddr1(inst_reg[19:15]),  
+        .raddr2(inst_reg[24:20]),
         .rdata1(rs1_data),
         .rdata2(rs2_data),
         .a0_out(a0_out)
@@ -92,7 +94,7 @@ module ysyx_25040109_top (
     wire [31:0] mem_addr = rs1_data_out+imm;
      wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF);
    
-    assign inst = inst_ifu;
+    assign inst = inst_reg;
 
     always @(posedge clk) begin
         if (step_en && is_sw && addr_valid ) begin
@@ -109,8 +111,8 @@ module ysyx_25040109_top (
 
     always @(posedge clk) begin
         if (!rst  ) begin
-            $display("PC=0x%h, inst=0x%h", pc, inst_ifu);
-            if (printf_finish(inst_ifu) == 0) begin
+            $display("PC=0x%h, inst=0x%h", pc, inst_reg);
+            if (printf_finish(inst_reg) == 0) begin
                 $finish;
             end
  
