@@ -4,7 +4,7 @@ module ysyx_25040109_IFU (
     input [31:0] pc,
     input rst,
     /* verilator lint_on UNUSEDSIGNAL */
-    output [31:0] inst_ifu
+    output reg [31:0] inst_ifu
     
 );
 
