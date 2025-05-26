@@ -26,6 +26,12 @@ extern "C" void sdb_scan_mem(uint32_t addr,uint32_t *value)
     printf("Memory [0x%08x]: 0x%08x\n", addr, *value);
 }
 
+extern "C" void debug_exu(uint32_t pc, uint32_t inst, uint32_t rs1_data, uint32_t rd_addr, uint32_t result)
+{
+    printf("EXU: PC=0x%08x, inst=0x%08x, rs1_data=0x%08x, rd_addr=%d, result=0x%08x\n",
+           pc, inst, rs1_data, rd_addr, result);
+}
+
 extern int monitor_pc(paddr_t pc)
 {
     WP *wp = head;
@@ -171,43 +177,6 @@ static int cmd_c(char *args)
     return 0;
 }
 
-
-/*extern "C"  int cmd_si(char *args)
-{
-
-    if (npc_state == NPC_STATE::END)
-    {
-        printf("The program had run finish \n");
-        return 0;
-    }
-    int ext_num = 0;
-    sscanf(args, "%d", &ext_num);
-    for (int i = 0; i < ext_num;i++)
-    {
-
-        
-        top->clk = 0;
-        top->eval();
-        tfp->dump(sim_time++);
-
-        try{
-            top->inst = pmem.pmem_read(top->pc,4);
-        }catch(const exception &e)
-        {
-            cerr << "Cycle" << ":" << e.what() << endl;
-            break;
-        }
-
-        top->clk = 1;
-        top->eval();
-        tfp->dump(sim_time++);
-
-       if (monitor_pc(top->pc))
-            return 0;
-    }
-
-    return 0;
-}*/
 
 
 
