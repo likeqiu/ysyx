@@ -87,14 +87,16 @@ module ysyx_25040109_top (
 
 
     wire [3:0] debug_action;
-    ysyx_25040109_MuxKeyWithDefault #(3, 4, 4) debug_mux (
+    ysyx_25040109_MuxKeyWithDefault #(1, 4, 4) debug_mux (
         .out(debug_action),
         .key(debug_cmd),
         .default_out(4'd0),
         .lut({
-            4'd1, 4'd1, // si
-            4'd2, 4'd2, // info
-            4'd3, 4'd3  // x
+            4'd1, 4'd1// si
+           
+
+
+         
         })
     );
 
@@ -103,8 +105,7 @@ module ysyx_25040109_top (
     wire is_lw =(opcode == 7'b0000011 && funct3==3'b010);
     wire [31:0] mem_addr = rs1_data_out+imm;
      wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF);
-    wire debug_addr_valid = (debug_addr >= 32'h80000000) && (debug_addr <= 32'h87FFFFFF);
-
+   
     always @(posedge clk) begin
         if (step_en && fetch_en) begin
             inst <= inst_ifu;
@@ -120,7 +121,7 @@ module ysyx_25040109_top (
             pmem_read(mem_addr, mem_data);
             sdb_scan_mem(mem_addr, mem_data);
         end
-        if (debug_cmd == 4'd3 && debug_addr_valid ) begin
+        if (step_en && debug_cmd == 4'd1) begin
             pmem_read(debug_addr, mem_data);
             sdb_scan_mem(debug_addr, mem_data);
         end
@@ -131,7 +132,7 @@ module ysyx_25040109_top (
 
 
     always @(posedge clk) begin
-        if (!rst && debug_action == 4'd1 ) begin
+        if (!rst && debug_cmd == 4'd1 ) begin
             $display("PC=0x%h, inst=0x%h", pc, inst_ifu);
             if (printf_finish(inst_ifu) == 0 ) begin
                 $finish;
