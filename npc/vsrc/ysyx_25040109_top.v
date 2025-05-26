@@ -82,23 +82,11 @@ module ysyx_25040109_top (
     import "DPI-C" function int monitor_pc(input int pc);
     import "DPI-C" function void sdb_read_reg(input int index, output int value);
     import "DPI-C" function void sdb_scan_mem(input int addr, output int value);
-    import "DPI-C" function void step_complete();
+   // import "DPI-C" function void step_complete();
 
 
 
-    wire [3:0] debug_action;
-    ysyx_25040109_MuxKeyWithDefault #(1, 4, 4) debug_mux (
-        .out(debug_action),
-        .key(debug_cmd),
-        .default_out(4'd0),
-        .lut({
-            4'd1, 4'd1// si
-           
 
-
-         
-        })
-    );
 
 
     wire is_sw =(opcode == 7'b0100011 && funct3==3'b010);
@@ -125,25 +113,19 @@ module ysyx_25040109_top (
             pmem_read(debug_addr, mem_data);
             sdb_scan_mem(debug_addr, mem_data);
         end
-        if (step_en) begin
-            step_complete();
-        end
+       
     end
 
 
     always @(posedge clk) begin
-        if (!rst && debug_cmd == 4'd1 ) begin
+        if (!rst  ) begin
             $display("PC=0x%h, inst=0x%h", pc, inst_ifu);
             if (printf_finish(inst_ifu) == 0 ) begin
                 $finish;
             end
-            //monitor_pc(pc);
+ 
         end
-        if (!rst && debug_action == 4'd2 ) begin
-            for (integer i = 0; i < 32; i = i + 1) begin
-                sdb_read_reg(i, regfile.rf[i]);
-            end
-        end
+      
     end
 endmodule
 

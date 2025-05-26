@@ -15,10 +15,6 @@ extern "C" void pmem_write(uint32_t addr,uint32_t data,uint32_t len)
     pmem.pmem_write(addr, len, data);
 }
 
-extern "C" void step_complete()
-{
-    std::cout << "Single step completed\n";
-}
 
 extern "C" void sdb_read_reg(uint32_t index,uint32_t *value)
 {
@@ -30,7 +26,7 @@ extern "C" void sdb_scan_mem(uint32_t addr,uint32_t *value)
     printf("Memory [0x%08x]: 0x%08x\n", addr, *value);
 }
 
-extern "C" int monitor_pc(paddr_t pc)
+extern  int monitor_pc(paddr_t pc)
 {
     WP *wp = head;
     for (; wp != nullptr; )
@@ -77,7 +73,7 @@ extern "C" int cmd_si(char *args)
          for (int i = 0; i < step_num; i++)
          {
              top->clk = 0;
-             top->debug_cmd = 1; // 设置为si命令
+             
              top->eval();
              tfp->dump(sim_time++);
 
@@ -85,7 +81,7 @@ extern "C" int cmd_si(char *args)
              top->eval();
              tfp->dump(sim_time++);
 
-             top->debug_cmd = 0;
+             
 
              // 断点检查
              if (monitor_pc(top->pc))
