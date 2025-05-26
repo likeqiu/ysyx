@@ -83,10 +83,8 @@ module ysyx_25040109_top (
     import "DPI-C" function void debug_exu(input int pc, input int inst, input int rs1_data, input int rd_addr, input int result);
 
 
-
-    always @(posedge clk) begin
-        debug_exu(pc, inst_ifu, rs1_data, rd_addr, result);
-    end
+    
+   
 
 
 
