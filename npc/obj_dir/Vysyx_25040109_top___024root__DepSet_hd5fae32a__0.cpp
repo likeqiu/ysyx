@@ -29,14 +29,10 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     __Vtask_ysyx_25040109_top__DOT__pmem_read__2__data = 0;
     IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value;
     __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value = 0;
-    IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__pmem_read__4__data;
-    __Vtask_ysyx_25040109_top__DOT__pmem_read__4__data = 0;
-    IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__5__value;
-    __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__5__value = 0;
-    IData/*31:0*/ __Vfunc_ysyx_25040109_top__DOT__printf_finish__6__Vfuncout;
-    __Vfunc_ysyx_25040109_top__DOT__printf_finish__6__Vfuncout = 0;
-    IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__7__data;
-    __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__7__data = 0;
+    IData/*31:0*/ __Vfunc_ysyx_25040109_top__DOT__printf_finish__4__Vfuncout;
+    __Vfunc_ysyx_25040109_top__DOT__printf_finish__4__Vfuncout = 0;
+    IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__5__data;
+    __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__5__data = 0;
     CData/*4:0*/ __Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
     __Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0;
     IData/*31:0*/ __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
@@ -48,9 +44,9 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     if (((~ (IData)(vlSelf->rst)) & ((0x80000000U <= vlSelf->pc) 
                                      & (0x87ffffffU 
                                         >= vlSelf->pc)))) {
-        Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->pc, __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__7__data);
+        Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->pc, __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__5__data);
         vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_raw 
-            = __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__7__data;
+            = __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__5__data;
     }
     if (((IData)((0x2023U == (0x707fU & vlSelf->ysyx_25040109_top__DOT__inst_ifu))) 
          & (IData)(vlSelf->ysyx_25040109_top__DOT__addr_valid))) {
@@ -64,17 +60,12 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_scan_mem_TOP(vlSelf->ysyx_25040109_top__DOT__mem_addr, __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value);
         vlSelf->ysyx_25040109_top__DOT__mem_data = __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value;
     }
-    if ((1U == (IData)(vlSelf->debug_cmd))) {
-        Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->debug_addr, __Vtask_ysyx_25040109_top__DOT__pmem_read__4__data);
-        Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_scan_mem_TOP(vlSelf->debug_addr, __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__5__value);
-        vlSelf->ysyx_25040109_top__DOT__mem_data = __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__5__value;
-    }
     if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->rst))))) {
         VL_WRITEF("PC=0x%x, inst=0x%x\n",32,vlSelf->pc,
                   32,vlSelf->ysyx_25040109_top__DOT__inst_ifu);
-        Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->ysyx_25040109_top__DOT__inst_ifu, __Vfunc_ysyx_25040109_top__DOT__printf_finish__6__Vfuncout);
-        if (VL_UNLIKELY((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__6__Vfuncout))) {
-            VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 124, "");
+        Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->ysyx_25040109_top__DOT__inst_ifu, __Vfunc_ysyx_25040109_top__DOT__printf_finish__4__Vfuncout);
+        if (VL_UNLIKELY((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__4__Vfuncout))) {
+            VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 119, "");
         }
     }
     if ((1U & (~ (IData)(vlSelf->rst)))) {
@@ -582,7 +573,5 @@ void Vysyx_25040109_top___024root___eval_debug_assertions(Vysyx_25040109_top___0
         Verilated::overWidthError("clk");}
     if (VL_UNLIKELY((vlSelf->rst & 0xfeU))) {
         Verilated::overWidthError("rst");}
-    if (VL_UNLIKELY((vlSelf->debug_cmd & 0xf0U))) {
-        Verilated::overWidthError("debug_cmd");}
 }
 #endif  // VL_DEBUG

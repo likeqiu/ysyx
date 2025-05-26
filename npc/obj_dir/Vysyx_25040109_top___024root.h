@@ -15,7 +15,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
     VL_IN8(rst,0,0);
-    VL_IN8(debug_cmd,3,0);
     CData/*0:0*/ ysyx_25040109_top__DOT__reg_write_en_idu;
     CData/*0:0*/ ysyx_25040109_top__DOT__addr_valid;
     CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__hit;
