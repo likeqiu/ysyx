@@ -15,7 +15,10 @@ module ysyx_25040109_IFU (
    always @(*) begin
        if (pc_valid) begin
             pmem_read(pc, inst_ifu);
-        end 
+       end else begin
+            inst_ifu=32'h0;
+       end
+        
     end
 
 
