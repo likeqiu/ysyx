@@ -8,16 +8,18 @@ module ysyx_25040109_IFU (
     
 );
     import "DPI-C" function void pmem_read(input int addr, output int data);
-    reg [31:0] inst_raw;
+reg [31:0] inst_read;
+reg [31:0] inst_raw;
 
-    // 指令读取
-    always @(posedge clk) begin
-        if (!rst && pc >= 32'h80000000 && pc <= 32'h87FFFFFF) begin
-            pmem_read(pc, inst_raw);
-        end else begin
-            inst_raw <= 32'h0;
-        end
+always @(posedge clk) begin
+    if (rst) begin
+        pmem_read(pc, inst_read);  // 阻塞赋值
+        inst_raw <= inst_read;     // 非阻塞赋值
+    end else begin
+        inst_raw <= 32'h0;
     end
+end
+
 
     ysyx_25040109_Reg #(32, 32'h0) inst_reg (
         .clk(clk),
