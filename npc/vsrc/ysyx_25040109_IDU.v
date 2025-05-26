@@ -39,21 +39,15 @@ module ysyx_25040109_IDU (
     // Updated reg_write_select to include R-type, I-type (ALU, Load, JAL, JALR), U-type.
     // S-type and B-type do not write to rd.
     // This is a simplified example; a full RISC-V would have more detailed conditions.
-    ysyx_25040109_MuxKeyWithDefault #(7, 7, 1) reg_write_select ( // Key is opcode only now
-        .out(reg_write_en),
-        .key(opcode),
-        .default_out(1'b0), // Default to no write
-        .lut({
-            7'b0110111, 1'b1, // lui
-            7'b0010111, 1'b1, // auipc
-            7'b1101111, 1'b1, // jal
-            7'b1100111, 1'b1, // jalr
-            7'b0000011, 1'b1, // lb, lh, lw, lbu, lhu
-            7'b0010011, 1'b1, // addi, slti, sltiu, xori, ori, andi, slli, srli, srai
-            7'b0110011, 1'b1  // add, sub, sll, slt, sltu, xor, srl, sra, or, and (R-type)
-            // Note: Store (0100011) and Branch (1100011) opcodes are not listed, so they get default_out (1'b0)
-        })
-    );
+ assign reg_write_en = (opcode == 7'b0110111) || // lui
+                          (opcode == 7'b0010111) || // auipc
+                          (opcode == 7'b1101111) || // jal
+                          (opcode == 7'b1100111) || // jalr
+                          (opcode == 7'b0000011) || // lb, lh, lw, lbu, lhu
+                          (opcode == 7'b0010011) || // addi, slti, sltiu, xori, ori, andi, slli, srli, srai
+                          (opcode == 7'b0110011);  // add, sub, sll, slt, sltu, xor, srl, sra, or, and (R-type)
+
+ 
 
     
 
