@@ -20,7 +20,7 @@ module ysyx_25040109_top (
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(step_en)
+        .wen(rst)
     );
 
     ysyx_25040109_IFU ifu (
