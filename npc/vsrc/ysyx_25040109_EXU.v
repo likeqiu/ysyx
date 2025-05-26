@@ -2,11 +2,11 @@ module ysyx_25040109_EXU (
     input [31:0] rs1_data,
     input [31:0] rs2_data,
     input [31:0] imm,
-    input reg_write_en,     // This is reg_write_en_idu
-    input [4:0] rd_addr,      // This is rd_addr_idu
+    input reg_write_en,     
+    input [4:0] rd_addr,      
     input [31:0] pc,
     input [6:0] opcode,
-    input [2:0] funct3,     // funct3 is needed for full ALU and branch condition
+    input [2:0] funct3,     // funct3 用于完整 ALU 以及分支条件
     input [31:0] mem_data,  // Data from memory for lw
     output [31:0] result,
     output [4:0] rd_addr_out, // Pass through rd_addr_idu

@@ -35,14 +35,11 @@ module ysyx_25040109_top (
         .inst(inst_ifu),
         .rd_addr(rd_addr_idu),
         .imm(imm),
-        .reg_write_en(reg_write_en_idu),
-        .rs1_data(rs1_data),
-        .rs2_data(rs2_data),
-        .rs1_data_out(rs1_data_out)
+        .reg_write_en(reg_write_en_idu)
     );
 
     ysyx_25040109_EXU exu (
-        .rs1_data(rs1_data_out),
+        .rs1_data(rs1_data),
         .rs2_data(rs2_data),
         .imm(imm),
         .reg_write_en(reg_write_en_idu),

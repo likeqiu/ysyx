@@ -2,12 +2,7 @@ module ysyx_25040109_IDU (
     input [31:0] inst,
     output [4:0] rd_addr,
     output [31:0] imm,
-    output reg_write_en,
-    input [31:0] rs1_data,
-/* verilator lint_off UNUSEDSIGNAL */
-    input [31:0] rs2_data,
-/* verilator lint_on UNUSEDSIGNAL */
-    output [31:0] rs1_data_out
+    output reg_write_en
 );
     wire [6:0] opcode = inst[6:0];
   //  wire [2:0] funct3 = inst[14:12];
@@ -60,7 +55,7 @@ module ysyx_25040109_IDU (
         })
     );
 
-    assign rs1_data_out=rs1_data;
+    
 
 endmodule
 
