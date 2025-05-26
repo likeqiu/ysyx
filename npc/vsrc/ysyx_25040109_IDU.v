@@ -4,12 +4,11 @@ module ysyx_25040109_IDU (
     output [31:0] imm,
     output reg_write_en,
     input [31:0] rs1_data,
-    /* verilator lint_off UNUSEDSIGNAL */
+/* verilator lint_off UNUSEDSIGNAL */
     input [31:0] rs2_data,
-    /* verilator lint_on UNUSEDSIGNAL */
+/* verilator lint_on UNUSEDSIGNAL */
     output [31:0] rs1_data_out
 );
-  
     wire [6:0] opcode = inst[6:0];
     wire [2:0] funct3 = inst[14:12];
     wire [11:0] imm_i = inst[31:20];
@@ -23,41 +22,41 @@ module ysyx_25040109_IDU (
     wire [31:0] imm_j_ext = {{11{imm_j[20]}}, imm_j, 1'b0};
     wire [31:0] imm_s_ext = {{20{imm_s[11]}}, imm_s};
     wire [31:0] imm_b_ext = {{19{imm_b[12]}}, imm_b, 1'b0};
-    
 
-
-    ysyx_25040109_MuxKeyWithDefault #(7, 7,  32)  imm_select 
-    ( 
+    ysyx_25040109_MuxKeyWithDefault #(7, 7, 32) imm_select
+    (
         .out(imm),
         .key(opcode),
-        .default_out(32'b0000000),//inv
-        
+        .default_out(32'b0), // inv or default to 0
         .lut({
             7'b0010111, imm_u_ext, // auipc
             7'b0110111, imm_u_ext, // lui
-            7'b0010011, imm_i_ext, // addi
-            7'b0000011, imm_i_ext, // lw
-            7'b0100011, imm_s_ext, // sw
+            7'b0010011, imm_i_ext, // addi, slti, sltiu, xori, ori, andi, slli, srli, srai
+            7'b0000011, imm_i_ext, // lb, lh, lw, lbu, lhu, jalr
+            7'b0100011, imm_s_ext, // sb, sh, sw
             7'b1101111, imm_j_ext, // jal
-            7'b1100011, imm_b_ext  // beq
-            
+            7'b1100011, imm_b_ext  // beq, bne, blt, bge, bltu, bgeu
         })
-    ); 
-    
+    );
 
     assign rd_addr = inst[11:7];
 
-   ysyx_25040109_MuxKeyWithDefault #(6, 10, 1) reg_write_select (
+    // Updated reg_write_select to include R-type, I-type (ALU, Load, JAL, JALR), U-type.
+    // S-type and B-type do not write to rd.
+    // This is a simplified example; a full RISC-V would have more detailed conditions.
+    ysyx_25040109_MuxKeyWithDefault #(10, 7, 1) reg_write_select ( // Key is opcode only now
         .out(reg_write_en),
-        .key({opcode, funct3}),
-        .default_out(1'b0),
+        .key(opcode),
+        .default_out(1'b0), // Default to no write
         .lut({
-            {7'b0010011, 3'b000}, 1'b1, // addi
-            {7'b0010111, 3'b000}, 1'b1, // auipc
-            {7'b0110111, 3'b000}, 1'b1, // lui
-            {7'b1101111, 3'b000}, 1'b1, // jal
-            {7'b1100111, 3'b000}, 1'b1, // jalr
-            {7'b0000011, 3'b010}, 1'b1  // lw
+            7'b0110111, 1'b1, // lui
+            7'b0010111, 1'b1, // auipc
+            7'b1101111, 1'b1, // jal
+            7'b1100111, 1'b1, // jalr
+            7'b0000011, 1'b1, // lb, lh, lw, lbu, lhu
+            7'b0010011, 1'b1, // addi, slti, sltiu, xori, ori, andi, slli, srli, srai
+            7'b0110011, 1'b1  // add, sub, sll, slt, sltu, xor, srl, sra, or, and (R-type)
+            // Note: Store (0100011) and Branch (1100011) opcodes are not listed, so they get default_out (1'b0)
         })
     );
 

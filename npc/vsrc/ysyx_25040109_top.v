@@ -5,22 +5,21 @@ module ysyx_25040109_top (
     output [31:0] pc,
     output [31:0] a0_out
 );
-    wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result, rs1_data_out, mem_data;
+    wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result, rs1_data_out;
+    reg  [31:0] mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
     wire step_en =1'b1;
-    
-    wire [31:0] inst_reg;
-    wire [6:0] opcode = inst_reg[6:0];
-    wire [2:0] funct3 = inst_reg[14:12];
+    wire [6:0] opcode = inst_ifu[6:0];
+    wire [2:0] funct3 = inst_ifu[14:12];
 
 
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
         .rst(rst),
-        .din(inst_ifu),
-        .dout(inst_reg),
-        .wen(1'b1)
+        .din(next_pc),
+        .dout(pc),
+        .wen(step_en)
     );
 
     ysyx_25040109_IFU ifu (
@@ -33,7 +32,7 @@ module ysyx_25040109_top (
 
 
     ysyx_25040109_IDU idu (
-        .inst(inst_reg),
+        .inst(inst_ifu),
         .rd_addr(rd_addr_idu),
         .imm(imm),
         .reg_write_en(reg_write_en_idu),
@@ -65,8 +64,8 @@ module ysyx_25040109_top (
         .wdata(result),
         .waddr(rd_addr_exu),
         .wen(reg_write_en_exu && step_en),
-        .raddr1(inst_reg[19:15]),  
-        .raddr2(inst_reg[24:20]),
+        .raddr1(inst_ifu[19:15]),
+        .raddr2(inst_ifu[24:20]),
         .rdata1(rs1_data),
         .rdata2(rs2_data),
         .a0_out(a0_out)
@@ -94,25 +93,36 @@ module ysyx_25040109_top (
     wire [31:0] mem_addr = rs1_data_out+imm;
      wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF);
    
-    assign inst = inst_reg;
+    assign inst = inst_ifu;
+
+    // 新增：为 lw 指令组合逻辑读取内存
+    always @(*) begin
+        mem_data = 32'bx; // 默认值，或 32'b0
+        if (is_lw && addr_valid) begin
+            pmem_read(mem_addr, mem_data); // DPI-C 调用，将结果写入 reg 型的 mem_data
+        end
+            // 修改：移除了 lw 的 pmem_read，但 sdb_scan_mem 可以保留用于观察
+        if (step_en && is_lw && addr_valid ) begin
+            // pmem_read(mem_addr, mem_data); // 此行已移至上面的 always@(*) 块
+            sdb_scan_mem(mem_addr, mem_data); // 可选的调试扫描, mem_data是组合逻辑结果
+        end
+    end
+
 
     always @(posedge clk) begin
         if (step_en && is_sw && addr_valid ) begin
             pmem_write(mem_addr, rs2_data, 4);
             sdb_scan_mem(mem_addr, rs2_data);
         end
-        if (step_en && is_lw && addr_valid ) begin
-            pmem_read(mem_addr, mem_data);
-            sdb_scan_mem(mem_addr, mem_data);
-        end
+  
        
     end
 
 
     always @(posedge clk) begin
         if (!rst  ) begin
-            $display("PC=0x%h, inst=0x%h", pc, inst_reg);
-            if (printf_finish(inst_reg) == 0) begin
+            $display("PC=0x%h, inst=0x%h", pc, inst_ifu);
+            if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end
  
