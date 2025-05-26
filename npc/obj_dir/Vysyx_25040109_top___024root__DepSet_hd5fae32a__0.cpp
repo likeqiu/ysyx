@@ -258,8 +258,11 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[__Vdlyvdim0__ysyx_25040109_top__DOT__regfile__DOT__rf__v0] 
             = __Vdlyvval__ysyx_25040109_top__DOT__regfile__DOT__rf__v0;
     }
-    vlSelf->pc = ((IData)(vlSelf->rst) ? 0x80000000U
-                   : vlSelf->ysyx_25040109_top__DOT__next_pc);
+    if (vlSelf->rst) {
+        vlSelf->pc = 0x80000000U;
+    } else if (vlSelf->rst) {
+        vlSelf->pc = vlSelf->ysyx_25040109_top__DOT__next_pc;
+    }
     vlSelf->a0_out = vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
         [0xaU];
     vlSelf->ysyx_25040109_top__DOT__inst_ifu = vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_raw;

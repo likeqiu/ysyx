@@ -10,7 +10,7 @@ module ysyx_25040109_top (
     wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result, rs1_data_out, mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
-    wire step_en = 1'b1;
+    wire step_en = (debug_cmd == 4'd1 || debug_cmd==4'd2);
     wire [6:0] opcode = inst_ifu[6:0];
     wire [2:0] funct3 = inst_ifu[14:12];
     wire fetch_en = !rst;
@@ -20,7 +20,7 @@ module ysyx_25040109_top (
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(rst)
+        .wen(step_en)
     );
 
     ysyx_25040109_IFU ifu (
