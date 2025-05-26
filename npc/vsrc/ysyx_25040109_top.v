@@ -1,7 +1,6 @@
 module ysyx_25040109_top (
     input clk,
     input rst,
-    input [3:0]  debug_cmd,
     input [31:0] debug_addr,
     output reg [31:0]  inst,
     output [31:0] pc,
@@ -108,10 +107,6 @@ module ysyx_25040109_top (
         if (step_en && is_lw && addr_valid ) begin
             pmem_read(mem_addr, mem_data);
             sdb_scan_mem(mem_addr, mem_data);
-        end
-        if (step_en && debug_cmd == 4'd1) begin
-            pmem_read(debug_addr, mem_data);
-            sdb_scan_mem(debug_addr, mem_data);
         end
        
     end
