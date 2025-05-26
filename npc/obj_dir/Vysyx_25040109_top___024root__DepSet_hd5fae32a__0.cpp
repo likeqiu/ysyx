@@ -99,9 +99,13 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0;
     // Body
     __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0U;
-    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->pc, __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__9__data);
-    vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_raw 
-        = __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__9__data;
+    if (((~ (IData)(vlSelf->ysyx_25040109_top__DOT__ifu__DOT__rst)) 
+         & ((0x80000000U <= vlSelf->pc) & (0x87ffffffU 
+                                           >= vlSelf->pc)))) {
+        Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->pc, __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__9__data);
+        vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_raw 
+            = __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__9__data;
+    }
     if (((((1U == (IData)(vlSelf->debug_cmd)) & (IData)(
                                                         (0x2023U 
                                                          == 
