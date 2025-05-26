@@ -26,7 +26,7 @@ extern "C" void sdb_scan_mem(uint32_t addr,uint32_t *value)
     printf("Memory [0x%08x]: 0x%08x\n", addr, *value);
 }
 
-extern  int monitor_pc(paddr_t pc)
+extern int monitor_pc(paddr_t pc)
 {
     WP *wp = head;
     for (; wp != nullptr; )

@@ -28,8 +28,6 @@ extern "C" {
     extern void sdb_read_reg(int index, int* value);
     // DPI import at vsrc/ysyx_25040109_top.v:84:34
     extern void sdb_scan_mem(int addr, int* value);
-    // DPI import at vsrc/ysyx_25040109_top.v:85:34
-    extern void step_complete();
 
 #ifdef __cplusplus
 }
