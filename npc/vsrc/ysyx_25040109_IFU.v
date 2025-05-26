@@ -2,6 +2,7 @@ module ysyx_25040109_IFU (
 /* verilator lint_off UNUSEDSIGNAL */
     input clk,
     input [31:0] pc,
+    input rst,
     /* verilator lint_on UNUSEDSIGNAL */
     output [31:0] inst_ifu
     
@@ -11,9 +12,14 @@ module ysyx_25040109_IFU (
         
 
  
-    wire [31:0] inst_raw;
+    reg [31:0] inst_raw;
+    wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
    always @(posedge clk) begin
-        pmem_read(pc, inst_raw);
+       if (pc_valid) begin
+            pmem_read(pc, inst_raw);
+        end else begin
+            inst_raw <= 32'h0;
+        end
     end
 
     // 使用 Reg 模板存储指令
