@@ -12,14 +12,12 @@ module ysyx_25040109_IFU (
         
 
  
-    reg [31:0] inst_raw;
+    wire [31:0] inst_raw;
     wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
    always @(posedge clk) begin
        if (pc_valid) begin
             pmem_read(pc, inst_raw);
-        end else begin
-            inst_raw <= 32'h0;
-        end
+        end 
     end
 
     // 使用 Reg 模板存储指令
