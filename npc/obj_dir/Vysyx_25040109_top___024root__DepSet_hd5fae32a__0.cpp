@@ -126,11 +126,10 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_scan_mem_TOP(vlSelf->ysyx_25040109_top__DOT__mem_addr, __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value);
         vlSelf->ysyx_25040109_top__DOT__mem_data = __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value;
     }
-    if ((((3U == (IData)(vlSelf->debug_cmd)) & ((0x80000000U 
-                                                 <= vlSelf->debug_addr) 
-                                                & (0x87ffffffU 
-                                                   >= vlSelf->debug_addr))) 
-         & (~ (IData)(vlSelf->rst)))) {
+    if (((3U == (IData)(vlSelf->debug_cmd)) & ((0x80000000U 
+                                                <= vlSelf->debug_addr) 
+                                               & (0x87ffffffU 
+                                                  >= vlSelf->debug_addr)))) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->debug_addr, __Vtask_ysyx_25040109_top__DOT__pmem_read__4__data);
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_scan_mem_TOP(vlSelf->debug_addr, __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__5__value);
         vlSelf->ysyx_25040109_top__DOT__mem_data = __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__5__value;
