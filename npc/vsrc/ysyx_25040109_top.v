@@ -92,11 +92,7 @@ module ysyx_25040109_top (
     wire [31:0] mem_addr = rs1_data_out+imm;
      wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF);
    
-    always @(posedge clk) begin
-        if (step_en && fetch_en) begin
-            inst <= inst_ifu;
-        end
-    end
+    assign inst = inst_ifu;
 
     always @(posedge clk) begin
         if (step_en && is_sw && addr_valid ) begin
