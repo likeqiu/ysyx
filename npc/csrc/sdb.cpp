@@ -74,11 +74,10 @@ extern "C" int cmd_si(char *args)
 
      try
      {
-
          for (int i = 0; i < step_num; i++)
          {
              top->clk = 0;
-             top->debug_cmd = 1;
+             top->debug_cmd = 1; // 设置为si命令
              top->eval();
              tfp->dump(sim_time++);
 
@@ -88,18 +87,20 @@ extern "C" int cmd_si(char *args)
 
              top->debug_cmd = 0;
 
+             // 断点检查
              if (monitor_pc(top->pc))
              {
                  return 0;
              }
-            }catch (const std::exception &e)
-             {
-                 std::cerr << "Error in cycle" << sim_time << ":" << e.what() << std::endl;
-                 return 1;
-             }
          }
-         return 0;
-     
+     }
+     catch (const std::exception &e)
+     {
+         std::cerr << "Error in cycle " << sim_time << ": " << e.what() << std::endl;
+         npc_state = NPC_STATE::HALT;
+         return 1;
+     }
+     return 0;
     }
 
 /*extern "C" npc_state_set()
