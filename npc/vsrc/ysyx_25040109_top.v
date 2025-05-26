@@ -87,7 +87,7 @@ module ysyx_25040109_top (
 
     wire is_sw =(opcode == 7'b0100011 && funct3==3'b010);
     wire is_lw =(opcode == 7'b0000011 && funct3==3'b010);
-    wire [31:0] mem_addr = rs1_data_out+imm;
+    wire [31:0] mem_addr = rs1_data+imm;
      wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF);
    
     assign inst = inst_ifu;
