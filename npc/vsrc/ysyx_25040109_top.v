@@ -123,21 +123,21 @@ module ysyx_25040109_top (
             pmem_read(debug_addr, mem_data);
             sdb_scan_mem(debug_addr, mem_data);
         end
-        if (step_en) begin
+        if (step_en && fetch_en) begin
             step_complete();
         end
     end
 
 
     always @(posedge clk) begin
-        if (!rst && debug_action == 4'd1) begin
+        if (!rst && debug_action == 4'd1 && fetch_en) begin
             $display("PC=0x%h, inst=0x%h", pc, inst_ifu);
-            if (printf_finish(inst_ifu) == 0) begin
+            if (printf_finish(inst_ifu) == 0 && fetch_en) begin
                 $finish;
             end
             //monitor_pc(pc);
         end
-        if (!rst && debug_action == 4'd2) begin
+        if (!rst && debug_action == 4'd2 && fetch_en) begin
             for (integer i = 0; i < 32; i = i + 1) begin
                 sdb_read_reg(i, regfile.rf[i]);
             end
