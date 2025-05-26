@@ -49,6 +49,7 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__mem_addr;
         IData/*31:0*/ ysyx_25040109_top__DOT__unnamedblk1__DOT__i;
         IData/*31:0*/ ysyx_25040109_top__DOT__ifu__DOT__inst_raw;
+        IData/*31:0*/ ysyx_25040109_top__DOT__ifu__DOT__inst_read;
         IData/*19:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_j;
         IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_i_ext;
         IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__lut_out;
@@ -78,9 +79,9 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         VlUnpacked<IData/*31:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__data_list;
         VlUnpacked<IData/*31:0*/, 32> ysyx_25040109_top__DOT__regfile__DOT__rf;
         VlUnpacked<CData/*7:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__pair_list;
-        VlUnpacked<CData/*3:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list;
     };
     struct {
+        VlUnpacked<CData/*3:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list;
         VlUnpacked<CData/*3:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list;
         VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;
     };
