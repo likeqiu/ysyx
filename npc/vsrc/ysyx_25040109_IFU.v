@@ -12,9 +12,9 @@ module ysyx_25040109_IFU (
         
 
  
-    wire [31:0] inst_raw;
+    reg [31:0] inst_raw;
     wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
-   always @(*) begin
+   always @(posedge clk) begin
        if (pc_valid) begin
             pmem_read(pc, inst_raw);
         end 
