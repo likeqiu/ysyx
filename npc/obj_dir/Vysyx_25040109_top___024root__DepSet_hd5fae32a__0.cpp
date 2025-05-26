@@ -110,18 +110,16 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_raw 
             = __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__9__data;
     }
-    if (((((IData)(vlSelf->ysyx_25040109_top__DOT__step_en) 
-           & (IData)((0x2023U == (0x707fU & vlSelf->ysyx_25040109_top__DOT__inst_ifu)))) 
-          & (IData)(vlSelf->ysyx_25040109_top__DOT__addr_valid)) 
-         & (~ (IData)(vlSelf->rst)))) {
+    if ((((IData)(vlSelf->ysyx_25040109_top__DOT__step_en) 
+          & (IData)((0x2023U == (0x707fU & vlSelf->ysyx_25040109_top__DOT__inst_ifu)))) 
+         & (IData)(vlSelf->ysyx_25040109_top__DOT__addr_valid))) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_write_TOP(vlSelf->ysyx_25040109_top__DOT__mem_addr, vlSelf->ysyx_25040109_top__DOT__rs2_data, 4U);
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_scan_mem_TOP(vlSelf->ysyx_25040109_top__DOT__mem_addr, __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__1__value);
         vlSelf->ysyx_25040109_top__DOT__rs2_data = __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__1__value;
     }
-    if (((((IData)(vlSelf->ysyx_25040109_top__DOT__step_en) 
-           & (IData)((0x2003U == (0x707fU & vlSelf->ysyx_25040109_top__DOT__inst_ifu)))) 
-          & (IData)(vlSelf->ysyx_25040109_top__DOT__addr_valid)) 
-         & (~ (IData)(vlSelf->rst)))) {
+    if ((((IData)(vlSelf->ysyx_25040109_top__DOT__step_en) 
+          & (IData)((0x2003U == (0x707fU & vlSelf->ysyx_25040109_top__DOT__inst_ifu)))) 
+         & (IData)(vlSelf->ysyx_25040109_top__DOT__addr_valid))) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->ysyx_25040109_top__DOT__mem_addr, __Vtask_ysyx_25040109_top__DOT__pmem_read__2__data);
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_scan_mem_TOP(vlSelf->ysyx_25040109_top__DOT__mem_addr, __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value);
         vlSelf->ysyx_25040109_top__DOT__mem_data = __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value;
