@@ -45,9 +45,11 @@ module ysyx_25040109_EXU (
     wire [31:0] jal_result, jal_target, jalr_target, branch_target;
     assign jal_result = pc + 4;                    // jal/jalr 返回地址
     assign jal_target = pc + imm;                  // jal 目标地址
-    assign jalr_target = (rs1_data + imm) & ~32'h1; // jalr 目标地址
-    assign branch_target = pc + imm;               // beq 目标地址
-    wire branch_taken = is_branch && (rs1_data == rs2_data); // 分支条件
+  
+    assign branch_target = pc + imm;               
+    wire [31:0] jalr_base = rs1_data + imm; 
+    assign jalr_target = jalr_base & ~32'h1; 
+    wire branch_taken = is_branch && (rs1_data == rs2_data); 
 
     ysyx_25040109_MuxKeyWithDefault #(3,7,32) result_select(
         .out(result),
@@ -60,17 +62,9 @@ module ysyx_25040109_EXU (
         })
     );
 
-
-    ysyx_25040109_MuxKeyWithDefault #(3,7,32) next_pc_select(
-        .out(next_pc),
-        .key(opcode),
-        .default_out(pc+4),
-        .lut({
-            7'b1101111,jal_target,
-            7'b1100111,jalr_target,
-            7'b1100011,branch_taken ? branch_target : pc+4
-        })
-    );
+   
+    assign next_pc = (is_jal) ? jal_target : (is_jalr) ? jalr_target : (is_branch && branch_taken) ? branch_target :
+    pc + 4;
 
     assign rd_addr_out=rd_addr;
     assign reg_write_en_out=reg_write_en;
