@@ -11,7 +11,7 @@ module ysyx_25040109_top (
     wire step_en =1'b1;
     wire [6:0] opcode = inst_ifu[6:0];
     wire [2:0] funct3 = inst_ifu[14:12];
-    wire fetch_en = !rst;
+
 
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
