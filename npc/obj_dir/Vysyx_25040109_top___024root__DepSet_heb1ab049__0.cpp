@@ -46,30 +46,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     printf_finish__Vfuncrtn = printf_finish__Vfuncrtn__Vcvt;
 }
 
-extern "C" int monitor_pc(int pc);
-
-VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__monitor_pc_TOP(IData/*31:0*/ pc, IData/*31:0*/ &monitor_pc__Vfuncrtn) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__monitor_pc_TOP\n"); );
-    // Body
-    int pc__Vcvt;
-    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) pc__Vcvt = pc;
-    int monitor_pc__Vfuncrtn__Vcvt;
-    monitor_pc__Vfuncrtn__Vcvt = monitor_pc(pc__Vcvt);
-    monitor_pc__Vfuncrtn = monitor_pc__Vfuncrtn__Vcvt;
-}
-
-extern "C" void sdb_read_reg(int index, int* value);
-
-VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_read_reg_TOP(IData/*31:0*/ index, IData/*31:0*/ &value) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_read_reg_TOP\n"); );
-    // Body
-    int index__Vcvt;
-    for (size_t index__Vidx = 0; index__Vidx < 1; ++index__Vidx) index__Vcvt = index;
-    int value__Vcvt;
-    sdb_read_reg(index__Vcvt, &value__Vcvt);
-    value = value__Vcvt;
-}
-
 extern "C" void sdb_scan_mem(int addr, int* value);
 
 VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_scan_mem_TOP(IData/*31:0*/ addr, IData/*31:0*/ &value) {
