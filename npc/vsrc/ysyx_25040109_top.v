@@ -108,7 +108,7 @@ module ysyx_25040109_top (
             pmem_read(mem_addr, mem_data);
             sdb_scan_mem(mem_addr, mem_data);
         end
-        if (step_en ) begin
+        if (step_en && fetch_en) begin
             pmem_read(debug_addr, mem_data);
             sdb_scan_mem(debug_addr, mem_data);
         end
