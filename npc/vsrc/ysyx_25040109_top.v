@@ -20,7 +20,7 @@ module ysyx_25040109_top (
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(step_en )
+        .wen(step_en)
     );
 
     ysyx_25040109_IFU ifu (
@@ -120,7 +120,7 @@ module ysyx_25040109_top (
     always @(posedge clk) begin
         if (!rst  ) begin
             $display("PC=0x%h, inst=0x%h", pc, inst_ifu);
-            if (printf_finish(inst_ifu) == 0 ) begin
+            if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end
  
