@@ -92,14 +92,14 @@ extern "C" int cmd_si(char *args)
              {
                  return 0;
              }
-             catch (const std::exception &e)
+            }catch (const std::exception &e)
              {
                  std::cerr << "Error in cycle" << sim_time << ":" << e.what() << std::endl;
                  return 1;
              }
          }
          return 0;
-     }
+     
     }
 
 /*extern "C" npc_state_set()
