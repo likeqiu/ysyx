@@ -16,6 +16,8 @@ extern "C" {
 
 
     // DPI IMPORTS
+    // DPI import at vsrc/ysyx_25040109_top.v:83:34
+    extern void debug_exu(int pc, int inst, int rs1_data, int rd_addr, int result);
     // DPI import at vsrc/ysyx_25040109_top.v:79:34
     extern void pmem_read(int addr, int* data);
     // DPI import at vsrc/ysyx_25040109_top.v:80:34

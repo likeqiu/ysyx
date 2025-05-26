@@ -58,6 +58,24 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     value = value__Vcvt;
 }
 
+extern "C" void debug_exu(int pc, int inst, int rs1_data, int rd_addr, int result);
+
+VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__debug_exu_TOP(IData/*31:0*/ pc, IData/*31:0*/ inst, IData/*31:0*/ rs1_data, IData/*31:0*/ rd_addr, IData/*31:0*/ result) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__debug_exu_TOP\n"); );
+    // Body
+    int pc__Vcvt;
+    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) pc__Vcvt = pc;
+    int inst__Vcvt;
+    for (size_t inst__Vidx = 0; inst__Vidx < 1; ++inst__Vidx) inst__Vcvt = inst;
+    int rs1_data__Vcvt;
+    for (size_t rs1_data__Vidx = 0; rs1_data__Vidx < 1; ++rs1_data__Vidx) rs1_data__Vcvt = rs1_data;
+    int rd_addr__Vcvt;
+    for (size_t rd_addr__Vidx = 0; rd_addr__Vidx < 1; ++rd_addr__Vidx) rd_addr__Vcvt = rd_addr;
+    int result__Vcvt;
+    for (size_t result__Vidx = 0; result__Vidx < 1; ++result__Vidx) result__Vcvt = result;
+    debug_exu(pc__Vcvt, inst__Vcvt, rs1_data__Vcvt, rd_addr__Vcvt, result__Vcvt);
+}
+
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__act(Vysyx_25040109_top___024root* vlSelf);
 #endif  // VL_DEBUG
