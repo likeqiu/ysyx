@@ -68,15 +68,9 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_initial__TOP(Vysyx_2504010
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__reg_write_select__DOT__i0__DOT__pair_list[3U] = 0x371U;
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__reg_write_select__DOT__i0__DOT__pair_list[4U] = 0x171U;
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__reg_write_select__DOT__i0__DOT__pair_list[5U] = 0x131U;
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list[0U] = 3U;
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list[1U] = 2U;
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list[2U] = 1U;
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list[0U] = 3U;
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list[1U] = 2U;
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list[2U] = 1U;
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__pair_list[0U] = 0x33U;
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__pair_list[1U] = 0x22U;
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__pair_list[2U] = 0x11U;
+    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list[0U] = 1U;
+    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list[0U] = 1U;
+    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__pair_list[0U] = 0x11U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[0U] = 0U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[1U] = 0U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[2U] = 0U;
@@ -193,26 +187,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
     vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit 
         = ((IData)(vlSelf->debug_cmd) == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
            [0U]);
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out 
-        = ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out) 
-           | ((- (IData)(((IData)(vlSelf->debug_cmd) 
-                          == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
-                          [1U]))) & vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list
-              [1U]));
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit 
-        = ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit) 
-           | ((IData)(vlSelf->debug_cmd) == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
-              [1U]));
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out 
-        = ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out) 
-           | ((- (IData)(((IData)(vlSelf->debug_cmd) 
-                          == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
-                          [2U]))) & vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list
-              [2U]));
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit 
-        = ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit) 
-           | ((IData)(vlSelf->debug_cmd) == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
-              [2U]));
     vlSelf->ysyx_25040109_top__DOT__debug_action = 
         ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit)
           ? (IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out)
@@ -763,13 +737,13 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
         vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[__Vi0] = VL_RAND_RESET_I(32);
     }
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i = VL_RAND_RESET_I(32);
-    for (int __Vi0 = 0; __Vi0 < 3; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
         vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__pair_list[__Vi0] = VL_RAND_RESET_I(8);
     }
-    for (int __Vi0 = 0; __Vi0 < 3; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
         vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list[__Vi0] = VL_RAND_RESET_I(4);
     }
-    for (int __Vi0 = 0; __Vi0 < 3; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
         vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list[__Vi0] = VL_RAND_RESET_I(4);
     }
     vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out = VL_RAND_RESET_I(4);

@@ -20,26 +20,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___ico_sequent__TOP__0(Vysyx_2504
     vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit 
         = ((IData)(vlSelf->debug_cmd) == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
            [0U]);
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out 
-        = ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out) 
-           | ((- (IData)(((IData)(vlSelf->debug_cmd) 
-                          == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
-                          [1U]))) & vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list
-              [1U]));
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit 
-        = ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit) 
-           | ((IData)(vlSelf->debug_cmd) == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
-              [1U]));
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out 
-        = ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out) 
-           | ((- (IData)(((IData)(vlSelf->debug_cmd) 
-                          == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
-                          [2U]))) & vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list
-              [2U]));
-    vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit 
-        = ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit) 
-           | ((IData)(vlSelf->debug_cmd) == vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list
-              [2U]));
     vlSelf->ysyx_25040109_top__DOT__debug_action = 
         ((IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__hit)
           ? (IData)(vlSelf->ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__lut_out)
@@ -118,22 +98,19 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_scan_mem_TOP(vlSelf->ysyx_25040109_top__DOT__mem_addr, __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value);
         vlSelf->ysyx_25040109_top__DOT__mem_data = __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__3__value;
     }
-    if (((3U == (IData)(vlSelf->debug_cmd)) & ((0x80000000U 
-                                                <= vlSelf->debug_addr) 
-                                               & (0x87ffffffU 
-                                                  >= vlSelf->debug_addr)))) {
+    if ((1U == (IData)(vlSelf->debug_cmd))) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->debug_addr, __Vtask_ysyx_25040109_top__DOT__pmem_read__4__data);
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__sdb_scan_mem_TOP(vlSelf->debug_addr, __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__5__value);
         vlSelf->ysyx_25040109_top__DOT__mem_data = __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__5__value;
     }
     Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__step_complete_TOP();
     if (VL_UNLIKELY(((~ (IData)(vlSelf->rst)) & (1U 
-                                                 == (IData)(vlSelf->ysyx_25040109_top__DOT__debug_action))))) {
+                                                 == (IData)(vlSelf->debug_cmd))))) {
         VL_WRITEF("PC=0x%x, inst=0x%x\n",32,vlSelf->pc,
                   32,vlSelf->ysyx_25040109_top__DOT__inst_ifu);
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->ysyx_25040109_top__DOT__inst_ifu, __Vfunc_ysyx_25040109_top__DOT__printf_finish__7__Vfuncout);
         if (VL_UNLIKELY((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__7__Vfuncout))) {
-            VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 137, "");
+            VL_FINISH_MT("vsrc/ysyx_25040109_top.v", 138, "");
         }
     }
     if (((~ (IData)(vlSelf->rst)) & (2U == (IData)(vlSelf->ysyx_25040109_top__DOT__debug_action)))) {

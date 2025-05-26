@@ -77,11 +77,11 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         VlUnpacked<CData/*6:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__key_list;
         VlUnpacked<IData/*31:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__data_list;
         VlUnpacked<IData/*31:0*/, 32> ysyx_25040109_top__DOT__regfile__DOT__rf;
-        VlUnpacked<CData/*7:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__pair_list;
-        VlUnpacked<CData/*3:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list;
+        VlUnpacked<CData/*7:0*/, 1> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__pair_list;
+        VlUnpacked<CData/*3:0*/, 1> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__key_list;
     };
     struct {
-        VlUnpacked<CData/*3:0*/, 3> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list;
+        VlUnpacked<CData/*3:0*/, 1> ysyx_25040109_top__DOT__debug_mux__DOT__i0__DOT__data_list;
         VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;
     };
     VlTriggerVec<1> __VstlTriggered;
