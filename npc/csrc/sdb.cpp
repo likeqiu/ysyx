@@ -76,7 +76,7 @@ extern "C" int cmd_si(char *args)
 
      try
      {
-         for (int i = 0; i < step_num; i++)
+         for (int i = 0; i < step_num && npc_state!=NPC_STATE::END; i++)
          {
              top->clk = 0;
              
