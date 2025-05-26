@@ -10,7 +10,7 @@ module ysyx_25040109_top (
     wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result, rs1_data_out, mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
-    wire step_en = (debug_cmd == 4'd1);
+    wire step_en = 1'b1;
     wire [6:0] opcode = inst_ifu[6:0];
     wire [2:0] funct3 = inst_ifu[14:12];
     wire fetch_en = !rst;
@@ -20,7 +20,7 @@ module ysyx_25040109_top (
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(step_en && fetch_en)
+        .wen(step_en)
     );
 
     ysyx_25040109_IFU ifu (
@@ -124,21 +124,21 @@ module ysyx_25040109_top (
             pmem_read(debug_addr, mem_data);
             sdb_scan_mem(debug_addr, mem_data);
         end
-        if (step_en && fetch_en) begin
+        if (step_en ) begin
             step_complete();
         end
     end
 
 
     always @(posedge clk) begin
-        if (!rst && debug_action == 4'd1 && fetch_en) begin
+        if (!rst && debug_action == 4'd1 ) begin
             $display("PC=0x%h, inst=0x%h", pc, inst_ifu);
             if (printf_finish(inst_ifu) == 0 && fetch_en) begin
                 $finish;
             end
             //monitor_pc(pc);
         end
-        if (!rst && debug_action == 4'd2 && fetch_en) begin
+        if (!rst && debug_action == 4'd2 ) begin
             for (integer i = 0; i < 32; i = i + 1) begin
                 sdb_read_reg(i, regfile.rf[i]);
             end
