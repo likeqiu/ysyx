@@ -15,9 +15,7 @@ module ysyx_25040109_IFU (
     always @(posedge clk) begin
         if (!rst && pc >= 32'h80000000 && pc <= 32'h87FFFFFF) begin
             pmem_read(pc, inst_read);
-        end else begin
-            inst_read <= 32'h0;
-        end
+        end 
     end
 
     // 统一使用非阻塞赋值
