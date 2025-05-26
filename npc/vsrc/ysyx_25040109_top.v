@@ -20,7 +20,7 @@ module ysyx_25040109_top (
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(step_en)
+        .wen(step_en )
     );
 
     ysyx_25040109_IFU ifu (
@@ -120,7 +120,7 @@ module ysyx_25040109_top (
             pmem_read(mem_addr, mem_data);
             sdb_scan_mem(mem_addr, mem_data);
         end
-        if (debug_cmd == 4'd3 && debug_addr_valid && fetch_en) begin
+        if (debug_cmd == 4'd3 && debug_addr_valid ) begin
             pmem_read(debug_addr, mem_data);
             sdb_scan_mem(debug_addr, mem_data);
         end

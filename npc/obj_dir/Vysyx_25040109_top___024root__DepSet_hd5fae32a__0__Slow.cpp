@@ -173,6 +173,10 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
     // Body
     vlSelf->a0_out = vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
         [0xaU];
+    vlSelf->ysyx_25040109_top__DOT__step_en = ((1U 
+                                                == (IData)(vlSelf->debug_cmd)) 
+                                               | (2U 
+                                                  == (IData)(vlSelf->debug_cmd)));
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__pair_list[0U] 
         = (0x6f00000000ULL | (QData)((IData)(vlSelf->pc)));
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__pair_list[2U] 
@@ -691,6 +695,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
     vlSelf->ysyx_25040109_top__DOT__result = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__mem_data = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__reg_write_en_idu = VL_RAND_RESET_I(1);
+    vlSelf->ysyx_25040109_top__DOT__step_en = VL_RAND_RESET_I(1);
     vlSelf->ysyx_25040109_top__DOT__debug_action = VL_RAND_RESET_I(4);
     vlSelf->ysyx_25040109_top__DOT__mem_addr = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__addr_valid = VL_RAND_RESET_I(1);
