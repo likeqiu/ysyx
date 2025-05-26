@@ -64,7 +64,7 @@ int main(int argc,char **argv){
 
     
     // vl 前缀表示 Verilator Long（Verilator专用）
-    top->pc = 0x80000000;
+   // top->pc = 0x80000000;
     top->clk = 0;
     top->eval();
     top->rst = 1;

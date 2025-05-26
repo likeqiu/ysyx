@@ -111,15 +111,15 @@ module ysyx_25040109_top (
     end
 
     always @(posedge clk) begin
-        if (step_en && is_sw && addr_valid) begin
+        if (step_en && is_sw && addr_valid && fetch_en) begin
             pmem_write(mem_addr, rs2_data, 4);
             sdb_scan_mem(mem_addr, rs2_data);
         end
-        if (step_en && is_lw && addr_valid) begin
+        if (step_en && is_lw && addr_valid && fetch_en) begin
             pmem_read(mem_addr, mem_data);
             sdb_scan_mem(mem_addr, mem_data);
         end
-        if (debug_cmd == 4'd3 && debug_addr_valid) begin
+        if (debug_cmd == 4'd3 && debug_addr_valid && fetch_en) begin
             pmem_read(debug_addr, mem_data);
             sdb_scan_mem(debug_addr, mem_data);
         end
