@@ -1,6 +1,7 @@
 module ysyx_25040109_top (
     input clk,
     input rst,
+    input [3:0]  debug_cmd,
     input [31:0] debug_addr,
     output reg [31:0]  inst,
     output [31:0] pc,
@@ -82,7 +83,7 @@ module ysyx_25040109_top (
     import "DPI-C" function void debug_exu(input int pc, input int inst, input int rs1_data, input int rd_addr, input int result);
 
 
-
+    
    
 
 
@@ -108,7 +109,7 @@ module ysyx_25040109_top (
             pmem_read(mem_addr, mem_data);
             sdb_scan_mem(mem_addr, mem_data);
         end
-        if (step_en && fetch_en) begin
+        if (step_en && debug_cmd == 4'd1) begin
             pmem_read(debug_addr, mem_data);
             sdb_scan_mem(debug_addr, mem_data);
         end
