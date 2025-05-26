@@ -88,7 +88,9 @@ extern "C" int cmd_si(char *args)
          if(monitor_pc(top->pc))
          {
              return 0;
-         }catch (const std::expection &e){
+         }
+         catch (const std::exception &e)
+         {
              std::cerr << "Error in cycle" << sim_time << ":" << e.what() << std::endl;
              return 1;
          }
@@ -212,6 +214,7 @@ static int cmd_c(char *args)
 
 static int cmd_q(char *args)
 {
+    npc_state = NPC_STATE::QUIT;
     return -1;
 }
     
