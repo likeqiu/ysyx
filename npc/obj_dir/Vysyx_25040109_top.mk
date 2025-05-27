@@ -45,9 +45,11 @@ VM_USER_LDLIBS = \
 	-lSDL2 \
 	-lSDL2_image \
 	-lSDL2_ttf \
+	-L/usr/lib/llvm/lib \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
+	disasm \
 	expr \
 	ram \
 	reg \
@@ -68,6 +70,8 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
+disasm.o: csrc/disasm.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 expr.o: csrc/expr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 ram.o: csrc/ram.cpp
