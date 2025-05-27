@@ -35,6 +35,7 @@ VM_PREFIX = Vysyx_25040109_top
 VM_MODPREFIX = Vysyx_25040109_top
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
+	-I/usr/lib/llvm-14/include \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
@@ -45,7 +46,7 @@ VM_USER_LDLIBS = \
 	-lSDL2 \
 	-lSDL2_image \
 	-lSDL2_ttf \
-	-L/usr/lib/llvm/lib \
+	-L/usr/lib/llvm-14/lib \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
@@ -55,10 +56,12 @@ VM_USER_CLASSES = \
 	reg \
 	sdb \
 	watchpoint \
+	disasm \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
 	csrc \
+	src/utils \
 
 
 ### Default rules...
@@ -81,6 +84,8 @@ reg.o: csrc/reg.c
 sdb.o: csrc/sdb.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 watchpoint.o: csrc/watchpoint.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+disasm.o: src/utils/disasm.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
