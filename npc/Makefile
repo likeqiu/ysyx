@@ -21,20 +21,31 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 # LLVM 相关的编译和链接选项
 CONFIG_ITRACE=y # 明确开启 ITRACE
 ifdef CONFIG_ITRACE
-    LLVM_LIB_DIR = $(shell llvm-config-14 --libdir)
-    LLVM_LIBS_LIST = $(shell llvm-config-14 --libs core support mc mcdisassembler target)
-    LLVM_LIBS_LIST += -lLLVMRISCVDisassembler -lLLVMInstPrinter -lLLVMAsmPrinter -lLLVMObject
+    # LLD_FLAGS 和 LLVM_LIBS_LIST 的定义可以简化或移除，
+    # 因为我们将直接使用 llvm-config 的输出来填充 LDFLAGS
+    # LLVM_LIB_DIR = $(shell llvm-config-14 --libdir)
+    # LLVM_LIBS_LIST = $(shell llvm-config-14 --libs core support mc mcdisassembler target)
+    # LLVM_LIBS_LIST += -lLLVMRISCVDisassembler -lLLVMInstPrinter -lLLVMAsmPrinter -lLLVMObject
+
+    CXXFLAGS += -I/usr/include/llvm-14 $(shell llvm-config-14 --cxxflags) -fexceptions
 
     # === 最重要的修改在这里 ===
-    # 1. 保留 llvm-config-14 --cxxflags 提供的路径 (可能包含其他需要的头文件)
-    # 2. 额外添加 /usr/include/llvm-14，这是 TargetRegistry.h 的实际根目录
-    CXXFLAGS += $(shell llvm-config-14 --cxxflags) -I/usr/include/llvm-14  -fexceptions
+    # 直接使用 llvm-config 获取所有库和链接器标志
+    # 这会包含 -L/path/to/llvm/lib 和 -lLLVM... 等所有必要的链接标志
+    LDFLAGS += $(shell llvm-config-14 --ldflags --libs all)
 
-    # 将 LLVM 库路径加入 LDFLAGS
-    LDFLAGS += -L$(LLVM_LIB_DIR)
-    # 将 LLVM 库列表加入 LIBS 变量
-    LIBS += $(LLVM_LIBS_LIST)
+    # 确保你的 verilator 命令在 -LDFLAGS 后面加上了 $(LDFLAGS) $(LIBS)
+    # 如果你的 Makefile 已经有 LIBS 变量，并且在 verilator 命令中使用了它，
+    # 则需要确保 LLVM_LIBS_LIST 不再是空的，或者将其内容合并到 LDFLAGS 中
+    # 为了避免重复或遗漏，最稳妥的是在 LDFLAGS 中直接包含所有。
+    # 鉴于上面已经添加了 --ldflags --libs all，你可能不需要单独的 LIBS 变量了。
+    # 如果你的 verilator 命令是这样调用：
+    # verilator ... -LDFLAGS $(LDFLAGS) -LDFLAGS $(LIBS) ...
+    # 那么将 LIBS 定义为：
+    # LIBS :=
+    # 这样可以避免重复或混淆
 endif
+
 all:
 	@echo "Write this Makefile by your self."
 
