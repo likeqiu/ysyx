@@ -17,12 +17,13 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 
 CONFIG_ITRACE=y
 
-ifeq ($(CONFIG_ITRACE),y)
 
-LIBS += -lLLVM-14
-CFLAGS += -I/usr/lib/llvm-14/include
-LDFLAGS += -L/usr/lib/llvm-14/lib
-endif
+
+
+CFLAGS += -I$(shell llvm-config-14 --includedir)
+LDFLAGS += -L$(shell llvm-config-14 --libdir)
+LIBS += $(shell llvm-config-14 --libs mc mcdisassembler target core support)
+
 
 all:
 	@echo "Write this Makefile by your self."
