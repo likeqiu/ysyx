@@ -12,7 +12,7 @@
 // LLVM 反汇编器相关头文件
 #include "llvm/MC/MCAsmInfo.h"
 #include "llvm/MC/MCContext.h"
-#include "llvm/MC/MCDisassembler.h"
+#include "llvm/MC/MCDisassembler/MCDisassembler.h"
 #include "llvm/MC/MCInst.h" // Represents a single machine instruction
 #include "llvm/MC/MCInstPrinter.h"
 #include "llvm/MC/MCRegisterInfo.h"
