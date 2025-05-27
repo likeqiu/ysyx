@@ -3,6 +3,7 @@
 #include <memory>  // For std::unique_ptr
 #include <vector>  // For std::vector<uint8_t>
 #include <cstdint> // For uint8_t
+#include"ram.h"
 
 // LLVM 核心头文件
 #include "llvm/Support/raw_ostream.h"
