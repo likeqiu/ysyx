@@ -13,6 +13,7 @@
 # See the Mulan PSL v2 for more details.
 #**************************************************************************************/
 
+#都为空，加入黑名单
 ifeq ($(CONFIG_ITRACE)$(CONFIG_IQUEUE),)
 SRCS-BLACKLIST-y += src/utils/disasm.c
 else
@@ -21,4 +22,6 @@ CFLAGS += -I tools/capstone/repo/include
 src/utils/disasm.c: $(LIBCAPSTONE)
 $(LIBCAPSTONE):
 	$(MAKE) -C tools/capstone
+#如果 libcapstone.so.5 不存在，则通过运行 make 命令在 tools/capstone 目录下构建 Capstone 库。
+
 endif

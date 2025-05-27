@@ -13,5 +13,7 @@
 # See the Mulan PSL v2 for more details.
 #**************************************************************************************/
 
+#头文件搜索路径
 INC_PATH += $(NEMU_HOME)/src/isa/$(GUEST_ISA)/include
 DIRS-y += src/isa/$(GUEST_ISA)
+#DIRS-y 记录了所有需要进入并递归调用 Makefile 的子目录。,-y 后缀表示 启用的目录。

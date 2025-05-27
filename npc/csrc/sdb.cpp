@@ -105,10 +105,6 @@ extern "C" int cmd_si(char *args)
      return 0;
     }
 
-/*extern "C" npc_state_set()
-{
-    ;
-}*/
 
 static char *rl_gets()
 {
