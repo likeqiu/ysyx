@@ -17,10 +17,10 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 CONFIG_ITRACE=y
 
 ifeq ($(CONFIG_ITRACE),y)
-SRCS += csrc/disasm.c
+SRCS += src/utils/disasm.c
 LIBS += -lLLVM-14
 CFLAGS += -I/usr/lib/llvm-14/include
-LDFLAGS += -L/usr/lib/llvm/lib
+LDFLAGS += -L/usr/lib/llvm-14/lib
 endif
 
 all:
@@ -37,7 +37,7 @@ sim:$(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 waveform: 
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
-	verilator -Wall --cc --exe  --x-assign unique --x-initial unique --build $(SRCS)  --trace-fst --top-module $(TOPNAME) $(addprefix -LDFLAGS , $(LDFLAGS))
+	verilator -Wall --cc --exe  --x-assign unique --x-initial unique --build $(SRCS)  --trace-fst --top-module $(TOPNAME) $(addprefix -LDFLAGS , $(LDFLAGS)) $(addprefix -CFLAGS , $(CFLAGS))
 
 
 run: waveform
