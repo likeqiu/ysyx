@@ -28,7 +28,7 @@ ifdef CONFIG_ITRACE
     # === 最重要的修改在这里 ===
     # 1. 保留 llvm-config-14 --cxxflags 提供的路径 (可能包含其他需要的头文件)
     # 2. 额外添加 /usr/include/llvm-14，这是 TargetRegistry.h 的实际根目录
-    CXXFLAGS += $(shell llvm-config-14 --cxxflags) -I/usr/include/llvm-14
+    CXXFLAGS += $(shell llvm-config-14 --cxxflags) -I/usr/include/llvm-14  -fexceptions
 
     # 将 LLVM 库路径加入 LDFLAGS
     LDFLAGS += -L$(LLVM_LIB_DIR)
