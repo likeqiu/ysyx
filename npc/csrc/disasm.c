@@ -8,3 +8,8 @@
 #include <iostream>
 #include <iomanip>
 
+
+void ppt()
+{
+    return;
+}
