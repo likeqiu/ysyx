@@ -45,7 +45,7 @@ void write_iringbuf(vaddr_t pc, uint32_t inst)
     }
 }
 
-void iringbuf_dump(vaddr_t error_pc)
+void iringbuf_dump()
 {
     if(iringbuf_index || iringbuf_full)
     {
@@ -56,9 +56,10 @@ void iringbuf_dump(vaddr_t error_pc)
     for (int i = 0; i < count;i++)
     {
         int idx = (start + i) % IRINGBUF_SIZE;
+
         IRingBufEntry *entry = &iringbuf[idx];
 
-        const char *marker = (entry->pc == error_pc) ? "-->" : "   ";
+        char *marker = (i == (iringbuf_index - 1)) ? "-->" : "   ";
 
         printf("%s  0x%08x:  %08x  %-30s\n ", marker, entry->pc, entry->inst, entry->disasm);
     }

@@ -145,7 +145,10 @@ static void statistic() {
   else Log("Finish running in less than 1 us and can not calculate the simulation frequency");
 }
 
-void assert_fail_msg() {
+extern void iringbuf_dump();
+void assert_fail_msg()
+{
+  iringbuf_dump();
   isa_reg_display();
   statistic();
 }
