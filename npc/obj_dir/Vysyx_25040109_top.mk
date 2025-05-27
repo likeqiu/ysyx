@@ -37,6 +37,12 @@ VM_MODPREFIX = Vysyx_25040109_top
 VM_USER_CFLAGS = \
 	-I/home/zxj17/ysyx-workbench/nvboard/usr/include \
 	-DTOP_NAME="Vysyx_25040109_top" \
+	-I/home/zxj17/ysyx-workbench/nvboard/usr/include \
+	-DTOP_NAME="Vysyx_25040109_top" \
+	-MMD \
+	-O3 \
+	-I/usr/include/SDL2 \
+	-D_REENTRANT \
 	-I/usr/lib/llvm-14/include \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
