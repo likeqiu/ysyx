@@ -63,7 +63,7 @@ look:
 	gtkwave sim.fst	
 
 
-#clean:
-#	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp
+clean:
+	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp
 
 include ../Makefile
