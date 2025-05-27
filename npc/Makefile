@@ -1,5 +1,5 @@
 VSRC = $(wildcard vsrc/*.v)
-CSRC = $(wildcard csrc/*.cpp) 
+CSRC = $(wildcard csrc/*.cpp) $(wildcard csrc/*.c)
 HSRC = $(wildcard csrc/*.h)
 SRCS=  $(VSRC) $(CSRC) 
 NXDC = constr/mux.nxdc
