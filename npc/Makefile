@@ -61,9 +61,11 @@ waveform:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
 	verilator -Wall --cc --exe  --x-assign unique --x-initial unique --build $(SRCS)  --trace-fst --top-module $(TOPNAME) $(addprefix -LDFLAGS , $(LDFLAGS)) $(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -CFLAGS , $(CXXFLAGS))
-	./obj_dir/V$(TOPNAME) $(IMG)
+	
 
 run: waveform
+	./obj_dir/V$(TOPNAME) $(IMG)
+
 	
 
 #run:./obj_dir/V$(TOPNAME)  +verilator+rand+reset+2
