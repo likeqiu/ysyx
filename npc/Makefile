@@ -20,8 +20,8 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 
 
 LIBS += -lLLVM-14
-CFLAGS += -I/usr/lib/llvm-14/include
-LDFLAGS += -L/usr/lib/llvm-14/lib
+CFLAGS += $(shell $(LLVM_CONFIG) --cxxflags)
+LDFLAGS += $(shell $(LLVM_CONFIG) --ldflags) $(shell $(LLVM_CONFIG) --libs)
 
 
 all:
