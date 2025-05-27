@@ -14,6 +14,15 @@ LDFLAGS=-lreadline -lhistory -lncurses
 include $(NVBOARD_HOME)/scripts/nvboard.mk
 
 
+CONFIG_ITRACE=y
+
+ifeq ($(CONFIG_ITRACE),y)
+SRCS += csrc/disasm.c
+LIBS += -lLLVM-14
+CFLAGS += -I/usr/lib/llvm-14/include
+LDFLAGS += -L/usr/lib/llvm/lib
+endif
+
 all:
 	@echo "Write this Makefile by your self."
 
