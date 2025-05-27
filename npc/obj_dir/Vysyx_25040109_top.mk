@@ -58,12 +58,10 @@ VM_USER_CLASSES = \
 	reg \
 	sdb \
 	watchpoint \
-	disasm \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
 	csrc \
-	src/utils \
 
 
 ### Default rules...
@@ -86,8 +84,6 @@ reg.o: csrc/reg.c
 sdb.o: csrc/sdb.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 watchpoint.o: csrc/watchpoint.c
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-disasm.o: src/utils/disasm.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
