@@ -43,6 +43,7 @@ VM_USER_CFLAGS = \
 	-O3 \
 	-I/usr/include/SDL2 \
 	-D_REENTRANT \
+	-I/usr/include/llvm-14 \
 	-I/usr/lib/llvm-14/include \
 	-std=c++14 \
 	-fno-exceptions \
@@ -50,7 +51,6 @@ VM_USER_CFLAGS = \
 	-D__STDC_CONSTANT_MACROS \
 	-D__STDC_FORMAT_MACROS \
 	-D__STDC_LIMIT_MACROS \
-	-I/usr/include/llvm-14 \
 	-fexceptions \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
@@ -63,6 +63,7 @@ VM_USER_LDLIBS = \
 	-lSDL2_image \
 	-lSDL2_ttf \
 	-L/usr/lib/llvm-14/lib \
+	-lLLVM-14 \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
