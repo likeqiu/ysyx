@@ -20,22 +20,21 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 
 # LLVM 相关的编译和链接选项
 CONFIG_ITRACE=y # 明确开启 ITRACE
-
 ifdef CONFIG_ITRACE
-       LLVM_INCLUDE_DIR = $(shell llvm-config-14 --includedir)
     LLVM_LIB_DIR = $(shell llvm-config-14 --libdir)
     LLVM_LIBS_LIST = $(shell llvm-config-14 --libs core support mc mcdisassembler target)
     LLVM_LIBS_LIST += -lLLVMRISCVDisassembler -lLLVMInstPrinter -lLLVMAsmPrinter -lLLVMObject
 
-    # 将 LLVM 头文件路径加入 CXXFLAGS (因为 disasm.cpp 是 C++ 代码)
-    CXXFLAGS += -I$(LLVM_INCLUDE_DIR)
+    # === 最重要的修改在这里 ===
+    # 1. 保留 llvm-config-14 --cxxflags 提供的路径 (可能包含其他需要的头文件)
+    # 2. 额外添加 /usr/include/llvm-14，这是 TargetRegistry.h 的实际根目录
+    CXXFLAGS += $(shell llvm-config-14 --cxxflags) -I/usr/include/llvm-14
 
     # 将 LLVM 库路径加入 LDFLAGS
     LDFLAGS += -L$(LLVM_LIB_DIR)
     # 将 LLVM 库列表加入 LIBS 变量
     LIBS += $(LLVM_LIBS_LIST)
 endif
-
 all:
 	@echo "Write this Makefile by your self."
 

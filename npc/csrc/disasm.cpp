@@ -6,7 +6,7 @@
 // LLVM 核心头文件
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/Error.h" // For llvm::Error
-#include "llvm/Support/TargetRegistry.h"
+#include "llvm/MC/TargetRegistry.h"
 #include "llvm/Support/InitLLVM.h"
 
 // LLVM 反汇编器相关头文件
