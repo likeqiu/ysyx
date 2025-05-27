@@ -109,6 +109,7 @@ public:
             return *(uint32_t *)&pmem[offset_addr];
         default:
             throw std::invalid_argument("Unsupport read length");
+            return 0;
         }
     }
 
