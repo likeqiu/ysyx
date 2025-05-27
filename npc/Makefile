@@ -18,7 +18,7 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 CONFIG_ITRACE=y
 
 ifeq ($(CONFIG_ITRACE),y)
-SRCS += src/utils/disasm.c
+
 LIBS += -lLLVM-14
 CFLAGS += -I/usr/lib/llvm-14/include
 LDFLAGS += -L/usr/lib/llvm-14/lib
