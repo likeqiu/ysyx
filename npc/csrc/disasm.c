@@ -3,6 +3,7 @@
 #include <llvm/MC/MCInst.h>
 #include <llvm/MC/MCInstrInfo.h>
 #include <llvm/MC/MCContext.h>
+#include <llvm/MC/MCSubtargetInfo.h>
 #include <llvm/MC/TargetRegistry.h>
 #include <llvm/Support/TargetSelect.h>
 #include <iostream>
@@ -18,6 +19,7 @@ namespace
     static std::unique_ptr<MCRegisterInfo> mri;
     static std::unique_ptr<MCAsmInfo> mai;
     static std::unique_ptr<MCInstrInfo> mii;
+    static std::unique_ptr<MCSubtargetInfo> sti;
     static std::unique_ptr<MCContext> ctx;
     static std::unique_ptr<MCDisassembler> disasm;
     static const Target *target;
@@ -29,10 +31,10 @@ namespace
             return;
 
         // 初始化 RISC-V 目标
-        LLVMInitializeRISCVCpu0Target();
-        LLVMInitializeRISCVCpu0TargetInfo();
-        LLVMInitializeRISCVCpu0TargetMC();
-        LLVMInitializeRISCVCpu0Disassembler();
+        LLVMInitializeRISCVTarget();
+        LLVMInitializeRISCVTargetInfo();
+        LLVMInitializeRISCVTargetMC();
+        LLVMInitializeRISCVDisassembler();
 
         Triple triple("riscv32-unknown-elf");
         std::string error;
@@ -46,8 +48,9 @@ namespace
         mri = std::unique_ptr<MCRegisterInfo>(target->createMCRegInfo(triple.str()));
         mai = std::unique_ptr<MCAsmInfo>(target->createMCAsmInfo(*mri, triple.str(), MCTargetOptions()));
         mii = std::unique_ptr<MCInstrInfo>(target->createMCInstrInfo());
-        ctx = std::unique_ptr<MCContext>(new MCContext(triple, mai.get(), mri.get(), nullptr));
-        disasm = std::unique_ptr<MCDisassembler>(target->createMCDisassembler(*ctx, MCTargetOptions()));
+        sti = std::unique_ptr<MCSubtargetInfo>(target->createMCSubtargetInfo(triple.str(), "generic-rv32", ""));
+        ctx = std::unique_ptr<MCContext>(new MCContext(triple, mai.get(), mri.get(), sti.get()));
+        disasm = std::unique_ptr<MCDisassembler>(target->createMCDisassembler(*sti, *ctx));
         initialized = true;
     }
 
@@ -75,7 +78,8 @@ namespace
         {
             std::string inst_str;
             raw_string_ostream os(inst_str);
-            target->createMCInstPrinter(*mai, 0, *ctx)->printInst(&inst_out, pc, "", *ctx, os);
+            std::unique_ptr<MCInstPrinter> printer(target->createMCInstPrinter(triple, 0, *mai, *mii, *mri));
+            printer->printInst(&inst_out, pc, "", *ctx, os);
             std::cout << "0x" << std::hex << std::setw(8) << std::setfill('0') << pc << ": " << inst_str << std::endl;
         }
         else
@@ -100,7 +104,8 @@ namespace
         {
             std::string inst_str;
             raw_string_ostream os(inst_str);
-            target->createMCInstPrinter(*mai, 0, *ctx)->printInst(&inst, pc, "", *ctx, os);
+            std::unique_ptr<MCInstPrinter> printer(target->createMCInstPrinter(Triple("riscv32-unknown-elf"), 0, *mai, *mii, *mri));
+            printer->printInst(&inst, pc, "", *ctx, os);
             std::cout << "Call: " << inst_str << " at 0x" << std::hex << pc << std::endl;
         }
         else if (desc.isReturn())
@@ -115,4 +120,10 @@ extern "C" void get_current_inst(uint32_t inst, uint32_t pc)
 {
     disassemble_inst(inst, pc); // itrace
     // 如果启用 ftrace，可调用 ftrace_analyze
+    MCInst inst_out;
+    uint64_t size;
+    if (disasm && disasm->getInstruction(inst_out, size, ArrayRef<uint8_t>({inst & 0xFF, (inst >> 8) & 0xFF, (inst >> 16) & 0xFF, (inst >> 24) & 0xFF}, 4), pc, nulls()) == MCDisassembler::Success)
+    {
+        ftrace_analyze(inst_out, pc); // ftrace
+    }
 }
