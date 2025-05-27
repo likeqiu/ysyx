@@ -51,7 +51,7 @@ void init_mem() {
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);
 }
 
-void iringbuf_dump(vaddr_t error_pc);
+
 word_t paddr_read(paddr_t addr, int len)
 {
   word_t ret = 0;
@@ -62,7 +62,7 @@ word_t paddr_read(paddr_t addr, int len)
     return ret;
   }
 
-  IFDEF(CONFIG_ITRACE, iringbuf_dump(addr));
+  //IFDEF(CONFIG_ITRACE, iringbuf_dump(addr));
   IFDEF(CONFIG_DEVICE, ret = mmio_read(addr, len); mtrace_record('R', addr, len, ret); return ret);
 
   
