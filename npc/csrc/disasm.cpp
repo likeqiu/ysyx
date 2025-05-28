@@ -27,7 +27,7 @@ extern "C" void init_disasm_llvm();
 extern "C" void free_disasm_llvm();
 extern "C" void itrace_print(long long pc, unsigned int instruction_word, int instr_len_bytes);
 
-#ifdef CONFIG_ITRACE
+
 
 extern "C" void init_disasm_llvm()
 {
@@ -163,23 +163,3 @@ extern "C" void itrace_print(long long pc,unsigned int instruction_word,int inst
         printf("0x%08llx: 0x%08x \t(Invalid Instruction)\n", pc, instruction_word);
     }
 }
-
-#else 
-
-
-extern "C" void init_disasm_llvm()
-{
-   
-}
-
-extern "C" void free_disasm_llvm()
-{
-    
-}
-
-extern "C" void itrace_print(long long pc, unsigned int instruction_word, int instr_len_bytes)
-{
-    //
-}
-
-#endif 

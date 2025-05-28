@@ -19,8 +19,7 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 
 
 # LLVM 相关的编译和链接选项
-CONFIG_ITRACE=y # 明确开启 ITRACE
-ifdef CONFIG_ITRACE
+
     # LLD_FLAGS 和 LLVM_LIBS_LIST 的定义可以简化或移除，
     # 因为我们将直接使用 llvm-config 的输出来填充 LDFLAGS
     # LLVM_LIB_DIR = $(shell llvm-config-14 --libdir)
@@ -44,7 +43,6 @@ ifdef CONFIG_ITRACE
     # 那么将 LIBS 定义为：
     # LIBS :=
     # 这样可以避免重复或混淆
-endif
 
 all:
 	@echo "Write this Makefile by your self."
