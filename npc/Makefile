@@ -1,6 +1,6 @@
 # 基本源文件设置
 VSRC = $(wildcard vsrc/*.v)
-CSRC = $(wildcard csrc/*.cpp) $(wildcard csrc/*.c)  # 移除 disasm.o
+CSRC = $(wildcard csrc/*.cpp) $(wildcard csrc/*.c)
 HSRC = $(wildcard csrc/*.h)
 SRCS = $(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
@@ -21,7 +21,7 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 LLVM_DIR = csrc/llvm
 LLVM_WRAPPER_LIB = $(LLVM_DIR)/libllvm_wrapper.so
 LLVM_WRAPPER_SRC = $(LLVM_DIR)/llvm_wrapper.cpp
-DISASM_OBJ = $(LLVM_DIR)/disasm.o
+DISASM_OBJ = $(abspath $(LLVM_DIR)/disasm.o)
 DISASM_SRC = $(LLVM_DIR)/disasm.cpp
 
 # 检查llvm-config是否可用
@@ -39,10 +39,14 @@ ifneq ($(LLVM_CONFIG),)
     
     # 主程序只需要链接dl库（用于动态加载）
     LDFLAGS += -ldl
+    
+    # 将反汇编对象文件加入到源文件中
+    CSRC += $(DISASM_OBJ)
 else
     $(info LLVM not found, disassembly will use objdump fallback)
     LLVM_AVAILABLE = 0
     LDFLAGS += -ldl
+    CSRC += $(DISASM_OBJ)
 endif
 
 # 编译LLVM包装器动态库（如果LLVM可用）
@@ -96,14 +100,14 @@ sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 	verilator --cc --exe --build --noassert $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp \
 		--trace-fst --top-module top \
 		$(addprefix -CFLAGS , $(CXXFLAGS)) \
-		$(addprefix -LDFLAGS , $(LDFLAGS) $(DISASM_OBJ))  # 将 disasm.o 添加到链接阶段
+		$(addprefix -LDFLAGS , $(LDFLAGS))
 
 waveform: ensure-llvm-deps $(COMPILE_DEPS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building waveform with dynamic LLVM support..."
-	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(VSRC) $(CSRC) \
+	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SRCS) \
 		--trace-fst --top-module $(TOPNAME) \
-		$(addprefix -LDFLAGS , $(LDFLAGS) $(DISASM_OBJ)) \
+		$(addprefix -LDFLAGS , $(LDFLAGS)) \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		$(addprefix -CFLAGS , $(CXXFLAGS))
 

@@ -46,7 +46,6 @@ VM_USER_CFLAGS = \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
-	csrc/llvm/disasm.o \
 	-lz \
 	-lreadline \
 	-lhistory \
@@ -55,6 +54,7 @@ VM_USER_LDLIBS = \
 	-lSDL2_image \
 	-lSDL2_ttf \
 	-ldl \
+	csrc/llvm/disasm.o \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
