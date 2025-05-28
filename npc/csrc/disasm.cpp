@@ -3,9 +3,8 @@
 #include <assert.h>
 #include <dlfcn.h>
 #include <llvm-c/Disassembler.h>
-#include <llvm-c/Target.h>
-
-// DPI-C 导入声明
+#include <llvm-c/Target.h>  // 添加以支持 LLVMTargetRef 和 LLVMGetTargetFromTriple
+#include <llvm-c/Support.h> // 添加以支持 LLVMDisposeMessage
 #include "svdpi.h"
 
 // 全局反汇编上下文
@@ -43,10 +42,10 @@ void dpi_trace_instruction(uint32_t pc, uint32_t inst)
 {
     char disasm_str[128];
     uint8_t inst_bytes[4] = {
-        (inst >> 0) & 0xFF,
-        (inst >> 8) & 0xFF,
-        (inst >> 16) & 0xFF,
-        (inst >> 24) & 0xFF};
+        (uint8_t)((inst >> 0) & 0xFF), // 显式转换为 uint8_t 消除警告
+        (uint8_t)((inst >> 8) & 0xFF),
+        (uint8_t)((inst >> 16) & 0xFF),
+        (uint8_t)((inst >> 24) & 0xFF)};
 
     // 使用 LLVM 反汇编指令
     size_t bytes_used = LLVMDisasmInstruction(
@@ -60,7 +59,7 @@ void dpi_trace_instruction(uint32_t pc, uint32_t inst)
     printf("[itrace] 0x%08x: %s\n", pc, disasm_str);
 
     // ftrace：检查是否为 jal 或 jalr
-    if ((inst & 0x7F) == 0x6F)
+    if ((FCA0inst & 0x7F) == 0x6F)
     { // jal 指令 (opcode: 1101111)
         printf("[ftrace] CALL 0x%08x at 0x%08x\n", pc + ((inst >> 12) << 12), pc);
     }
