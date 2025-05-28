@@ -28,7 +28,7 @@ printf_finish(uint32_t inst)
     return 1;
 }
 
-
+extern "C" void init_disasm_llvm();
 
 int main(int argc,char **argv){
     //top->a0_out = 1;测试
@@ -36,8 +36,8 @@ int main(int argc,char **argv){
     Verilated::commandArgs(argc, argv);
 
     Verilated::traceEverOn(true);
-    
 
+    init_disasm_llvm();
     top->trace(tfp, 99);
     tfp->open("sim.fst");
 
