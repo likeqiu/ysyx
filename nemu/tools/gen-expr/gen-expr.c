@@ -72,8 +72,8 @@ void gen_space(int max_space)
   }
 }
 
-
- void gen_rand_op()
+ 
+void gen_rand_op()
 {
   int rand_temp_num = rand() % 4;
 
