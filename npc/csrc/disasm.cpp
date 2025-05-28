@@ -1,3 +1,8 @@
 #include"ram.h"
 #include "llvm/Support/raw_ostream.h"
 #include"llvm/Support/Error.h"
+#include"llvm/MC/TargetRegistry.h"
+#include"llvm/Support/InitLLVM.h"
+#include"llvm/ADT/ArrayRef.h"
+#include"llvm/MC/MCAsmInfo.h"
+#include"llvm/MC/MCContext.h"
