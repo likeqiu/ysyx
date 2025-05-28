@@ -63,7 +63,23 @@ endif
 # 编译反汇编对象文件
 $(DISASM_OBJ): $(DISASM_SRC)
 	@echo "Building disassembler object..."
+	@mkdir -p $(dir $@)
 	g++ -O2 -Wall -fPIC -c -o $@ $< -ldl
+
+# 强制编译规则：确保文件存在
+.PHONY: ensure-llvm-deps
+ensure-llvm-deps:
+	@if [ ! -f $(DISASM_OBJ) ]; then \
+		echo "Building missing disasm.o..."; \
+		mkdir -p $(LLVM_DIR); \
+		g++ -O2 -Wall -fPIC -c -o $(DISASM_OBJ) $(DISASM_SRC) -ldl; \
+	fi
+ifeq ($(LLVM_AVAILABLE),1)
+	@if [ ! -f $(LLVM_WRAPPER_LIB) ]; then \
+		echo "Building missing LLVM wrapper library..."; \
+		g++ -shared -fPIC $(LLVM_CXXFLAGS) -o $(LLVM_WRAPPER_LIB) $(LLVM_WRAPPER_SRC) $(LLVM_LDFLAGS) $(LLVM_LIBS); \
+	fi
+endif
 
 # 确保在编译主程序前先编译依赖库
 COMPILE_DEPS = $(DISASM_OBJ)
@@ -86,7 +102,7 @@ sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 		$(addprefix -CFLAGS , $(CXXFLAGS)) \
 		$(addprefix -LDFLAGS , $(LDFLAGS))
 
-waveform: $(COMPILE_DEPS)
+waveform: ensure-llvm-deps $(COMPILE_DEPS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building waveform with dynamic LLVM support..."
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SRCS) \
