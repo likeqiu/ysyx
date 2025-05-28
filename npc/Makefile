@@ -21,7 +21,7 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 LLVM_DIR = csrc/llvm
 LLVM_WRAPPER_LIB = $(LLVM_DIR)/libllvm_wrapper.so
 LLVM_WRAPPER_SRC = $(LLVM_DIR)/llvm_wrapper.cpp
-
+DISASM_OBJ = $(LLVM_DIR)/disasm.o
 DISASM_SRC = $(LLVM_DIR)/disasm.cpp
 
 # 检查llvm-config是否可用
@@ -41,12 +41,12 @@ ifneq ($(LLVM_CONFIG),)
     LDFLAGS += -ldl
     
     # 将反汇编对象文件加入到源文件中
-    CSRC += $(DISASM_SRC)
+    CSRC += $(DISASM_OBJ)
 else
     $(info LLVM not found, disassembly will use objdump fallback)
     LLVM_AVAILABLE = 0
     LDFLAGS += -ldl
-    CSRC += $(DISASM_SRC)
+    CSRC += $(DISASM_OBJ)
 endif
 
 # 编译LLVM包装器动态库（如果LLVM可用）
@@ -60,18 +60,32 @@ else
 	@touch $@
 endif
 
-
+# 编译反汇编对象文件
+$(DISASM_OBJ): $(DISASM_SRC)
+	@echo "Building disassembler object..."
+	@mkdir -p $(dir $@)
+	g++ -O2 -Wall -fPIC -c -o $@ $< -ldl
 
 # 强制编译规则：确保文件存在
-
-
+.PHONY: ensure-llvm-deps
+ensure-llvm-deps:
+	@if [ ! -f $(DISASM_OBJ) ]; then \
+		echo "Building missing disasm.o..."; \
+		mkdir -p $(LLVM_DIR); \
+		g++ -O2 -Wall -fPIC -c -o $(DISASM_OBJ) $(DISASM_SRC) -ldl; \
+	fi
+ifeq ($(LLVM_AVAILABLE),1)
+	@if [ ! -f $(LLVM_WRAPPER_LIB) ]; then \
+		echo "Building missing LLVM wrapper library..."; \
+		g++ -shared -fPIC $(LLVM_CXXFLAGS) -o $(LLVM_WRAPPER_LIB) $(LLVM_WRAPPER_SRC) $(LLVM_LDFLAGS) $(LLVM_LIBS); \
+	fi
+endif
 
 # 确保在编译主程序前先编译依赖库
-COMPILE_DEPS =
+COMPILE_DEPS = $(DISASM_OBJ)
 ifeq ($(LLVM_AVAILABLE),1)
     COMPILE_DEPS += $(LLVM_WRAPPER_LIB)
 endif
-
 
 all:
 	@echo "Write this Makefile by your self."
@@ -88,7 +102,7 @@ sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 		$(addprefix -CFLAGS , $(CXXFLAGS)) \
 		$(addprefix -LDFLAGS , $(LDFLAGS))
 
-waveform:  $(COMPILE_DEPS)
+waveform: ensure-llvm-deps $(COMPILE_DEPS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building waveform with dynamic LLVM support..."
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SRCS) \
