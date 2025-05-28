@@ -6,6 +6,21 @@
 #include <llvm-c/Target.h>  // 添加以支持 LLVMTargetRef 和 LLVMGetTargetFromTriple
 #include <llvm-c/Support.h> // 添加以支持 LLVMDisposeMessage
 #include "svdpi.h"
+#include "llvm/Support/raw_ostream.h"
+#include "llvm/Support/Error.h"     // For llvm::Error
+#include "llvm/MC/TargetRegistry.h" // TargetRegistry 已经移到 MC
+#include "llvm/Support/InitLLVM.h"  // 初始化 LLVM 环境
+#include "llvm/ADT/ArrayRef.h"      // For llvm::ArrayRef
+
+// LLVM 反汇编器相关头文件
+#include "llvm/MC/MCAsmInfo.h"
+#include "llvm/MC/MCContext.h"
+#include "llvm/MC/MCDisassembler/MCDisassembler.h" // 修正路径
+#include "llvm/MC/MCInst.h"                        // Represents a single machine instruction
+#include "llvm/MC/MCInstPrinter.h"
+#include "llvm/MC/MCRegisterInfo.h"
+#include "llvm/MC/MCSubtargetInfo.h"
+#include "llvm/MC/MCTargetOptions.h"
 
 // 全局反汇编上下文
 static LLVMDisasmContextRef disasm_context;
