@@ -46,7 +46,7 @@ extern "C" void itrace_print(long long pc, unsigned int instruction_word, int in
 // --- 宏定义判断 ---
 // 请确保 Makefile 中正确定义了 CONFIG_ITRACE
 // 例如：CXXFLAGS += -DCONFIG_ITRACE
-#ifdef CONFIG_ITRACE
+
 
 // --- 函数实现 ---
 
@@ -195,7 +195,7 @@ extern "C" void itrace_print(long long pc, unsigned int instruction_word, int in
     }
 }
 
-#else // CONFIG_ITRACE is not defined
+
 
 // 如果 CONFIG_ITRACE 未定义，提供空实现
 extern "C" void init_disasm_llvm()
