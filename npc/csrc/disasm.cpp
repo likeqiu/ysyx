@@ -76,7 +76,7 @@ extern "C" void init_disasm_llvm()
         llvm::Triple(Triple),
         TheAsmInfo.get(),
         TheRegisterInfo.get(),
-        TheSubtarget.get(),
+        TheSubtargetInfo.get(),
         nullptr,
         nullptr,
         false,
