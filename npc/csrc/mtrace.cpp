@@ -5,8 +5,9 @@ static paddr_t mtrace_end = 0xfffffff;
 
 extern "C" void mtrace_record(char type,paddr_t addr,int len,word_t data)
 {
- 
-    if(addr>=mtrace_start && addr <=mtrace_end)
+
+    printf("1111\n");
+    if (addr >= mtrace_start && addr <= mtrace_end)
     {
     printf("mtrace: %c  addr=0x%08x  len=%d  data=0x%08x\n",type,addr,len,data);
     }
