@@ -1,7 +1,7 @@
 #include"ram.h"
 
 static paddr_t mtrace_start = 0x00000000;
-static paddr_t mtrace_end = 0xfffffff;
+static paddr_t mtrace_end = 0xffffffff;
 
 extern "C" void mtrace_record(char type,paddr_t addr,int len,word_t data)
 {
