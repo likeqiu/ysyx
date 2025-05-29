@@ -1,4 +1,5 @@
 `include "dpi_mtrace.svh"
+import "DPI-C" function void mtrace_record(byte type,int unsigned addr,int len,int unsigned data);
 module ysyx_25040109_top (
     input clk,
     input rst,
@@ -78,7 +79,7 @@ module ysyx_25040109_top (
     import "DPI-C" function int printf_finish(input int inst);  
     import "DPI-C" function void sdb_scan_mem(input int addr, output int value);
     import "DPI-C" function void debug_exu(input int pc, input int inst, input int rs1_data, input int rd_addr, input int result);
-    import "DPI-C" function void mtrace_record(byte type,int unsigned addr,int len,int unsigned data);
+    
 
    
 
