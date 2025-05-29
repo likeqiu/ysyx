@@ -1,5 +1,5 @@
 
-import "DPI-C" function void mtrace_record(byte type,int  addr,int len,int  data);
+import "DPI-C" function void mtrace_record(byte typ,int  addr,int len,int  data);
 module ysyx_25040109_top (
     input clk,
     input rst,
