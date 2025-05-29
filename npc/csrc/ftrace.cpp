@@ -209,7 +209,7 @@ void init_ftrace(const char *elf_file)
     free(shdr);
     fclose(fp);
 
-    Log("ftrace intialized with %d function symbols from %s", func_count, elf_file);
+   // Log("ftrace intialized with %d function symbols from %s", func_count, elf_file);
 }
 
 const char *addr_to_func(uint32_t addr)
