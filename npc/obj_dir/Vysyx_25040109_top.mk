@@ -46,6 +46,7 @@ VM_USER_CFLAGS = \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
+	/home/zxj17/ysyx-workbench/npc/csrc/llvm/disasm.o \
 	-lz \
 	-lreadline \
 	-lhistory \
@@ -53,7 +54,7 @@ VM_USER_LDLIBS = \
 	-lSDL2 \
 	-lSDL2_image \
 	-lSDL2_ttf \
-	-ldl,/home/zxj17/ysyx-workbench/npc/csrc/llvm/disasm.o \
+	-ldl \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
