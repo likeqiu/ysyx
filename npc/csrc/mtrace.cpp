@@ -3,7 +3,7 @@
 static paddr_t mtrace_start = 0x80000000;
 static paddr_t mtrace_end = 0xfffffff;
 
-void mtrace_record(char type,paddr_t addr,int len,word_t data)
+extern "C" void mtrace_record(char type,paddr_t addr,int len,word_t data)
 {
  
     if(addr>=mtrace_start && addr <=mtrace_end)
@@ -12,7 +12,7 @@ void mtrace_record(char type,paddr_t addr,int len,word_t data)
     }
 }
 
-void mtrace_set_range(paddr_t start,paddr_t end)
+extern "C" void mtrace_set_range(paddr_t start,paddr_t end)
 {
     mtrace_start = start;
     mtrace_end = end;
