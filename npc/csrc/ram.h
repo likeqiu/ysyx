@@ -121,6 +121,7 @@ public:
     void pmem_write(uint32_t addr, int len, uint32_t data)
     {
 
+        mtrace_record('W', addr, len, data);
         if (!in_pmem(addr))
         {
             throw std::out_of_range("Address out of range :" + std::to_string(addr));
@@ -153,7 +154,7 @@ public:
             throw std::invalid_argument("Unsupported write length");
         }
 
-        mtrace_record('W', addr, len, data);
+       
     }
 
     void load_bin(const std::string &filename)
