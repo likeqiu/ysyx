@@ -86,7 +86,7 @@ void init_ftrace(const char *elf_file)
     }
 
     // 读取节区字符串表（shstrtab），用于找到.symtab和.strtab
-    char *shstrtab = (Elf32_Shdr *)malloc(shdr[ehdr.e_shstrndx].sh_size); // ehdr.e_shstrndx 得到 .shstrtab 对应的节区头，然后通过它的 sh_offset 等信息来读取节区名称字符串表的内容。
+    char *shstrtab = (char *)malloc(shdr[ehdr.e_shstrndx].sh_size); // ehdr.e_shstrndx 得到 .shstrtab 对应的节区头，然后通过它的 sh_offset 等信息来读取节区名称字符串表的内容。
     if (!shstrtab)
     {
         printf("Error: Failed to allocate memory for shstrtab\n");
