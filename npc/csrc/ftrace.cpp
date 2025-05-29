@@ -180,7 +180,7 @@ void init_ftrace(const char *elf_file)
         }
     }
 
-    func_symbols = (Elf32_Shdr *)malloc(func_count * sizeof(FuncSymbol));
+    func_symbols = (FuncSymbol*)malloc(func_count * sizeof(FuncSymbol));
     if (!func_symbols)
     {
         printf("Error: Failed to allocate memory for func_symbols\n");
