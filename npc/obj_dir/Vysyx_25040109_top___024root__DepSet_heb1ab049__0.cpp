@@ -76,6 +76,22 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     debug_exu(pc__Vcvt, inst__Vcvt, rs1_data__Vcvt, rd_addr__Vcvt, result__Vcvt);
 }
 
+extern "C" void mtrace_record(char tp, int addr, int len, int data);
+
+VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__mtrace_record_TOP(CData/*7:0*/ tp, IData/*31:0*/ addr, IData/*31:0*/ len, IData/*31:0*/ data) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__mtrace_record_TOP\n"); );
+    // Body
+    char tp__Vcvt;
+    for (size_t tp__Vidx = 0; tp__Vidx < 1; ++tp__Vidx) tp__Vcvt = tp;
+    int addr__Vcvt;
+    for (size_t addr__Vidx = 0; addr__Vidx < 1; ++addr__Vidx) addr__Vcvt = addr;
+    int len__Vcvt;
+    for (size_t len__Vidx = 0; len__Vidx < 1; ++len__Vidx) len__Vcvt = len;
+    int data__Vcvt;
+    for (size_t data__Vidx = 0; data__Vidx < 1; ++data__Vidx) data__Vcvt = data;
+    mtrace_record(tp__Vcvt, addr__Vcvt, len__Vcvt, data__Vcvt);
+}
+
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__ico(Vysyx_25040109_top___024root* vlSelf);
 #endif  // VL_DEBUG

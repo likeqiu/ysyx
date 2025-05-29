@@ -331,7 +331,8 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_full_sub_0(Vysyx_25040109_
     bufp->fullBit(oldp+31,((IData)((0x2003U == (0x707fU 
                                                 & vlSelf->ysyx_25040109_top__DOT__inst_ifu)))));
     bufp->fullIData(oldp+32,(vlSelf->ysyx_25040109_top__DOT__mem_addr),32);
-    bufp->fullBit(oldp+33,(vlSelf->ysyx_25040109_top__DOT__addr_valid));
+    bufp->fullBit(oldp+33,(((0x80000000U <= vlSelf->ysyx_25040109_top__DOT__mem_addr) 
+                            & (0x87ffffffU >= vlSelf->ysyx_25040109_top__DOT__mem_addr))));
     bufp->fullIData(oldp+34,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a),32);
     bufp->fullIData(oldp+35,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_out),32);
     bufp->fullIData(oldp+36,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__jal_target),32);

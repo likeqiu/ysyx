@@ -8,19 +8,13 @@
 #include "verilated.h"
 
 class Vysyx_25040109_top__Syms;
-class Vysyx_25040109_top___024unit;
-
 
 class Vysyx_25040109_top___024root final : public VerilatedModule {
   public:
-    // CELLS
-    Vysyx_25040109_top___024unit* __PVT____024unit;
 
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
     VL_IN8(rst,0,0);
-    CData/*0:0*/ ysyx_25040109_top__DOT__addr_valid;
-    CData/*0:0*/ ysyx_25040109_top__DOT____VdfgExtracted_h01ffa57e__0;
     CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__hit;
     CData/*0:0*/ ysyx_25040109_top__DOT__exu__DOT__branch_taken;
     CData/*0:0*/ ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__hit;
@@ -53,7 +47,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__lut_out;
     IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i;
     IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__pmem_read__0__data;
-    IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__sdb_scan_mem__1__value;
     IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__5__data;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VicoIterCount;
