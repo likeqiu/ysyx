@@ -105,7 +105,6 @@ public:
         {
         case 1:
             data = pmem[offset_addr];
-            return pmem[offset_addr];
         case 2:
             data = *(uint16_t *)&pmem[offset_addr];
         case 4:

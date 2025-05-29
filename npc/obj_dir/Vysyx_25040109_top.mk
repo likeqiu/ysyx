@@ -59,6 +59,7 @@ VM_USER_LDLIBS = \
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
 	expr \
+	mtrace \
 	ram \
 	reg \
 	sdb \
@@ -79,6 +80,8 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 VPATH += $(VM_USER_DIR)
 
 expr.o: csrc/expr.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+mtrace.o: csrc/mtrace.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 ram.o: csrc/ram.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
