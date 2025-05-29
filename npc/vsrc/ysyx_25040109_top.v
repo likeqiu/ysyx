@@ -1,5 +1,3 @@
-
-import "DPI-C" function void mtrace_record(byte typ,int  addr,int len,int  data);
 module ysyx_25040109_top (
     input clk,
     input rst,
@@ -79,6 +77,7 @@ module ysyx_25040109_top (
     import "DPI-C" function int printf_finish(input int inst);  
     import "DPI-C" function void sdb_scan_mem(input int addr, output int value);
     import "DPI-C" function void debug_exu(input int pc, input int inst, input int rs1_data, input int rd_addr, input int result);
+    import "DPI-C" function void mtrace_record(byte tp,int addr,int len,int  data);
     
 
    
@@ -93,27 +92,20 @@ module ysyx_25040109_top (
    
     assign inst = inst_ifu;
 
-    // 新增：为 lw 指令组合逻辑读取内存
     always @(*) begin
-        mem_data = 32'bx; // 默认值，或 32'b0
+        mem_data = 32'bx; 
         if (is_lw && addr_valid) begin
-            pmem_read(mem_addr, mem_data); // DPI-C 调用，将结果写入 reg 型的 mem_data
-        end
-            // 修改：移除了 lw 的 pmem_read，但 sdb_scan_mem 可以保留用于观察
-        if (step_en && is_lw && addr_valid ) begin
-            // pmem_read(mem_addr, mem_data); // 此行已移至上面的 always@(*) 块
-            sdb_scan_mem(mem_addr, mem_data); // 可选的调试扫描, mem_data是组合逻辑结果
+            pmem_read(mem_addr, mem_data); 
+            mtrace_record('R',mem_addr,4,mem_data);
         end
     end
 
 
     always @(posedge clk) begin
-        if (step_en && is_sw && addr_valid ) begin
+        if ( is_sw && addr_valid ) begin
             pmem_write(mem_addr, rs2_data, 4);
-            sdb_scan_mem(mem_addr, rs2_data);
+            mtrace_record('W',mem_addr,4,rs2_data);
         end
-  
-       
     end
 
 
