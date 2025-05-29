@@ -5,6 +5,17 @@ static paddr_t mtrace_end = 0xfffffff;
 
 void mtrace_record(char type,paddr_t addr,int len,word_t data)
 {
-    
-    printf("mtrace:  "%s"  0x%08x\n",str,data);
+ 
+    if(addr>=mtrace_start && addr <=mtrace_end)
+    {
+    printf("mtrace: %c  addr=0x%08x  len=%d  data=0x%08x\n",type,addr,len,data);
+    }
+}
+
+void mtrace_set_range(paddr_t start,paddr_t end)
+{
+    mtrace_start = start;
+    mtrace_end = end;
+
+    printf("mtrace: Set range [0x%08x,0x%08x]\n", start, end);
 }

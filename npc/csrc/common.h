@@ -13,7 +13,7 @@
 
 
 #define word_t uint32_t
-    typedef word_t vaddr_t;
+typedef word_t vaddr_t;
 typedef uint32_t paddr_t;
 
 
