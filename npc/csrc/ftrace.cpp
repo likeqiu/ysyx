@@ -148,7 +148,7 @@ void init_ftrace(const char *elf_file)
 
     // 读取符号表
     int sym_count = symtab_shdr->sh_size / sizeof(Elf32_Sym); // 计算符号表中总共有多少个符号（symbol）项，符号数量 = 符号表总大小 / 单个符号大小
-    Elf32_Sym *symtab = (Elf32_Shdr *)malloc(symtab_shdr->sh_size); // 符号表数据的指针数组，包含每个符号的详细信息
+    Elf32_Sym *symtab = (Elf32_Sym *)malloc(symtab_shdr->sh_size); // 符号表数据的指针数组，包含每个符号的详细信息
     if (!symtab)
     {
         printf("Error: Failed to allocate memory for symtab\n");
