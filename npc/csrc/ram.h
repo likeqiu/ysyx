@@ -84,6 +84,7 @@ public:
     // const：修饰成员函数，表示这个函数不会修改类的成员变量，即函数体内不会改变类的任何成员数据。
     uint32_t pmem_read(uint32_t addr, int len) const
     {
+        printf("2222\n");
         if (len != 1 && len != 2 && len != 4)
         {
             throw std::invalid_argument("Invalid read length: " + std::to_string(len));
@@ -114,6 +115,7 @@ public:
             return 0;    
         }
 
+        printf("333\n");
         mtrace_record('R', addr, len, data);
         return data;
     }
@@ -121,7 +123,8 @@ public:
     void pmem_write(uint32_t addr, int len, uint32_t data)
     {
 
-        mtrace_record('W', addr, len, data);
+        printf("1111\n");
+
         if (!in_pmem(addr))
         {
             throw std::out_of_range("Address out of range :" + std::to_string(addr));
@@ -154,8 +157,8 @@ public:
             throw std::invalid_argument("Unsupported write length");
         }
 
-       
-    }
+        mtrace_record('W', addr, len, data);
+        }
 
     void load_bin(const std::string &filename)
     {
