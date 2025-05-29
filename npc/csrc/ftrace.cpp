@@ -239,7 +239,7 @@ uint32_t func_to_addr(const char *func_name)
     return 0;
 }
 
-#include <cpu/cpu.h> // 假设可以访问寄存器状态
+
 
 void ftrace_call(uint32_t pc, uint32_t target_addr)
 {
