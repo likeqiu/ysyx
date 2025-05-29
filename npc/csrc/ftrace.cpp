@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <memory/paddr.h>
+#include"ram.h"
 #include"reg.h"
 
 #define R(i) gpr(i)
