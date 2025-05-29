@@ -2,7 +2,7 @@
 #include "mtrace.h"
 
 #ifdef CONFIG_MTRACE
-static paddr_t mtrace_start = 0x0;
+static paddr_t mtrace_start = 0x80000000;
 static paddr_t mtrace_end = 0xffffffff;
 
 
