@@ -68,7 +68,7 @@ void init_ftrace(const char *elf_file)
     }
 
     // 读取所有节区头（section header）
-    Elf32_Shdr *shdr = malloc(ehdr.e_shentsize * ehdr.e_shnum); // shdr：指向 ELF 文件中所有节区头的指针数组。
+    Elf32_Shdr *shdr = (Elf32_Shdr *)malloc(ehdr.e_shentsize * ehdr.e_shnum); // shdr：指向 ELF 文件中所有节区头的指针数组。
 
     if (!shdr)
     {
@@ -86,7 +86,7 @@ void init_ftrace(const char *elf_file)
     }
 
     // 读取节区字符串表（shstrtab），用于找到.symtab和.strtab
-    char *shstrtab = malloc(shdr[ehdr.e_shstrndx].sh_size); // ehdr.e_shstrndx 得到 .shstrtab 对应的节区头，然后通过它的 sh_offset 等信息来读取节区名称字符串表的内容。
+    char *shstrtab = (Elf32_Shdr *)malloc(shdr[ehdr.e_shstrndx].sh_size); // ehdr.e_shstrndx 得到 .shstrtab 对应的节区头，然后通过它的 sh_offset 等信息来读取节区名称字符串表的内容。
     if (!shstrtab)
     {
         printf("Error: Failed to allocate memory for shstrtab\n");
@@ -126,7 +126,7 @@ void init_ftrace(const char *elf_file)
 
     // 读取字符串表
     strtab_size = strtab_shdr->sh_size;
-    strtab_data = malloc(strtab_size);
+    strtab_data = (Elf32_Shdr *)malloc(strtab_size);
     if (!strtab_data)
     {
         printf("Error: Failed to allocate memory for strtab\n");
@@ -148,7 +148,7 @@ void init_ftrace(const char *elf_file)
 
     // 读取符号表
     int sym_count = symtab_shdr->sh_size / sizeof(Elf32_Sym); // 计算符号表中总共有多少个符号（symbol）项，符号数量 = 符号表总大小 / 单个符号大小
-    Elf32_Sym *symtab = malloc(symtab_shdr->sh_size);         // 符号表数据的指针数组，包含每个符号的详细信息
+    Elf32_Sym *symtab = (Elf32_Shdr *)malloc(symtab_shdr->sh_size); // 符号表数据的指针数组，包含每个符号的详细信息
     if (!symtab)
     {
         printf("Error: Failed to allocate memory for symtab\n");
@@ -180,7 +180,7 @@ void init_ftrace(const char *elf_file)
         }
     }
 
-    func_symbols = malloc(func_count * sizeof(FuncSymbol));
+    func_symbols = (Elf32_Shdr *)malloc(func_count * sizeof(FuncSymbol));
     if (!func_symbols)
     {
         printf("Error: Failed to allocate memory for func_symbols\n");
