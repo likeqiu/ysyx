@@ -78,7 +78,7 @@ module ysyx_25040109_top (
     import "DPI-C" function void sdb_scan_mem(input int addr, output int value);
     import "DPI-C" function void debug_exu(input int pc, input int inst, input int rs1_data, input int rd_addr, input int result);
     import "DPI-C" function void mtrace_record(byte tp,int addr,int len,int  data);
-    import "DPI-C" function void itrace_print( long  int pc,  int instruction_word, int instr_len_bytes);
+    import "DPI-C" function void itrace_print( int pc, int instruction_word, int instr_len_bytes);
 
    
 
