@@ -108,7 +108,7 @@ static void objdump_disasm(long long pc, unsigned int instruction_word, int inst
     {
         bytes[i] = (instruction_word >> (i * 8)) & 0xFF;
     }
-    ssize_t temp=write(fd, bytes, instr_len_bytes);
+    (void)write(fd, bytes, instr_len_bytes);
     close(fd);
 
     // 使用objdump反汇编
