@@ -114,7 +114,7 @@ public:
             return 0;    
         }
 
-        
+        mtrace_record('R', addr, len, data);
         return data;
     }
 
