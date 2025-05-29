@@ -18,6 +18,8 @@ extern "C" {
     // DPI IMPORTS
     // DPI import at vsrc/ysyx_25040109_top.v:79:34
     extern void debug_exu(int pc, int inst, int rs1_data, int rd_addr, int result);
+    // DPI import at vsrc/ysyx_25040109_top.v:81:34
+    extern void itrace_print(int pc, int instruction_word, int instr_len_bytes);
     // DPI import at vsrc/ysyx_25040109_top.v:80:34
     extern void mtrace_record(char tp, int addr, int len, int data);
     // DPI import at vsrc/ysyx_25040109_top.v:75:34

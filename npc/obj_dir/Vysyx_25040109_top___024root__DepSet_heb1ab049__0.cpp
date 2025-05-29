@@ -92,6 +92,20 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     mtrace_record(tp__Vcvt, addr__Vcvt, len__Vcvt, data__Vcvt);
 }
 
+extern "C" void itrace_print(int pc, int instruction_word, int instr_len_bytes);
+
+VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__itrace_print_TOP(IData/*31:0*/ pc, IData/*31:0*/ instruction_word, IData/*31:0*/ instr_len_bytes) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__itrace_print_TOP\n"); );
+    // Body
+    int pc__Vcvt;
+    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) pc__Vcvt = pc;
+    int instruction_word__Vcvt;
+    for (size_t instruction_word__Vidx = 0; instruction_word__Vidx < 1; ++instruction_word__Vidx) instruction_word__Vcvt = instruction_word;
+    int instr_len_bytes__Vcvt;
+    for (size_t instr_len_bytes__Vidx = 0; instr_len_bytes__Vidx < 1; ++instr_len_bytes__Vidx) instr_len_bytes__Vcvt = instr_len_bytes;
+    itrace_print(pc__Vcvt, instruction_word__Vcvt, instr_len_bytes__Vcvt);
+}
+
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__ico(Vysyx_25040109_top___024root* vlSelf);
 #endif  // VL_DEBUG
