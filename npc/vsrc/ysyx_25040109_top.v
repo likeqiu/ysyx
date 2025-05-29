@@ -1,3 +1,4 @@
+`include "dpi_mtrace.svh"
 module ysyx_25040109_top (
     input clk,
     input rst,
