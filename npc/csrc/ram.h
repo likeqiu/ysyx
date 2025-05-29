@@ -100,22 +100,18 @@ public:
             throw std::out_of_range("Read beyond memory bounds");
         }
 
-        word_t data = 0;
         switch (len)
         {
         case 1:
-            data = pmem[offset_addr];
+            return pmem[offset_addr];
         case 2:
-            data = *(uint16_t *)&pmem[offset_addr];
+            return *(uint16_t *)&pmem[offset_addr];
         case 4:
-            data = *(uint32_t *)&pmem[offset_addr];
+            return *(uint32_t *)&pmem[offset_addr];
         default:
             throw std::invalid_argument("Unsupport read length");
-            return 0;    
+            return 0;
         }
-
-        mtrace_record('R', addr, len, data);
-        return data;
     }
 
     void pmem_write(uint32_t addr, int len, uint32_t data)
@@ -152,8 +148,6 @@ public:
         default:
             throw std::invalid_argument("Unsupported write length");
         }
-
-        mtrace_record('W', addr, len, data);
     }
 
     void load_bin(const std::string &filename)
