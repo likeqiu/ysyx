@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <isa.h>
+#include <isa.h>
 #include <memory/paddr.h>
 #include "local-include/reg.h"
 
