@@ -41,12 +41,12 @@ ifneq ($(LLVM_CONFIG),)
     LDFLAGS += -ldl
     
     # 将反汇编对象文件加入到源文件中
-    CSRC += $(DISASM_OBJ)
+    #CSRC += $(DISASM_OBJ)
 else
     $(info LLVM not found, disassembly will use objdump fallback)
     LLVM_AVAILABLE = 0
     LDFLAGS += -ldl
-    CSRC += $(DISASM_OBJ)
+   # CSRC += $(DISASM_OBJ)
 endif
 
 # 编译LLVM包装器动态库（如果LLVM可用）
