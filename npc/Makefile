@@ -19,8 +19,8 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 # ===== 动态库方案 =====
 # 检查是否需要编译LLVM包装器动态库
 LLVM_DIR = csrc/llvm
-LLVM_WRAPPER_LIB = $(LLVM_DIR)/libllvm_wrapper.so
-LLVM_WRAPPER_SRC = $(LLVM_DIR)/llvm_wrapper.cpp
+LLVM_WRAPPER_LIB = $(abspath $(LLVM_DIR)/libllvm_wrapper.so)
+LLVM_WRAPPER_SRC = $(abspath $(LLVM_DIR)/llvm_wrapper.cpp)
 DISASM_OBJ = $(abspath $(LLVM_DIR)/disasm.o)
 DISASM_SRC = $(abspath $(LLVM_DIR)/disasm.cpp)
 
@@ -119,7 +119,7 @@ run: waveform
 look:
 	gtkwave sim.fst
 
-# 安装LLVM库到系统路径（可选）
+# 安装LLVM库到系统路径
 install-llvm-lib: $(LLVM_WRAPPER_LIB)
 ifeq ($(LLVM_AVAILABLE),1)
 	@echo "Installing LLVM wrapper library to system..."
@@ -146,12 +146,6 @@ clean:
 	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp
 	rm -f $(LLVM_WRAPPER_LIB) $(DISASM_OBJ)
 
-# 强制重新编译LLVM相关组件
-clean-llvm:
-	rm -f $(LLVM_WRAPPER_LIB) $(DISASM_OBJ)
-
-rebuild-llvm: clean-llvm $(COMPILE_DEPS)
-	@echo "LLVM components rebuilt"
 
 .PHONY: all sim waveform run look clean install-llvm-lib info clean-llvm rebuild-llvm
 

@@ -111,7 +111,6 @@ static void objdump_disasm(long long pc, unsigned int instruction_word, int inst
     ssize_t temp = write(fd, bytes, instr_len_bytes);
     if (temp < 0)
     {
-        // 处理写入错误
         perror("write failed");
         return ;
     }
