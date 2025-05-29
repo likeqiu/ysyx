@@ -208,5 +208,5 @@ extern "C" void itrace_print(long long pc, unsigned int instruction_word, int in
     }
 
     // 如果LLVM不可用或失败，使用objdump后备方案
-    objdump_disasm(pc, instruction_word, instr_len_bytes);
+    //objdump_disasm(pc, instruction_word, instr_len_bytes);
 }
