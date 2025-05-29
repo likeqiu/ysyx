@@ -37,10 +37,11 @@ int main(int argc,char **argv){
 
     Verilated::traceEverOn(true);
 
-    init_disasm_llvm();
+    
     top->trace(tfp, 99);
     tfp->open("sim.fst");
 
+    init_disasm_llvm();
     init_regex();
     init_wp_pool();
 

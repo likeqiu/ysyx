@@ -22,7 +22,7 @@ LLVM_DIR = csrc/llvm
 LLVM_WRAPPER_LIB = $(LLVM_DIR)/libllvm_wrapper.so
 LLVM_WRAPPER_SRC = $(LLVM_DIR)/llvm_wrapper.cpp
 DISASM_OBJ = $(abspath $(LLVM_DIR)/disasm.o)
-DISASM_SRC = $(LLVM_DIR)/disasm.cpp
+DISASM_SRC = $(abspath $(LLVM_DIR)/disasm.cpp)
 
 # 检查llvm-config是否可用
 LLVM_CONFIG := $(shell which llvm-config-14 2>/dev/null || which llvm-config 2>/dev/null)
