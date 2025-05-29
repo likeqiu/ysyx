@@ -126,7 +126,7 @@ void init_ftrace(const char *elf_file)
 
     // 读取字符串表
     strtab_size = strtab_shdr->sh_size;
-    strtab_data = (Elf32_Shdr *)malloc(strtab_size);
+    strtab_data = (char *)malloc(strtab_size);
     if (!strtab_data)
     {
         printf("Error: Failed to allocate memory for strtab\n");
