@@ -13,7 +13,7 @@ NPC_STATE npc_state = NPC_STATE::HALT;
 CPU_state cpu = {};
 
 
-extern "C" update_cpu_state(uint32_t pc, const uint32_t regs[32] )
+extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32] )
 {
     cpu.pc = pc;
     std::memcpy(cpu.gpr, regs, sizeof(cpu.gpr));
