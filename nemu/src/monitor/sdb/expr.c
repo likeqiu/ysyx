@@ -198,10 +198,10 @@ static int find_main_operator(int p,int q)
             case TK_NEQ:prority = 2;break;
             case '+':
             case '-':
-              prority = 1;break;
+              prority = 3;break;
               case '*':
               case '/':
-                prority = 2;break;
+                prority = 4;break;
             default: continue;
               }
 

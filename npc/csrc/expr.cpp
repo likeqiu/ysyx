@@ -31,8 +31,8 @@ enum
   TK_EQ = 257,
   TK_LEFTBLANK = 258,
   TK_RIGHTBLANK = 259,
-  TK_NEQ = 261, // 不相等
-  TK_HEX = 262, // 16进制数
+  TK_NEQ = 261, 
+  TK_HEX = 262, 
   TK_REG = 263,
   TK_AND = 264,
   TK_DEREF = 265, // 解引用
@@ -75,7 +75,7 @@ static regex_t re[NR_REGEX] = {};
  */
 void init_regex() {
   int i;
-  char error_msg[128];//msg表示信息
+  char error_msg[128];
   int ret;
 
   for (i = 0; i < NR_REGEX; i ++) {
@@ -211,10 +211,10 @@ static int find_main_operator(int p,int q)
             case TK_NEQ:prority = 2;break;
             case '+':
             case '-':
-              prority = 1;break;
+              prority = 3;break;
               case '*':
               case '/':
-                prority = 2;break;
+                prority = 4;break;
             default: continue;
               }
 
