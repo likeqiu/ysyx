@@ -23,12 +23,9 @@ typedef struct
     uint64_t count;
     uint64_t total_size; // 根据平局值大小进行优化，可以一次复制多个
 } MemcpyStat;
-;
+
 
 static MemcpyStat memcpy_stats[3][3] = {
-    // [alignment][length]
-    // alignment: 0=aligned, 1=partially aligned, 2=unaligned
-    // length: 0=short, 1=medium, 2=long
     {{"aligned", "short", 0, 0}, {"aligned", "medium", 0, 0}, {"aligned", "long", 0, 0}},
     {{"partially aligned", "short", 0, 0}, {"partially aligned", "medium", 0, 0}, {"partially aligned", "long", 0, 0}},
     {{"unaligned", "short", 0, 0}, {"unaligned", "medium", 0, 0}, {"unaligned", "long", 0, 0}}};
