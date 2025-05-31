@@ -13,7 +13,7 @@ module ysyx_25040109_top (
     wire [6:0] opcode = inst_ifu[6:0];
     wire [2:0] funct3 = inst_ifu[14:12];
 
-    reg [4:0] regs [31:0];
+    
 
     
 
@@ -61,6 +61,7 @@ module ysyx_25040109_top (
 
         ysyx_25040109_RegisterFile #(5, 32) regfile (
         .clk(clk),
+        .pc(pc),
         .wdata(result),
         .waddr(rd_addr_exu),
         .wen(reg_write_en_exu && step_en),
