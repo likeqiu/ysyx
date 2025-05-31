@@ -25,14 +25,12 @@ extern void init_regex();
 
 
 typedef struct{
+    word_t gpr[32];
+    vaddr_t pc;
+} CPU_state
     
-}CPU_state
 
-
-
-
-
-typedef struct watchpoint
+typedef struct 
 {
     int NO;
     struct watchpoint *next;
@@ -43,7 +41,8 @@ typedef struct watchpoint
 
     /* TODO: Add more members if necessary */
 
-} WP;
+}WP;
+
 #define NR_WP 32
 extern WP wp_pool[NR_WP];
 extern WP *free_;
@@ -69,6 +68,7 @@ extern Vysyx_25040109_top *top;
 extern VerilatedFstC *tfp;
 extern vluint64_t sim_time;
 extern NPC_STATE npc_state;
+extern CPU_state cpu;
 
 class PhysicalMemory
 {
