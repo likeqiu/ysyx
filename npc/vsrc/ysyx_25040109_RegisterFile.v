@@ -24,7 +24,7 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 5,DATA_WIDTH=32)
 end
 
 
- import "DPI-C" context function void update_cpu_state(input int unsigned pc,input int unsigned [31:0] regs[31:0]);
+ import "DPI-C" context function void update_cpu_state(input int unsigned pc,input int unsigned  regs[]);
  
     task automatic send_state_to_dpi;
     update_cpu_state(pc, rf);
