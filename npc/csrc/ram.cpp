@@ -10,6 +10,14 @@ vluint64_t sim_time = 0;
 alignas(4096)  PhysicalMemory pmem(0x8000000);
 //gcc对齐4k
 NPC_STATE npc_state = NPC_STATE::HALT;
+CPU_state cpu = {};
+
+
+extern "C" update_cpu_state(uint32_t pc, const uint32_t regs[32] )
+{
+    cpu.pc = pc;
+    std::memcpy(cpu.gpr, regs, sizeof(cpu.gpr));
+}
 
 extern "C" int printf_finish(uint32_t inst)
 {
@@ -89,5 +97,3 @@ int main(int argc,char **argv){
     delete tfp;
     return 0;
 }
-
-

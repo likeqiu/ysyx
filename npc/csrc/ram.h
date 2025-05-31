@@ -23,7 +23,13 @@ extern word_t expr(char *e, bool *success);
 extern void init_wp_pool();
 extern void init_regex();
 
-typedef struct watchpoint
+
+typedef struct{
+    word_t gpr[32];
+    vaddr_t pc;
+} CPU_state
+
+    typedef struct watchpoint
 {
     int NO;
     struct watchpoint *next;
@@ -42,6 +48,12 @@ extern WP *head;
 extern WP *new_wp(char *expr_str);
 extern void free_wp(WP *wp);
 
+enum
+{
+    DIFFTEST_TO_DUT,
+    DIFFTEST_TO_REF
+};
+
 enum class NPC_STATE
 {
     RUNNING = 0,
@@ -54,6 +66,7 @@ extern Vysyx_25040109_top *top;
 extern VerilatedFstC *tfp;
 extern vluint64_t sim_time;
 extern NPC_STATE npc_state;
+extern CPU_state cpu;
 
 class PhysicalMemory
 {
