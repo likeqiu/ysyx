@@ -20,39 +20,47 @@
 
 //_EXPORT 表示一个符号导出宏，它让 difftest_memcpy 函数在编译时被标记为可以被外部程序调用。如果在你的项目中使用动态库（如 .so 或 .dll），这些标记是确保库能够被正确链接的关键部分。
 //// 这些函数应由REF（如Spike）通过动态库实现
-__EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
-  void *pmem = guest_to_host(addr);
-  if(direction==DIFFTEST_TO_REF)
+__EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction)
+{
+  void *pmem = guest_to_host(addr); // DRAM 基址 + 偏移
+  if (direction == DIFFTEST_TO_REF)
   {
-    /*NPC->NEMU*/
+    /* NPC => NEMU */
     memcpy(pmem, buf, n);
-  }else
+  }
+  else
   {
-    /*NEMU->NPC*/
+    /* NEMU => NPC */
     memcpy(buf, pmem, n);
   }
 }
 
-__EXPORT void difftest_regcpy(void *dut, bool direction) {
-  if(direction==DIFFTEST_TO_REF)
+/* ===================== 寄存器同步 =================== */
+__EXPORT void difftest_regcpy(void *dut, bool direction)
 {
-  memcpy(&cpu, dut, DIFFTEST_REG_SIZE);
-}
-else {
-  memcpy(dut, &cpu, DIFFTEST_REG_SIZE);
+  if (direction == DIFFTEST_TO_REF)
+  {
+    /* NPC => NEMU */
+    memcpy(&cpu, dut, DIFFTEST_REG_SIZE);
+  }
+  else
+  {
+    /* NEMU => NPC */
+    memcpy(dut, &cpu, DIFFTEST_REG_SIZE);
+  }
 }
 
-}
-
-
+/* ===================== 单步执行 ===================== */
 __EXPORT void difftest_exec(uint64_t n)
 {
-  cpu_exec(n);
+  cpu_exec(n); // NEMU 自带的执行入口
 }
 
-__EXPORT void difftest_raise_intr(word_t NO) {
-  return;
-  // assert(0);
+/* ===================== 触发中断 ===================== */
+__EXPORT void difftest_raise_intr(word_t NO)
+{
+  /* NEMU 提供 isa_raise_intr()，给它当前 pc 即可 */
+  cpu.pc = isa_raise_intr(NO, cpu.pc);
 }
 
 __EXPORT void difftest_init(int port) {
