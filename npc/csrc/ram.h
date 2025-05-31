@@ -12,6 +12,8 @@
 #define CONFIG_MSIZE 0x8000000
 #define PMEM_LEFT CONFIG_MBASE
 #define PMEM_RIGHT (CONFIG_MBASE + CONFIG_MSIZE - 1)
+#define CONFIG_PC_RESET_OFFSET 0x0
+#define RESET_VECTOR (PMEM_LEFT + CONFIG_PC_RESET_OFFSET)
 
 extern word_t expr(char *e, bool *success);
 

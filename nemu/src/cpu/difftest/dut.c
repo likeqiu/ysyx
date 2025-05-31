@@ -63,7 +63,7 @@ void difftest_skip_ref() {
 void difftest_skip_dut(int nr_ref, int nr_dut) {
   skip_dut_nr_inst += nr_dut;
 
-  while (nr_ref -- > 0) {
+  while (nr_ref-- > 0) {
     ref_difftest_exec(1);
   }
 }
