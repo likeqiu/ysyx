@@ -30,6 +30,8 @@ extern "C" {
     extern int printf_finish(int inst);
     // DPI import at vsrc/ysyx_25040109_top.v:78:34
     extern void sdb_scan_mem(int addr, int* value);
+    // DPI import at vsrc/ysyx_25040109_top.v:82:42
+    extern void update_cpu_state(unsigned int pc, const unsigned int* regs);
 
 #ifdef __cplusplus
 }

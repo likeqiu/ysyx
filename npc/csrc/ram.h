@@ -28,8 +28,9 @@ typedef struct{
     word_t gpr[32];
     vaddr_t pc;
 } CPU_state
+    
 
-    typedef struct watchpoint
+typedef struct watchpoint
 {
     int NO;
     struct watchpoint *next;
@@ -41,6 +42,7 @@ typedef struct{
     /* TODO: Add more members if necessary */
 
 } WP;
+
 #define NR_WP 32
 extern WP wp_pool[NR_WP];
 extern WP *free_;

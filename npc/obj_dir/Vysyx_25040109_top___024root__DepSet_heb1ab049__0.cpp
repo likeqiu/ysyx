@@ -106,6 +106,19 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     itrace_print(pc__Vcvt, instruction_word__Vcvt, instr_len_bytes__Vcvt);
 }
 
+extern "C" void update_cpu_state(unsigned int pc, const unsigned int* regs);
+
+VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__update_cpu_state_TOP(const VerilatedScope* __Vscopep, const char* __Vfilenamep, IData/*31:0*/ __Vlineno, IData/*31:0*/ pc, VlUnpacked<IData/*31:0*/, 32> regs) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__update_cpu_state_TOP\n"); );
+    // Body
+    unsigned int pc__Vcvt;
+    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) pc__Vcvt = pc;
+    unsigned int regs__Vcvt[32];
+    for (size_t regs__Vidx = 0; regs__Vidx < 32; ++regs__Vidx) regs__Vcvt[regs__Vidx] = (&regs[0])[regs__Vidx];
+    Verilated::dpiContext(__Vscopep, __Vfilenamep, __Vlineno);
+    update_cpu_state(pc__Vcvt, regs__Vcvt);
+}
+
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__ico(Vysyx_25040109_top___024root* vlSelf);
 #endif  // VL_DEBUG
