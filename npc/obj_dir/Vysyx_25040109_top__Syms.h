@@ -31,9 +31,6 @@ class Vysyx_25040109_top__Syms final : public VerilatedSyms {
     // MODULE INSTANCE STATE
     Vysyx_25040109_top___024root   TOP;
 
-    // SCOPE NAMES
-    VerilatedScope __Vscope_ysyx_25040109_top__regfile;
-
     // CONSTRUCTORS
     Vysyx_25040109_top__Syms(VerilatedContext* contextp, const char* namep, Vysyx_25040109_top* modelp);
     ~Vysyx_25040109_top__Syms();
