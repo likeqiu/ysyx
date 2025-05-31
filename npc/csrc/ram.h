@@ -198,6 +198,25 @@ public:
     {
         return size;
     }
+
+    uint8_t *guest_to_host(paddr_t paddr)
+    {
+        if (!in_pmem(paddr))
+        {
+            throw std::out_of_range("Address out of range: " + std::to_string(paddr));
+        }
+        return pmem.data() + (paddr - CONFIG_MBASE);
+    }
+
+    paddr_t gost_to_guest(uint8_t *haddr)
+    {
+        ptrdiff_t offset = haddr - pmem.data();
+        if (offset < 0 || offset >= static_cast<ptrdiff_t>(size))
+        {
+            throw std::out_of_range("Host address out of range");
+        }
+        return static_cast<paddr_t>(offset + CONFIG_MBASE);
+    }
 };
 
 extern PhysicalMemory pmem;
