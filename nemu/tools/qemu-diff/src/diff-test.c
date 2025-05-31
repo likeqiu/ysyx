@@ -27,8 +27,10 @@ void gdb_exit();
 
 void init_isa();
 
+// 将内存数据复制到参考实现（QEMU）
+// direction: 数据传输方向（DIFFTEST_TO_REF 表示主机到 QEMU）
 __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
-  assert(direction == DIFFTEST_TO_REF);
+  assert(direction == DIFFTEST_TO_REF); 
   if (direction == DIFFTEST_TO_REF) {
     bool ok = gdb_memcpy_to_qemu(addr, buf, n);
     assert(ok == 1);
@@ -37,6 +39,7 @@ __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction)
 
 __EXPORT void difftest_regcpy(void *dut, bool direction) {
   union isa_gdb_regs qemu_r;
+  // qemu_r: 存储 QEMU 的寄存器状态
   gdb_getregs(&qemu_r);
   if (direction == DIFFTEST_TO_REF) {
     memcpy(&qemu_r, dut, DIFFTEST_REG_SIZE);

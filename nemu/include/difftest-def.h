@@ -20,7 +20,12 @@
 #include <macro.h>
 #include <generated/autoconf.h>
 
+// 定义 __EXPORT 宏，用于控制符号的可见性
+// __attribute__((visibility("default"))) 确保函数或变量在动态链接库中对外可见
 #define __EXPORT __attribute__((visibility("default")))
+
+// DIFFTEST_TO_DUT: 数据从参考实现（QEMU）传输到待测试设备（Device Under Test）
+// DIFFTEST_TO_REF: 数据从待测试设备传输到参考实现（QEMU）
 enum { DIFFTEST_TO_DUT, DIFFTEST_TO_REF };
 
 #if defined(CONFIG_ISA_x86)

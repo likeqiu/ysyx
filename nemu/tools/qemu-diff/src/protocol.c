@@ -16,17 +16,13 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "common.h"
-#include <ctype.h>
-#include <err.h>
-
-#include <arpa/inet.h>
-
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-
-#include <sys/socket.h>
+#include <ctype.h>       // 提供字符处理函数（如 isdigit、isxdigit、tolower）
+#include <err.h>         // 提供错误处理函数（如 err、errx）
+#include <arpa/inet.h>   // 提供网络地址转换函数（如 inet_aton）
+#include <netinet/in.h>  // 提供 sockaddr_in 结构体
+#include <netinet/tcp.h> // 提供 TCP 选项（如 TCP_NODELAY）
+#include <sys/socket.h>  // 提供 socket API
 #include <sys/types.h>
 
 struct gdb_conn {
