@@ -126,11 +126,6 @@ module ysyx_25040109_top (
     end
 
 
-    always @(posedge clk)begin
-        for(int i=0;i<32;i=i+1)begin
-            regs[i]<=regfile.rf[i];
-        end
-    end
    
     
 endmodule
