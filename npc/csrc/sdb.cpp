@@ -70,39 +70,34 @@ extern "C" int cmd_si(char *args)
 
     int step_num = 1;
     if(args)
-     {
+    {
         sscanf(args, "%d", &step_num);
-     }
-
-     try
-     {
-         for (int i = 0; i < step_num && npc_state!=NPC_STATE::END; i++)
-         {
-             top->clk = 0;
-             
-             top->eval();
-             tfp->dump(sim_time++);
-
-             top->clk = 1;
-             top->eval();
-             tfp->dump(sim_time++);
-
-             
+    }
+    try
+    {
+        for (int i = 0; i < step_num && npc_state!=NPC_STATE::END; i++)
+        {
+            top->clk = 0;
+            top->eval();
+            tfp->dump(sim_time++);
+            top->clk = 1;
+            top->eval();
+            tfp->dump(sim_time++);
 
              // 断点检查
-             if (monitor_pc(top->pc))
-             {
-                 return 0;
-             }
-         }
-     }
-     catch (const std::exception &e)
-     {
-         std::cerr << "Error in cycle " << sim_time << ": " << e.what() << std::endl;
-         npc_state = NPC_STATE::HALT;
-         return 1;
-     }
-     return 0;
+            if (monitor_pc(top->pc))
+            {
+                return 0;
+            }
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error in cycle " << sim_time << ": " << e.what() << std::endl;
+        npc_state = NPC_STATE::HALT;
+        return 1;
+    }
+    return 0;
     }
 
 

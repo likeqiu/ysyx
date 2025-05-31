@@ -11,8 +11,7 @@ alignas(4096)  PhysicalMemory pmem(0x8000000);
 //gcc对齐4k
 NPC_STATE npc_state = NPC_STATE::HALT;
 
-extern "C" int
-printf_finish(uint32_t inst)
+extern "C" int printf_finish(uint32_t inst)
 {
     if (inst == 0x00100073 || inst == 0x00000073)
     {
