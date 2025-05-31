@@ -9,6 +9,7 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 5,DATA_WIDTH=32)
     output [DATA_WIDTH-1:0] rdata1,
     output [DATA_WIDTH-1:0] rdata2,
     output [DATA_WIDTH-1:0] a0_out
+    
 );
 
 
@@ -33,7 +34,7 @@ end
     assign rdata1 = (raddr1==0) ? 0 : rf[raddr1]; 
     assign rdata2 = (raddr2==0) ? 0 : rf[raddr2];
     
-    assign a0_out=rf[10]; 
+    assign a0_out=rf[10];
 
 
 endmodule

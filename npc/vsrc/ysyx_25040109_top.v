@@ -13,6 +13,9 @@ module ysyx_25040109_top (
     wire [6:0] opcode = inst_ifu[6:0];
     wire [2:0] funct3 = inst_ifu[14:12];
 
+    reg [4:0] regs [31:0];
+
+    
 
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
@@ -111,7 +114,7 @@ module ysyx_25040109_top (
 
 
     always @(posedge clk) begin
-        if (!rst  ) begin
+        if (!rst ) begin
             itrace_print(pc,inst_ifu,4);
             //$display("PC=0x%h, inst=0x%h", pc, inst_ifu);
             if (printf_finish(inst_ifu) == 0) begin
@@ -121,6 +124,15 @@ module ysyx_25040109_top (
         end
       
     end
+
+
+    always @(posedge clk)begin
+        for(int i=0;i<32;i=i+1)begin
+            regs[i]=regfile.rf[i];
+        end
+    end
+   
+    
 endmodule
 
       
