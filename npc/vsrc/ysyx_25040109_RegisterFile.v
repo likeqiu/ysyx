@@ -30,6 +30,10 @@ end
     update_cpu_state(pc, rf);
     endtask
 
+    always @(posedge clk) begin
+        send_state_to_dpi;
+    end
+
 
 
 
