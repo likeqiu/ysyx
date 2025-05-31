@@ -121,6 +121,7 @@ struct gdb_conn* gdb_begin_inet(const char *addr, uint16_t port) {
     return NULL;
   }
 
+  // 设置 socket 选项：启用 KEEPALIVE 和禁用 Nagle 算法
   socklen_t tmp;
   tmp = 1;
   int r = setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, (char *)&tmp, sizeof(tmp));
@@ -139,7 +140,10 @@ struct gdb_conn* gdb_begin_inet(const char *addr, uint16_t port) {
   return gdb_begin(fd);
 }
 
-
+// 发送 GDB 数据包
+// out: 输出流
+// command: 要发送的命令数据
+// size: 命令数据长度
 void gdb_end(struct gdb_conn *conn) {
   fclose(conn->in);
   fclose(conn->out);
@@ -156,11 +160,10 @@ static void send_packet(FILE *out, const uint8_t *command, size_t size) {
   // NB: seems neither escaping nor RLE is generally expected by
   // gdbserver.  e.g. giving "invalid hex digit" on an RLE'd address.
   // So just write raw here, and maybe let higher levels escape/RLE.
-
-  fputc('$', out); // packet start
-  fwrite(command, 1, size, out); // payload
-  fprintf(out, "#%02X", sum); // packet end, checksum
-  fflush(out);
+  fputc('$', out);               // 数据包开始标志
+  fwrite(command, 1, size, out); // 发送命令内容
+  fprintf(out, "#%02X", sum);    // 发送校验和（两位十六进制）
+  fflush(out);                   // 刷新输出流
 
   if (ferror(out))
     err(1, "send");
