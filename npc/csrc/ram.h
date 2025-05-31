@@ -15,6 +15,9 @@
 #define CONFIG_PC_RESET_OFFSET 0x0
 #define RESET_VECTOR (PMEM_LEFT + CONFIG_PC_RESET_OFFSET)
 
+extern uint8_t *guest_to_host(paddr_t paddr);
+extern paddr_t gost_to_guest(uint8_t *haddr);
+
 extern word_t expr(char *e, bool *success);
 
 extern void init_wp_pool();

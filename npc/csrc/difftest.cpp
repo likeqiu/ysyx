@@ -1,6 +1,6 @@
 #include<dlfcn.h>
 #include"ram.h"
-#include<utils.h>
+//#include<utils.h>
 
 void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n, bool direction) = NULL;
 void (*ref_difftest_regcpy)(void *dut, bool direction) = NULL;
@@ -48,5 +48,5 @@ void init_difftest(char *ref_so_file,long img_size,int port){
     /*写入日志*/
 
     ref_difftest_init(port);
-    ref_difftest_memcpy(RESET_VECTOR)
+    ref_difftest_memcpy(RESET_VECTOR,)
 }

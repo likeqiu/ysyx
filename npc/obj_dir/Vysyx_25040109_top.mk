@@ -62,6 +62,7 @@ VM_USER_CLASSES = \
 	expr \
 	ftrace \
 	mtrace \
+	paddr \
 	ram \
 	reg \
 	sdb \
@@ -88,6 +89,8 @@ expr.o: csrc/expr.cpp
 ftrace.o: csrc/ftrace.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 mtrace.o: csrc/mtrace.cpp
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+paddr.o: csrc/paddr.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 ram.o: csrc/ram.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
