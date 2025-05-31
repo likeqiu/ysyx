@@ -27,10 +27,9 @@ extern void init_regex();
 typedef struct{
     word_t gpr[32];
     vaddr_t pc;
-} CPU_state
-    
+} CPU_state;
 
-typedef struct 
+typedef struct watchpoint
 {
     int NO;
     struct watchpoint *next;
@@ -41,7 +40,7 @@ typedef struct
 
     /* TODO: Add more members if necessary */
 
-}WP;
+} WP;
 
 #define NR_WP 32
 extern WP wp_pool[NR_WP];
