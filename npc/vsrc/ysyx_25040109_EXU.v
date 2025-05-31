@@ -13,12 +13,12 @@ module ysyx_25040109_EXU (
     output reg_write_en_out,  
     output [31:0] next_pc
 );
+   
 
-    // ALU A 和 B 的多路选择器
     wire [31:0] alu_a, alu_b;
     wire [31:0] alu_out; 
 
-    // ALU A 选择器
+    
     ysyx_25040109_MuxKeyWithDefault #(3, 7, 32) alu_a_select( 
         .out(alu_a),
         .key(opcode),
@@ -44,7 +44,7 @@ module ysyx_25040109_EXU (
     wire branch_taken = (opcode == 7'b1100011) && 
                         ( (funct3 == 3'b000 && rs1_data == rs2_data) || // BEQ
                           (funct3 == 3'b001 && rs1_data != rs2_data) || // BNE
-                          1'b0); // 如果没有条件匹配，默认不跳转
+                          1'b0); 
 
     // 结果选择器
     ysyx_25040109_MuxKeyWithDefault #(4, 7, 32) result_select( 

@@ -22,30 +22,27 @@ module ysyx_25040109_IDU (
     (
         .out(imm),
         .key(opcode),
-        .default_out(32'b0), // inv or default to 0
+        .default_out(32'b0), 
         .lut({
-            7'b0010111, imm_u_ext, // auipc
-            7'b0110111, imm_u_ext, // lui
-            7'b0010011, imm_i_ext, // addi, slti, sltiu, xori, ori, andi, slli, srli, srai
-            7'b0000011, imm_i_ext, // lb, lh, lw, lbu, lhu, jalr
-            7'b0100011, imm_s_ext, // sb, sh, sw
-            7'b1101111, imm_j_ext, // jal
-            7'b1100011, imm_b_ext  // beq, bne, blt, bge, bltu, bgeu
+            7'b0010111, imm_u_ext, 
+            7'b0110111, imm_u_ext, 
+            7'b0010011, imm_i_ext, 
+            7'b0000011, imm_i_ext, 
+            7'b0100011, imm_s_ext, 
+            7'b1101111, imm_j_ext, 
+            7'b1100011, imm_b_ext  
         })
     );
 
     assign rd_addr = inst[11:7];
 
-    // Updated reg_write_select to include R-type, I-type (ALU, Load, JAL, JALR), U-type.
-    // S-type and B-type do not write to rd.
-    // This is a simplified example; a full RISC-V would have more detailed conditions.
- assign reg_write_en = (opcode == 7'b0110111) || // lui
-                          (opcode == 7'b0010111) || // auipc
-                          (opcode == 7'b1101111) || // jal
-                          (opcode == 7'b1100111) || // jalr
-                          (opcode == 7'b0000011) || // lb, lh, lw, lbu, lhu
-                          (opcode == 7'b0010011) || // addi, slti, sltiu, xori, ori, andi, slli, srli, srai
-                          (opcode == 7'b0110011);  // add, sub, sll, slt, sltu, xor, srl, sra, or, and (R-type)
+    assign reg_write_en = (opcode == 7'b0110111) || 
+                          (opcode == 7'b0010111) || 
+                          (opcode == 7'b1101111) || 
+                          (opcode == 7'b1100111) || 
+                          (opcode == 7'b0000011) || 
+                          (opcode == 7'b0010011) || 
+                          (opcode == 7'b0110011);  
 
  
 
