@@ -171,6 +171,7 @@ static void send_packet(FILE *out, const uint8_t *command, size_t size) {
     errx(0, "send: Connection closed");
 }
 
+// 发送 GDB 命令并处理 ACK
 void gdb_send(struct gdb_conn *conn, const uint8_t *command, size_t size) {
   bool acked = false;
   do {
@@ -184,6 +185,7 @@ void gdb_send(struct gdb_conn *conn, const uint8_t *command, size_t size) {
   } while (!acked);
 }
 
+// 接收 GDB 数据包
 static uint8_t* recv_packet(FILE *in, size_t *ret_size, bool* ret_sum_ok) {
   size_t i = 0;
   size_t size = 4096;
@@ -286,7 +288,7 @@ static uint8_t* recv_packet(FILE *in, size_t *ret_size, bool* ret_sum_ok) {
   else
     errx(1, "recv: Unknown connection error");
 }
-
+// 接收 GDB 响应并处理 ACK
 uint8_t* gdb_recv(struct gdb_conn *conn, size_t *size) {
   uint8_t *reply;
   bool acked = false;
@@ -304,6 +306,7 @@ uint8_t* gdb_recv(struct gdb_conn *conn, size_t *size) {
   return reply;
 }
 
+// 启用 GDB 无 ACK 模式  
 const char* gdb_start_noack(struct gdb_conn *conn) {
   static const char cmd[] = "QStartNoAckMode";
   gdb_send(conn, (const uint8_t *)cmd, sizeof(cmd) - 1);

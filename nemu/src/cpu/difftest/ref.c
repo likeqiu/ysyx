@@ -21,15 +21,34 @@
 //_EXPORT 表示一个符号导出宏，它让 difftest_memcpy 函数在编译时被标记为可以被外部程序调用。如果在你的项目中使用动态库（如 .so 或 .dll），这些标记是确保库能够被正确链接的关键部分。
 //// 这些函数应由REF（如Spike）通过动态库实现
 __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
-  assert(0);
+  void *pmem = guest_to_host(addr);
+  if(direction==DIFFTEST_TO_REF)
+  {
+    /*NPC->NEMU*/
+    memcpy(pmem, buf, n);
+  }else
+  {
+    /*NEMU->NPC*/
+    memcpy(buf, pmem, n);
+  }
 }
 
 __EXPORT void difftest_regcpy(void *dut, bool direction) {
-  assert(0);
+  if(direction==DIFFTEST_TO_REF)
+{
+  memcpy(&cpu, dut, DIFFTEST_REG_SIZE);
+}
+else {
+  memcpy(dut, &cpu, DIFFTEST_REG_SIZE);
 }
 
-__EXPORT void difftest_exec(uint64_t n) {
-  assert(0);
+}
+
+
+__EXPORT void
+difftest_exec(uint64_t n)
+{
+  cpu_exec(n);
 }
 
 __EXPORT void difftest_raise_intr(word_t NO) {
