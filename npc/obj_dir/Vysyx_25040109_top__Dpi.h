@@ -31,7 +31,7 @@ extern "C" {
     // DPI import at vsrc/ysyx_25040109_top.v:82:34
     extern void sdb_scan_mem(int addr, int* value);
     // DPI import at vsrc/ysyx_25040109_RegisterFile.v:27:39
-    extern void update_cpu_state(int pc, int regs);
+    extern void update_cpu_state(unsigned int pc, const svOpenArrayHandle regs);
 
 #ifdef __cplusplus
 }

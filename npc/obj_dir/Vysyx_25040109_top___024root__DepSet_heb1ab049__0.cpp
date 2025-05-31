@@ -106,17 +106,18 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     itrace_print(pc__Vcvt, instruction_word__Vcvt, instr_len_bytes__Vcvt);
 }
 
-extern "C" void update_cpu_state(int pc, int regs);
+extern "C" void update_cpu_state(unsigned int pc, const svOpenArrayHandle regs);
 
-VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__regfile__DOT__update_cpu_state_TOP(const VerilatedScope* __Vscopep, const char* __Vfilenamep, IData/*31:0*/ __Vlineno, IData/*31:0*/ pc, IData/*31:0*/ regs) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__regfile__DOT__update_cpu_state_TOP\n"); );
+VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__regfile__DOT__update_cpu_state__Vdpioc2_TOP(const VerilatedScope* __Vscopep, const char* __Vfilenamep, IData/*31:0*/ __Vlineno, IData/*31:0*/ pc, const VlUnpacked<IData/*31:0*/, 32> &regs) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__regfile__DOT__update_cpu_state__Vdpioc2_TOP\n"); );
     // Body
-    int pc__Vcvt;
+    unsigned int pc__Vcvt;
     for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) pc__Vcvt = pc;
-    int regs__Vcvt;
-    for (size_t regs__Vidx = 0; regs__Vidx < 1; ++regs__Vidx) regs__Vcvt = regs;
+    static const int regs__Vopenprops__ulims[2] = {31, 0};
+    static const VerilatedVarProps regs__Vopenprops(VLVT_UINT32, VLVD_IN, VerilatedVarProps::Packed(), 31, 0, VerilatedVarProps::Unpacked(), 1, regs__Vopenprops__ulims);
+    VerilatedDpiOpenVar regs__Vopenarray (&regs__Vopenprops, &regs);
     Verilated::dpiContext(__Vscopep, __Vfilenamep, __Vlineno);
-    update_cpu_state(pc__Vcvt, regs__Vcvt);
+    update_cpu_state(pc__Vcvt, &regs__Vopenarray);
 }
 
 #ifdef VL_DEBUG
