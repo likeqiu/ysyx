@@ -85,7 +85,7 @@ int strncmp(const char *s1, const char *s2, size_t n) {
 void *memset(void *s, int c, size_t n) {
 
   unsigned char *d = s;
-  //  //  void * 不能直接解引用（*s 非法），需要转换为具体类型。
+  //  void * 不能直接解引用（*s 非法），需要转换为具体类型。
   // 一个字节为8位，unsigned char 是最适合操作单个字节的类型，因为它保证是 8 位无符号整数
   while(n--)
   {
