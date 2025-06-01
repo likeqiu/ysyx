@@ -26,9 +26,7 @@ typedef struct
 } MemcpyStat;;
 
 static MemcpyStat memcpy_stats[3][3] = {
-    // [alignment][length]
-    // alignment: 0=aligned, 1=partially aligned, 2=unaligned
-    // length: 0=short, 1=medium, 2=long
+
     {{"aligned", "short", 0, 0}, {"aligned", "medium", 0, 0}, {"aligned", "long", 0, 0}},
     {{"partially aligned", "short", 0, 0}, {"partially aligned", "medium", 0, 0}, {"partially aligned", "long", 0, 0}},
     {{"unaligned", "short", 0, 0}, {"unaligned", "medium", 0, 0}, {"unaligned", "long", 0, 0}}};
@@ -255,7 +253,7 @@ void ftrace_call(uint32_t pc, uint32_t target_addr)
     }
     bool is_memcpy = (strcmp(func_name, "memcpy") == 0);
 
-    // 打印调用信息
+    
     printf("0x%08x: ", pc);
     for (int i = 0; i < indent_level; i++)
     {
@@ -308,7 +306,7 @@ void ftrace_call(uint32_t pc, uint32_t target_addr)
             length_idx = 2;
             length_category = "long";
         }
-        // 记录信息
+        
         printf(" {memcpy: dest=0x%08x, src=0x%08x, size=%u, %s, %s}",dest, src, size, alignment, length_category);
 
         memcpy_stats[align_idx][length_idx].count++;
