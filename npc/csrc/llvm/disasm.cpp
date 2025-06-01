@@ -24,8 +24,6 @@ static bool lib_loaded = false;                                       // 标记�
 
 // 函数：init_disasm_llvm
 // 作用：动态加载LLVM反汇编器共享库，初始化反汇编器
-// 参数：无
-// 返回：无（通过全局变量lib_loaded反映初始化状态）
 extern "C" void init_disasm_llvm()
 {
     // 可能的共享库路径列表
@@ -83,8 +81,6 @@ extern "C" void init_disasm_llvm()
 
 // 函数：free_disasm_llvm
 // 作用：清理LLVM反汇编器资源，关闭动态库
-// 参数：无
-// 返回：无
 extern "C" void free_disasm_llvm()
 {
     // 如果成功加载并初始化，调用清理函数
@@ -109,7 +105,6 @@ extern "C" void free_disasm_llvm()
 //   - pc: 程序计数器（指令地址）
 //   - instruction_word: 32位指令机器码
 //   - instr_len_bytes: 指令长度（字节）
-// 返回：无（直接打印反汇编结果）
 static void objdump_disasm(long long pc, unsigned int instruction_word, int instr_len_bytes)
 {
     char cmd[512];                           // 存储objdump命令
@@ -190,7 +185,6 @@ static void objdump_disasm(long long pc, unsigned int instruction_word, int inst
 //   - pc: 程序计数器（指令地址）
 //   - instruction_word: 32位指令机器码
 //   - instr_len_bytes: 指令长度（字节）
-// 返回：无（直接打印反汇编结果）
 extern "C" void itrace_print(long long pc, unsigned int instruction_word, int instr_len_bytes)
 {
     // 优先尝试使用LLVM反汇编器
