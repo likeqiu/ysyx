@@ -42,8 +42,6 @@ static inline bool map_inside(IOMap *map, paddr_t addr) {
 
 // 内联函数 find_mapid_by_addr，在映射数组中查找包含指定地址的映射
 // - maps: 指向 IOMap 结构体数组的指针，表示所有设备映射
-// - size: 映射数组的大小（即映射数量）
-// - addr: 要查找的物理地址
 // 作用：通过地址定位对应的设备映射，并在差分测试中跳过设备检查
 static inline int find_mapid_by_addr(IOMap *maps, int size, paddr_t addr) {
   int i;
