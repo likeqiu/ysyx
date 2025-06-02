@@ -29,9 +29,7 @@ typedef struct{
     vaddr_t pc;
 } CPU_state;
 
-
-
-
+typedef struct watchpoint WP;
 extern void init_wp_pool();
 extern WP *new_wp(char *expr_str);
 extern void free_wp(WP *wp);
