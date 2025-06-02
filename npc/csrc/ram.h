@@ -33,7 +33,7 @@ typedef struct watchpoint WP;
 extern void init_wp_pool();
 extern void new_wp(char *expr_str);
 extern void free_wp(int NO);
-extern int monitor_pc(vaddr_t pc);
+extern int monitor_point(vaddr_t pc);
 
 enum
 {
