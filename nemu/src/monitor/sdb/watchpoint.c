@@ -127,7 +127,7 @@ int monitor_point(uint32_t cpu_pc)
     {
       
       printf("Hit an breakpoint NO:%-4d addr:0x%-5x\n", wp->NO, wp->old_value);
-      wp = wp->next;
+      
       return 1;
       continue;
     }
