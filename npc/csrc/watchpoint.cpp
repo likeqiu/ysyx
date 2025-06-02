@@ -19,8 +19,8 @@
 extern word_t expr(char *e, bool *success);
 
 #define NR_WP 32
-
-    typedef struct watchpoint {
+    
+typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
   char *str;
@@ -32,8 +32,8 @@ extern word_t expr(char *e, bool *success);
 
 } WP;
 
- WP wp_pool[NR_WP] = {};
- WP *head = NULL, *free_ = NULL;
+static WP wp_pool[NR_WP] = {};
+static WP *head = NULL, *free_ = NULL;
 
 
 WP* new_wp(char *expr_str)
@@ -131,9 +131,34 @@ void init_wp_pool() {
   head = NULL;
   free_ = wp_pool;
 }
+ 
+int monitor_pc(vaddr_t pc)
+{
+  WP *wp = head;
+  for (; wp != nullptr;)
+  {
 
+    if (wp->old_value == pc && wp->type == 'b')
+    {
+      std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
+      wp = wp->next;
+      return 1;
+    }
 
+    bool success = false;
+    word_t new_value = expr(wp->str, &success);
+    if (new_value != wp->old_value && wp->type == 'm')
+    {
+      std::cout << "The value changed from  " << wp->old_value << "       to   " << new_value << std::endl;
 
+      wp->old_value = new_value;
+      return 1;
+    }
+
+    wp = wp->next;
+  }
+  return 0;
+}
 
 /* TODO: Implement the functionality of watchpoint */
 

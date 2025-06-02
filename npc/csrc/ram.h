@@ -20,8 +20,8 @@ extern paddr_t gost_to_guest(uint8_t *haddr);
 
 extern word_t expr(char *e, bool *success);
 
-extern void init_wp_pool();
 extern void init_regex();
+
 
 
 typedef struct{
@@ -29,25 +29,13 @@ typedef struct{
     vaddr_t pc;
 } CPU_state;
 
-typedef struct watchpoint
-{
-    int NO;
-    struct watchpoint *next;
-    char *str;
-    word_t old_value;
-    bool enable;
-    char type; // b,m,n
 
-    /* TODO: Add more members if necessary */
 
-} WP;
 
-#define NR_WP 32
-extern WP wp_pool[NR_WP];
-extern WP *free_;
-extern WP *head;
+extern void init_wp_pool();
 extern WP *new_wp(char *expr_str);
 extern void free_wp(WP *wp);
+extern int monitor_pc(vaddr_t pc);
 
 enum
 {

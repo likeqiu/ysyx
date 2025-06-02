@@ -32,33 +32,7 @@ extern "C" void debug_exu(uint32_t pc, uint32_t inst, uint32_t rs1_data, uint32_
            pc, inst, rs1_data, rd_addr, result);
 }
 
-extern int monitor_pc(paddr_t pc)
-{
-    WP *wp = head;
-    for (; wp != nullptr; )
-    {
 
-        if (wp->old_value == pc && wp->type == 'b')
-        {
-            std::cout << "Hit a breakpoint   0x" << std::hex << wp->old_value << std::endl;
-            wp = wp->next;
-            return 1;
-        }
-
-        bool success = false;
-        word_t new_value = expr(wp->str, &success);
-        if (new_value != wp->old_value && wp->type == 'm')
-        {
-            std::cout << "The value changed from  " << wp->old_value << "       to   " << new_value << std::endl;
-
-            wp->old_value = new_value;
-            return 1;
-        }
-
-        wp = wp->next;
-    }
-    return 0;
-}
 
 extern "C" int cmd_si(char *args)
 {
