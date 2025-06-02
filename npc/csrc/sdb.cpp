@@ -198,9 +198,8 @@ static int cmd_p(char *args)
 int count_watchpoint = 0;
 static int cmd_w(char *args)
 {
-    WP *wp;
-    wp = new_wp(args);
-    printf("watchpoint NO:%-4d type:%-6c set success\n", wp->NO, wp->type);
+
+    new_wp(args);
     return 0;
 }
 
@@ -208,16 +207,8 @@ static int cmd_d(char *args)
 {
     int i = 0;
     int NO = atoi(args);
-    for (i = 0; i < NR_WP;i++)
-    {
-        if(NO==wp_pool[i].NO)
-        {
-            break;
-        }
-    }
-
-    WP *wp = &wp_pool[i];
-    free_wp(wp);
+   
+    free_wp(NO);
     printf("delete watchpoint success\n");
     count_watchpoint--;
     return 0;

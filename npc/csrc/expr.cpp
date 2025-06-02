@@ -14,7 +14,7 @@
 ***************************************************************************************/
 
 
-#include"ram.h"
+#include"common.h"
 #include"reg.h"
 
 /* We use the POSIX regex functions to process regular expressions.
