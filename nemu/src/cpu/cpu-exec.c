@@ -33,6 +33,12 @@ uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 
+ 
+vaddr_t get_cpu_pc()
+{
+  return cpu.pc;
+}
+
 void device_update();
 
 
@@ -46,40 +52,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 
 
 #ifdef CONFIG_WATCHPOINT
-  WP *wp=head ;
-  while(wp!=NULL)
-  {
-
-    
-    if (wp->old_value == cpu.pc && wp->type == 'b')
-    {
-      nemu_state.state = NEMU_STOP;
-      printf("Hit an breakpoint NO:%-4d addr:0x%-5x\n", wp->NO, wp->old_value);
-      wp = wp->next;
-      return;
-      continue;
-    }
-
-    bool sucess;
-    word_t new_value = expr(wp->str, &sucess);
-
-   
-    if(new_value!=wp->old_value && wp->type=='m')
-    {
-      nemu_state.state = NEMU_STOP;
-      
-      if(strcmp(wp->str,"$pc")==0)
-      {
-        printf("Watchpoint %d triggered, %s changed from 0x%08x to 0x%08x\n", wp->NO, wp->str, wp->old_value, new_value);
-      }else{
-      printf("Watchpoint %d triggered, %s changed from %u to %u\n",wp->NO,wp->str,wp->old_value,new_value);
-      }
-      wp->old_value = new_value;
-      return;
-    }
-    wp = wp->next;
-  }
-#endif  
+  monitor_point(cpu.pc);
+#endif
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {

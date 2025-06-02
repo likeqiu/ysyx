@@ -81,10 +81,7 @@ static int cmd_reg_display(char *args){
     isa_reg_display();
   }else if(strcmp(args,"w")==0)
   {
-    for (int i = 0; i < NR_WP;i++)
-    {
-      printf("Watchpoint %-5d   str:%-10s  old_value:%-10u  enable:%-4d  type:%-4c\n ", wp_pool[i].NO, wp_pool[i].str, wp_pool[i].old_value,wp_pool[i].enable,wp_pool[i].type);
-    }
+    printf_point();
   }
   return 0;
 }else {
@@ -201,9 +198,8 @@ static int cmd_w(char *args)
 {
   if(args !=NULL)
   {
-  WP *wp;
-  wp=new_wp(args);
-  printf("watchpoint NO:%-4d type:%-6c set success\n",wp->NO,wp->type);
+  new_wp(args);
+  
   count_watchpoint++;
   printf("you have set %d watchpoint\n", count_watchpoint);
   return 0;
@@ -219,18 +215,10 @@ static int cmd_d(char *args)
 {
   if(args !=NULL)
   {
-  int i = 0;
+  
   int NO = atoi(args);
-  for ( i = 0; i < NR_WP;i++)
-  {
-    if(NO==wp_pool[i].NO)
-    {
-      break;
-    }
-  }
-
-  WP *wp = &wp_pool[i];
-  free_wp(wp);
+  
+  free_wp(NO);
   printf("delete watchpoint success\n");
   count_watchpoint--;
 

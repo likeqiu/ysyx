@@ -31,11 +31,11 @@ typedef struct watchpoint {
 
 } WP;
 
- WP wp_pool[NR_WP] = {};
- WP *head = NULL, *free_ = NULL;
+static WP wp_pool[NR_WP] = {};
+static WP *head = NULL, *free_ = NULL;
 
 
-WP* new_wp(char *expr_str)
+void new_wp(char *expr_str)
 {
   if(free_==NULL){
 
@@ -82,13 +82,15 @@ WP* new_wp(char *expr_str)
     wp->next = head;
     head = wp;
 
-
-    return wp;
+    printf("watchpoint NO:%-4d type:%-6c set success\n", wp->NO, wp->type);
+    return;
 }
-void free_wp(WP *wp)
+void free_wp(int NO)
 {
+  WP *wp = &wp_pool[NO];
 
-  if(wp==NULL){
+  if (wp == NULL)
+  {
     return;
   }
 
@@ -114,7 +116,52 @@ void free_wp(WP *wp)
     printf("Watchpoint %d deleted\n", wp->NO);
 
 }
-  
+
+int monitor_point(uint32_t cpu_pc)
+{
+  WP *wp = head;
+  while (wp != NULL)
+  {
+
+    if (wp->old_value == cpu_pc && wp->type == 'b')
+    {
+      
+      printf("Hit an breakpoint NO:%-4d addr:0x%-5x\n", wp->NO, wp->old_value);
+      wp = wp->next;
+      return 1;
+      continue;
+    }
+
+    bool sucess;
+    word_t new_value = expr(wp->str, &sucess);
+
+    if (new_value != wp->old_value && wp->type == 'm')
+    {
+      
+
+      if (strcmp(wp->str, "$pc") == 0)
+      {
+        printf("Watchpoint %d triggered, %s changed from 0x%08x to 0x%08x\n", wp->NO, wp->str, wp->old_value, new_value);
+      }
+      else
+      {
+        printf("Watchpoint %d triggered, %s changed from %u to %u\n", wp->NO, wp->str, wp->old_value, new_value);
+      }
+      wp->old_value = new_value;
+      return 1;
+    }
+    wp = wp->next;
+  }
+  return 0;
+}
+
+void printf_point()
+{
+  for (int i = 0; i < NR_WP; i++)
+  {
+    printf("Watchpoint %-5d   str:%-10s  old_value:%-10u  enable:%-4d  type:%-4c\n ", wp_pool[i].NO, wp_pool[i].str, wp_pool[i].old_value, wp_pool[i].enable, wp_pool[i].type);
+  }
+}
 
 void init_wp_pool() {
   int i;
@@ -130,9 +177,6 @@ void init_wp_pool() {
   head = NULL;
   free_ = wp_pool;
 }
-
-
-
+  
 
 /* TODO: Implement the functionality of watchpoint */
-

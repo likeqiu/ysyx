@@ -29,25 +29,16 @@ void invalid_inst(vaddr_t thispc);
 #define NEMUTRAP(thispc, code) set_nemu_state(NEMU_END, thispc, code)
 #define INV(thispc) invalid_inst(thispc)
 
-#define NR_WP 32
-typedef struct watchpoint
-{
-    int NO;
-    struct watchpoint *next;
-    char *str;
-    word_t old_value;
-    bool enable;
-    char type;
-} WP;
 
-extern WP wp_pool[NR_WP];
-extern WP *free_;
-extern WP *head;
+typedef struct watchpoint WP;
+extern int monitor_point(uint32_t cpu_pc);
+extern void free_wp(int NO);
+extern void printf_point();
+extern void new_wp(char *expr_str);
+extern void init_wp_pool();
 
 extern word_t expr(char *e, bool *success);
 
-extern WP *new_wp(char *expr_str);
-extern void free_wp(WP *wp);
-extern void init_wp_pool();
+
 
 #endif
