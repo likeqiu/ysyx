@@ -15,7 +15,7 @@
 
 #include "common.h"
 #include<string.h>
-#include"stdio.h"
+
 
 
 #define NR_WP 32
