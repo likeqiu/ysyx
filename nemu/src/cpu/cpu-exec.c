@@ -52,7 +52,11 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 
 
 #ifdef CONFIG_WATCHPOINT
-  monitor_point(cpu.pc);
+  if(monitor_point(cpu.pc))
+  {
+    nemu_state.state = NEMU_STOP;
+  }
+  
 #endif
 }
 
