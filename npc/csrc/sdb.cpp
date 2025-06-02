@@ -107,6 +107,8 @@ static int cmd_info(char *args)
 
     printf("pc = 0x%08x\n",  top->pc);
 
+    printf("补充watchopoint\n");
+
     return 0;
 }
 
