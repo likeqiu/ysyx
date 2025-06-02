@@ -59,7 +59,7 @@ extern "C" int cmd_si(char *args)
             tfp->dump(sim_time++);
 
              // 断点检查
-            if (monitor_pc(top->pc))
+            if (monitor_point(top->pc))
             {
                 return 0;
             }
@@ -135,7 +135,7 @@ static int cmd_c(char *args)
             top->eval();
             tfp->dump(sim_time++);
 
-            if (monitor_pc(top->pc))
+            if (monitor_point(top->pc))
                 return 0;
         }
 
