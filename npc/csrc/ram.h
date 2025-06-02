@@ -31,7 +31,7 @@ typedef struct{
 
 typedef struct watchpoint WP;
 extern void init_wp_pool();
-extern WP *new_wp(char *expr_str);
+extern void new_wp(char *expr_str);
 extern void free_wp(int NO);
 extern int monitor_pc(vaddr_t pc);
 
