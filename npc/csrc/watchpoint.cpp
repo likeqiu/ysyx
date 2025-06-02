@@ -13,9 +13,9 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
-#include "sdb.h"
+#include "ram.h"
 #include <string.h>
-#include<stdio.h>
+
 
 #define NR_WP 32
 
