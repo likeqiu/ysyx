@@ -1,7 +1,6 @@
 # 基本源文件设置
 VSRC = $(wildcard vsrc/*.v)
 CSRC = $(wildcard csrc/*.cpp) $(wildcard csrc/*.c)
-HSRC = $(wildcard include/*.h)
 SRCS = $(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
@@ -107,7 +106,7 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 		--trace-fst --top-module $(TOPNAME) \
 		$(addprefix -LDFLAGS , $(LDFLAGS)) \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
-		$(addprefix -CFLAGS , $(CXXFLAGS) $(INCFLAGS))
+		$(addprefix -CFLAGS , $(CXXFLAGS) $(INC_PATH))
 
 run: waveform
 	@echo "Setting library path and running..."
