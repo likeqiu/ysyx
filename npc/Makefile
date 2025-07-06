@@ -4,7 +4,7 @@ CSRC = $(wildcard csrc/*.cpp) $(wildcard csrc/*.c)
 SRCS = $(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
-INC_PATH = ./include
+INC_PATH = /home/zxj17/ysyx-workbench/npc/include
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
 
