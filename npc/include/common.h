@@ -6,17 +6,11 @@
 #include <stdexcept> //定义了标准异常类
 #include <iostream>  //提供了输入/输出流的功能。
 #include <fstream> //提供了文件流的功能。
-#include <string>
-#include <stdio.h>
-#include<assert.h>
-#include<string.h>
+#include <cstdio>
+#include<cassert>
+#include<cstring>
 
-
-
-#include <stdint.h>
-#include <inttypes.h>
-#include <stdbool.h>
-#include <string.h>
+#include <generated/autoconf.h>
 
 #define word_t uint32_t
 typedef word_t vaddr_t;
