@@ -11,6 +11,7 @@
 #include<cstring>
 
 #include <generated/autoconf.h>
+#include <macro.h>
 
 #define word_t uint32_t
 typedef word_t vaddr_t;
