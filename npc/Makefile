@@ -106,7 +106,7 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 		--trace-fst --top-module $(TOPNAME) \
 		$(addprefix -LDFLAGS , $(LDFLAGS)) \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
-		$(addprefix -CFLAGS , $(CXXFLAGS) $(INC_PATH))
+		$(addprefix -CFLAGS , $(CXXFLAGS) $(INCFLAGS))
 
 run: waveform
 	@echo "Setting library path and running..."
