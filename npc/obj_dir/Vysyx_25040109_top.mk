@@ -39,8 +39,8 @@ VM_USER_CFLAGS = \
 	-O3 \
 	-I/usr/include/SDL2 \
 	-D_REENTRANT \
-	/home/zxj17/ysyx-workbench/npc/include \
-	/home/zxj17/ysyx-workbench/nvboard/usr/include \
+	-I/home/zxj17/ysyx-workbench/npc/include \
+	-I/home/zxj17/ysyx-workbench/nvboard/usr/include \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
