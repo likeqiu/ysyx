@@ -5,7 +5,7 @@
 #include <verilated_fst_c.h>
 #include <verilated.h>
 #include <Vysyx_25040109_top___024root.h>
-#include "common.h"
+#include <common.h>
 #include"mtrace.h"
 
 #define CONFIG_MBASE 0x80000000
