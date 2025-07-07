@@ -38,7 +38,7 @@ ifneq ($(LLVM_CONFIG),)
     LDFLAGS += -ldl
     
     # 将反汇编对象文件加入到源文件中
-    CSRC += $(DISASM_OBJ)
+   # CSRC += $(DISASM_OBJ)
 else
     $(info LLVM not found, disassembly will use objdump fallback)
     LLVM_AVAILABLE = 0
@@ -104,7 +104,6 @@ waveform:
 	@echo "Building waveform with dynamic LLVM support..."
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SRCS) \
 		--trace-fst --top-module $(TOPNAME) \
-		$(addprefix -LDFLAGS , $(LDFLAGS)) \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		$(addprefix -CFLAGS , $(CXXFLAGS) $(INCFLAGS))
 
