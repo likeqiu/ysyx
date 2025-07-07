@@ -41,7 +41,7 @@ VM_USER_CFLAGS = \
 	-D_REENTRANT \
 	-I/home/zxj17/ysyx-workbench/npc/include \
 	-I/home/zxj17/ysyx-workbench/npc/csrc/riscv32 \
-	-I/usr/include/llvm-14/llvm/Support/ \
+	-I/usr/include/llvm-14 \
 	-I/home/zxj17/ysyx-workbench/nvboard/usr/include \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)

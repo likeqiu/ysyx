@@ -4,7 +4,7 @@ CSRC = $(shell find csrc -type f -name '*.c') $(shell find csrc -type f -name '*
 SRCS = $(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
-INC_PATH = /home/zxj17/ysyx-workbench/npc/include  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14
+INC_PATH = /home/zxj17/ysyx-workbench/npc/include  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
 
