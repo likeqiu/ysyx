@@ -1,5 +1,5 @@
 # 基本源文件设置
-VSRC = vsrc/ysyx_25040109_MuxKeyInternal.v
+VSRC = vsrc/ysyx_25040109_top.v
 CSRC = $(shell find csrc -type f -name '*.c') $(shell find csrc -type f -name '*.cpp')
 SRCS = $(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
