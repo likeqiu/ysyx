@@ -5,11 +5,11 @@
 
 enum
 {
-    NEMU_RUNNING,
-    NEMU_STOP,
-    NEMU_END,
-    NEMU_ABORT,
-    NEMU_QUIT
+    NPC_RUNNING,
+    NPC_STOP,
+    NPC_END,
+    NPC_ABORT,
+    NPC_QUIT
 };
 
 typedef struct
