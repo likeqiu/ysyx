@@ -64,9 +64,6 @@ static int cmd_help(char *args){
     return 0;
 }
 
-void sdb_set_batch_mode(){
-    is_batch_mode = true;
-}
 
 void sdb_set_batch_mode()
 {
