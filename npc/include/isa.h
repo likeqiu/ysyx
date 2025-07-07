@@ -2,7 +2,7 @@
 #define __ISA_H__
 
 
-#include <npc/csrc/riscv32/isa-def.h>
+#include<riscv32/isa-def.h>
 
 typedef riscv32_CPU_state CPU_state;
 typedef riscv32_ISADecodeInfo ISADecodeInfo;
