@@ -104,7 +104,6 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 	@echo "Building waveform with dynamic LLVM support..."
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SRCS) \
 		--trace-fst --top-module $(TOPNAME) \
-		$(addprefix -LDFLAGS , $(LDFLAGS)) \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		$(addprefix -CFLAGS , $(CXXFLAGS) $(INCFLAGS))
 
