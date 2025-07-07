@@ -45,11 +45,15 @@ enum { MEM_RET_OK, MEM_RET_FAIL, MEM_RET_CROSS_PAGE };
 int isa_mmu_check(vaddr_t vaddr, int len, int type);
 #endif
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type);
+// 将虚拟地址（vaddr）翻译为物理地址（paddr_t），
 
 // interrupt/exception
 vaddr_t isa_raise_intr(word_t NO, vaddr_t epc);
+// ：触发 RISC-V 中断或异常，并返回异常处理程序的入口地址。
 #define INTR_EMPTY ((word_t)-1)
+// 0xFFFFFFFF,用于表示没有待处理的中断或异常。
 word_t isa_query_intr();
+// ：查询当前是否有待处理的中断或异常，并返回中断/异常编号
 
 // difftest
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc);

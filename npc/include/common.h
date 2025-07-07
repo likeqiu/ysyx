@@ -1,14 +1,10 @@
-#ifndef _COMMON_H_
-#define _COMMON_H_
+#ifndef __COMMON_H__
+#define __COMMON_H__
 
-#include <vector> //:vector 是一个序列容器，它封装了动态大小的数组。
-#include <cstdint> //提供了固定宽度的整型类型。
-#include <stdexcept> //定义了标准异常类
-#include <iostream>  //提供了输入/输出流的功能。
-#include <fstream> //提供了文件流的功能。
-#include <cstdio>
-#include <cassert>
-#include <cstring>
+#include <stdint.h>
+#include <inttypes.h>
+#include <stdbool.h>
+#include <string.h>
 
 #include <generated/autoconf.h>
 #include <macro.h>
