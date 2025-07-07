@@ -2,8 +2,7 @@
 #define __CPU_CPU_H__
 
 #include <common.h>
-#include <iringbuf.h>
-#include <mtrace.h>
+
 
 void cpu_exec(uint64_t n);
 

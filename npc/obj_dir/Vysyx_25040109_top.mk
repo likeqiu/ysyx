@@ -57,19 +57,27 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
-	difftest \
-	expr \
-	ftrace \
-	mtrace \
+	cpu-exec \
+	mmio \
+	hostcall \
+	init \
 	paddr \
-	ram \
-	reg \
+	vaddr \
+	monitor \
 	sdb \
-	watchpoint \
+	log \
+	state \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
-	csrc \
+	csrc/cpu \
+	csrc/device/io \
+	csrc/engine \
+	csrc/engine/interpreter \
+	csrc/memory \
+	csrc/monitor \
+	csrc/monitor/sdb \
+	csrc/utils \
 
 
 ### Default rules...
@@ -81,23 +89,25 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-difftest.o: csrc/difftest.cpp
+cpu-exec.o: csrc/cpu/cpu-exec.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-expr.o: csrc/expr.cpp
+mmio.o: csrc/device/io/mmio.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-ftrace.o: csrc/ftrace.cpp
+hostcall.o: csrc/engine/hostcall.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-mtrace.o: csrc/mtrace.cpp
+init.o: csrc/engine/interpreter/init.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-paddr.o: csrc/paddr.cpp
+paddr.o: csrc/memory/paddr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-ram.o: csrc/ram.cpp
+vaddr.o: csrc/memory/vaddr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-reg.o: csrc/reg.c
+monitor.o: csrc/monitor/monitor.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-sdb.o: csrc/sdb.cpp
+sdb.o: csrc/monitor/sdb/sdb.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-watchpoint.o: csrc/watchpoint.cpp
+log.o: csrc/utils/log.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+state.o: csrc/utils/state.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
