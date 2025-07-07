@@ -5,7 +5,7 @@
 #include "sdb.h"
 #include <memory/vaddr.h>
 
-static is_batch_mode = false;
+static int is_batch_mode = false;
 
 static char* rl_gets(){
     static char *line_read = NULL;
@@ -77,7 +77,7 @@ void sdb_mainloop()
 {
     if (is_batch_mode)
     {
-        cmd_c(NULL);
+        //cmd_c(NULL);
         return;
     }
 
