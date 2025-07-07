@@ -1,6 +1,6 @@
 # 基本源文件设置
 VSRC = vsrc/ysyx_25040109_top.v
-CSRC = $(shell find csrc -type f -name '*.c') $(shell find csrc -type f -name '*.cpp')
+CSRC = $(shell find csrc -type f -name '*.c') $(shell find csrc -type f -name '*.cpp' -not -path 'csrc/llvm/*')
 SRCS = $(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
@@ -38,11 +38,11 @@ ifneq ($(LLVM_CONFIG),)
     #LDFLAGS += -ldl
     
     # 将反汇编对象文件加入到源文件中
-   # CSRC += $(DISASM_OBJ)
+    #CSRC += $(DISASM_OBJ)
 else
     $(info LLVM not found, disassembly will use objdump fallback)
     LLVM_AVAILABLE = 0
-   # LDFLAGS += -ldl
+    #LDFLAGS += -ldl
    # CSRC += $(DISASM_OBJ)
 endif
 
@@ -104,6 +104,7 @@ waveform:
 	@echo "Building waveform with dynamic LLVM support..."
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SRCS) \
 		--trace-fst --top-module $(TOPNAME) \
+		$(addprefix -LDFLAGS , $(LDFLAGS)) \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		$(addprefix -CFLAGS , $(CXXFLAGS) $(INCFLAGS))
 
