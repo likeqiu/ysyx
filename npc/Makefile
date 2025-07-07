@@ -35,14 +35,14 @@ ifneq ($(LLVM_CONFIG),)
     LLVM_LIBS := $(shell $(LLVM_CONFIG) --libs core mc mcdisassembler support)
     
     # 主程序只需要链接dl库（用于动态加载）
-    LDFLAGS += -ldl
+    #LDFLAGS += -ldl
     
     # 将反汇编对象文件加入到源文件中
    # CSRC += $(DISASM_OBJ)
 else
     $(info LLVM not found, disassembly will use objdump fallback)
     LLVM_AVAILABLE = 0
-    LDFLAGS += -ldl
+   # LDFLAGS += -ldl
    # CSRC += $(DISASM_OBJ)
 endif
 
