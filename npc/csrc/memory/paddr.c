@@ -2,7 +2,6 @@
 #include <memory/host.h>
 #include <memory/paddr.h>
 #include <device/mmio.h>
-#include <mtrace.h>
 #include <isa.h>
 
 #if defined(CONFIG_PMEM_MALLOC)
