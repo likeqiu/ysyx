@@ -1,5 +1,6 @@
 #include <cpu/cpu.h>
 #include<locale.h>
+#include<isa.h>
 
 
 #define MAX_INST_TO_PRINT 100
