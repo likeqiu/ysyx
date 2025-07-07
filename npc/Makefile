@@ -99,11 +99,12 @@ sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 		$(addprefix -CFLAGS , $(CXXFLAGS)) \
 		$(addprefix -LDFLAGS , $(LDFLAGS))
 
-waveform: ensure-llvm-deps $(COMPILE_DEPS)
+waveform: 
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building waveform with dynamic LLVM support..."
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SRCS) \
 		--trace-fst --top-module $(TOPNAME) \
+		$(addprefix -LDFLAGS , $(LDFLAGS)) \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		$(addprefix -CFLAGS , $(CXXFLAGS) $(INCFLAGS))
 
