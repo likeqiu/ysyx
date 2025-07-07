@@ -76,7 +76,7 @@ module ysyx_25040109_top (
 
 
 
-    import "DPI-C" function void pmem_read(input int addr, output int data);
+   /* import "DPI-C" function void pmem_read(input int addr, output int data);
     import "DPI-C" function void pmem_write(input int addr, input int data, input int len);
     import "DPI-C" function int printf_finish(input int inst);  
     import "DPI-C" function void sdb_scan_mem(input int addr, output int value);
@@ -125,7 +125,7 @@ module ysyx_25040109_top (
         end
       
     end
-
+*/
 
    
     
