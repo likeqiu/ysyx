@@ -54,12 +54,16 @@ static int parse_args(int argc,char *argv[]){
     if(argc>1){
     img_file = argv[1];
     }
+
+
     return 0;
 }
 
 void init_monitor(int argc, char *argv[])
 {
     parse_args(argc, argv);
+
+    long img_size = load_img();
 
     //init_sdb();
     init_mem();
