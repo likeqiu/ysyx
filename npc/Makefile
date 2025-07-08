@@ -1,10 +1,10 @@
 # 基本源文件设置
-VSRC = vsrc/ysyx_25040109_top.v
+VSRC = $(wildcard /home/zxj17/ysyx-workbench/npc/vsrc/*.v)
 CSRC = $(shell find csrc -type f -name '*.c') $(shell find csrc -type f -name '*.cpp' -not -path 'csrc/llvm/*')
 SRCS = $(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
-INC_PATH = /home/zxj17/ysyx-workbench/npc/include  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/
+INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
 
@@ -138,6 +138,13 @@ endif
 	@echo "Source files: $(words $(CSRC)) C/C++ files, $(words $(VSRC)) Verilog files"
 	@echo "Dependencies: $(COMPILE_DEPS)"
 	@echo "LD_LIBRARY_PATH will include: $(shell pwd)/$(LLVM_DIR)"
+
+check:
+	@echo "Verilog : $(VSRC)"
+	@echo "\n"
+	@echo "C/CPP   : $(CSRC)"
+	@echo "\n"
+	@echo "INC_PATH: $(INC_PATH)"	
 
 clean:
 	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp sim.fst
