@@ -140,7 +140,7 @@ endif
 	@echo "LD_LIBRARY_PATH will include: $(shell pwd)/$(LLVM_DIR)"
 
 clean:
-	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp
+	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp sim.fst
 	rm -f $(LLVM_WRAPPER_LIB) $(DISASM_OBJ)
 
 
