@@ -40,7 +40,7 @@ void cpu_exec(uint64_t n){
     case NPC_END:
     case NPC_ABORT:
     case NPC_QUIT:
-        std::cout << " Program execution has ended.To restart the program, exit NEMU and run again."<<endl;
+        std::cout << " Program execution has ended.To restart the program, exit NEMU and run again."<<std::endl;
         return;
     default:
         npc_state.state = NPC_RUNNING;
