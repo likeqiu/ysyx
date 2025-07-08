@@ -12,15 +12,16 @@ static bool g_print_step = false;
  
 static void exec_once(){
 
-    printf("1111\n");
     top->clk = 0;
     top->eval();
     tfp->dump(sim_time++);
+    top->clk = 1;
     top->eval();
     tfp->dump(sim_time++);
 }
 
-static void execute(uint64_t n){
+static void execute(uint64_t n)
+{
     for (; n > 0;n--){
         if (Verilated::gotFinish())
         {
