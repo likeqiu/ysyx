@@ -6,13 +6,13 @@ module ysyx_25040109_IFU (
     /* verilator lint_on UNUSEDSIGNAL */
    output reg [31:0] inst_ifu  
 );
-    //import "DPI-C" function void pmem_read(input int addr, output int data);
+    import "DPI-C" function void pmem_read(input int addr, output int data);
 
     wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
 
 always @(*) begin
     if (pc_valid) begin
-       // pmem_read(pc, inst_ifu);
+        pmem_read(pc, inst_ifu);
     end else begin
         inst_ifu = 32'h0;
     end

@@ -76,13 +76,13 @@ module ysyx_25040109_top (
 
 
 
-   /* import "DPI-C" function void pmem_read(input int addr, output int data);
+    import "DPI-C" function void pmem_read(input int addr, output int data);
     import "DPI-C" function void pmem_write(input int addr, input int data, input int len);
     import "DPI-C" function int printf_finish(input int inst);  
     import "DPI-C" function void sdb_scan_mem(input int addr, output int value);
     import "DPI-C" function void debug_exu(input int pc, input int inst, input int rs1_data, input int rd_addr, input int result);
-    import "DPI-C" function void mtrace_record(byte tp,int addr,int len,int  data);
-    import "DPI-C" function void itrace_print( int pc, int instruction_word, int instr_len_bytes);
+    //import "DPI-C" function void mtrace_record(byte tp,int addr,int len,int  data);
+    //import "DPI-C" function void itrace_print( int pc, int instruction_word, int instr_len_bytes);
    
 
    
@@ -101,7 +101,7 @@ module ysyx_25040109_top (
         mem_data = 32'bx; 
         if (is_lw && addr_valid) begin
             pmem_read(mem_addr, mem_data); 
-            mtrace_record(8'd82,mem_addr,4,mem_data);//82 "R"
+            //mtrace_record(8'd82,mem_addr,4,mem_data);//82 "R"
         end
     end
 
@@ -109,14 +109,14 @@ module ysyx_25040109_top (
     always @(posedge clk) begin
         if ( is_sw && addr_valid ) begin
             pmem_write(mem_addr, rs2_data, 4);
-            mtrace_record(8'd87,mem_addr,4,rs2_data);//87 "W"
+            //mtrace_record(8'd87,mem_addr,4,rs2_data);//87 "W"
         end
     end
 
 
     always @(posedge clk) begin
         if (!rst ) begin
-            itrace_print(pc,inst_ifu,4);
+            //itrace_print(pc,inst_ifu,4);
             //$display("PC=0x%h, inst=0x%h", pc, inst_ifu);
             if (printf_finish(inst_ifu) == 0) begin
                 $finish;
@@ -125,7 +125,7 @@ module ysyx_25040109_top (
         end
       
     end
-*/
+
 
    
     
