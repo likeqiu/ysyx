@@ -69,6 +69,7 @@ VM_USER_CLASSES = \
 	log \
 	state \
 	verilog-main \
+	verilog \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
@@ -81,6 +82,7 @@ VM_USER_DIR = \
 	csrc/monitor \
 	csrc/monitor/sdb \
 	csrc/utils \
+	csrc/verilog \
 
 
 ### Default rules...
@@ -115,6 +117,8 @@ log.o: csrc/utils/log.c
 state.o: csrc/utils/state.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 verilog-main.o: csrc/verilog-main.cpp
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+verilog.o: csrc/verilog/verilog.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
