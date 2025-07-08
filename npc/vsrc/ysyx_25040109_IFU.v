@@ -11,6 +11,7 @@ module ysyx_25040109_IFU (
     wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
 
 always @(*) begin
+    inst_ifu=32'b1;
     if (pc_valid) begin
         pmem_read(pc, inst_ifu);
     end else begin
