@@ -38,6 +38,7 @@ static long load_img(){
 
     fseek(fp, 0, SEEK_END);
     long size = ftell(fp);
+    printf("111  : %ld", size);
 
     fseek(fp, 0, SEEK_SET);
     int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
@@ -64,7 +65,7 @@ void init_monitor(int argc, char *argv[])
     parse_args(argc, argv);
 
     long img_size = load_img();
-    printf("111  : %ld", img_size);
+    printf("111  : %ld\n", img_size);
 
     //init_sdb();
     init_mem();
