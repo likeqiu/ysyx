@@ -30,6 +30,23 @@ static int cmd_q(char *args){
     return -1;
 }
 
+static int cmd_c(char *args){
+    cpu_exec(-1);
+    return 0;
+}
+
+static int cmd_si(char *args){
+    int num = 0;
+    if(args != NULL){
+        sscanf(args, "%d", &num);
+    }else{
+        num = 1;
+    }
+
+    cpu_exec(num);
+    return 0;
+}
+
 static struct 
 {
     const char *name;
@@ -38,6 +55,8 @@ static struct
 } cmd_table[] = {
     {"help", "Display information about all supported commands", cmd_help},
     {"q","Exit NPC",cmd_q},
+    {"si","Directly execute n times,(npc: si n)",cmd_si},
+    {"c","Continue the execution of the program",cmd_c},
 };
 
 #define NR_CMD ARRLEN(cmd_table)

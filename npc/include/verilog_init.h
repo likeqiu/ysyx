@@ -2,8 +2,6 @@
 #define __VERILOG_INIT_H__
 
 
-
-
 #include <Vysyx_25040109_top.h>
 #include <verilated_fst_c.h>
 #include <verilated.h>
