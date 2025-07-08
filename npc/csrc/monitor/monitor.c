@@ -29,7 +29,6 @@ static char *img_file = NULL;
 
 static long load_img(){
     if(img_file == NULL){
-        printf("222\n");
         Log("No image is given. Use the default build-in image.");
         return 4096;
     }
@@ -66,7 +65,7 @@ void init_monitor(int argc, char *argv[])
     parse_args(argc, argv);
 
     long img_size = load_img();
-    printf("111  : %ld\n", img_size);
+    printf("111  : %ld \n", img_size);
 
     //init_sdb();
     init_mem();
