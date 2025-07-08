@@ -117,7 +117,7 @@ module ysyx_25040109_top (
     always @(posedge clk) begin
         if (!rst ) begin
             //itrace_print(pc,inst_ifu,4);
-            //$display("PC=0x%h, inst=0x%h", pc, inst_ifu);
+            $display("PC=0x%h, inst=0x%h", pc, inst_ifu);
             if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end
