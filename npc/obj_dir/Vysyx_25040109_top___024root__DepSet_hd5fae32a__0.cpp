@@ -14,7 +14,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___ico_sequent__TOP__0(Vysyx_2504
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___ico_sequent__TOP__0\n"); );
     // Body
-    VL_WRITEF("         1\n\n");
     if (VL_UNLIKELY(((~ (IData)(vlSelf->rst)) & ((0x80000000U 
                                                   <= vlSelf->pc) 
                                                  & (0x87ffffffU 
@@ -460,7 +459,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         = vlSelf->pc;
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__data_list[2U] 
         = vlSelf->pc;
-    VL_WRITEF("         1\n\n");
     if (VL_UNLIKELY(((~ (IData)(vlSelf->rst)) & ((0x80000000U 
                                                   <= vlSelf->pc) 
                                                  & (0x87ffffffU 

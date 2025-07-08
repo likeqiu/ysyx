@@ -169,7 +169,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
         = vlSelf->pc;
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__data_list[2U] 
         = vlSelf->pc;
-    VL_WRITEF("         1\n\n");
     if (VL_UNLIKELY(((~ (IData)(vlSelf->rst)) & ((0x80000000U 
                                                   <= vlSelf->pc) 
                                                  & (0x87ffffffU 
