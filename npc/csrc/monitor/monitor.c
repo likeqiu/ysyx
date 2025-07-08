@@ -65,10 +65,12 @@ void init_monitor(int argc, char *argv[])
     parse_args(argc, argv);
 
     long img_size = load_img();
+    printf("3333\n");
     printf("222  : %ld \n", img_size);
 
     //init_sdb();
     init_mem();
+    printf("14444\n");
     welcome();
 }
 
