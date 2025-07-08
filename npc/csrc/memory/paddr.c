@@ -32,6 +32,10 @@ static void out_of_bound(paddr_t addr)
 
 void init_mem()
 {
+    for (int i = 0; i < 16; ++i)
+    {
+        printf("pmem[%d] = 0x%02x\n", i, pmem[i]);
+    }
 #if defined(CONFIG_PMEM_MALLOC)
     pmem = malloc(CONFIG_MSIZE);
     assert(pmem);
