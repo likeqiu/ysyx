@@ -14,11 +14,14 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___ico_sequent__TOP__0(Vysyx_2504
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___ico_sequent__TOP__0\n"); );
     // Body
-    if (((~ (IData)(vlSelf->rst)) & ((0x80000000U <= vlSelf->pc) 
-                                     & (0x87ffffffU 
-                                        >= vlSelf->pc)))) {
+    VL_WRITEF("         1\n\n");
+    if (VL_UNLIKELY(((~ (IData)(vlSelf->rst)) & ((0x80000000U 
+                                                  <= vlSelf->pc) 
+                                                 & (0x87ffffffU 
+                                                    >= vlSelf->pc))))) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->pc, vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__3__data);
         vlSelf->ysyx_25040109_top__DOT__inst_ifu = vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__3__data;
+        VL_WRITEF("%10#\n\n",32,vlSelf->ysyx_25040109_top__DOT__inst_ifu);
     } else {
         vlSelf->ysyx_25040109_top__DOT__inst_ifu = 0U;
     }
@@ -457,11 +460,14 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         = vlSelf->pc;
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__data_list[2U] 
         = vlSelf->pc;
-    if (((~ (IData)(vlSelf->rst)) & ((0x80000000U <= vlSelf->pc) 
-                                     & (0x87ffffffU 
-                                        >= vlSelf->pc)))) {
+    VL_WRITEF("         1\n\n");
+    if (VL_UNLIKELY(((~ (IData)(vlSelf->rst)) & ((0x80000000U 
+                                                  <= vlSelf->pc) 
+                                                 & (0x87ffffffU 
+                                                    >= vlSelf->pc))))) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__pmem_read_TOP(vlSelf->pc, vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__3__data);
         vlSelf->ysyx_25040109_top__DOT__inst_ifu = vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__pmem_read__3__data;
+        VL_WRITEF("%10#\n\n",32,vlSelf->ysyx_25040109_top__DOT__inst_ifu);
     } else {
         vlSelf->ysyx_25040109_top__DOT__inst_ifu = 0U;
     }
