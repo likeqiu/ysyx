@@ -64,6 +64,7 @@ void init_monitor(int argc, char *argv[])
     parse_args(argc, argv);
 
     long img_size = load_img();
+    printf("111  : %ld", img_size);
 
     //init_sdb();
     init_mem();
