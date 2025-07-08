@@ -34,7 +34,7 @@ static void execute(uint64_t n){
     }
 }
 
-extern "C"  void cpu_exec(uint64_t n){
+void cpu_exec(uint64_t n){
     g_print_step = (n < MAX_INST_TO_PRINT);
     switch (npc_state.state){
     case NPC_END:
