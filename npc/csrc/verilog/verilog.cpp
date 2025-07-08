@@ -6,6 +6,7 @@
 
 extern "C" void pmem_read(paddr_t addr,uint32_t *data){
     *data = paddr_read(addr, 4);
+    printf("1111: 0x%x\n", *data);
 }
 
 extern "C" void pmem_write(paddr_t addr, uint32_t data,uint32_t len){
