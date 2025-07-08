@@ -12,8 +12,10 @@ module ysyx_25040109_IFU (
 
 always @(*) begin
     inst_ifu=32'b1;
+    $display("%d\n",inst_ifu);
     if (pc_valid) begin
         pmem_read(pc, inst_ifu);
+        $display("%d\n",inst_ifu);
     end else begin
         inst_ifu = 32'h0;
     end
