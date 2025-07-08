@@ -9,9 +9,7 @@
 #include <verilated.h>
 #include <Vysyx_25040109_top___024root.h>
 
-Vysyx_25040109_top *top = new Vysyx_25040109_top;
-VerilatedFstC *tfp = new VerilatedFstC;
-vluint64_t sim_time = 0;
+
 
 extern "C" void init_verilog(int argc, char **argv);
 extern "C" void clear_verilog();
