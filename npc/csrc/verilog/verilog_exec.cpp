@@ -9,8 +9,8 @@
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0;
 static bool g_print_step = false;
-
-extern "C" static void exec_once(){
+ 
+static void exec_once(){
 
     top->clk = 0;
     top->eval();
@@ -19,7 +19,7 @@ extern "C" static void exec_once(){
     tfp->dump(sim_time++);
 }
 
-extern "C" static void execute(uint64_t n){
+static void execute(uint64_t n){
     for (; n > 0;n--){
         if (Verilated::gotFinish())
         {
@@ -34,7 +34,7 @@ extern "C" static void execute(uint64_t n){
     }
 }
 
-extern "C" static void cpu_exec(uint64_t n){
+extern "C"  void cpu_exec(uint64_t n){
     g_print_step = (n < MAX_INST_TO_PRINT);
     switch (npc_state.state){
     case NPC_END:
