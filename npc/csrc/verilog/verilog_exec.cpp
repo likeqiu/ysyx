@@ -12,6 +12,7 @@ static bool g_print_step = false;
  
 static void exec_once(){
 
+    printf("1111\n");
     top->clk = 0;
     top->eval();
     tfp->dump(sim_time++);
