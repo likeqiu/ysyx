@@ -5,7 +5,7 @@
 
 
 void cpu_exec(uint64_t n);
-
+void cmd_reg_info(char *args);
 void set_npc_state(int state, vaddr_t pc, int halt_ret);
 void invalid_inst(vaddr_t thispc);
 

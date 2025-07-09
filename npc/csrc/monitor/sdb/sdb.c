@@ -15,7 +15,7 @@ static char* rl_gets(){
         line_read = NULL;
     }
 
-    line_read = readline("(nemu) ");
+    line_read = readline("(npc) ");
     if(line_read && *line_read){
         add_history(line_read);
     }
@@ -47,6 +47,12 @@ static int cmd_si(char *args){
     return 0;
 }
 
+
+static int cmd_info(char *args){
+    cmd_reg_info(args);
+    return 0;
+}
+
 static struct 
 {
     const char *name;
@@ -57,6 +63,8 @@ static struct
     {"q","Exit NPC",cmd_q},
     {"si","Directly execute n times,(npc: si n)",cmd_si},
     {"c","Continue the execution of the program",cmd_c},
+    {"info","Display all the reg",cmd_info},
+    
 };
 
 #define NR_CMD ARRLEN(cmd_table)

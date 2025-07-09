@@ -33,3 +33,5 @@ extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
     cpu.pc = pc;
     std::memcpy(cpu.gpr, regs, sizeof(cpu.gpr));
 }
+
+
