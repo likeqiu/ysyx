@@ -57,7 +57,7 @@ void cmd_reg_info(char *args)
 {
     for (int i = 0; i < 32; i++)
     {
-        printf("x[%d] = 0x%08x\n", i, top->rootp->ysyx_25040109_top__DUT__regfile__DOT__rf[i]);
+        printf("x[%d] = 0x%08x\n", i, top->rootp->ysyx_25040109_top__DOT__regfile__DOT__rf[i]);
     }
-    
+
 }
