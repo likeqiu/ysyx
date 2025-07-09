@@ -111,7 +111,7 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 run: waveform
 	@echo "Setting library path and running..."
 	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH"
-	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./obj_dir/V$(TOPNAME) $(IMG)
+	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./obj_dir/V$(TOPNAME) $(IMG) +verilator+trace
 
 look:
 	gtkwave sim.fst
