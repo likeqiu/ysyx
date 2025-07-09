@@ -21,6 +21,8 @@ extern "C" void init_verilog(int argc, char **argv)
         top->eval();
         tfp->dump(sim_time++);
         top->rst = 0;
+
+        std::cout << "After reset: PC = 0x" << std::hex << top->pc << std::dec << std::endl;
 }
 
 
