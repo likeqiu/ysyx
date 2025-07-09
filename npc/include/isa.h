@@ -5,6 +5,7 @@
 #include<isa-def.h>
 
 
+
 typedef riscv32_CPU_state CPU_state;
 typedef riscv32_ISADecodeInfo ISADecodeInfo;
 
