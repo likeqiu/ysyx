@@ -65,8 +65,8 @@ void init_monitor(int argc, char *argv[])
     parse_args(argc, argv);
 
     long img_size = load_img();
-
-    //init_sdb();
+    init_verilog();
+    // init_sdb();
     init_mem();
     welcome();
 }
