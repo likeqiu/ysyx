@@ -1,5 +1,6 @@
 #include <isa.h>
 #include <memory/paddr.h>
+#include<verilog_init.h>
 
 
 void init_rand();
@@ -60,14 +61,14 @@ static int parse_args(int argc,char *argv[]){
     return 0;
 }
 
-extern void init_verilog(int argc, char **argv);
+
 
 void init_monitor(int argc, char *argv[])
 {
     parse_args(argc, argv);
 
     long img_size = load_img();
-    init_verilog( argc,argv);
+    init_verilog(argc,argv);
     // init_sdb();
     init_mem();
     welcome();
