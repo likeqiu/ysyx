@@ -50,7 +50,7 @@ static int cmd_si(char *args){
 
 static int cmd_info(char *args){
     cmd_reg_info(args);
-    printf("0x%08x\n", cpu.pc);
+    printf("pc: 0x%08x\n", cpu.pc);
     return 0;
 }
 
