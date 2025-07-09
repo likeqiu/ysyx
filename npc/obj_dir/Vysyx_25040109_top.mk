@@ -47,6 +47,7 @@ VM_USER_CFLAGS = \
 	-I/home/zxj17/ysyx-workbench/npc/csrc/riscv32 \
 	-I/usr/include/llvm-14 \
 	-I/usr/include/llvm-c-14/ \
+	-I/home/zxj17/ysyx-workbench/npc/csrc/riscv32/local-include \
 	-I/home/zxj17/ysyx-workbench/nvboard/usr/include \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
@@ -70,6 +71,7 @@ VM_USER_CLASSES = \
 	monitor \
 	sdb \
 	npc-main \
+	reg \
 	log \
 	state \
 	verilog-main \
@@ -86,6 +88,7 @@ VM_USER_DIR = \
 	csrc/memory \
 	csrc/monitor \
 	csrc/monitor/sdb \
+	csrc/riscv32 \
 	csrc/utils \
 	csrc/verilog \
 
@@ -116,6 +119,8 @@ monitor.o: csrc/monitor/monitor.c
 sdb.o: csrc/monitor/sdb/sdb.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 npc-main.o: csrc/npc-main.cpp
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+reg.o: csrc/riscv32/reg.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 log.o: csrc/utils/log.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
