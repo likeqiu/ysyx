@@ -1,4 +1,5 @@
 #include<verilog_init.h>
+#include<iostream>
 
 Vysyx_25040109_top *top = new Vysyx_25040109_top;
 VerilatedFstC *tfp = new VerilatedFstC;
