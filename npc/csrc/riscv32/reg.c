@@ -9,7 +9,19 @@ const char *regs[] = {
 };
 
 
+word_t isa_reg_str2val(const char *s,bool *success){
+    if(strcmp("pc",s) == 0){
+        *success = true;
+        return cpu.pc;
+    }else{
+        for (int i = 0; i < 32;i++){
+            if(strcmp(regs[i],s) == 0){
+                *success = true;
+                return gpr(i);
+            }
+        }
+    }
 
-
-
-
+    *success = false;
+    return 0;
+}
