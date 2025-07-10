@@ -49,9 +49,31 @@ static int cmd_si(char *args){
 
 
 static int cmd_info(char *args){
-    cmd_reg_info(args);
-    printf("$pc: 0x%08x\n", cpu.pc);
+    if(args != NULL){
+        if(strcmp(args,"r") == 0)
+        {
+            cmd_reg_info(args);
+            printf("$pc: 0x%08x\n", cpu.pc);
+        }
+    }else if(strcmp(args,"w") == 0){
+
+    }else{
+        printf("missing parameter (info r or w)\n");
+    }
     return 0;
+}
+
+static int cmd_p(char *args){
+    if(args != NULL){
+        word_t num_exp = 0;
+        bool success = false;
+        num_exp = expr(args, &success);
+        printf("%u\n", num_exp);
+
+        return 0;
+    }else{
+        printf("missing parameter (p expr)\n");
+    }
 }
 
 static struct 
@@ -65,6 +87,7 @@ static struct
     {"si","Directly execute n times,(npc: si n)",cmd_si},
     {"c","Continue the execution of the program",cmd_c},
     {"info","Display all the reg",cmd_info},
+    {"p","get expression value (p expr)",cmd_p},
     
 };
 

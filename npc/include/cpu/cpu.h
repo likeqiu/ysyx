@@ -2,7 +2,7 @@
 #define __CPU_CPU_H__
 
 #include <common.h>
-
+#include<expr.h>
 
 void cpu_exec(uint64_t n);
 void cmd_reg_info(char *args);
