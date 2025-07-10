@@ -69,6 +69,7 @@ VM_USER_CLASSES = \
 	paddr \
 	vaddr \
 	monitor \
+	expr \
 	sdb \
 	npc-main \
 	reg \
@@ -115,6 +116,8 @@ paddr.o: csrc/memory/paddr.c
 vaddr.o: csrc/memory/vaddr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 monitor.o: csrc/monitor/monitor.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+expr.o: csrc/monitor/sdb/expr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 sdb.o: csrc/monitor/sdb/sdb.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

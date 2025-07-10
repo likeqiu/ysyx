@@ -55,11 +55,11 @@ static int cmd_info(char *args){
             cmd_reg_info(args);
             printf("$pc: 0x%08x\n", cpu.pc);
         }
-    }else if(strcmp(args,"w") == 0){
+    }/*else if(strcmp(args,"w") == 0){
 
     }else{
         printf("missing parameter (info r or w)\n");
-    }
+    }*/
     return 0;
 }
 
