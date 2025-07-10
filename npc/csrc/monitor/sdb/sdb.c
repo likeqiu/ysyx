@@ -70,10 +70,12 @@ static int cmd_p(char *args){
         num_exp = expr(args, &success);
         printf("%u\n", num_exp);
 
-        return 0;
+        
     }else{
         printf("missing parameter (p expr)\n");
     }
+
+    return 0;
 }
 
 static struct 
