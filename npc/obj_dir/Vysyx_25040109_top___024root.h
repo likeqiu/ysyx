@@ -35,7 +35,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     IData/*31:0*/ ysyx_25040109_top__DOT__result;
     IData/*31:0*/ ysyx_25040109_top__DOT__mem_data;
     IData/*31:0*/ ysyx_25040109_top__DOT__mem_addr;
-    IData/*31:0*/ ysyx_25040109_top__DOT__ifu__DOT__temp_inst_ifu;
     IData/*19:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_j;
     IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_i_ext;
     IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__lut_out;
@@ -46,7 +45,9 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__result_select__DOT__i0__DOT__lut_out;
     IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__lut_out;
     IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i;
+    IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__3__data;
     IData/*31:0*/ __VstlIterCount;
+    IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;
     VlUnpacked<QData/*38:0*/, 7> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list;
     VlUnpacked<CData/*6:0*/, 7> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__key_list;
@@ -61,8 +62,9 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     VlUnpacked<CData/*6:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__key_list;
     VlUnpacked<IData/*31:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__data_list;
     VlUnpacked<IData/*31:0*/, 32> ysyx_25040109_top__DOT__regfile__DOT__rf;
-    VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
+    VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;
     VlTriggerVec<1> __VstlTriggered;
+    VlTriggerVec<1> __VicoTriggered;
     VlTriggerVec<1> __VactTriggered;
     VlTriggerVec<1> __VnbaTriggered;
 
