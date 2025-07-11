@@ -8,6 +8,7 @@ void init_log(const char *log_file);
 void init_mem();
 void init_device();
 void init_sdb();
+void init_regex();
 
 
 static void welcome()
