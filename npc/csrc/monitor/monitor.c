@@ -65,10 +65,11 @@ static int parse_args(int argc,char *argv[]){
 
 void init_monitor(int argc, char *argv[])
 {
-    parse_args(argc, argv);
 
+    parse_args(argc, argv);
     long img_size = load_img();
-    init_verilog(argc,argv);
+     init_regex();
+    init_verilog(argc, argv);
     // init_sdb();
     init_mem();
     welcome();
