@@ -77,16 +77,14 @@ static int cmd_p(char *args){
 
     return 0;
 }
-
 static int cmd_x(char *args)
 {
-
-    if (args != NULL )
+    if (args != NULL)
     {
         int n = 0;
         vaddr_t vadd;
         bool success = false;
-        sscanf(args, "%d 0x", &n);
+        sscanf(args, "%d", &n);
 
         char *get_vadd = strtok(args, " ");
 
