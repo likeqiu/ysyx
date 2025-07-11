@@ -17,7 +17,7 @@ always @(posedge clk) begin
         verilog_pmem_read(pc, temp_inst_ifu);
         //$display("%d\n",inst_ifu);
     end else begin
-        temp_inst_ifu <= 32'h0;
+        temp_inst_ifu = 32'h0;
     end  
 
     inst_ifu<=temp_inst_ifu;
