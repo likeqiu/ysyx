@@ -100,7 +100,7 @@ module ysyx_25040109_top (
     always @(*) begin
         mem_data = 32'bx; 
         if (is_lw && addr_valid) begin
-            pmem_read(mem_addr, mem_data); 
+            verilog_pmem_read(mem_addr, mem_data); 
             //mtrace_record(8'd82,mem_addr,4,mem_data);//82 "R"
         end
     end
@@ -108,7 +108,7 @@ module ysyx_25040109_top (
 
     always @(posedge clk) begin
         if ( is_sw && addr_valid ) begin
-            pmem_write(mem_addr, rs2_data, 4);
+            verilog_pmem_write(mem_addr, rs2_data, 4);
             //mtrace_record(8'd87,mem_addr,4,rs2_data);//87 "W"
         end
     end
