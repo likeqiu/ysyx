@@ -10,11 +10,15 @@ module ysyx_25040109_IFU (
 
     wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
 
+    reg [31:0] temp_inst_ifu;
+
 always @(posedge clk) begin
     if (pc_valid) begin
-        verilog_pmem_read(pc, inst_ifu);
+        verilog_pmem_read(pc, temp_inst_ifu);
         //$display("%d\n",inst_ifu);
     end 
+        inst_ifu <= 32'h0;
+    
 end
 
 
