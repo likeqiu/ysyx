@@ -127,7 +127,7 @@ static struct
     {"info","Display all the reg",cmd_info},
     {"p","get expression value (p expr)",cmd_p},
     {"x","Scan the pmem (x n EXPR)",cmd_x},
-    {"w","set watchpoinnt (w expr)",cmd_w},
+    //{"w","set watchpoinnt (w expr)",cmd_w},
     
 };
 
