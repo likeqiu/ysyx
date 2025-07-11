@@ -3,12 +3,13 @@
 #include <memory/paddr.h>
 #include <device/mmio.h>
 #include <isa.h>
-#include <mtrace.h>
+
+extern void mtrace_record(char type, paddr_t addr, int len, word_t data);
 
 #if defined(CONFIG_PMEM_MALLOC)
-static uint8_t *pmem = NULL;
+    static uint8_t *pmem = NULL;
 #else // CONFIG_PMEM_GARRAY
-static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
+    static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
 #endif
 
 uint8_t *guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
