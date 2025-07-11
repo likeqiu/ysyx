@@ -71,6 +71,7 @@ VM_USER_CLASSES = \
 	monitor \
 	expr \
 	sdb \
+	watchpoint \
 	npc-main \
 	reg \
 	log \
@@ -120,6 +121,8 @@ monitor.o: csrc/monitor/monitor.c
 expr.o: csrc/monitor/sdb/expr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 sdb.o: csrc/monitor/sdb/sdb.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+watchpoint.o: csrc/monitor/sdb/watchpoint.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 npc-main.o: csrc/npc-main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
