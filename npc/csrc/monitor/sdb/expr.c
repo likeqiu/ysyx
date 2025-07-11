@@ -1,6 +1,9 @@
-#include <isa.h>
-#include<expr.h>
 
+#include <isa.h>
+
+/* We use the POSIX regex functions to process regular expressions.
+ * Type 'man regex' for more information about POSIX regex functions.
+ */
 #include <regex.h>
 extern word_t vaddr_read(vaddr_t addr, int len);
 
@@ -341,5 +344,5 @@ word_t expr(char *e, bool *success)
 
     *success = true;
     return eval(0, nr_token - 1, success);
-
+    /* TODO: Insert codes to evaluate the expression. */
 }
