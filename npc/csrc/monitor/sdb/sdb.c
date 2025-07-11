@@ -80,6 +80,8 @@ static int cmd_p(char *args){
 
 static int cmd_x(char *args)
 {
+    int a = strlen(args);
+    printf("%d\n", a);
     if (args != NULL && strlen(args) == 2)
     {
         int n = 0;
