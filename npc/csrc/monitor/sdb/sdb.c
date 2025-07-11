@@ -85,7 +85,10 @@ static int cmd_x(char *args)
         int n = 0;
         vaddr_t vadd;
         bool success = false;
-        sscanf(args, "%d", &n);
+        if(sscanf(args, "%d", &n) <= 0){
+            printf("missing parameter (x n expr)\n");
+            return 0;
+        }
 
         char *get_vadd = strtok(args, " ");
 
