@@ -1,7 +1,7 @@
 module ysyx_25040109_IFU (
 /* verilator lint_off UNUSEDSIGNAL */
     input clk,
-    input [31:0] pc,
+    input wire [31:0]  pc,
     input rst,
     /* verilator lint_on UNUSEDSIGNAL */
    output reg [31:0] inst_ifu  
