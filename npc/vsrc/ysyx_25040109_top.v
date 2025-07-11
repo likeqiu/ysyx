@@ -99,7 +99,7 @@ module ysyx_25040109_top (
 
     always @(posedge clk) begin
         //mem_data <= 32'bx; 
-        if (is_lw && addr_valid) begin
+        if (is_lw && addr_valid && !ret) begin
             verilog_pmem_read(mem_addr, mem_data); 
             //mtrace_record(8'd82,mem_addr,4,mem_data);//82 "R"
         end
