@@ -4,7 +4,7 @@
 
 #include<isa-def.h>
 
-
+word_t expr(char *e, bool *success);
 
 typedef riscv32_CPU_state CPU_state;
 typedef riscv32_ISADecodeInfo ISADecodeInfo;
