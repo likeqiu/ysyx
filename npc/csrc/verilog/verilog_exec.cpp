@@ -3,6 +3,8 @@
 #include<cpu/cpu.h>
 #include<reg.h>
 
+CPU_state cpu = {};
+
 #define MAX_INST_TO_PRINT 100
 
 static void trace_and_difftest(){

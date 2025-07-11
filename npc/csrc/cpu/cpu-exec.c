@@ -2,4 +2,3 @@
 #include <locale.h>
 #include <isa.h>
 
-CPU_state cpu = {};
