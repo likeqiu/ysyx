@@ -1,4 +1,4 @@
-#include "mtrace.h"
+#include <mtrace.h>
 
 #ifdef CONFIG_MTRACE
 static paddr_t mtrace_start = 0x80000000;

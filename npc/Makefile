@@ -6,8 +6,6 @@ NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
 INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/ /home/zxj17/ysyx-workbench/npc/csrc/riscv32/local-include 
 
-
-
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
 
