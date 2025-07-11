@@ -97,7 +97,7 @@ module ysyx_25040109_top (
    
     assign inst = inst_ifu;
 
-    always @(*) begin
+    always @(posedge clk) begin
         mem_data = 32'bx; 
         if (is_lw && addr_valid) begin
             verilog_pmem_read(mem_addr, mem_data); 
