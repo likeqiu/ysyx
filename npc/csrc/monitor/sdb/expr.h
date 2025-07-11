@@ -3,8 +3,8 @@
 
 #include<common.h>
 
-void init_regex();
+extern void init_regex();
 extern word_t expr(char *e, bool *success);
-void cleanup_regex();
+extern void cleanup_regex();
 
 #endif
