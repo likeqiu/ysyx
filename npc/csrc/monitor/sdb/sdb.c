@@ -80,15 +80,12 @@ static int cmd_p(char *args){
 
 static int cmd_x(char *args)
 {
-    if (args != NULL)
+    if (args != NULL && strlen(args) == 3)
     {
         int n = 0;
         vaddr_t vadd;
         bool success = false;
-        if(sscanf(args, "%d", &n) <= 0){
-            printf("missing parameter (x n expr)\n");
-            return 0;
-        }
+        sscanf(args, "%d 0x", &n) <= 0;
 
         char *get_vadd = strtok(args, " ");
 
