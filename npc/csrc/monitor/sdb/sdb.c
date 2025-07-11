@@ -85,7 +85,7 @@ static int cmd_x(char *args)
 {
 
 
-    if (args != NULL)
+    if (args != NULL )
     {
         int n = 0;
         vaddr_t vadd;
@@ -102,7 +102,7 @@ static int cmd_x(char *args)
         {
             word_t date;
             date = vaddr_read(vadd + i * 4, 4);
-            printf("0x%x : %u\n ", vadd + i * 4, date);
+            printf("0x%08x : 0x%08x\n ", vadd + i * 4, date);
         }
 
         return 0;
@@ -127,6 +127,7 @@ static struct
     {"info","Display all the reg",cmd_info},
     {"p","get expression value (p expr)",cmd_p},
     {"x","Scan the pmem (x n EXPR)",cmd_x},
+    {"w","set watchpoinnt (w expr)",cmd_w},
     
 };
 
