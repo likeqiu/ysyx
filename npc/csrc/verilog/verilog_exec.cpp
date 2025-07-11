@@ -9,7 +9,10 @@ CPU_state cpu = {};
 
 static void trace_and_difftest(){
 
+
 #ifdef CONFIG_WATCHPOINT
+    extern int monitor_point(uint32_t cpu_pc);
+    
     if (monitor_point(cpu.pc))
     {
         npc_state.state = NPC_STOP;
