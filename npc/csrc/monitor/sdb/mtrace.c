@@ -1,6 +1,6 @@
 #include <mtrace.h>
 
-#ifdef CONFIG_MTRACE
+
 static paddr_t mtrace_start = 0x80000000;
 static paddr_t mtrace_end = 0xffffffff;
 
@@ -19,4 +19,3 @@ void mtrace_set_range(vaddr_t start, vaddr_t end)
     printf("mtrace: Set range [0x%08x, 0x%08x)\n", start, end);
 }
 
-#endif
