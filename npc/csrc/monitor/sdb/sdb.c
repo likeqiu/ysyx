@@ -82,7 +82,7 @@ static int cmd_x(char *args)
 {
     int a = strlen(args);
     printf("%d\n", a);
-    if (args != NULL && strlen(args) == 2)
+    if (args != NULL && strlen(args) > 2)
     {
         int n = 0;
         vaddr_t vadd;
