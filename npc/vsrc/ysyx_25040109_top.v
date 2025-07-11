@@ -98,7 +98,7 @@ module ysyx_25040109_top (
     assign inst = inst_ifu;
 
     always @(posedge clk) begin
-        //mem_data <= 32'bx; 
+        mem_data <= 32'bx; 
         if (is_lw && addr_valid ) begin
             //verilog_pmem_read(mem_addr, mem_data); 
             //mtrace_record(8'd82,mem_addr,4,mem_data);//82 "R"
