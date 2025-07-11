@@ -80,7 +80,7 @@ static int cmd_p(char *args){
 
 static int cmd_x(char *args)
 {
-    if (args != NULL && strlen(args) == 3)
+    if (args != NULL && strlen(args) == 2)
     {
         int n = 0;
         vaddr_t vadd;
