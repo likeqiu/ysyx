@@ -67,10 +67,10 @@ static int cmd_p(char *args){
     if(args != NULL){
         word_t num_exp = 0;
         bool success = false;
+        printf("222\n");
         num_exp = expr(args, &success);
+        printf("111\n");
         printf("%u\n", num_exp);
-
-        
     }else{
         printf("missing parameter (p expr)\n");
     }
