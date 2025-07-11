@@ -14,9 +14,7 @@ always @(posedge clk) begin
     if (pc_valid) begin
         verilog_pmem_read(pc, inst_ifu);
         //$display("%d\n",inst_ifu);
-    end else begin
-        inst_ifu <= 32'h0;
-    end
+    end 
 end
 
 
