@@ -4,7 +4,7 @@
 #include <device/mmio.h>
 #include <isa.h>
 
-extern void mtrace_record(char type, paddr_t addr, int len, word_t data);
+
 
 #if defined(CONFIG_PMEM_MALLOC)
     static uint8_t *pmem = NULL;
