@@ -63,19 +63,23 @@ static int cmd_info(char *args){
     return 0;
 }
 
-static int cmd_p(char *args){
-    if(args != NULL){
+static int cmd_p(char *args)
+{
+    if (args != NULL)
+    {
+
         word_t num_exp = 0;
         bool success = false;
-        printf("222\n");
         num_exp = expr(args, &success);
-        printf("111\n");
         printf("%u\n", num_exp);
-    }else{
-        printf("missing parameter (p expr)\n");
-    }
 
-    return 0;
+        return 0;
+    }
+    else
+    {
+        printf("missing parameter (p expr)\n");
+        return 0;
+    }
 }
 static int cmd_x(char *args)
 {
