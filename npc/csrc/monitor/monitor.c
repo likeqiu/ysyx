@@ -9,7 +9,7 @@ void init_mem();
 void init_device();
 void init_sdb();
 void init_regex();
-
+void init_wp_pool();
 
 static void welcome()
 {
@@ -70,10 +70,11 @@ void init_monitor(int argc, char *argv[])
     parse_args(argc, argv);
     long img_size = load_img();
      init_regex();
-    init_verilog(argc, argv);
-    // init_sdb();
-    init_mem();
-    welcome();
+     init_wp_pool();
+     init_verilog(argc, argv);
+     // init_sdb();
+     init_mem();
+     welcome();
 }
 
 #else // CONFIG_TARGET_AM

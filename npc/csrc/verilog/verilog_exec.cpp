@@ -5,7 +5,16 @@
 
 #define MAX_INST_TO_PRINT 100
 
+static void trace_and_difftest(){
 
+#ifdef CONFIG_WATCHPOINT
+    if (monitor_point(cpu.pc))
+    {
+        npc_state.state = NPC_STOP;
+    }
+
+#endif
+}
 
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0;
@@ -31,6 +40,7 @@ static void execute(uint64_t n)
         }
         exec_once();
         g_nr_guest_inst++;
+        trace_and_difftest();
 
         if(npc_state.state != NPC_RUNNING)
         break;

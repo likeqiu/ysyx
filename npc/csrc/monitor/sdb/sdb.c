@@ -114,6 +114,44 @@ static int cmd_x(char *args)
     }
 }
 
+int count_watchpoint = 0;
+static int cmd_w(char *args)
+{
+    if (args != NULL)
+    {
+        new_wp(args);
+
+        count_watchpoint++;
+        printf("you have set %d watchpoint\n", count_watchpoint);
+        return 0;
+    }
+    else
+    {
+        printf("missing parameter (w expr)\n");
+        return 0;
+    }
+}
+
+static int cmd_d(char *args)
+{
+    if (args != NULL)
+    {
+
+        int NO = atoi(args);
+
+        free_wp(NO);
+        printf("delete watchpoint success\n");
+        count_watchpoint--;
+
+        return 0;
+    }
+    else
+    {
+        printf("missing parameter (d NO)\n");
+        return 0;
+    }
+}
+
 static struct 
 {
     const char *name;
@@ -127,7 +165,8 @@ static struct
     {"info","Display all the reg",cmd_info},
     {"p","get expression value (p expr)",cmd_p},
     {"x","Scan the pmem (x n EXPR)",cmd_x},
-    //{"w","set watchpoinnt (w expr)",cmd_w},
+    {"w","set watchpoinnt (w expr)",cmd_w},
+    {"d","delete watchpoint (d NO)",cmd_d},
     
 };
 
