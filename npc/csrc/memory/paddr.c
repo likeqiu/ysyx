@@ -3,6 +3,7 @@
 #include <memory/paddr.h>
 #include <device/mmio.h>
 #include <isa.h>
+#include <mtrace.h>
 
 #if defined(CONFIG_PMEM_MALLOC)
 static uint8_t *pmem = NULL;
@@ -47,6 +48,7 @@ word_t paddr_read(paddr_t addr, int len)
     if (likely(in_pmem(addr)))
     {
         ret = pmem_read(addr, len);
+        mtrace_record('R', addr, len, ret);
         return ret;
     }
 
@@ -63,7 +65,7 @@ void paddr_write(paddr_t addr, int len, word_t data)
     if (likely(in_pmem(addr)))
     {
         pmem_write(addr, len, data);
-
+        mtrace_record('W', addr, len, data);
         return;
     }
    // IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);

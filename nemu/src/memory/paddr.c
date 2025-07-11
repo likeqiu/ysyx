@@ -43,8 +43,7 @@ static void out_of_bound(paddr_t addr) {
 }
 
 void init_mem() {
-
-#if defined(CONFIG_PMEM_MALLOC)
+#if   defined(CONFIG_PMEM_MALLOC)
   pmem = malloc(CONFIG_MSIZE);
   assert(pmem);
 #endif
@@ -59,11 +58,12 @@ word_t paddr_read(paddr_t addr, int len)
   if (likely(in_pmem(addr)))
   {
     ret = pmem_read(addr, len);
+    mtrace_record('R', addr, len, ret);
     return ret;
   }
 
   //IFDEF(CONFIG_ITRACE, iringbuf_dump(addr));
-  IFDEF(CONFIG_DEVICE, ret = mmio_read(addr, len); return ret);
+  IFDEF(CONFIG_DEVICE, ret = mmio_read(addr, len); mtrace_record('R', addr, len, ret); return ret);
 
   
   out_of_bound(addr);
@@ -74,8 +74,8 @@ void paddr_write(paddr_t addr, int len, word_t data) {
   
   if (likely(in_pmem(addr))) {
      pmem_write(addr, len, data);
-     
+     mtrace_record('W', addr, len, data);
      return; }
-  IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
+  IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); mtrace_record('W', addr, len, data); return);
   out_of_bound(addr);
 }

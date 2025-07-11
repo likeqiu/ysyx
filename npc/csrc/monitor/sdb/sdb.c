@@ -152,6 +152,15 @@ static int cmd_d(char *args)
     }
 }
 
+static int cmd_st(char *args)
+{
+    vaddr_t start = 0x0;
+    vaddr_t end = 0xfffffff;
+    sscanf(args, "%x %x", &start, &end);
+    mtrace_set_range(start, end);
+    return 0;
+}
+
 static struct 
 {
     const char *name;
@@ -159,15 +168,16 @@ static struct
     int (*handler)(char *);
 } cmd_table[] = {
     {"help", "Display information about all supported commands", cmd_help},
-    {"q","Exit NPC",cmd_q},
-    {"si","Directly execute n times,(npc: si n)",cmd_si},
-    {"c","Continue the execution of the program",cmd_c},
-    {"info","Display all the reg",cmd_info},
-    {"p","get expression value (p expr)",cmd_p},
-    {"x","Scan the pmem (x n EXPR)",cmd_x},
-    {"w","set watchpoinnt (w expr)",cmd_w},
-    {"d","delete watchpoint (d NO)",cmd_d},
-    
+    {"q", "Exit NPC", cmd_q},
+    {"si", "Directly execute n times,(npc: si n)", cmd_si},
+    {"c", "Continue the execution of the program", cmd_c},
+    {"info", "Display all the reg", cmd_info},
+    {"p", "get expression value (p expr)", cmd_p},
+    {"x", "Scan the pmem (x n EXPR)", cmd_x},
+    {"w", "set watchpoinnt (w expr)", cmd_w},
+    {"d", "delete watchpoint (d NO)", cmd_d},
+    {"st", "set mtrace range", cmd_st},
+
 };
 
 #define NR_CMD ARRLEN(cmd_table)
