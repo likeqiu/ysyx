@@ -83,6 +83,9 @@ static int cmd_p(char *args)
 }
 static int cmd_x(char *args)
 {
+    int a = vaddr_read(0x80000000, 4);
+    printf("%d\n" ,a);
+
     if (args != NULL)
     {
         int n = 0;
