@@ -87,6 +87,8 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(vlSelf->pc, __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__3__data);
         vlSelf->ysyx_25040109_top__DOT__ifu__DOT__temp_inst_ifu 
             = __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__3__data;
+    } else {
+        vlSelf->ysyx_25040109_top__DOT__ifu__DOT__temp_inst_ifu = 0U;
     }
     vlSelf->ysyx_25040109_top__DOT__inst_ifu = vlSelf->ysyx_25040109_top__DOT__ifu__DOT__temp_inst_ifu;
     vlSelf->pc = ((IData)(vlSelf->rst) ? 0x80000000U

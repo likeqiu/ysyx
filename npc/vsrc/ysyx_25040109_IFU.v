@@ -14,13 +14,12 @@ module ysyx_25040109_IFU (
 
 always @(posedge clk) begin
     if (pc_valid) begin
+        inst_ifu<=temp_inst_ifu;
         verilog_pmem_read(pc, temp_inst_ifu);
         //$display("%d\n",inst_ifu);
-    end else begin
-        temp_inst_ifu = 32'h0;
-    end  
+    end 
 
-    inst_ifu<=temp_inst_ifu;
+    
 end
 
 
