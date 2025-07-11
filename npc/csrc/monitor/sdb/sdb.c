@@ -78,6 +78,37 @@ static int cmd_p(char *args){
     return 0;
 }
 
+static int cmd_x(char *args)
+{
+    if (args != NULL)
+    {
+        int n = 0;
+        vaddr_t vadd;
+        bool success = false;
+        sscanf(args, "%d", &n);
+
+        char *get_vadd = strtok(args, " ");
+
+        get_vadd = strtok(NULL, " ");
+
+        vadd = expr(get_vadd, &success); // 大于2147483648,小于 2281701375
+
+        for (int i = 0; i < n; i++)
+        {
+            word_t date;
+            date = vaddr_read(vadd + i * 4, 4);
+            printf("0x%x : %u\n ", vadd + i * 4, date);
+        }
+
+        return 0;
+    }
+    else
+    {
+        printf("missing parameter (x n expr)\n");
+        return 0;
+    }
+}
+
 static struct 
 {
     const char *name;
@@ -90,6 +121,7 @@ static struct
     {"c","Continue the execution of the program",cmd_c},
     {"info","Display all the reg",cmd_info},
     {"p","get expression value (p expr)",cmd_p},
+    {"x","Scan the pmem (x n EXPR)",cmd_x},
     
 };
 
