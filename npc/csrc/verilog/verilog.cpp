@@ -4,11 +4,11 @@
 #include<verilog_init.h>
 
 
-extern "C" void pmem_read(paddr_t addr,uint32_t *data){
+extern "C" void verilog_pmem_read(paddr_t addr,uint32_t *data){
     *data = paddr_read(addr, 4);
 }
 
-extern "C" void pmem_write(paddr_t addr, uint32_t data,uint32_t len){
+extern "C" void verilog_pmem_write(paddr_t addr, uint32_t data,uint32_t len){
     paddr_write(addr, len, data);
 }
 
