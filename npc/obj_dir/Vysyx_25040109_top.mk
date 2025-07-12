@@ -48,10 +48,12 @@ VM_USER_CFLAGS = \
 	-I/usr/include/llvm-14 \
 	-I/usr/include/llvm-c-14/ \
 	-I/home/zxj17/ysyx-workbench/npc/csrc/riscv32/local-include \
+	-I/home/zxj17/ysyx-workbench/npc/csrc/llvm/ \
 	-I/home/zxj17/ysyx-workbench/nvboard/usr/include \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
+	/home/zxj17/ysyx-workbench/npc/csrc/llvm/disasm.o \
 	-lz \
 	-lreadline \
 	-lhistory \
@@ -59,6 +61,7 @@ VM_USER_LDLIBS = \
 	-lSDL2 \
 	-lSDL2_image \
 	-lSDL2_ttf \
+	-ldl \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
@@ -70,6 +73,7 @@ VM_USER_CLASSES = \
 	vaddr \
 	monitor \
 	expr \
+	iringbuffer \
 	mtrace \
 	sdb \
 	watchpoint \
@@ -120,6 +124,8 @@ vaddr.o: csrc/memory/vaddr.c
 monitor.o: csrc/monitor/monitor.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 expr.o: csrc/monitor/sdb/expr.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+iringbuffer.o: csrc/monitor/sdb/iringbuffer.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 mtrace.o: csrc/monitor/sdb/mtrace.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

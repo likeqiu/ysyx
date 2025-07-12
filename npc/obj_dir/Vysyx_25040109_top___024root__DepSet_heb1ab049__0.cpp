@@ -69,14 +69,6 @@ void Vysyx_25040109_top___024root___eval_triggers__ico(Vysyx_25040109_top___024r
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_triggers__ico\n"); );
     // Body
     vlSelf->__VicoTriggered.at(0U) = (0U == vlSelf->__VicoIterCount);
-    vlSelf->__VicoTriggered.at(1U) = (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__old_pc 
-                                      != vlSelf->__Vtrigrprev__TOP__ysyx_25040109_top__DOT__ifu__DOT__old_pc);
-    vlSelf->__Vtrigrprev__TOP__ysyx_25040109_top__DOT__ifu__DOT__old_pc 
-        = vlSelf->ysyx_25040109_top__DOT__ifu__DOT__old_pc;
-    if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->__VicoDidInit))))) {
-        vlSelf->__VicoDidInit = 1U;
-        vlSelf->__VicoTriggered.at(1U) = 1U;
-    }
 #ifdef VL_DEBUG
     if (VL_UNLIKELY(vlSymsp->_vm_contextp__->debug())) {
         Vysyx_25040109_top___024root___dump_triggers__ico(vlSelf);
@@ -93,17 +85,9 @@ void Vysyx_25040109_top___024root___eval_triggers__act(Vysyx_25040109_top___024r
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_triggers__act\n"); );
     // Body
-    vlSelf->__VactTriggered.at(0U) = (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__old_pc 
-                                      != vlSelf->__Vtrigrprev__TOP__ysyx_25040109_top__DOT__ifu__DOT__old_pc);
-    vlSelf->__VactTriggered.at(1U) = ((IData)(vlSelf->clk) 
+    vlSelf->__VactTriggered.at(0U) = ((IData)(vlSelf->clk) 
                                       & (~ (IData)(vlSelf->__Vtrigrprev__TOP__clk)));
-    vlSelf->__Vtrigrprev__TOP__ysyx_25040109_top__DOT__ifu__DOT__old_pc 
-        = vlSelf->ysyx_25040109_top__DOT__ifu__DOT__old_pc;
     vlSelf->__Vtrigrprev__TOP__clk = vlSelf->clk;
-    if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->__VactDidInit))))) {
-        vlSelf->__VactDidInit = 1U;
-        vlSelf->__VactTriggered.at(0U) = 1U;
-    }
 #ifdef VL_DEBUG
     if (VL_UNLIKELY(vlSymsp->_vm_contextp__->debug())) {
         Vysyx_25040109_top___024root___dump_triggers__act(vlSelf);

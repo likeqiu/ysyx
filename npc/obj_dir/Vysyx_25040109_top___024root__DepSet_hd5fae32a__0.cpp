@@ -9,24 +9,19 @@
 
 void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(IData/*31:0*/ addr, IData/*31:0*/ &data);
 
-VL_INLINE_OPT void Vysyx_25040109_top___024root___ico_comb__TOP__0(Vysyx_25040109_top___024root* vlSelf) {
+VL_INLINE_OPT void Vysyx_25040109_top___024root___ico_sequent__TOP__0(Vysyx_25040109_top___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___ico_comb__TOP__0\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___ico_sequent__TOP__0\n"); );
     // Body
-    if ((((~ (IData)(vlSelf->rst)) & ((0x80000000U 
-                                       <= vlSelf->pc) 
-                                      & (0x87ffffffU 
-                                         >= vlSelf->pc))) 
-         & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__old_pc 
-            != vlSelf->pc))) {
+    if (((~ (IData)(vlSelf->rst)) & ((0x80000000U <= vlSelf->pc) 
+                                     & (0x87ffffffU 
+                                        >= vlSelf->pc)))) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(vlSelf->pc, vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__3__data);
         vlSelf->ysyx_25040109_top__DOT__inst_ifu = vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__3__data;
     } else {
         vlSelf->ysyx_25040109_top__DOT__inst_ifu = 0U;
     }
-    vlSelf->ysyx_25040109_top__DOT__ifu__DOT__old_pc 
-        = vlSelf->pc;
     vlSelf->inst = vlSelf->ysyx_25040109_top__DOT__inst_ifu;
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list[5U] 
         = (0x3700000000ULL | (QData)((IData)((0xfffff000U 
@@ -366,8 +361,8 @@ void Vysyx_25040109_top___024root___eval_ico(Vysyx_25040109_top___024root* vlSel
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_ico\n"); );
     // Body
-    if ((vlSelf->__VicoTriggered.at(0U) | vlSelf->__VicoTriggered.at(1U))) {
-        Vysyx_25040109_top___024root___ico_comb__TOP__0(vlSelf);
+    if (vlSelf->__VicoTriggered.at(0U)) {
+        Vysyx_25040109_top___024root___ico_sequent__TOP__0(vlSelf);
         vlSelf->__Vm_traceActivity[1U] = 1U;
     }
 }
@@ -376,11 +371,6 @@ void Vysyx_25040109_top___024root___eval_act(Vysyx_25040109_top___024root* vlSel
     if (false && vlSelf) {}  // Prevent unused
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_act\n"); );
-    // Body
-    if (vlSelf->__VactTriggered.at(0U)) {
-        Vysyx_25040109_top___024root___ico_comb__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[2U] = 1U;
-    }
 }
 
 void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_write_TOP(IData/*31:0*/ addr, IData/*31:0*/ data, IData/*31:0*/ len);
@@ -468,26 +458,14 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         = vlSelf->pc;
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__data_list[2U] 
         = vlSelf->pc;
-}
-
-VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_comb__TOP__0(Vysyx_25040109_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___nba_comb__TOP__0\n"); );
-    // Body
-    if ((((~ (IData)(vlSelf->rst)) & ((0x80000000U 
-                                       <= vlSelf->pc) 
-                                      & (0x87ffffffU 
-                                         >= vlSelf->pc))) 
-         & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__old_pc 
-            != vlSelf->pc))) {
+    if (((~ (IData)(vlSelf->rst)) & ((0x80000000U <= vlSelf->pc) 
+                                     & (0x87ffffffU 
+                                        >= vlSelf->pc)))) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(vlSelf->pc, vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__3__data);
         vlSelf->ysyx_25040109_top__DOT__inst_ifu = vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__3__data;
     } else {
         vlSelf->ysyx_25040109_top__DOT__inst_ifu = 0U;
     }
-    vlSelf->ysyx_25040109_top__DOT__ifu__DOT__old_pc 
-        = vlSelf->pc;
     vlSelf->inst = vlSelf->ysyx_25040109_top__DOT__inst_ifu;
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list[5U] 
         = (0x3700000000ULL | (QData)((IData)((0xfffff000U 
@@ -827,13 +805,9 @@ void Vysyx_25040109_top___024root___eval_nba(Vysyx_25040109_top___024root* vlSel
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_nba\n"); );
     // Body
-    if (vlSelf->__VnbaTriggered.at(1U)) {
+    if (vlSelf->__VnbaTriggered.at(0U)) {
         Vysyx_25040109_top___024root___nba_sequent__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[3U] = 1U;
-    }
-    if ((vlSelf->__VnbaTriggered.at(0U) | vlSelf->__VnbaTriggered.at(1U))) {
-        Vysyx_25040109_top___024root___nba_comb__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[4U] = 1U;
+        vlSelf->__Vm_traceActivity[2U] = 1U;
     }
 }
 
@@ -855,7 +829,7 @@ void Vysyx_25040109_top___024root___eval(Vysyx_25040109_top___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval\n"); );
     // Init
     CData/*0:0*/ __VicoContinue;
-    VlTriggerVec<2> __VpreTriggered;
+    VlTriggerVec<1> __VpreTriggered;
     IData/*31:0*/ __VnbaIterCount;
     CData/*0:0*/ __VnbaContinue;
     // Body
