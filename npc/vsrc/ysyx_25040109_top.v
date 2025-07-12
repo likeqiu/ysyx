@@ -6,6 +6,7 @@ module ysyx_25040109_top (
     output [31:0] a0_out
 );
     wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;
+    wire inst_valid;
     reg  [31:0] mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
@@ -29,7 +30,8 @@ module ysyx_25040109_top (
         .rst(rst),
         .clk(clk),
         .pc(pc),
-        .inst_ifu(inst_ifu)
+        .inst_ifu(inst_ifu),
+        .inst_valid(inst_valid)
     );
 
 
@@ -93,7 +95,7 @@ module ysyx_25040109_top (
     wire is_sw =(opcode == 7'b0100011 && funct3==3'b010);
     wire is_lw =(opcode == 7'b0000011 && funct3==3'b010);
     wire [31:0] mem_addr = rs1_data+imm;
-     wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF);
+    wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF);
    
     assign inst = inst_ifu;
 
@@ -114,21 +116,18 @@ module ysyx_25040109_top (
     end
 
 
-    always @(posedge clk) begin
-        if (!rst ) begin
-            itrace_print(pc,inst_ifu,4);
-            //$display("PC=0x%h, inst=0x%h", pc, inst_ifu);
+always @(posedge clk) begin
+        if (!rst && inst_valid) begin
+            itrace_print(pc, inst_ifu, 4);
             if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end
- 
+        end else if (!rst && !inst_valid) begin
+            //：触发非法指令异常
+            $display("Invalid instruction at PC=0x%h", pc);
+            $finish; 
         end
-      
     end
-
-
-   
-    
 endmodule
 
       

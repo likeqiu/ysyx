@@ -30,8 +30,16 @@ module ysyx_25040109_EXU (
         })
     );
 
-
-    assign alu_b = imm;       
+    
+    ysyx_25040109_MuxKeyWithDefault #(2,7,32) alu_b_select(
+        .out(alu_b),
+        .key(opcode),
+        .default_out(imm),
+        .lut({
+            7'b0110011,rs2_data,
+            7'b1100011,rs2_data
+        })
+    );
     assign alu_out = alu_a + alu_b; 
 
 

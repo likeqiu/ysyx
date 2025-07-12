@@ -4,7 +4,8 @@ module ysyx_25040109_IFU (
     input [31:0] pc,
     input rst,
     /* verilator lint_on UNUSEDSIGNAL */
-   output reg [31:0] inst_ifu  
+   output reg [31:0] inst_ifu,
+   output reg inst_valid  
 );
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
 
@@ -15,9 +16,11 @@ module ysyx_25040109_IFU (
 always @(*) begin
     if (pc_valid ) begin
         verilog_pmem_read(pc, inst_ifu);
+        inst_valid = 1'b1;
         //$display("%d\n",inst_ifu);
     end else begin
         inst_ifu = 32'h0;
+        inst_valid = 1'b0;
     end
 
     
