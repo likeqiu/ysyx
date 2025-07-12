@@ -1,7 +1,7 @@
 #include <isa.h>
 #include <memory/paddr.h>
 #include<verilog_init.h>
-
+#include<disasm.h>
 
 void init_rand();
 void init_log(const char *log_file);
@@ -10,6 +10,7 @@ void init_device();
 void init_sdb();
 void init_regex();
 void init_wp_pool();
+void init_disasm_llvm();
 
 static void welcome()
 {
@@ -71,6 +72,7 @@ void init_monitor(int argc, char *argv[])
     long img_size = load_img();
      init_regex();
      init_wp_pool();
+     init_disasm_llvm();
      init_verilog(argc, argv);
      // init_sdb();
      init_mem();

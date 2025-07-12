@@ -7,6 +7,7 @@
 #include <cstdint>  // 提供固定宽度整数类型（如uint64_t、uint32_t）
 #include <cstring>  // 提供字符串操作函数（如strcspn）
 #include <unistd.h> // 提供POSIX系统调用（如write、close、unlink、mkstemp）
+#include"disasm.h"
 
 // 函数指针类型定义
 // 作用：定义与LLVM反汇编器共享库中函数签名匹配的函数指针类型

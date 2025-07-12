@@ -4,7 +4,7 @@ CSRC = $(shell find csrc -type f -name '*.c') $(shell find csrc -type f -name '*
 SRCS = $(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
-INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/ /home/zxj17/ysyx-workbench/npc/csrc/riscv32/local-include 
+INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/ /home/zxj17/ysyx-workbench/npc/csrc/riscv32/local-include  /home/zxj17/ysyx-workbench/npc/csrc/llvm/
 
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
@@ -36,15 +36,15 @@ ifneq ($(LLVM_CONFIG),)
     LLVM_LIBS := $(shell $(LLVM_CONFIG) --libs core mc mcdisassembler support)
     
     # 主程序只需要链接dl库（用于动态加载）
-    #LDFLAGS += -ldl
+    LDFLAGS += -ldl
     
     # 将反汇编对象文件加入到源文件中
-    #CSRC += $(DISASM_OBJ)
+    CSRC += $(DISASM_OBJ)
 else
     $(info LLVM not found, disassembly will use objdump fallback)
     LLVM_AVAILABLE = 0
-    #LDFLAGS += -ldl
-   # CSRC += $(DISASM_OBJ)
+    LDFLAGS += -ldl
+    CSRC += $(DISASM_OBJ)
 endif
 
 # 编译LLVM包装器动态库（如果LLVM可用）
@@ -100,7 +100,7 @@ sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 		$(addprefix -CFLAGS , $(CXXFLAGS)) \
 		$(addprefix -LDFLAGS , $(LDFLAGS))
 
-waveform: 
+waveform: ensure-llvm-deps $(COMPILE_DEPS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building waveform with dynamic LLVM support..."
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SRCS) \
