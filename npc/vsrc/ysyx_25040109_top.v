@@ -114,6 +114,8 @@ module ysyx_25040109_top (
    
     assign inst = inst_ifu;
 
+
+
    
      always @(posedge clk or posedge rst) begin
         if (rst) begin
@@ -128,11 +130,9 @@ module ysyx_25040109_top (
                     3'b010: verilog_pmem_read(mem_addr, mem_data_temp); // LW
                     3'b100: verilog_pmem_read(mem_addr, mem_data_temp); // LBU
                     3'b101: verilog_pmem_read(mem_addr, mem_data_temp); // LHU
-                    default: mem_data_temp = 32'b0;
+                    default: mem_data_temp <= 32'b0;
                 endcase
-                mem_data <= mem_data_temp; // 非阻塞赋值
-            end else begin
-                mem_data <= 32'b0; // 非阻塞赋值
+                mem_data <= mem_data_temp; 
             end
             if (is_store && addr_valid) begin
                 case (funct3)
