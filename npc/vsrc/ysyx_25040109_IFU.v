@@ -46,7 +46,7 @@ module ysyx_25040109_IFU (
     always @(posedge clk) begin
      
         verilog_pmem_read_test(select);
-        inst_ifu <= select[0] ? temp_inst_ifu : 32'h0000000;
+        inst_ifu <= (select == 32'd1) ? temp_inst_ifu : 32'h0000000;
 
     end
 
