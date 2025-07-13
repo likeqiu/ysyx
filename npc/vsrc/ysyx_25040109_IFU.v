@@ -10,7 +10,7 @@ module ysyx_25040109_IFU (
    output  inst_valid  
 );
     reg [31:0] pc_reg;
-     reg [31:0] temp_inst_ifu;
+     wire [31:0] temp_inst_ifu;
      assign pc = pc_reg;
      assign inst_valid = (next_pc >= 32'h80000000) && (next_pc <= 32'h87FFFFFF) && (next_pc[1:0] == 2'b00);
 
