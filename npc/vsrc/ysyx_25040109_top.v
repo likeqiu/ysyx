@@ -123,7 +123,7 @@ module ysyx_25040109_top (
                     3'b010: verilog_pmem_read(mem_addr, mem_data); // LW
                     3'b100: verilog_pmem_read(mem_addr, mem_data); // LBU
                     3'b101: verilog_pmem_read(mem_addr, mem_data); // LHU
-                    default: mem_data = 32'b0;
+                    default: mem_data <= 32'b0;
                 endcase
             end
             if (is_store && addr_valid) begin
