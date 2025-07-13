@@ -1,6 +1,4 @@
 module ysyx_25040109_IFU (
-   // input clk,
-   // input rst,
     input [31:0] pc,          // 当前PC
     output [31:0] inst_ifu,   // 当前PC对应的指令
     output inst_valid

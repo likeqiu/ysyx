@@ -146,7 +146,7 @@ module ysyx_25040109_top (
             // 指令跟踪
             itrace_print(pc, inst_ifu, 4);
             
-            if (printf_finish(inst_ifu) == 0) begin
+            if (printf_finish(inst_ifu) == 0 ||  inst_invalid) begin
                 $finish;
                 //trap_pc <= pc;
                 //trap_cause <= 32'h00000001; // EBREAK
