@@ -51,7 +51,7 @@ module ysyx_25040109_EXU (
         if(inst_invalid)begin
             alu_out = 32'b0;
         end else begin
-        case({opcode,funct3,funct7})
+        casez({opcode,funct3,funct7})
                 {7'b0010011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // ADDI
                 {7'b0010011, 3'b010, 7'b???????}: alu_out = ($signed(alu_a) < $signed(alu_b)) ? 1 : 0; // SLTI
                 {7'b0010011, 3'b011, 7'b???????}: alu_out = (alu_a < alu_b) ? 1 : 0; // SLTIU

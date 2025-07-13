@@ -144,7 +144,7 @@ module ysyx_25040109_top (
             trap_pc <= pc;
             trap_cause <=  inst_valid ?  32'h00000002 : 32'h00000003;
             
-            trap_record(pc,trap_cause);
+            trap_record(trap_pc,trap_cause);
             $finish;
         end
         

@@ -37,4 +37,7 @@ extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
     std::memcpy(cpu.gpr, regs, sizeof(cpu.gpr));
 }
 
+extern "C" void trap_record(int pc,int cause){
+    std::cout << "pc: " << pc << ", cause:  " << cause << std::endl;
 
+}
