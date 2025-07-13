@@ -30,7 +30,7 @@ end
     if(wen)begin
     update_cpu_state(pc, rf);
     end else begin
-        rf[10]=0;
+        rf[10]<=0;
     end
     endtask
 
