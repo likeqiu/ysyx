@@ -121,7 +121,7 @@ end
 
 
     // 结果选择器
-    ysyx_25040109_MuxKeyWithDefault #(4, 7, 32) result_select( 
+    ysyx_25040109_MuxKeyWithDefault #(5, 7, 32) result_select( 
         .out(result),
         .key(opcode),
         .default_out(alu_out),     
@@ -135,7 +135,7 @@ end
     );
 
     // 下一 PC 的选择器
-    ysyx_25040109_MuxKeyWithDefault #(3, 7, 32) next_pc_select(
+    ysyx_25040109_MuxKeyWithDefault #(4, 7, 32) next_pc_select(
         .out(next_pc),
         .key(opcode),
         .default_out(pc + 4),     
