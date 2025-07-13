@@ -1,5 +1,6 @@
-module ysyx_25040109_IFU (
 /* verilator lint_off UNUSEDSIGNAL */
+module ysyx_25040109_IFU (
+
     input clk,
     input [31:0] next_pc,
     input rst,
@@ -13,7 +14,7 @@ module ysyx_25040109_IFU (
     // assign pc = pc_reg;
     
 
-    always @(posedge clk or posedge rst) begin
+    always @(posedge clk) begin
         if (rst) begin
             pc_reg <= 32'h80000000;
             inst_valid <= 0;
