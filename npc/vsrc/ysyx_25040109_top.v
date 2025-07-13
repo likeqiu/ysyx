@@ -115,6 +115,7 @@ module ysyx_25040109_top (
     assign inst = inst_ifu;
 
 
+    //reg select_read;
      always @(posedge clk or posedge rst) begin
         if (rst) begin
             mem_data <= 32'b0;
