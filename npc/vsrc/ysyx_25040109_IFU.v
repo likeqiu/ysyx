@@ -10,12 +10,13 @@ module ysyx_25040109_IFU (
    output   inst_valid  
 );
     reg [31:0] pc_reg;
-     reg [31:0] temp_inst_ifu;
-     assign pc = pc_reg;
-     assign inst_valid = (next_pc >= 32'h80000000) && (next_pc <= 32'h87FFFFFF) && (next_pc[1:0] == 2'b00);
+    reg [31:0] inst_reg;
 
-    
-     reg select ;
+        reg  inst_valid_reg;
+
+
+
+
 
     always @(posedge clk  or posedge rst) begin
         if (rst) begin
@@ -26,6 +27,10 @@ module ysyx_25040109_IFU (
     end
 
 
+     wire [31:0] inst_from_mem;
+    wire        is_pc_valid = (pc_reg >= 32'h80000000) && (pc_reg <= 32'h87FFFFFF) && (pc_reg[1:0] == 2'b00);
+
+
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
       
 
@@ -33,17 +38,30 @@ module ysyx_25040109_IFU (
 
     always @(*) begin
          
-        if (!rst && inst_valid) begin
-            verilog_pmem_read(pc_reg, temp_inst_ifu);
+        if (!rst && is_pc_valid) begin
+            verilog_pmem_read(pc_reg, inst_from_mem);
             
         end else begin
-            temp_inst_ifu = 32'h0000000;
+            inst_from_mem = 32'h00000013;
         end
 
 
     end
 
-    assign inst_ifu = temp_inst_ifu;
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            inst_reg <= 32'h00000013; // Reset to NOP
+            inst_valid_reg <= 1'b0;
+        end else begin
+            inst_reg <= inst_from_mem;
+            inst_valid_reg <= is_pc_valid;
+        end
+    end
+
+    // 输出
+    assign pc = pc_reg;                 // 输出当前的 PC
+    assign inst_ifu = inst_reg;         // 输出上一个周期取回的指令
+    assign inst_valid = inst_valid_reg; // 输出指令的有效性
 
 
 
