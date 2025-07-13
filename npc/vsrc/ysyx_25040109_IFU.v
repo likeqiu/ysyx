@@ -11,8 +11,8 @@ module ysyx_25040109_IFU (
 );
     reg [31:0] pc_reg;
     reg [31:0] inst_reg;
-
-        reg  inst_valid_reg;
+        
+    reg  inst_valid_reg;
 
 
 
@@ -22,13 +22,13 @@ module ysyx_25040109_IFU (
         if (rst) begin
             pc_reg <= 32'h80000000;
         end else begin
-            pc_reg <= next_pc; // 更新 PC
+            pc_reg <= next_pc; 
         end
     end
 
      
     reg [31:0] inst_from_mem;
-    wire        is_pc_valid = (pc_reg >= 32'h80000000) && (pc_reg <= 32'h87FFFFFF) && (pc_reg[1:0] == 2'b00);
+    wire is_pc_valid = (pc_reg >= 32'h80000000) && (pc_reg <= 32'h87FFFFFF) && (pc_reg[1:0] == 2'b00);
 
 
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);

@@ -124,7 +124,7 @@ module ysyx_25040109_top (
         end else if (inst_valid && !inst_invalid && step_en) begin
             if (is_load && addr_valid) begin
                 case (funct3)
-                    3'b000: begin verilog_pmem_read(mem_addr, mem_data_temp); select_read<=1'b1;end // LB
+                    3'b000:  verilog_pmem_read(mem_addr, mem_data_temp); // LB
                     3'b001: verilog_pmem_read(mem_addr, mem_data_temp); // LH
                     3'b010: verilog_pmem_read(mem_addr, mem_data_temp); // LW
                     3'b100: verilog_pmem_read(mem_addr, mem_data_temp); // LBU
