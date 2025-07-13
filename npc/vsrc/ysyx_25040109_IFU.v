@@ -1,4 +1,4 @@
-/* verilator lint_off UNUSEDSIGNAL */
+
 module ysyx_25040109_IFU (
 
     input clk,
@@ -40,4 +40,4 @@ module ysyx_25040109_IFU (
     /* inst_raw 是 临时变量，类型是 wire，可以通过 DPI-C 调用赋值。
     inst_ifu 是模块的 特定输出端口，默认是 wire，不能在 always 块中直接赋值，除非声明为 reg。DPI-C 不知道怎么处理它的“方向性”，所以不允许直接赋值。*/
 endmodule
-/* verilator lint_on UNUSEDSIGNAL */
+
