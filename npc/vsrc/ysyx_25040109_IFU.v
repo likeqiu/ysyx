@@ -18,7 +18,7 @@ module ysyx_25040109_IFU (
 
 
 
-    always @(posedge clk  or posedge rst) begin
+    always @(posedge clk  ) begin
         if (rst) begin
             pc_reg <= 32'h80000000;
         end else begin
