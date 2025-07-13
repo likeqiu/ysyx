@@ -83,8 +83,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     }
     if (vlSelf->rst) {
         vlSelf->ysyx_25040109_top__DOT__mem_data = 0U;
-        vlSelf->ysyx_25040109_top__DOT__trap_pc = 0x80000000U;
-        vlSelf->ysyx_25040109_top__DOT__trap_cause = 0U;
     } else if (((IData)(vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_valid_reg) 
                 & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__inst_invalid)))) {
         if ((((3U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_reg)) 

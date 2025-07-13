@@ -1157,8 +1157,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
     vlSelf->ysyx_25040109_top__DOT__mem_data = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__mem_data_temp = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__reg_write_en_idu = VL_RAND_RESET_I(1);
-    vlSelf->ysyx_25040109_top__DOT__trap_pc = VL_RAND_RESET_I(32);
-    vlSelf->ysyx_25040109_top__DOT__trap_cause = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__mem_addr = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__addr_valid = VL_RAND_RESET_I(1);
     vlSelf->ysyx_25040109_top__DOT____VdfgTmp_h8a51f582__0 = 0;
