@@ -29,7 +29,7 @@ module ysyx_25040109_IFU (
         if (!rst && inst_valid) begin
             verilog_pmem_read(pc_reg, temp_inst_ifu);
         end else begin
-            temp_inst_ifu =32'b0;
+            temp_inst_ifu <=32'b0;
         end
         inst_ifu <= temp_inst_ifu;
 
