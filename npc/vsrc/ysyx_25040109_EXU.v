@@ -18,7 +18,7 @@ module ysyx_25040109_EXU (
    
 
     wire [31:0] alu_a, alu_b;
-    wire [31:0] alu_out; 
+    reg [31:0] alu_out; 
     wire [63:0] mul_temp;
 
     
@@ -121,16 +121,14 @@ end
 
 
     // 结果选择器
-    ysyx_25040109_MuxKeyWithDefault #(5, 7, 32) result_select( 
+    ysyx_25040109_MuxKeyWithDefault #(3, 7, 32) result_select( 
         .out(result),
         .key(opcode),
-        .default_out(alu_out),     
+        .default_out(alu_out),
         .lut({
-             7'b1101111, jal_result, // JAL
+            7'b1101111, jal_result, // JAL
             7'b1100111, jal_result, // JALR
-            7'b0000011, alu_out,    // LB, LH, LW, LBU, LHU
-            7'b0110011, alu_out,    // R 型指令
-            7'b0010011, alu_out     // I 型指令  
+            7'b0000011, alu_out     // LB, LH, LW, LBU, LHU
         })
     );
 
