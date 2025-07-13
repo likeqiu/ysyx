@@ -6,7 +6,7 @@ module ysyx_25040109_top (
     output [31:0] a0_out
 );
     wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;
-    wire inst_valid,inst_invalid;
+    reg inst_valid,inst_invalid;
     wire [2:0] funct3;
     wire [6:0] funct7;
     reg  [31:0] mem_data;
