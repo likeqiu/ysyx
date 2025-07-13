@@ -48,7 +48,7 @@ module ysyx_25040109_IFU (
 
     end
 
-    always @(posedge clk or posedge rst) begin
+    always @(posedge clk ) begin
         if (rst) begin
             inst_reg <= 32'h00000013; // Reset to NOP
             inst_valid_reg <= 1'b0;
