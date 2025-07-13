@@ -27,11 +27,7 @@ end
  import "DPI-C"  function void update_cpu_state(input int unsigned pc,input int unsigned  regs[]);
  
     task automatic send_state_to_dpi;
-    if(wen)begin
     update_cpu_state(pc, rf);
-    end else begin
-        rf[10]<=0;
-    end
     endtask
 
     always @(posedge clk) begin

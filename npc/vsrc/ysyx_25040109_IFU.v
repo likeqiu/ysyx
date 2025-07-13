@@ -26,13 +26,21 @@ module ysyx_25040109_IFU (
         end
     end
 
+
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
+      
+    task automatic verilog_pmem_read_test;
+    if (!rst && inst_valid) begin
+    verilog_pmem_read(pc_reg, temp_inst_ifu);
+    end else begin
+        temp_inst_ifu <=32'b0;
+    end
+    endtask
+
+
     always @(posedge clk) begin
-        if (!rst && inst_valid) begin
-            verilog_pmem_read(pc_reg, temp_inst_ifu);
-        end else begin
-            temp_inst_ifu <=32'b0;
-        end
+     
+        verilog_pmem_read_test;
         inst_ifu <= temp_inst_ifu;
 
     end
