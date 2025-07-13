@@ -123,12 +123,9 @@ module ysyx_25040109_top (
             // 读取操作
             if (is_load && addr_valid) begin
                 case(funct3)
-                    3'b000: begin verilog_pmem_read(mem_addr, mem_data_temp);mem_data <= mem_data_temp; end // LB
-                    3'b001:  begin verilog_pmem_read(mem_addr, mem_data_temp);mem_data <= mem_data_temp; end // LH
-                    3'b010:  begin verilog_pmem_read(mem_addr, mem_data_temp);mem_data <= mem_data_temp; end // LW
-                    3'b100:  begin verilog_pmem_read(mem_addr, mem_data_temp);mem_data <= mem_data_temp; end // LBU
-                    3'b101:  begin verilog_pmem_read(mem_addr, mem_data_temp);mem_data <= mem_data_temp; end // LHU
-                    default: mem_data <= 32'b0;
+                3'b000, 3'b001, 3'b010, 3'b100, 3'b101: begin
+                        verilog_pmem_read(mem_addr, mem_data);
+                    end
             
                 endcase
             end else begin
@@ -141,6 +138,8 @@ module ysyx_25040109_top (
                     3'b000: verilog_pmem_write(mem_addr, rs2_data, 1); // SB
                     3'b001: verilog_pmem_write(mem_addr, rs2_data, 2); // SH
                     3'b010: verilog_pmem_write(mem_addr, rs2_data, 4); // SW
+                    default:;
+
                 endcase
             end
             
