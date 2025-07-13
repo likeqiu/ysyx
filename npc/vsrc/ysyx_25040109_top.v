@@ -124,7 +124,7 @@ module ysyx_25040109_top (
             if (is_load && addr_valid) begin
                 case (funct3)
                     3'b000, 3'b001, 3'b010, 3'b100, 3'b101: begin
-                        verilog_pmem_read(mem_addr, mem_data);
+                       verilog_pmem_read(mem_addr, mem_data_temp);mem_data <= mem_data_temp; 
                     end
                     default: mem_data <= 32'b0;
                 endcase
