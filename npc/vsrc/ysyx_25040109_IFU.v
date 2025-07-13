@@ -7,7 +7,7 @@ module ysyx_25040109_IFU (
     
     //output  [31:0] pc,
    output reg [31:0] inst_ifu,
-   output reg inst_valid  
+   output  inst_valid  
 );
     reg [31:0] pc_reg;
      reg [31:0] temp_inst_ifu,
