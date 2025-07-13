@@ -147,6 +147,7 @@ module ysyx_25040109_top (
             itrace_print(pc, inst_ifu, 4);
             
             if (printf_finish(inst_ifu) == 0 ||  inst_invalid) begin
+                $diplay("pc:%08x inst:0x%0xx",pc,inst_ifu);
                 $finish;
                 //trap_pc <= pc;
                 //trap_cause <= 32'h00000001; // EBREAK
