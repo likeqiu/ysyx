@@ -26,8 +26,8 @@ module ysyx_25040109_IFU (
         end
     end
 
-
-     wire [31:0] inst_from_mem;
+     
+    reg [31:0] inst_from_mem;
     wire        is_pc_valid = (pc_reg >= 32'h80000000) && (pc_reg <= 32'h87FFFFFF) && (pc_reg[1:0] == 2'b00);
 
 
