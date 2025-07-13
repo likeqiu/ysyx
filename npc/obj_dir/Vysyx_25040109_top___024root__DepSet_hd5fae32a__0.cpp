@@ -113,7 +113,9 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->inst, __Vfunc_ysyx_25040109_top__DOT__printf_finish__7__Vfuncout);
         if (VL_UNLIKELY(((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__7__Vfuncout) 
                          | (IData)(vlSelf->ysyx_25040109_top__DOT__inst_invalid)))) {
-            VL_FINISH_MT("/home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v", 150, "");
+            VL_WRITEF("pc:%08x inst:0x%0xx\n",32,vlSelf->pc,
+                      32,vlSelf->inst);
+            VL_FINISH_MT("/home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v", 151, "");
         }
     }
     vlSelf->pc = ((IData)(vlSelf->rst) ? 0x80000000U
