@@ -30,7 +30,7 @@ module ysyx_25040109_top (
     );
 
     ysyx_25040109_IFU ifu (
-        .rst(rst),
+        //.rst(rst),
         //.clk(clk),
         .pc(pc),
         .inst_ifu(inst_ifu),

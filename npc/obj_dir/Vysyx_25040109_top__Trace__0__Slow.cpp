@@ -249,7 +249,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_init_sub__TOP__0(Vysyx_250
     tracep->declBus(c+207,"i",-1, FST_VD_IMPLICIT,FST_VT_VCD_INTEGER, false,-1, 31,0);
     tracep->popNamePrefix(3);
     tracep->pushNamePrefix("ifu ");
-    tracep->declBit(c+178,"clk",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBit(c+179,"rst",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBus(c+181,"pc",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 31,0);
     tracep->declBus(c+180,"inst_ifu",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 31,0);
