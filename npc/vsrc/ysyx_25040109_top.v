@@ -150,11 +150,11 @@ module ysyx_25040109_top (
                 //trap_record(trap_pc, trap_cause);
                 
             end
-        /*end else if (!inst_valid || inst_invalid) begin
+        end else if (!inst_valid || inst_invalid) begin
             trap_pc <= pc;
             trap_cause <= inst_valid ? 32'h00000002 : 32'h00000003;
             trap_record(trap_pc, trap_cause);
-            $finish;*/
+            $finish;
         end
     end
 
