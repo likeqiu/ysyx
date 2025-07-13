@@ -31,7 +31,7 @@ module ysyx_25040109_top (
 
     ysyx_25040109_IFU ifu (
         .rst(rst),
-        .clk(clk),
+        //.clk(clk),
         .pc(pc),
         .inst_ifu(inst_ifu),
         .inst_valid(inst_valid)
