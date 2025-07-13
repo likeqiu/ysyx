@@ -117,7 +117,7 @@ module ysyx_25040109_top (
 
 
    
-     always @(posedge clk ) begin
+     always @(posedge clk or posedge rst) begin
         if (rst) begin
             mem_data <= 32'b0;
             trap_pc <= 32'h80000000;
