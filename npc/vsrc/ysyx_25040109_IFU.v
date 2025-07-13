@@ -31,10 +31,10 @@ module ysyx_25040109_IFU_fixed (
             // 这样，在下一个周期，pc 和 inst_ifu 就是匹配的
             if ((next_pc >= 32'h80000000) && (next_pc <= 32'h87FFFFFF) && (next_pc[1:0] == 2'b00)) begin
                 verilog_pmem_read(next_pc, inst_ifu);
-            else begin
+            end  else begin
                 inst_ifu <= 32'h0; // 如果地址无效，输出 NOP
             end
-        end
+        
     end
 end
 
