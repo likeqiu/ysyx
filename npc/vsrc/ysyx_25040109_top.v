@@ -16,8 +16,8 @@ module ysyx_25040109_top (
     wire step_en =1'b1;
     wire [6:0] opcode = inst_ifu[6:0];
         
-    reg [31:0] trap_pc;
-    reg [31:0] trap_cause;
+   // reg [31:0] trap_pc;
+   // reg [31:0] trap_cause;
 
     
 
@@ -120,8 +120,8 @@ module ysyx_25040109_top (
      always @(posedge clk) begin
         if (rst) begin
             mem_data <= 32'b0;
-            trap_pc <= 32'h80000000;
-            trap_cause <= 32'h0;
+            //trap_pc <= 32'h80000000;
+           // trap_cause <= 32'h0;
         end else if (inst_valid && !inst_invalid && step_en) begin
             if (is_load && addr_valid) begin
                 case (funct3)
