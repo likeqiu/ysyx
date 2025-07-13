@@ -31,11 +31,7 @@ end
     endtask
 
     always @(posedge clk) begin
-        if(wen)begin
         send_state_to_dpi;
-        end else begin
-            rf[0]=1;
-        end
     end
 
 
