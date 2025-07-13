@@ -3,13 +3,15 @@ module ysyx_25040109_IFU (
     input clk,
     input [31:0] next_pc,
     input rst,
-    /* verilator lint_on UNUSEDSIGNAL */
-    output [31:0] pc,
+    
+    output  [31:0] pc,
    output reg [31:0] inst_ifu,
    output reg inst_valid  
 );
     reg [31:0] pc_reg;
-    assign pc = pc_reg;
+     reg [31:0] temp_inst_ifu,
+     assign pc = pc_reg;
+    
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
@@ -24,10 +26,12 @@ module ysyx_25040109_IFU (
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
     always @(posedge clk) begin
         if (!rst && inst_valid) begin
-            verilog_pmem_read(pc_reg, inst_ifu);
+            verilog_pmem_read(pc_reg, temp_inst_ifu);
         end else begin
-            inst_ifu <= 32'b0;
+            temp_inst_ifu =32'b0;
         end
+        inst_ifu <= temp_inst_ifu;
+
     end
 
 
@@ -35,4 +39,4 @@ module ysyx_25040109_IFU (
     /* inst_raw 是 临时变量，类型是 wire，可以通过 DPI-C 调用赋值。
     inst_ifu 是模块的 特定输出端口，默认是 wire，不能在 always 块中直接赋值，除非声明为 reg。DPI-C 不知道怎么处理它的“方向性”，所以不允许直接赋值。*/
 endmodule
-
+/* verilator lint_on UNUSEDSIGNAL */
