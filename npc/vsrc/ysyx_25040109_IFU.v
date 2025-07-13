@@ -10,7 +10,7 @@ module ysyx_25040109_IFU (
    output  inst_valid  
 );
     reg [31:0] pc_reg;
-     wire [31:0] temp_inst_ifu;
+     reg [31:0] temp_inst_ifu;
      assign pc = pc_reg;
      assign inst_valid = (next_pc >= 32'h80000000) && (next_pc <= 32'h87FFFFFF) && (next_pc[1:0] == 2'b00);
 
@@ -30,11 +30,15 @@ module ysyx_25040109_IFU (
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
       
     task automatic verilog_pmem_read_test;
+    always @(posedge clk) begin
+        
+    
     if (!rst && inst_valid) begin
     verilog_pmem_read(pc_reg, temp_inst_ifu);
     end else begin
         temp_inst_ifu =32'b0;
     end
+end
     endtask
 
 
