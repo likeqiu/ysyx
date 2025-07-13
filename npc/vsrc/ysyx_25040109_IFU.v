@@ -30,7 +30,7 @@ module ysyx_25040109_IFU (
 
 
 
-    wire [31:0]select;
+    wire [31:0]select_d;
     task automatic verilog_pmem_read_test(int select);
     
     if (!rst && inst_valid) begin
@@ -45,8 +45,8 @@ module ysyx_25040109_IFU (
 
     always @(posedge clk) begin
      
-        verilog_pmem_read_test(select);
-        inst_ifu <= (select == 32'd1) ? temp_inst_ifu : 32'h0000000;
+        verilog_pmem_read_test(select_d);
+        inst_ifu <= (select_d == 32'd1) ? temp_inst_ifu : 32'h0000000;
 
     end
 
