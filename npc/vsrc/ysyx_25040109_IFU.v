@@ -1,30 +1,34 @@
 module ysyx_25040109_IFU (
 /* verilator lint_off UNUSEDSIGNAL */
     input clk,
-    input [31:0] pc,
+    input [31:0] next_pc,
     input rst,
     /* verilator lint_on UNUSEDSIGNAL */
+    output [31:0] pc,
    output reg [31:0] inst_ifu,
    output reg inst_valid  
 );
-    import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
+    reg [31:0] pc_reg;
+    assign pc = pc_reg;
 
-    wire pc_valid = !rst && (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF);
-
-
-
-always @(*) begin
-    if (pc_valid ) begin
-        verilog_pmem_read(pc, inst_ifu);
-        inst_valid = 1'b1;
-        //$display("%d\n",inst_ifu);
-    end else begin
-        inst_ifu = 32'h0;
-        inst_valid = 1'b0;
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            pc_reg <= 32'h80000000;
+            inst_valid <= 0;
+        end else begin
+            pc_reg <= next_pc; // 更新 PC
+            inst_valid <= (next_pc >= 32'h80000000) && (next_pc <= 32'h87FFFFFF) && (next_pc[1:0] == 2'b00);
+        end
     end
 
-    
-end
+    import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
+    always @(posedge clk) begin
+        if (!rst && inst_valid) begin
+            verilog_pmem_read(pc_reg, inst_ifu);
+        end else begin
+            inst_ifu <= 32'b0;
+        end
+    end
 
 
 

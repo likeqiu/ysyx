@@ -6,15 +6,17 @@ module ysyx_25040109_top (
     output [31:0] a0_out
 );
     wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;
-    wire inst_valid;
+    wire inst_valid,inst_invalid;
+    wire [2:0] funct3;
+    wire [6:0] funct7;
     reg  [31:0] mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
     wire step_en =1'b1;
     wire [6:0] opcode = inst_ifu[6:0];
-    wire [2:0] funct3 = inst_ifu[14:12];
-
-    
+        
+    reg [31:0] trap_pc;
+    reg [31:0] trap_cause;
 
     
 
@@ -29,6 +31,7 @@ module ysyx_25040109_top (
     ysyx_25040109_IFU ifu (
         .rst(rst),
         .clk(clk),
+        .next_pc(next_pc),
         .pc(pc),
         .inst_ifu(inst_ifu),
         .inst_valid(inst_valid)
@@ -40,8 +43,12 @@ module ysyx_25040109_top (
         .inst(inst_ifu),
         .rd_addr(rd_addr_idu),
         .imm(imm),
-        .reg_write_en(reg_write_en_idu)
+        .reg_write_en(reg_write_en_idu),
+        .funct3(funct3),
+        .funct7(funct7),
+        .inst_invalid(inst_invalid)
     );
+
 
     ysyx_25040109_EXU exu (
         .rs1_data(rs1_data),
@@ -52,7 +59,9 @@ module ysyx_25040109_top (
         .pc(pc), 
         .opcode(opcode),
         .funct3(funct3),
+        .funct7(funct7),
         .mem_data(mem_data),
+        .inst_invalid(inst_invalid),
         .result(result),
         .rd_addr_out(rd_addr_exu),
         .reg_write_en_out(reg_write_en_exu),
@@ -85,6 +94,7 @@ module ysyx_25040109_top (
    // import "DPI-C" function void debug_exu(input int pc, input int inst, input int rs1_data, input int rd_addr, input int result);
     //import "DPI-C" function void mtrace_record(byte tp,int addr,int len,int  data);
     import "DPI-C" function void itrace_print( int pc, int instruction_word, int instr_len_bytes);
+    import "DPI-C" function void trap_record(int pc,int cause);
    
 
    
@@ -92,42 +102,57 @@ module ysyx_25040109_top (
 
 
 
-    wire is_sw =(opcode == 7'b0100011 && funct3==3'b010);
-    wire is_lw =(opcode == 7'b0000011 && funct3==3'b010);
+   wire is_load = (opcode == 7'b0000011) && 
+                   (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
+                    funct3 == 3'b100 || funct3 == 3'b101);
+    wire is_store = (opcode == 7'b0100011) && 
+                    (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010);
+
     wire [31:0] mem_addr = rs1_data+imm;
-    wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF);
+    wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF)  && (mem_addr[1:0] == 2'b00);
    
     assign inst = inst_ifu;
 
-    always @(posedge clk) begin
-        //mem_data <= 32'bx; 
-        if (is_lw && addr_valid ) begin
-            verilog_pmem_read(mem_addr, mem_data); 
-            //mtrace_record(8'd82,mem_addr,4,mem_data);//82 "R"
-        end
-    end
-
 
     always @(posedge clk) begin
-        if ( is_sw && addr_valid ) begin
-            verilog_pmem_write(mem_addr, rs2_data, 4);
-            //mtrace_record(8'd87,mem_addr,4,rs2_data);//87 "W"
-        end
-    end
+        if (!rst && inst_valid && !inst_invalid) begin
+            if (is_load && addr_valid) begin
+                case (funct3)
+                    3'b000: verilog_pmem_read(mem_addr, mem_data); // LB
+                    3'b001: verilog_pmem_read(mem_addr, mem_data); // LH
+                    3'b010: verilog_pmem_read(mem_addr, mem_data); // LW
+                    3'b100: verilog_pmem_read(mem_addr, mem_data); // LBU
+                    3'b101: verilog_pmem_read(mem_addr, mem_data); // LHU
+                    default: mem_data = 32'b0;
+                endcase
+            end
+            if (is_store && addr_valid) begin
+                case (funct3)
+                    3'b000: verilog_pmem_write(mem_addr, rs2_data, 1); // SB
+                    3'b001: verilog_pmem_write(mem_addr, rs2_data, 2); // SH
+                    3'b010: verilog_pmem_write(mem_addr, rs2_data, 4); // SW
+                    default: ; // 无操作
+                endcase
+            end
 
-
-always @(posedge clk) begin
-        if (!rst && inst_valid) begin
-            itrace_print(pc, inst_ifu, 4);
-            if (printf_finish(inst_ifu) == 0) begin
+            itrace_print(pc,inst_ifu,4);
+            if(printf_finish(inst_ifu) == 0)begin
+                trap_record(pc,32'h00000001);
                 $finish;
             end
-        end else if (!rst && !inst_valid) begin
-            //：触发非法指令异常
-            $display("Invalid instruction at PC=0x%h", pc);
-            $finish; 
+        end else if( !rst &&  (!inst_valid || inst_invalid))begin
+            trap_pc <= pc;
+            trap_cause <=  inst_valid ?  32'h00000002 : 32'h00000003;
+            
+            trap_record(pc,trap_cause);
+            $finish;
         end
+        
     end
+
+
+
+    
 endmodule
 
       

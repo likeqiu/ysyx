@@ -40,11 +40,11 @@ end
 
 
     always @(posedge clk)begin
-        if(wen) rf[waddr] <= wdata;
+        if(wen && waddr != 5'b0) rf[waddr] <= wdata;
        // $display("waddr=0x%h  wdata=0x%h  raddr1=0x%h  rdata1=0x%h\n",waddr,wdata,raddr1,rdata1);
     end
-    assign rdata1 = (raddr1==0) ? 0 : rf[raddr1]; 
-    assign rdata2 = (raddr2==0) ? 0 : rf[raddr2];
+    assign rdata1 = (raddr1==5'b0) ? 32'b0 : rf[raddr1]; 
+    assign rdata2 = (raddr2==5'b0) ? 32'b0 : rf[raddr2];
     
     assign a0_out=rf[10];
 

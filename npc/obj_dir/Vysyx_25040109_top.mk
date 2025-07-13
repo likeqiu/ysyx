@@ -73,7 +73,6 @@ VM_USER_CLASSES = \
 	vaddr \
 	monitor \
 	expr \
-	iringbuffer \
 	mtrace \
 	sdb \
 	watchpoint \
@@ -124,8 +123,6 @@ vaddr.o: csrc/memory/vaddr.c
 monitor.o: csrc/monitor/monitor.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 expr.o: csrc/monitor/sdb/expr.c
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-iringbuffer.o: csrc/monitor/sdb/iringbuffer.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 mtrace.o: csrc/monitor/sdb/mtrace.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
