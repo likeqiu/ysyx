@@ -4,13 +4,13 @@ module ysyx_25040109_IFU (
     input [31:0] next_pc,
     input rst,
     
-    output  [31:0] pc,
+    //output  [31:0] pc,
    output reg [31:0] inst_ifu,
    output reg inst_valid  
 );
     reg [31:0] pc_reg;
      reg [31:0] temp_inst_ifu,
-     assign pc = pc_reg;
+    // assign pc = pc_reg;
     
 
     always @(posedge clk or posedge rst) begin

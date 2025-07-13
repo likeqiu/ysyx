@@ -33,7 +33,7 @@ module ysyx_25040109_top (
         .rst(rst),
         .clk(clk),
         .next_pc(next_pc),
-        .pc(pc),
+       // .pc(pc),
         .inst_ifu(inst_ifu),
         .inst_valid(inst_valid)
     );
