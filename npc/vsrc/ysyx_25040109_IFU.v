@@ -30,17 +30,17 @@ module ysyx_25040109_IFU (
 
 
 
-    wire [31:0]select_d;
-    task automatic verilog_pmem_read_test(int select);
+    reg [31:0]select_d;
     
-    if (!rst && inst_valid) begin
+task automatic verilog_pmem_read_test(output int select);
+begin
+    if (!rst && inst_valid)
         select = 1;
-    verilog_pmem_read(pc_reg, temp_inst_ifu);
-    end else begin
+    else
         select = 0;
-    end
+end
+endtask
 
-    endtask
 
 
     always @(posedge clk) begin
