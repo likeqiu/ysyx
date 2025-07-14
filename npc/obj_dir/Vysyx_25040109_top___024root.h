@@ -30,7 +30,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     CData/*0:0*/ __Vtrigrprev__TOP__clk;
     CData/*0:0*/ __VactContinue;
     SData/*11:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_s;
-    SData/*11:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_b;
     VL_OUT(inst,31,0);
     VL_OUT(pc,31,0);
     VL_OUT(a0_out,31,0);
@@ -41,7 +40,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     IData/*31:0*/ ysyx_25040109_top__DOT__mem_data_temp;
     IData/*31:0*/ ysyx_25040109_top__DOT__mem_addr;
     IData/*31:0*/ ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem;
-    IData/*19:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_j;
     IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_i_ext;
     IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__lut_out;
     IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__alu_a;
