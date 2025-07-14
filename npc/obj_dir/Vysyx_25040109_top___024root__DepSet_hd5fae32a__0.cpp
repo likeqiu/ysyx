@@ -283,11 +283,13 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         = (0x6f00000000ULL | (QData)((IData)((((- (IData)(
                                                           (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                                                            >> 0x1fU))) 
-                                               << 0x14U) 
-                                              | vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_j))));
+                                               << 0x15U) 
+                                              | (vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_j 
+                                                 << 1U)))));
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__data_list[1U] 
         = (((- (IData)((vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
-                        >> 0x1fU))) << 0x14U) | vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_j);
+                        >> 0x1fU))) << 0x15U) | (vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_j 
+                                                 << 1U));
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list[2U] 
         = (0x2300000000ULL | (QData)((IData)((((- (IData)(
                                                           (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
@@ -301,11 +303,13 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         = (0x6300000000ULL | (QData)((IData)((((- (IData)(
                                                           (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                                                            >> 0x1fU))) 
-                                               << 0xcU) 
-                                              | (IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_b)))));
+                                               << 0xdU) 
+                                              | ((IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_b) 
+                                                 << 1U)))));
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__data_list[0U] 
         = (((- (IData)((vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
-                        >> 0x1fU))) << 0xcU) | (IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_b));
+                        >> 0x1fU))) << 0xdU) | ((IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_b) 
+                                                << 1U));
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__pair_list[0U] 
         = (0x7300000000ULL | (QData)((IData)(((IData)(vlSelf->ysyx_25040109_top__DOT__inst_invalid)
                                                ? vlSelf->pc

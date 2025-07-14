@@ -24,7 +24,7 @@ module ysyx_25040109_IDU (
     wire [31:0] imm_s_ext = {{20{imm_s[11]}}, imm_s};
     wire [31:0] imm_b_ext = {{19{imm_b[12]}}, imm_b, 1'b0};
 
-    ysyx_25040109_MuxKeyWithDefault #(7, 7, 32) imm_select
+    ysyx_25040109_MuxKeyWithDefault #(8, 7, 32) imm_select
     (
         .out(imm),
         .key(opcode),
@@ -33,7 +33,8 @@ module ysyx_25040109_IDU (
             7'b0010111, imm_u_ext, 
             7'b0110111, imm_u_ext, 
             7'b0010011, imm_i_ext, 
-            7'b0000011, imm_i_ext, 
+            7'b0000011, imm_i_ext,
+            7'b1100111, imm_i_ext, 
             7'b0100011, imm_s_ext, 
             7'b1101111, imm_j_ext, 
             7'b1100011, imm_b_ext  
@@ -51,10 +52,17 @@ module ysyx_25040109_IDU (
                           (opcode == 7'b0110011); 
 
 
-      assign inst_invalid = (opcode == 7'b1110011 && funct3 == 3'b000 && inst[31:20] == 12'h001) || // EBREAK
-                          !(opcode == 7'b0110111 || opcode == 7'b0010111 || opcode == 7'b1101111 ||
-                            opcode == 7'b1100111 || opcode == 7'b0000011 || opcode == 7'b0010011 ||
-                            opcode == 7'b0110011 || opcode == 7'b0100011 || opcode == 7'b1100011);        
+        assign inst_invalid = (opcode == 7'b1110011 && funct3 == 3'b000 && inst[31:20] == 12'h001) || // EBREAK
+                         !(opcode == 7'b0110111 || // LUI
+                           opcode == 7'b0010111 || // AUIPC
+                           opcode == 7'b1101111 || // JAL
+                           opcode == 7'b1100111 || // JALR
+                           opcode == 7'b0000011 || // Load
+                           opcode == 7'b0010011 || // I-type
+                           opcode == 7'b0110011 || // R-type
+                           opcode == 7'b0100011 || // Store
+                           opcode == 7'b1100011 || // Branch
+                           opcode == 7'b1110011);  // SYSTEM   
 
  
 
