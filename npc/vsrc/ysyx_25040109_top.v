@@ -77,7 +77,7 @@ module ysyx_25040109_top (
         .pc(pc),
         .wdata(writeback_data),
         .waddr(rd_addr_exu),
-        .wen((reg_write_en_exu && step_en) || load_stall),
+        .wen((reg_write_en_exu && step_en) || (is_load && !load_stall)),
         .raddr1(inst_ifu[19:15]),
         .raddr2(inst_ifu[24:20]),
         .rdata1(rs1_data),
