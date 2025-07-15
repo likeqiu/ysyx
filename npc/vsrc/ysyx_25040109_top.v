@@ -60,7 +60,7 @@ module ysyx_25040109_top (
         .opcode(opcode),
         .funct3(funct3),
         .funct7(funct7),
-        //.mem_data(mem_data),
+       // .mem_data(mem_data),
         .inst_invalid(inst_invalid),
         .result(result),
         .rd_addr_out(rd_addr_exu),
@@ -73,7 +73,7 @@ module ysyx_25040109_top (
         ysyx_25040109_RegisterFile #(5, 32) regfile (
         .clk(clk),
         .pc(pc),
-        .wdata(result),
+        .wdata(writeback_data),
         .waddr(rd_addr_exu),
         .wen(reg_write_en_exu && step_en),
         .raddr1(inst_ifu[19:15]),
@@ -83,6 +83,28 @@ module ysyx_25040109_top (
         .a0_out(a0_out)
 
     );
+
+
+    wire [31:0] writeback_data;
+    reg [31:0] load_result;
+
+    assign writeback_data = is_load ? load_result  : result ;
+      
+   always @(*) begin
+        if (opcode == 7'b0000011) begin // 加载指令
+            case (funct3)
+                3'b000: load_result = {{24{mem_data[7]}}, mem_data[7:0]};   // LB - 符号扩展
+                3'b001: load_result = {{16{mem_data[15]}}, mem_data[15:0]}; // LH - 符号扩展
+                3'b010: load_result = mem_data;                             // LW - 直接使用
+                3'b100: load_result = {24'b0, mem_data[7:0]};              // LBU - 零扩展
+                3'b101: load_result = {16'b0, mem_data[15:0]};             // LHU - 零扩展
+                default: load_result = 32'b0;
+            endcase
+        end else begin
+            load_result = 32'b0;
+        end
+    end
+    
 
 
 

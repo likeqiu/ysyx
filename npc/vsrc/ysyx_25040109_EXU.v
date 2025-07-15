@@ -8,7 +8,7 @@ module ysyx_25040109_EXU (
     input [6:0] opcode,
     input [2:0] funct3,
     input [6:0] funct7,    
-    //input [31:0] mem_data,
+   // input [31:0] mem_data,
     input inst_invalid,  
     output [31:0] result,
     output [4:0] rd_addr_out, 
@@ -20,6 +20,7 @@ module ysyx_25040109_EXU (
     wire [31:0] alu_a, alu_b;
     reg [31:0] alu_out; 
     reg [63:0] mul_temp;
+    wire [31:0] load_result; 
 
     
     ysyx_25040109_MuxKeyWithDefault #(3, 7, 32) alu_a_select( 
@@ -146,6 +147,8 @@ module ysyx_25040109_EXU (
     );
 
 
+
+
     // 结果选择器
     ysyx_25040109_MuxKeyWithDefault #(2, 7, 32) result_select( 
         .out(result),
@@ -153,7 +156,7 @@ module ysyx_25040109_EXU (
         .default_out(alu_out),
         .lut({
             7'b1101111, jal_result, 
-            7'b1100111, jal_result 
+            7'b1100111, jal_result
         })
     );
 
