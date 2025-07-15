@@ -135,10 +135,7 @@ module ysyx_25040109_EXU (
     wire [31:0] jalr_target = (rs1_data + imm) & 32'hFFFFFFFE; //低位清零
     wire [31:0] branch_target   = pc + imm;
         
-    wire signed [31:0] rs1_signed = rs1_data; // 显式声明有符号
-    wire signed [31:0] rs2_signed = rs2_data; // 显式声明有符号
-    wire [31:0] rs1_unsigned = rs1_data;     // 显式声明无符号
-    wire [31:0] rs2_unsigned = rs2_data;     // 显式声明无符号
+   
   
       wire branch_taken = (opcode == 7'b1100011) && (
         (funct3 == 3'b000 && rs1_data == rs2_data) ||                     // BEQ
