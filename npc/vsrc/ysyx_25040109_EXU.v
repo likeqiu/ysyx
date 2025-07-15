@@ -20,7 +20,7 @@ module ysyx_25040109_EXU (
     wire [31:0] alu_a, alu_b;
     reg [31:0] alu_out; 
     reg [63:0] mul_temp;
-    wire [31:0] load_result; 
+
 
     
     ysyx_25040109_MuxKeyWithDefault #(3, 7, 32) alu_a_select( 
