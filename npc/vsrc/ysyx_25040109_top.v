@@ -26,7 +26,7 @@ module ysyx_25040109_top (
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(step_en)
+        .wen(step_en && !load_stall)
     );
 
     ysyx_25040109_IFU ifu (
@@ -50,14 +50,16 @@ module ysyx_25040109_top (
     );
 
 
+    wire exu_reg_write_en = reg_write_en_idu && !load_stall;
+
     ysyx_25040109_EXU exu (
         .rs1_data(rs1_data),
         .rs2_data(rs2_data),
         .imm(imm),
-        .reg_write_en(reg_write_en_idu),
+        .reg_write_en(exu_reg_write_en),
         .rd_addr(rd_addr_idu),
         .pc(pc), 
-        .opcode(opcode),
+        .opcode(load_stall ? 7'b0 : opcode), // 暂停时可以传入 NOP 的 opcode
         .funct3(funct3),
         .funct7(funct7),
        // .mem_data(mem_data),
@@ -86,10 +88,10 @@ module ysyx_25040109_top (
 
 
     wire [31:0] writeback_data;
-    reg [31:0] load_result;
+    reg  [31:0] load_result;
 
     assign writeback_data = is_load ? load_result  : result ;
-      
+
    always @(*) begin
         if (opcode == 7'b0000011) begin // 加载指令
             case (funct3)
@@ -122,6 +124,7 @@ module ysyx_25040109_top (
    
 
 
+    
 
 
    wire is_load = (opcode == 7'b0000011) && 
@@ -129,6 +132,9 @@ module ysyx_25040109_top (
                     funct3 == 3'b100 || funct3 == 3'b101);
     wire is_store = (opcode == 7'b0100011) && 
                     (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010);
+
+    reg load_stall;
+
 
     wire [31:0] mem_addr = result;
     wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF)  && (mem_addr[1:0] == 2'b00);
@@ -141,6 +147,7 @@ module ysyx_25040109_top (
         end else if (inst_pc_valid && !inst_invalid && step_en) begin
             // 加载操作
             if (is_load && addr_valid) begin
+                load_stall<=1'b1;
                 case(funct3)
                     3'b000, 3'b001, 3'b010, 3'b100, 3'b101: begin
                         verilog_pmem_read(mem_addr, mem_data_temp);
@@ -149,6 +156,7 @@ module ysyx_25040109_top (
                     default: mem_data <= 32'b0;
                 endcase
             end else begin
+                load_stall<=1'b0;
                 mem_data <= 32'b0;
             end
             
