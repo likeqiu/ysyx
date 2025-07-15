@@ -60,7 +60,7 @@ module ysyx_25040109_top (
         .opcode(opcode),
         .funct3(funct3),
         .funct7(funct7),
-        .mem_data(mem_data),
+        //.mem_data(mem_data),
         .inst_invalid(inst_invalid),
         .result(result),
         .rd_addr_out(rd_addr_exu),

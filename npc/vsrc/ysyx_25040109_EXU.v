@@ -8,7 +8,7 @@ module ysyx_25040109_EXU (
     input [6:0] opcode,
     input [2:0] funct3,
     input [6:0] funct7,    
-    input [31:0] mem_data,
+    //input [31:0] mem_data,
     input inst_invalid,  
     output [31:0] result,
     output [4:0] rd_addr_out, 
