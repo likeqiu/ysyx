@@ -22,7 +22,7 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root__trace_chg_sub_0\n"); );
     // Init
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode + 1);
-    VlWide<5>/*159:0*/ __Vtemp_h67dae3c2__0;
+    VlWide<5>/*159:0*/ __Vtemp_hf5e3f678__0;
     VlWide<10>/*319:0*/ __Vtemp_h9bdf6ee8__0;
     VlWide<4>/*127:0*/ __Vtemp_hfaf36e9a__0;
     VlWide<5>/*159:0*/ __Vtemp_h51c3fc4f__0;
@@ -55,8 +55,8 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
     }
     if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[1U])) {
         bufp->chgIData(oldp+23,(vlSelf->ysyx_25040109_top__DOT__next_pc),32);
-        bufp->chgIData(oldp+24,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed),32);
-        bufp->chgIData(oldp+25,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed),32);
+        bufp->chgIData(oldp+24,(vlSelf->ysyx_25040109_top__DOT__rs1_data),32);
+        bufp->chgIData(oldp+25,(vlSelf->ysyx_25040109_top__DOT__rs2_data),32);
         bufp->chgIData(oldp+26,(vlSelf->ysyx_25040109_top__DOT__imm),32);
         bufp->chgIData(oldp+27,(vlSelf->ysyx_25040109_top__DOT__result),32);
         bufp->chgBit(oldp+28,(vlSelf->ysyx_25040109_top__DOT__ifu__DOT__is_pc_valid));
@@ -114,24 +114,24 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
         bufp->chgIData(oldp+59,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__data_list[2]),32);
         bufp->chgIData(oldp+60,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__lut_out),32);
         bufp->chgBit(oldp+61,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__hit));
-        __Vtemp_h67dae3c2__0[0U] = (IData)((0x2300000000ULL 
+        __Vtemp_hf5e3f678__0[0U] = (IData)((0x2300000000ULL 
                                             | (QData)((IData)(vlSelf->ysyx_25040109_top__DOT__imm))));
-        __Vtemp_h67dae3c2__0[1U] = ((vlSelf->ysyx_25040109_top__DOT__imm 
+        __Vtemp_hf5e3f678__0[1U] = ((vlSelf->ysyx_25040109_top__DOT__imm 
                                      << 7U) | (IData)(
                                                       ((0x2300000000ULL 
                                                         | (QData)((IData)(vlSelf->ysyx_25040109_top__DOT__imm))) 
                                                        >> 0x20U)));
-        __Vtemp_h67dae3c2__0[2U] = (0x180U | ((vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed 
+        __Vtemp_hf5e3f678__0[2U] = (0x180U | ((vlSelf->ysyx_25040109_top__DOT__rs2_data 
                                                << 0xeU) 
                                               | (vlSelf->ysyx_25040109_top__DOT__imm 
                                                  >> 0x19U)));
-        __Vtemp_h67dae3c2__0[3U] = (0x18c000U | ((vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed 
+        __Vtemp_hf5e3f678__0[3U] = (0x18c000U | ((vlSelf->ysyx_25040109_top__DOT__rs2_data 
                                                   << 0x15U) 
-                                                 | (vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed 
+                                                 | (vlSelf->ysyx_25040109_top__DOT__rs2_data 
                                                     >> 0x12U)));
-        __Vtemp_h67dae3c2__0[4U] = (0x6600000U | (vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed 
+        __Vtemp_hf5e3f678__0[4U] = (0x6600000U | (vlSelf->ysyx_25040109_top__DOT__rs2_data 
                                                   >> 0xbU));
-        bufp->chgWData(oldp+62,(__Vtemp_h67dae3c2__0),156);
+        bufp->chgWData(oldp+62,(__Vtemp_hf5e3f678__0),156);
         bufp->chgQData(oldp+67,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__pair_list[0]),39);
         bufp->chgQData(oldp+69,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__pair_list[1]),39);
         bufp->chgQData(oldp+71,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__pair_list[2]),39);

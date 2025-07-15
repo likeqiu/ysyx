@@ -41,6 +41,8 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         VL_OUT(pc,31,0);
         VL_OUT(a0_out,31,0);
         IData/*31:0*/ ysyx_25040109_top__DOT__next_pc;
+        IData/*31:0*/ ysyx_25040109_top__DOT__rs1_data;
+        IData/*31:0*/ ysyx_25040109_top__DOT__rs2_data;
         IData/*31:0*/ ysyx_25040109_top__DOT__imm;
         IData/*31:0*/ ysyx_25040109_top__DOT__result;
         IData/*31:0*/ ysyx_25040109_top__DOT__mem_data;
@@ -54,8 +56,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__alu_b;
         IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__alu_out;
         IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__jal_target;
-        IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__rs1_signed;
-        IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__rs2_signed;
         IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__lut_out;
         IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__lut_out;
         IData/*31:0*/ ysyx_25040109_top__DOT__exu__DOT__result_select__DOT__i0__DOT__lut_out;

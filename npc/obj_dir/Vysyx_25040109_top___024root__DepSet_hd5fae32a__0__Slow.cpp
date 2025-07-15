@@ -264,11 +264,17 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                          >> 0xcU))) | (1U == (7U & 
                                               (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                                                >> 0xcU))));
-    vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed 
-        = ((0U == (0x1fU & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
-                            >> 0xfU))) ? 0U : vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-           [(0x1fU & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
-                      >> 0xfU))]);
+    vlSelf->ysyx_25040109_top__DOT__rs1_data = ((0U 
+                                                 == 
+                                                 (0x1fU 
+                                                  & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
+                                                     >> 0xfU)))
+                                                 ? 0U
+                                                 : 
+                                                vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
+                                                [(0x1fU 
+                                                  & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
+                                                     >> 0xfU))]);
     vlSelf->__VdfgTmp_ha3c42dfe__0 = vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
         [(0x1fU & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                    >> 0x14U))];
@@ -353,15 +359,14 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a 
         = ((IData)(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__hit)
             ? vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__lut_out
-            : vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed);
+            : vlSelf->ysyx_25040109_top__DOT__rs1_data);
     if ((0U == (0x1fU & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                          >> 0x14U)))) {
-        vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed = 0U;
+        vlSelf->ysyx_25040109_top__DOT__rs2_data = 0U;
         vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__data_list[2U] = 0U;
         vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__data_list[3U] = 0U;
     } else {
-        vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed 
-            = vlSelf->__VdfgTmp_ha3c42dfe__0;
+        vlSelf->ysyx_25040109_top__DOT__rs2_data = vlSelf->__VdfgTmp_ha3c42dfe__0;
         vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__data_list[2U] 
             = vlSelf->__VdfgTmp_ha3c42dfe__0;
         vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__data_list[3U] 
@@ -449,30 +454,30 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                                                                    (0xfff0707fU 
                                                                     & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem))))))))));
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__pair_list[2U] 
-        = (0x6300000000ULL | (QData)((IData)(vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed)));
+        = (0x6300000000ULL | (QData)((IData)(vlSelf->ysyx_25040109_top__DOT__rs2_data)));
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__pair_list[3U] 
-        = (0x3300000000ULL | (QData)((IData)(vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed)));
+        = (0x3300000000ULL | (QData)((IData)(vlSelf->ysyx_25040109_top__DOT__rs2_data)));
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__branch_taken 
         = ((0x63U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
            & ((IData)(((0U == (0x7000U & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
-                       & (vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed 
-                          == vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed))) 
+                       & (vlSelf->ysyx_25040109_top__DOT__rs1_data 
+                          == vlSelf->ysyx_25040109_top__DOT__rs2_data))) 
               | ((IData)(((0x1000U == (0x7000U & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
-                          & (vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed 
-                             != vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed))) 
+                          & (vlSelf->ysyx_25040109_top__DOT__rs1_data 
+                             != vlSelf->ysyx_25040109_top__DOT__rs2_data))) 
                  | ((IData)(((0x4000U == (0x7000U & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
-                             & VL_LTS_III(32, vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed, vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed))) 
+                             & VL_LTS_III(32, vlSelf->ysyx_25040109_top__DOT__rs1_data, vlSelf->ysyx_25040109_top__DOT__rs2_data))) 
                     | ((IData)(((0x5000U == (0x7000U 
                                              & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
-                                & VL_GTES_III(32, vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed, vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed))) 
+                                & VL_GTES_III(32, vlSelf->ysyx_25040109_top__DOT__rs1_data, vlSelf->ysyx_25040109_top__DOT__rs2_data))) 
                        | ((IData)(((0x6000U == (0x7000U 
                                                 & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
-                                   & (vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed 
-                                      < vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed))) 
+                                   & (vlSelf->ysyx_25040109_top__DOT__rs1_data 
+                                      < vlSelf->ysyx_25040109_top__DOT__rs2_data))) 
                           | (IData)(((0x7000U == (0x7000U 
                                                   & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
-                                     & (vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed 
-                                        >= vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed)))))))));
+                                     & (vlSelf->ysyx_25040109_top__DOT__rs1_data 
+                                        >= vlSelf->ysyx_25040109_top__DOT__rs2_data)))))))));
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__lut_out 
         = ((- (IData)(((0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem) 
                        == vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__key_list
@@ -569,7 +574,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__data_list[3U] 
         = (vlSelf->pc + vlSelf->ysyx_25040109_top__DOT__imm);
     vlSelf->ysyx_25040109_top__DOT__mem_addr = (vlSelf->ysyx_25040109_top__DOT__imm 
-                                                + vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed);
+                                                + vlSelf->ysyx_25040109_top__DOT__rs1_data);
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__jal_target 
         = (vlSelf->pc + vlSelf->ysyx_25040109_top__DOT__imm);
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__shift_amount 
@@ -1403,6 +1408,8 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
     vlSelf->pc = VL_RAND_RESET_I(32);
     vlSelf->a0_out = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__next_pc = VL_RAND_RESET_I(32);
+    vlSelf->ysyx_25040109_top__DOT__rs1_data = VL_RAND_RESET_I(32);
+    vlSelf->ysyx_25040109_top__DOT__rs2_data = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__imm = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__result = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__mem_data = VL_RAND_RESET_I(32);
@@ -1437,8 +1444,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__mul_temp = VL_RAND_RESET_Q(64);
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__shift_amount = VL_RAND_RESET_I(5);
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__jal_target = VL_RAND_RESET_I(32);
-    vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs1_signed = VL_RAND_RESET_I(32);
-    vlSelf->ysyx_25040109_top__DOT__exu__DOT__rs2_signed = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__branch_taken = VL_RAND_RESET_I(1);
     for (int __Vi0 = 0; __Vi0 < 3; ++__Vi0) {
         vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__pair_list[__Vi0] = VL_RAND_RESET_Q(39);

@@ -6,7 +6,7 @@ module ysyx_25040109_top (
     output [31:0] a0_out
 );
     wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;
-    wire inst_valid,inst_invalid;
+    wire inst_pc_valid,inst_invalid;
     wire [2:0] funct3;
     wire [6:0] funct7;
     reg  [31:0] mem_data;
@@ -34,7 +34,7 @@ module ysyx_25040109_top (
         //.clk(clk),
         .pc(pc),
         .inst_ifu(inst_ifu),
-        .inst_valid(inst_valid)
+        .inst_valid(inst_pc_valid)
     );
 
 
@@ -119,7 +119,7 @@ module ysyx_25040109_top (
        always @(posedge clk) begin
         if (rst) begin
             mem_data <= 32'b0;
-        end else if (inst_valid && !inst_invalid && step_en) begin
+        end else if (inst_pc_valid && !inst_invalid && step_en) begin
             // 读取操作
             if (is_load && addr_valid) begin
                 case(funct3)
