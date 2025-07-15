@@ -147,7 +147,7 @@ module ysyx_25040109_top (
         if (rst) begin
             load_stall <= 1'b0;
             rd_addr_wb<=0;
-            reg_write_en_wb = 1'b0;
+            reg_write_en_wb <= 1'b0;
             mem_data <= 32'b0;
         end else if(load_stall == 1'b1)begin
             
