@@ -147,13 +147,13 @@ module ysyx_25040109_EXU (
 
 
     // 结果选择器
-    ysyx_25040109_MuxKeyWithDefault #(4, 7, 32) result_select( 
+    ysyx_25040109_MuxKeyWithDefault #(2, 7, 32) result_select( 
         .out(result),
         .key(opcode),
         .default_out(alu_out),
         .lut({
-            7'b1101111, jal_result, // JAL
-            7'b1100111, jal_result, // JALR
+            7'b1101111, jal_result, 
+            7'b1100111, jal_result 
         })
     );
 
