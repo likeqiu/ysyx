@@ -78,8 +78,8 @@ module ysyx_25040109_top (
         .clk(clk),
         .pc(pc),
         .wdata(writeback_data),
-        .waddr(rd_addr_wb),
-        .wen(reg_write_en_wb),
+        .waddr(rd_addr_exu),
+        .wen(reg_write_en_exu && step_en),
         .raddr1(inst_ifu[19:15]),
         .raddr2(inst_ifu[24:20]),
         .rdata1(rs1_data),
@@ -147,7 +147,7 @@ module ysyx_25040109_top (
         if (rst) begin
             load_stall <= 1'b0;
             rd_addr_wb<=0;
-            reg_write_en_wb <= 1'b0;
+            reg_write_en_wb = 1'b0;
             mem_data <= 32'b0;
         end else if(load_stall == 1'b1)begin
             
@@ -204,7 +204,6 @@ module ysyx_25040109_top (
             // 其他情况，保持写回信号传递
             rd_addr_wb <= rd_addr_exu;
             reg_write_en_wb <= reg_write_en_exu;
-        end
     end
 endmodule
 
