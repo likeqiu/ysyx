@@ -51,20 +51,100 @@ module ysyx_25040109_IDU (
                           (opcode == 7'b0010011) || 
                           (opcode == 7'b0110011); 
 
+                              
+    wire valid_lui    = (opcode == 7'b0110111);
+    wire valid_auipc  = (opcode == 7'b0010111);
+    wire valid_jal    = (opcode == 7'b1101111);
+    wire valid_jalr   = (opcode == 7'b1100111) && (funct3 == 3'b000);
 
-        assign inst_invalid = (opcode == 7'b1110011 && funct3 == 3'b000 && inst[31:20] == 12'h001) || // EBREAK
-                         !(opcode == 7'b0110111 || // LUI
-                           opcode == 7'b0010111 || // AUIPC
-                           opcode == 7'b1101111 || // JAL
-                           opcode == 7'b1100111 || // JALR
-                           opcode == 7'b0000011 || // Load
-                           opcode == 7'b0010011 || // I-type
-                           opcode == 7'b0110011 || // R-type
-                           opcode == 7'b0100011 || // Store
-                           opcode == 7'b1100011 || // Branch
-                           opcode == 7'b1110011);  // SYSTEM   
 
- 
+        wire valid_load = (opcode == 7'b0000011) && (
+            funct3 == 3'b000  ||
+            funct3 == 3'b001 ||
+            funct3 == 3'b010 ||
+            funct3 == 3'b100 ||
+            funct3 == 3'b101 
+
+        );
+
+
+        wire valid_store = (opcode == 7'b0100011) && (
+            funct3 == 3'b000 ||
+            funct3 == 3'b001 ||
+            funct3 == 3'b010
+            );
+
+        wire valid_branch = (opcode == 7'b1100011) && (
+            funct3 == 3'b000 ||
+            funct3 == 3'b001 ||
+            funct3 == 3'b100 ||
+            funct3 == 3'b110 ||
+            funct3 == 3'b111
+        ) ;
+
+
+        wire valid_i_type = (opcode == 7'b0010011) && (
+            funct3 == 3'b000 ||
+            funct3 == 3'b010 ||
+            funct3 == 3'b011 ||
+            funct3 == 3'b100 ||
+            funct3 == 3'b110 ||
+            funct3 == 3'b111 ||
+            (funct3 == 3'b001 && funct7 == 7'b0000000) ||
+            (funct3 == 3'b101 && funct7 == 7'b0000000) ||
+            (funct3 == 3'b101 && funct7 == 7'b0100000)
+
+        );
+
+
+
+        wire valid_r_type = (opcode == 7'b110011) && (
+            funct3 == 3'b000 ||
+            funct3 == 3'b010 ||
+            funct3 == 3'b011 ||
+            funct3 == 3'b100 ||
+            funct3 == 3'b110 ||
+            funct3 == 3'b111 ||
+            (funct3 == 3'b001 && funct7 == 7'b0000000) ||
+            (funct3 == 3'b101 && funct7 == 7'b0000000) ||
+            (funct3 == 3'b101 && funct7 == 7'b0100000)
+        );
+
+         wire valid_r_type = (opcode == 7'b0110011) && (
+        (funct3 == 3'b000 && funct7 == 7'b0000000) ||         // ADD
+        (funct3 == 3'b000 && funct7 == 7'b0100000) ||         // SUB
+        (funct3 == 3'b001 && funct7 == 7'b0000000) ||         // SLL
+        (funct3 == 3'b010 && funct7 == 7'b0000000) ||         // SLT
+        (funct3 == 3'b011 && funct7 == 7'b0000000) ||         // SLTU
+        (funct3 == 3'b100 && funct7 == 7'b0000000) ||         // XOR
+        (funct3 == 3'b101 && funct7 == 7'b0000000) ||         // SRL
+        (funct3 == 3'b101 && funct7 == 7'b0100000) ||         // SRA
+        (funct3 == 3'b110 && funct7 == 7'b0000000) ||         // OR
+        (funct3 == 3'b111 && funct7 == 7'b0000000) ||         // AND
+        // M扩展指令 (乘法除法)
+        (funct3 == 3'b000 && funct7 == 7'b0000001) ||         // MUL
+        (funct3 == 3'b001 && funct7 == 7'b0000001) ||         // MULH
+        (funct3 == 3'b100 && funct7 == 7'b0000001) ||         // DIV
+        (funct3 == 3'b101 && funct7 == 7'b0000001) ||         // DIVU
+        (funct3 == 3'b110 && funct7 == 7'b0000001) ||         // REM
+        (funct3 == 3'b111 && funct7 == 7'b0000001)            // REMU
+    );
+    
+    // EBREAK指令检查
+    wire valid_ebreak = (opcode == 7'b1110011) && 
+                       (funct3 == 3'b000) && 
+                       (inst[31:20] == 12'h001);
+
+
+        always @(*) begin
+        if (valid_lui || valid_auipc || valid_jal || valid_jalr ||
+            valid_load || valid_store || valid_branch || 
+            valid_i_type || valid_r_type || valid_ebreak) begin
+            inst_invalid = 1'b0;
+        end else begin
+            inst_invalid = 1'b1;
+        end
+    end
 
     
 

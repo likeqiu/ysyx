@@ -34,14 +34,15 @@ module ysyx_25040109_EXU (
     );
 
     
-    ysyx_25040109_MuxKeyWithDefault #(3,7,32) alu_b_select(
+    ysyx_25040109_MuxKeyWithDefault #(4,7,32) alu_b_select(
         .out(alu_b),
         .key(opcode),
         .default_out(imm),
         .lut({
             7'b0110011,rs2_data, // R型指令
             7'b1100011,rs2_data, //B型指令
-            7'b0000011,imm
+            7'b0000011,imm,
+            7'b0100011,imm
         })
     );
    
@@ -53,8 +54,8 @@ module ysyx_25040109_EXU (
         end else begin
         casez({opcode,funct3,funct7})
                 {7'b0010011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // ADDI
-                {7'b0010011, 3'b010, 7'b???????}: alu_out = ($signed(alu_a) < $signed(alu_b)) ? 1 : 0; // SLTI
-                {7'b0010011, 3'b011, 7'b???????}: alu_out = (alu_a < alu_b) ? 1 : 0; // SLTIU
+                {7'b0010011, 3'b010, 7'b???????}: alu_out = ($signed(alu_a) < $signed(alu_b)) ? 32'h1 : 32'h0; // SLTI
+                {7'b0010011, 3'b011, 7'b???????}: alu_out = (alu_a < alu_b) ? 32'h1 : 32'h0; // SLTIU
                 {7'b0010011, 3'b100, 7'b???????}: alu_out = alu_a ^ alu_b; // XORI
                 {7'b0010011, 3'b110, 7'b???????}: alu_out = alu_a | alu_b; // ORI
                 {7'b0010011, 3'b111, 7'b???????}: alu_out = alu_a & alu_b; // ANDI
@@ -65,8 +66,8 @@ module ysyx_25040109_EXU (
                 {7'b0110011, 3'b000, 7'b0000000}: alu_out = alu_a + alu_b; // ADD
                 {7'b0110011, 3'b000, 7'b0100000}: alu_out = alu_a - alu_b; // SUB
                 {7'b0110011, 3'b001, 7'b0000000}: alu_out = alu_a << shift_amount; // SLL
-                {7'b0110011, 3'b010, 7'b0000000}: alu_out = ($signed(alu_a) < $signed(alu_b)) ? 1 : 0; // SLT
-                {7'b0110011, 3'b011, 7'b0000000}: alu_out = (alu_a < alu_b) ? 1 : 0; // SLTU
+                {7'b0110011, 3'b010, 7'b0000000}: alu_out = ($signed(alu_a) < $signed(alu_b)) ? 32'h1 : 32'h0; // SLT
+                {7'b0110011, 3'b011, 7'b0000000}: alu_out = (alu_a < alu_b) ? 32'h1 : 32'h0; // SLTU
                 {7'b0110011, 3'b100, 7'b0000000}: alu_out = alu_a ^ alu_b; // XOR
                 {7'b0110011, 3'b101, 7'b0000000}: alu_out = alu_a >> shift_amount; // SRL
                 {7'b0110011, 3'b101, 7'b0100000}: alu_out = $signed(alu_a) >>> shift_amount; // SRA
@@ -80,28 +81,58 @@ module ysyx_25040109_EXU (
                     mul_temp = $signed(alu_a) * $signed(alu_b);
                     alu_out = mul_temp[63:32]; // MULH
                 end
-                {7'b0110011, 3'b100, 7'b0000001}: alu_out = (alu_b == 0) ? -1 : 
-                    ((alu_a == 32'h80000000 && alu_b == -1) ? 32'h80000000 : $signed(alu_a) / $signed(alu_b)); // DIV
-                {7'b0110011, 3'b101, 7'b0000001}: alu_out = (alu_b == 0) ? 32'hFFFFFFFF : alu_a / alu_b; // DIVU
-                {7'b0110011, 3'b110, 7'b0000001}: alu_out = (alu_b == 0) ? alu_a : 
-                    ((alu_a == 32'h80000000 && alu_b == -1) ? 0 : $signed(alu_a) % $signed(alu_b)); // REM
-                {7'b0110011, 3'b111, 7'b0000001}: alu_out = (alu_b == 0) ? alu_a : alu_a % alu_b; // REMU
-                // 加载指令
+                {7'b0110011, 3'b100, 7'b0000001}: begin
+                    if(alu_b == 32'h0)
+                        alu_out = 32'hFFFFFFF;// 除零返回全1
+                    else if(alu_a == 32'h80000000 && alu_b == 32'hFFFFFFFF)
+                       alu_out = 32'h80000000;
+                    else  alu_out = $signed(alu_a) / $signed(alu_b);
+                end
+                   {7'b0110011, 3'b101, 7'b0000001}: begin // DIVU
+                    if (alu_b == 32'h0) 
+                        alu_out = 32'hFFFFFFFF;  // 除零返回全1
+                    else
+                        alu_out = alu_a / alu_b;
+                end
+                {7'b0110011, 3'b110, 7'b0000001}: begin // REM
+                    if (alu_b == 32'h0) 
+                        alu_out = alu_a;  // 除零返回被除数
+                    else if (alu_a == 32'h80000000 && alu_b == 32'hFFFFFFFF)
+                        alu_out = 32'h0;  // 溢出情况余数为0
+                    else
+                        alu_out = $signed(alu_a) % $signed(alu_b);
+                end
+                {7'b0110011, 3'b111, 7'b0000001}: begin // REMU
+                    if (alu_b == 32'h0) 
+                        alu_out = alu_a;  // 除零返回被除数
+                    else
+                        alu_out = alu_a % alu_b;
+                end
+{7'b0110111, 3'b???, 7'b???????}: alu_out = alu_b; // LUI
+                {7'b0010111, 3'b???, 7'b???????}: alu_out = alu_a + alu_b; // AUIPC
+                
+                // 加载指令 - 根据内存数据进行符号/零扩展
                 {7'b0000011, 3'b000, 7'b???????}: alu_out = {{24{mem_data[7]}}, mem_data[7:0]}; // LB
                 {7'b0000011, 3'b001, 7'b???????}: alu_out = {{16{mem_data[15]}}, mem_data[15:0]}; // LH
                 {7'b0000011, 3'b010, 7'b???????}: alu_out = mem_data; // LW
                 {7'b0000011, 3'b100, 7'b???????}: alu_out = {24'b0, mem_data[7:0]}; // LBU
                 {7'b0000011, 3'b101, 7'b???????}: alu_out = {16'b0, mem_data[15:0]}; // LHU
-                default: alu_out = 32'b0; // 默认值，非法指令
+                
+                // 存储指令 - 计算地址
+                {7'b0100011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // SB
+                {7'b0100011, 3'b001, 7'b???????}: alu_out = alu_a + alu_b; // SH
+                {7'b0100011, 3'b010, 7'b???????}: alu_out = alu_a + alu_b; // SW
+                
+                default: alu_out = 32'b0;
             endcase
+        end
     end
-end
 
 
     // 分支/跳转目标计算
     wire [31:0] jal_result      = pc + 4;
     wire [31:0] jal_target      = pc + imm;
-    wire [31:0] jalr_target     = (rs1_data + imm) & ~32'h1; //低位清零
+    wire [31:0] jalr_target = (rs1_data + imm) & 32'hFFFFFFFE; //低位清零
     wire [31:0] branch_target   = pc + imm;
         
     wire signed [31:0] rs1_signed = rs1_data; // 显式声明有符号
@@ -109,14 +140,13 @@ end
     wire [31:0] rs1_unsigned = rs1_data;     // 显式声明无符号
     wire [31:0] rs2_unsigned = rs2_data;     // 显式声明无符号
   
-    wire branch_taken = (opcode == 7'b1100011) && (
-        (funct3 == 3'b000 && rs1_data == rs2_data) || // BEQ
-        (funct3 == 3'b001 && rs1_data != rs2_data && rs2_data != 0) || // BNE
-        (funct3 == 3'b100 && rs1_signed < rs2_signed) || // BLT
-        (funct3 == 3'b101 && rs1_signed >= rs2_signed) || // BGE
-        (funct3 == 3'b110 && rs1_unsigned < rs2_unsigned) || // BLTU
-        (funct3 == 3'b111 && rs1_unsigned >= rs2_unsigned) || // BGEU
-        (funct3 == 3'b001 && rs1_data != 0 && rs2_data == 0) // BNEZ
+      wire branch_taken = (opcode == 7'b1100011) && (
+        (funct3 == 3'b000 && rs1_data == rs2_data) ||                     // BEQ
+        (funct3 == 3'b001 && rs1_data != rs2_data) ||                     // BNE
+        (funct3 == 3'b100 && $signed(rs1_data) < $signed(rs2_data)) ||    // BLT
+        (funct3 == 3'b101 && $signed(rs1_data) >= $signed(rs2_data)) ||   // BGE
+        (funct3 == 3'b110 && rs1_data < rs2_data) ||                      // BLTU
+        (funct3 == 3'b111 && rs1_data >= rs2_data)                        // BGEU
     );
 
 
@@ -136,12 +166,12 @@ end
     ysyx_25040109_MuxKeyWithDefault #(4, 7, 32) next_pc_select(
         .out(next_pc),
         .key(opcode),
-        .default_out(pc + 4),     
+        .default_out(pc + 32'h4),     
         .lut({
             7'b1101111, jal_target,    
             7'b1100111, jalr_target,   
             7'b1100011, branch_taken ? branch_target : (pc + 4),
-             7'b1110011, inst_invalid ? pc : (pc + 4)
+            7'b1110011,  pc + 32'h4 
         })
     );
 
