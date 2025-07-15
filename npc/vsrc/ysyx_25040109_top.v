@@ -108,64 +108,56 @@ module ysyx_25040109_top (
     wire is_store = (opcode == 7'b0100011) && 
                     (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010);
 
-    wire [31:0] mem_addr = rs1_data+imm;
+    wire [31:0] mem_addr = result;
     wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF)  && (mem_addr[1:0] == 2'b00);
    
     assign inst = inst_ifu;
 
-
-
-   
-       always @(posedge clk) begin
+   always @(posedge clk) begin
         if (rst) begin
             mem_data <= 32'b0;
         end else if (inst_pc_valid && !inst_invalid && step_en) begin
-            // 读取操作
+            // 加载操作
             if (is_load && addr_valid) begin
                 case(funct3)
-                3'b000, 3'b001, 3'b010, 3'b100, 3'b101: begin
-                    begin verilog_pmem_read(mem_addr, mem_data_temp);mem_data <= mem_data_temp; end 
+                    3'b000, 3'b001, 3'b010, 3'b100, 3'b101: begin
+                        verilog_pmem_read(mem_addr, mem_data_temp);
+                        mem_data <= mem_data_temp;
                     end
-             default: mem_data <= 32'b0;
+                    default: mem_data <= 32'b0;
                 endcase
             end else begin
                 mem_data <= 32'b0;
             end
             
-            // 写入操作
+            // 存储操作
             if (is_store && addr_valid) begin
                 case (funct3)
                     3'b000: verilog_pmem_write(mem_addr, rs2_data, 1); // SB
                     3'b001: verilog_pmem_write(mem_addr, rs2_data, 2); // SH
                     3'b010: verilog_pmem_write(mem_addr, rs2_data, 4); // SW
-                    default:;
-
+                    default: ;
                 endcase
             end
-          
-           
-        end 
-         itrace_print(pc, inst_ifu, 4);
             
+            // 指令跟踪
+            itrace_print(pc, inst_ifu, 4);
+            
+            // 程序终止检查
             if (printf_finish(inst_ifu) == 0) begin
-                
                 $finish;
-                //trap_pc <= pc;
-                //trap_cause <= 32'h00000001; // EBREAK
-                //trap_record(trap_pc, trap_cause);
-                
             end
-        /*else if (!inst_valid || inst_invalid) begin
-            trap_pc <= pc;
-            trap_cause <= inst_valid ? 32'h00000002 : 32'h00000003;
-            trap_record(trap_pc, trap_cause);
-            $finish;
-        end*/
+        end else if (!inst_pc_valid || inst_invalid) begin
+            $display("%s",inst_invalid ? "inst_invalid" : "pc_invalid");
+
+            mem_data <= 32'b0;
+            itrace_print(pc, inst_ifu, 4);
+            
+
+            // trap_record(pc, inst_valid ? 32'h00000002 : 32'h00000003);
+            // $finish;
+        end
     end
-
-
-
-    
 endmodule
 
       

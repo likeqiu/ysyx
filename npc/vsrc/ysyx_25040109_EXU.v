@@ -83,7 +83,7 @@ module ysyx_25040109_EXU (
                 end
                 {7'b0110011, 3'b100, 7'b0000001}: begin
                     if(alu_b == 32'h0)
-                        alu_out = 32'hFFFFFFF;// 除零返回全1
+                        alu_out = 32'hFFFFFFFF;// 除零返回全1
                     else if(alu_a == 32'h80000000 && alu_b == 32'hFFFFFFFF)
                        alu_out = 32'h80000000;
                     else  alu_out = $signed(alu_a) / $signed(alu_b);
@@ -108,21 +108,20 @@ module ysyx_25040109_EXU (
                     else
                         alu_out = alu_a % alu_b;
                 end
-{7'b0110111, 3'b???, 7'b???????}: alu_out = alu_b; // LUI
+                 {7'b0110111, 3'b???, 7'b???????}: alu_out = alu_b; // LUI
                 {7'b0010111, 3'b???, 7'b???????}: alu_out = alu_a + alu_b; // AUIPC
-                
-                // 加载指令 - 根据内存数据进行符号/零扩展
-                {7'b0000011, 3'b000, 7'b???????}: alu_out = {{24{mem_data[7]}}, mem_data[7:0]}; // LB
-                {7'b0000011, 3'b001, 7'b???????}: alu_out = {{16{mem_data[15]}}, mem_data[15:0]}; // LH
-                {7'b0000011, 3'b010, 7'b???????}: alu_out = mem_data; // LW
-                {7'b0000011, 3'b100, 7'b???????}: alu_out = {24'b0, mem_data[7:0]}; // LBU
-                {7'b0000011, 3'b101, 7'b???????}: alu_out = {16'b0, mem_data[15:0]}; // LHU
-                
-                // 存储指令 - 计算地址
-                {7'b0100011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // SB
-                {7'b0100011, 3'b001, 7'b???????}: alu_out = alu_a + alu_b; // SH
-                {7'b0100011, 3'b010, 7'b???????}: alu_out = alu_a + alu_b; // SW
-                
+
+                // 内存指令 - 统一进行地址计算
+                {7'b0000011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // LB - 计算地址
+                {7'b0000011, 3'b001, 7'b???????}: alu_out = alu_a + alu_b; // LH - 计算地址
+                {7'b0000011, 3'b010, 7'b???????}: alu_out = alu_a + alu_b; // LW - 计算地址
+                {7'b0000011, 3'b100, 7'b???????}: alu_out = alu_a + alu_b; // LBU - 计算地址
+                {7'b0000011, 3'b101, 7'b???????}: alu_out = alu_a + alu_b; // LHU - 计算地址
+
+                {7'b0100011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // SB - 计算地址
+                {7'b0100011, 3'b001, 7'b???????}: alu_out = alu_a + alu_b; // SH - 计算地址
+                {7'b0100011, 3'b010, 7'b???????}: alu_out = alu_a + alu_b; // SW - 计算地址
+
                 default: alu_out = 32'b0;
             endcase
         end
@@ -148,14 +147,13 @@ module ysyx_25040109_EXU (
 
 
     // 结果选择器
-    ysyx_25040109_MuxKeyWithDefault #(3, 7, 32) result_select( 
+    ysyx_25040109_MuxKeyWithDefault #(4, 7, 32) result_select( 
         .out(result),
         .key(opcode),
         .default_out(alu_out),
         .lut({
             7'b1101111, jal_result, // JAL
             7'b1100111, jal_result, // JALR
-            7'b0000011, alu_out     // LB, LH, LW, LBU, LHU
         })
     );
 
