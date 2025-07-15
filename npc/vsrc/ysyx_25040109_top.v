@@ -16,8 +16,6 @@ module ysyx_25040109_top (
     wire step_en =1'b1;
     wire [6:0] opcode = inst_ifu[6:0];
         
-    reg [4:0] rd_addr_wb;
-    reg reg_write_en_wb;
    // reg [31:0] trap_pc;
    // reg [31:0] trap_cause;
 
@@ -146,20 +144,15 @@ module ysyx_25040109_top (
    always @(posedge clk) begin
         if (rst) begin
             load_stall <= 1'b0;
-            rd_addr_wb<=0;
-            reg_write_en_wb = 1'b0;
             mem_data <= 32'b0;
         end else if(load_stall == 1'b1)begin
             
             load_stall <= 1'b0;
-            reg_write_en_wb <= 1'b1;
 
         end else if (inst_pc_valid && !inst_invalid && step_en) begin
             // 加载操作
             if (is_load && addr_valid) begin
                 load_stall<=1'b1;
-                rd_addr_wb<=rd_addr_idu;
-                reg_write_en_wb <= 1'b0;
                 case(funct3)
                     3'b000, 3'b001, 3'b010, 3'b100, 3'b101: begin
                         verilog_pmem_read(mem_addr, mem_data_temp);
@@ -169,8 +162,6 @@ module ysyx_25040109_top (
                 endcase
             end else begin
                 load_stall<=1'b0;
-                 rd_addr_wb <= rd_addr_exu;
-                reg_write_en_wb <= reg_write_en_exu;
                 mem_data <= 32'b0;
             end
             
@@ -200,10 +191,7 @@ module ysyx_25040109_top (
 
             // trap_record(pc, inst_valid ? 32'h00000002 : 32'h00000003);
             // $finish;
-        end  else begin
-            // 其他情况，保持写回信号传递
-            rd_addr_wb <= rd_addr_exu;
-            reg_write_en_wb <= reg_write_en_exu;
+        end
     end
 endmodule
 
