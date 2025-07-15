@@ -88,7 +88,10 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     vlSelf->a0_out = vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
         [0xaU];
     if (vlSelf->rst) {
+        __Vdly__ysyx_25040109_top__DOT__load_stall = 0U;
         vlSelf->ysyx_25040109_top__DOT__mem_data = 0U;
+    } else if (vlSelf->ysyx_25040109_top__DOT__load_stall) {
+        __Vdly__ysyx_25040109_top__DOT__load_stall = 0U;
     } else if (((IData)(vlSelf->ysyx_25040109_top__DOT__ifu__DOT__is_pc_valid) 
                 & (IData)(vlSelf->__VdfgTmp_ha2391786__0))) {
         if (((IData)(vlSelf->ysyx_25040109_top__DOT__is_load) 
@@ -142,7 +145,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__itrace_print_TOP(vlSelf->pc, vlSelf->inst, 4U);
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__printf_finish_TOP(vlSelf->inst, __Vfunc_ysyx_25040109_top__DOT__printf_finish__7__Vfuncout);
         if (VL_UNLIKELY((0U == __Vfunc_ysyx_25040109_top__DOT__printf_finish__7__Vfuncout))) {
-            VL_FINISH_MT("/home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v", 178, "");
+            VL_FINISH_MT("/home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v", 183, "");
         }
     } else if (VL_UNLIKELY((1U & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__ifu__DOT__is_pc_valid)) 
                                   | (~ (IData)(vlSelf->__VdfgTmp_ha2391786__0)))))) {
