@@ -143,7 +143,12 @@ module ysyx_25040109_top (
 
    always @(posedge clk) begin
         if (rst) begin
+            load_stall <= 1'b0;
             mem_data <= 32'b0;
+        end else if(load_stall == 1'b1)begin
+            
+            load_stall<=1'b0;
+
         end else if (inst_pc_valid && !inst_invalid && step_en) begin
             // 加载操作
             if (is_load && addr_valid) begin
