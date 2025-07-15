@@ -174,7 +174,7 @@ module ysyx_25040109_EXU (
     );
 
     assign rd_addr_out = rd_addr;
-    assign reg_write_en_out = reg_write_en && !inst_invalid;
+    assign reg_write_en_out = reg_write_en && !inst_invalid && (opcode != 7'b0000011);
 
 endmodule
 
