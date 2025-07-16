@@ -1390,6 +1390,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                                               >> 7U)))) 
                             << 8U) | (0xffU & vlSelf->ysyx_25040109_top__DOT__mem_data)))));
     } else {
+        vlSelf->ysyx_25040109_top__DOT__mem_data = 0U;
         vlSelf->ysyx_25040109_top__DOT__load_result = 0U;
     }
 }
