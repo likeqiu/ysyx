@@ -99,7 +99,8 @@ module ysyx_25040109_top (
     assign writeback_data = is_load ? load_result  : result ;
 
    always @(*) begin
-        if (opcode == 7'b0000011) begin // 加载指令
+        if (is_load) begin // 加载指令
+            verilog_pmem_read(mem_addr, mem_data);
             case (funct3)
                 3'b000: load_result = {{24{mem_data[7]}}, mem_data[7:0]};   // LB - 符号扩展
                 3'b001: load_result = {{16{mem_data[15]}}, mem_data[15:0]}; // LH - 符号扩展
@@ -129,7 +130,7 @@ module ysyx_25040109_top (
     endfunction*/
 
 
-    always @(*) begin
+   /* always @(*) begin
     if (is_load) begin
         // 只有当指令是Load时, 才调用DPI函数从内存读取数据
         verilog_pmem_read(mem_addr, mem_data);
@@ -137,7 +138,7 @@ module ysyx_25040109_top (
         // 对于非Load指令, 赋予默认值，不进行任何内存读取操作
         mem_data = 32'b0; 
     end
-end
+end*/
     
 
     // assign mem_data = is_load ? pmem_read_data(mem_addr) : 32'b0;
