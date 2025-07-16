@@ -129,9 +129,18 @@ module ysyx_25040109_top (
     endfunction
 
 
+    always @(*) begin
+    if (is_load) begin
+        // 只有当指令是Load时, 才调用DPI函数从内存读取数据
+        verilog_pmem_read(mem_addr, mem_data);
+    end else begin
+        // 对于非Load指令, 赋予默认值，不进行任何内存读取操作
+        mem_data = 32'b0; 
+    end
+end
     
 
-     assign mem_data = is_load ? pmem_read_data(mem_addr) : 32'b0;
+    // assign mem_data = is_load ? pmem_read_data(mem_addr) : 32'b0;
 
 
 
