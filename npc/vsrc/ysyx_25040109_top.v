@@ -148,7 +148,7 @@ module ysyx_25040109_top (
 
 
     wire [31:0] mem_addr = result;
-    wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF)  && (mem_addr[1:0] == 2'b00);
+    //wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF)  && (mem_addr[1:0] == 2'b00);
    
     assign inst = inst_ifu;
 
