@@ -95,8 +95,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         __Vdly__ysyx_25040109_top__DOT__load_data_ready = 0U;
         vlSelf->ysyx_25040109_top__DOT__mem_data = 0U;
     } else if (vlSelf->ysyx_25040109_top__DOT__load_stall) {
-        __Vdly__ysyx_25040109_top__DOT__load_stall 
-            = (1U & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__load_data_ready)));
         if ((1U & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__load_data_ready)))) {
             Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(vlSelf->ysyx_25040109_top__DOT__result, __Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__0__data);
             vlSelf->ysyx_25040109_top__DOT__mem_data_temp 
@@ -104,6 +102,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
             vlSelf->ysyx_25040109_top__DOT__mem_data 
                 = vlSelf->ysyx_25040109_top__DOT__mem_data_temp;
             __Vdly__ysyx_25040109_top__DOT__load_data_ready = 1U;
+            __Vdly__ysyx_25040109_top__DOT__load_stall = 0U;
         }
     } else if (((IData)(vlSelf->ysyx_25040109_top__DOT__ifu__DOT__is_pc_valid) 
                 & (IData)(vlSelf->__VdfgTmp_h11d1b5c3__0))) {
@@ -177,10 +176,8 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__data_list[2U] 
         = vlSelf->pc;
     vlSelf->ysyx_25040109_top__DOT__ifu__DOT__is_pc_valid 
-        = ((0x80000000U <= vlSelf->pc) & ((0x87ffffffU 
-                                           >= vlSelf->pc) 
-                                          & (0U == 
-                                             (3U & vlSelf->pc))));
+        = ((0x80000000U <= vlSelf->pc) & (0x87ffffffU 
+                                          >= vlSelf->pc));
     if (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__is_pc_valid) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(vlSelf->pc, vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__7__data);
         vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 

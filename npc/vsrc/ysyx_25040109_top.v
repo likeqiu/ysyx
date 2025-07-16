@@ -5,7 +5,8 @@ module ysyx_25040109_top (
     output [31:0] pc,
     output [31:0] a0_out
 );
-    wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;
+    reg [31:0] inst_ifu;
+    wire [31:0] next_pc,  rs1_data, rs2_data, imm, result;
     wire inst_pc_valid,inst_invalid;
     wire [2:0] funct3;
     wire [6:0] funct7;
@@ -35,8 +36,8 @@ module ysyx_25040109_top (
     );
 
     ysyx_25040109_IFU ifu (
-        //.rst(rst),
-        //.clk(clk),
+        .rst(rst),
+        .clk(clk),
         .pc(pc),
         .inst_ifu(inst_ifu),
         .inst_valid(inst_pc_valid)

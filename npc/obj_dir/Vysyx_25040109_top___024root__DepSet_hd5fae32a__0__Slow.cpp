@@ -178,10 +178,8 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__data_list[2U] 
         = vlSelf->pc;
     vlSelf->ysyx_25040109_top__DOT__ifu__DOT__is_pc_valid 
-        = ((0x80000000U <= vlSelf->pc) & ((0x87ffffffU 
-                                           >= vlSelf->pc) 
-                                          & (0U == 
-                                             (3U & vlSelf->pc))));
+        = ((0x80000000U <= vlSelf->pc) & (0x87ffffffU 
+                                          >= vlSelf->pc));
     if (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__is_pc_valid) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(vlSelf->pc, vlSelf->__Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__7__data);
         vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
