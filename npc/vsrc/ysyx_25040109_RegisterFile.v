@@ -7,8 +7,8 @@ module ysyx_25040109_RegisterFile #(ADDR_WIDTH = 5,DATA_WIDTH=32)
     input wen,
     input [ADDR_WIDTH-1:0] raddr1,
     input [ADDR_WIDTH-1:0] raddr2,
-    output reg [DATA_WIDTH-1:0] rdata1,
-    output reg [DATA_WIDTH-1:0] rdata2,
+    output  [DATA_WIDTH-1:0] rdata1,
+    output  [DATA_WIDTH-1:0] rdata2,
     output [DATA_WIDTH-1:0] a0_out
     
 );
