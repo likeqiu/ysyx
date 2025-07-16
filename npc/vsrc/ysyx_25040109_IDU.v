@@ -43,7 +43,7 @@ module ysyx_25040109_IDU (
 
     assign rd_addr = inst[11:7];
 
-    assign reg_write_en = (opcode == 7'b0110111) || 
+    assign reg_write_en_idu= (opcode == 7'b0110111) || 
                           (opcode == 7'b0010111) || 
                           (opcode == 7'b1101111) || 
                           (opcode == 7'b1100111) || 
