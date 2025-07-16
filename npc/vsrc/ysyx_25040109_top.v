@@ -117,7 +117,7 @@ module ysyx_25040109_top (
         function [31:0] pmem_read_data(input [31:0] addr);
         reg [31:0] data;
         begin
-          if(addr > 32'h80000000)begin  
+          if(is_load)begin  
             verilog_pmem_read(addr, data);
           end else begin
             data = 32'h0;
