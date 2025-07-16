@@ -20,19 +20,19 @@ module ysyx_25040109_top (
    // reg [31:0] trap_pc;
    // reg [31:0] trap_cause;
 
-    reg load_stall;
-    reg load_data_ready;
+   // reg load_stall;
+    //reg load_data_ready;
 
     
 
-    wire pc_enable = step_en && !load_stall;
+
 
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(pc_enable)
+        .wen(step_en)
     );
 
     ysyx_25040109_IFU ifu (
@@ -55,16 +55,16 @@ module ysyx_25040109_top (
     );
 
 
-    wire  reg_write_en_in = reg_write_en_idu && !load_stall;
+ 
 
     ysyx_25040109_EXU exu (
         .rs1_data(rs1_data),
         .rs2_data(rs2_data),
         .imm(imm),
-        .reg_write_in(reg_write_en_in),
+        .reg_write_in(reg_write_en_idu),
         .rd_addr(rd_addr_idu),
         .pc(pc), 
-        .opcode(load_stall ? 7'b0 : opcode), // 暂停时可以传入 NOP 的 opcode
+        .opcode(opcode), // 暂停时可以传入 NOP 的 opcode
         .funct3(funct3),
         .funct7(funct7),
        // .mem_data(mem_data),
@@ -77,14 +77,14 @@ module ysyx_25040109_top (
 
     );
 
-    wire regfile_write_en = (reg_write_en_exu && step_en) || (is_load && !load_stall && load_data_ready);
+
 
         ysyx_25040109_RegisterFile #(5, 32) regfile (
         .clk(clk),
         .pc(pc),
         .wdata(writeback_data),
         .waddr(rd_addr_exu),
-        .wen(regfile_write_en),
+        .wen(reg_write_en_exu && !inst_invalid),
         .raddr1(inst_ifu[19:15]),
         .raddr2(inst_ifu[24:20]),
         .rdata1(rs1_data),
@@ -115,7 +115,13 @@ module ysyx_25040109_top (
     end
     
 
+        function [31:0] pmem_read_data(input [31:0] addr);
+        reg [31:0] data;
+        verilog_pmem_read(addr, data);
+        return data;
+    endfunction
 
+     assign mem_data = is_load ? pmem_read_data(mem_addr) : 32'b0;
 
 
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
@@ -147,35 +153,10 @@ module ysyx_25040109_top (
    
     assign inst = inst_ifu;
 
-   always @(posedge clk) begin
-        if (rst) begin
-            load_stall <= 1'b0;
-            load_data_ready<=1'b0;
-            mem_data <= 32'b0;
-        end else if(load_stall)begin
-            
-           if(!load_data_ready) begin
-        verilog_pmem_read(mem_addr, mem_data_temp);
-        mem_data <= mem_data_temp;
-        load_data_ready <= 1'b1;
-        load_stall <= 1'b0;  // 直接在下个周期解除stall
-    end
-          
-
-        end else if (inst_pc_valid && !inst_invalid && step_en) begin
-            // 加载操作
-            if (is_load && addr_valid) begin
-
-                load_stall<=1'b1;
-                load_data_ready <= 1'b0;
-
-            end else begin
-                load_stall<=1'b0;
-                mem_data <= 32'b0;
-            end
-            
-            // 存储操作
-            if (is_store && addr_valid) begin
+      always @(posedge clk) begin
+        if (!rst) begin
+            // --- 同步写 (用于Store指令) ---
+            if (is_store && !inst_invalid) begin
                 case (funct3)
                     3'b000: verilog_pmem_write(mem_addr, rs2_data, 1); // SB
                     3'b001: verilog_pmem_write(mem_addr, rs2_data, 2); // SH
@@ -183,25 +164,15 @@ module ysyx_25040109_top (
                     default: ;
                 endcase
             end
-            
-            // 指令跟踪
+
+            // --- 仿真跟踪与结束 ---
             itrace_print(pc, inst_ifu, 4);
-            
-            // 程序终止检查
             if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end
-        end else if (!inst_pc_valid || inst_invalid) begin
-            $display("%s",inst_invalid ? "inst_invalid" : "pc_invalid");
-
-            mem_data <= 32'b0;
-            itrace_print(pc, inst_ifu, 4);
-            
-
-            // trap_record(pc, inst_valid ? 32'h00000002 : 32'h00000003);
-            // $finish;
         end
     end
+
 
 
 

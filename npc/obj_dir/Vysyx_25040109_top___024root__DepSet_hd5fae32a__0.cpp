@@ -40,14 +40,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0;
     VlWide<3>/*95:0*/ __Vtemp_h2a4601b8__0;
     // Body
-    if ((1U & (~ (IData)(vlSelf->rst)))) {
-        if (VL_UNLIKELY(((0x80000000U > vlSelf->pc) 
-                         | (0x87ffffffU < vlSelf->pc)))) {
-            VL_WRITEF("ERROR: Invalid PC = 0x%x at time %t\n",
-                      32,vlSelf->pc,64,VL_TIME_UNITED_Q(1),
-                      -12);
-        }
-    }
     __Vdly__ysyx_25040109_top__DOT__load_data_ready 
         = vlSelf->ysyx_25040109_top__DOT__load_data_ready;
     __Vdly__ysyx_25040109_top__DOT__load_stall = vlSelf->ysyx_25040109_top__DOT__load_stall;
