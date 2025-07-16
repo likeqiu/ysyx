@@ -123,7 +123,7 @@ module ysyx_25040109_top (
 
 
 always @(*) begin
-    if (is_load && pc == 32'h80000000)
+    if (is_load && pc > 32'h80000000)
         mem_data = pmem_read_data(mem_addr);
     else
         mem_data = 32'b0;
