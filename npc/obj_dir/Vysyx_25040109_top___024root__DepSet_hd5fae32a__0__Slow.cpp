@@ -628,6 +628,8 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                           + vlSelf->ysyx_25040109_top__DOT__rs1_data));
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__data_list[3U] 
         = (vlSelf->pc + vlSelf->ysyx_25040109_top__DOT__imm);
+    vlSelf->ysyx_25040109_top__DOT__exu__DOT__jal_target 
+        = (vlSelf->pc + vlSelf->ysyx_25040109_top__DOT__imm);
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__shift_amount 
         = (0x1fU & (((0x13U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
                      & ((1U == (7U & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
@@ -637,8 +639,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                      : ((0U == (0x1fU & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                                          >> 0x14U)))
                          ? 0U : vlSelf->__VdfgTmp_ha3c42dfe__0)));
-    vlSelf->ysyx_25040109_top__DOT__exu__DOT__jal_target 
-        = (vlSelf->pc + vlSelf->ysyx_25040109_top__DOT__imm);
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__data_list[0U] 
         = vlSelf->ysyx_25040109_top__DOT__imm;
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__data_list[1U] 
@@ -1377,7 +1377,8 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
         = vlSelf->__Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__1__data;
     vlSelf->__Vfunc_ysyx_25040109_top__DOT__pmem_read_data__0__Vfuncout 
         = vlSelf->ysyx_25040109_top__DOT__pmem_read_data__Vstatic__data;
-    vlSelf->ysyx_25040109_top__DOT__mem_data = ((IData)(vlSelf->ysyx_25040109_top__DOT__is_load)
+    vlSelf->ysyx_25040109_top__DOT__mem_data = (((IData)(vlSelf->ysyx_25040109_top__DOT__is_load) 
+                                                 & (~ (IData)(vlSelf->rst)))
                                                  ? vlSelf->__Vfunc_ysyx_25040109_top__DOT__pmem_read_data__0__Vfuncout
                                                  : 0U);
 }
@@ -1393,6 +1394,21 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_stl(Vysyx_25040109_top___0
         vlSelf->__Vm_traceActivity[0U] = 1U;
     }
 }
+
+#ifdef VL_DEBUG
+VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__ico(Vysyx_25040109_top___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___dump_triggers__ico\n"); );
+    // Body
+    if ((1U & (~ (IData)(vlSelf->__VicoTriggered.any())))) {
+        VL_DBG_MSGF("         No triggers active\n");
+    }
+    if (vlSelf->__VicoTriggered.at(0U)) {
+        VL_DBG_MSGF("         'ico' region trigger index 0 is active: Internal 'ico' trigger - first iteration\n");
+    }
+}
+#endif  // VL_DEBUG
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__act(Vysyx_25040109_top___024root* vlSelf) {
