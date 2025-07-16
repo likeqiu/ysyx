@@ -203,16 +203,7 @@ module ysyx_25040109_top (
         end
     end
 
-always @(posedge clk) begin
-    if (!rst && step_en) begin
-        // 添加PC检查
-        if (pc < 32'h80000000 || pc > 32'h87FFFFFF) begin
-            $display("ERROR: Invalid PC = 0x%h at time %t", pc, $time);
-        end
-        
-        // 其他现有逻辑...
-    end
-end
+
 
 endmodule
 
