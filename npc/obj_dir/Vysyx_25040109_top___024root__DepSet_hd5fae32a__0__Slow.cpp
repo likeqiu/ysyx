@@ -1372,7 +1372,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                                                : vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_out);
     vlSelf->__Vfunc_ysyx_25040109_top__DOT__pmem_read_data__0__addr 
         = vlSelf->ysyx_25040109_top__DOT__result;
-    if ((0x80000000U < vlSelf->__Vfunc_ysyx_25040109_top__DOT__pmem_read_data__0__addr)) {
+    if (vlSelf->ysyx_25040109_top__DOT__is_load) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(vlSelf->__Vfunc_ysyx_25040109_top__DOT__pmem_read_data__0__addr, vlSelf->__Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__1__data);
         vlSelf->ysyx_25040109_top__DOT__pmem_read_data__Vstatic__data 
             = vlSelf->__Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__1__data;
