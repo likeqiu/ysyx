@@ -3,7 +3,7 @@ module ysyx_25040109_IFU (
     output [31:0] inst_ifu,   // 当前PC对应的指令
     output inst_valid
 );
-    wire is_pc_valid = (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF) && (pc[1:0] == 2'b00);
+    wire is_pc_valid = (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF) ;
     
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
     

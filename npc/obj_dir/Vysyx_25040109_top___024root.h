@@ -24,10 +24,13 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__addr_valid;
         CData/*0:0*/ ysyx_25040109_top__DOT____VdfgTmp_h8a51f582__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__ifu__DOT__is_pc_valid;
+        CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__valid_r_type;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hee48d914__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hd1deae94__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_he2c0485b__0;
-        CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h2accb92f__0;
+        CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h26e5c323__0;
+        CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h5db903ec__0;
+        CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h5f3f1c8d__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__hit;
         CData/*4:0*/ ysyx_25040109_top__DOT__exu__DOT__shift_amount;
         CData/*0:0*/ ysyx_25040109_top__DOT__exu__DOT__branch_taken;
@@ -35,7 +38,7 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__hit;
         CData/*0:0*/ ysyx_25040109_top__DOT__exu__DOT__result_select__DOT__i0__DOT__hit;
         CData/*0:0*/ ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__hit;
-        CData/*0:0*/ __VdfgTmp_ha2391786__0;
+        CData/*0:0*/ __VdfgTmp_h11d1b5c3__0;
         CData/*0:0*/ __VdfgTmp_h61070d84__0;
         CData/*0:0*/ __Vtrigrprev__TOP__clk;
         CData/*0:0*/ __VactContinue;
@@ -76,11 +79,11 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         VlUnpacked<CData/*6:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__key_list;
         VlUnpacked<IData/*31:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__data_list;
         VlUnpacked<QData/*38:0*/, 4> ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__pair_list;
+    };
+    struct {
         VlUnpacked<CData/*6:0*/, 4> ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__key_list;
         VlUnpacked<IData/*31:0*/, 4> ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__data_list;
         VlUnpacked<QData/*38:0*/, 2> ysyx_25040109_top__DOT__exu__DOT__result_select__DOT__i0__DOT__pair_list;
-    };
-    struct {
         VlUnpacked<CData/*6:0*/, 2> ysyx_25040109_top__DOT__exu__DOT__result_select__DOT__i0__DOT__key_list;
         VlUnpacked<IData/*31:0*/, 2> ysyx_25040109_top__DOT__exu__DOT__result_select__DOT__i0__DOT__data_list;
         VlUnpacked<QData/*38:0*/, 4> ysyx_25040109_top__DOT__exu__DOT__next_pc_select__DOT__i0__DOT__pair_list;

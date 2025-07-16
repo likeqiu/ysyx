@@ -155,13 +155,13 @@ module ysyx_25040109_top (
             mem_data <= 32'b0;
         end else if(load_stall)begin
             
-            load_stall <= !load_data_ready;
-            if(!load_data_ready )begin
-                
-                verilog_pmem_read(mem_addr,mem_data_temp);
-                mem_data <= mem_data_temp;
-                load_data_ready <= 1'b1;
-            end
+           if(!load_data_ready) begin
+        verilog_pmem_read(mem_addr, mem_data_temp);
+        mem_data <= mem_data_temp;
+        load_data_ready <= 1'b1;
+        load_stall <= 1'b0;  // 直接在下个周期解除stall
+    end
+          
 
         end else if (inst_pc_valid && !inst_invalid && step_en) begin
             // 加载操作
