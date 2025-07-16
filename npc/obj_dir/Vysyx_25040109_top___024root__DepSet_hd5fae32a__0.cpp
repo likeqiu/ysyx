@@ -46,7 +46,11 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
     __Vdlyvset__ysyx_25040109_top__DOT__regfile__DOT__rf__v0 = 0U;
     if (((((IData)(vlSelf->__VdfgTmp_ha2391786__0) 
            & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__load_stall)) 
-              & (IData)(vlSelf->ysyx_25040109_top__DOT__reg_write_en_idu))) 
+              & ((IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hee48d914__0) 
+                 | ((0x67U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
+                    | ((3U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
+                       | ((0x13U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
+                          | (0x33U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)))))))) 
           | ((IData)(vlSelf->ysyx_25040109_top__DOT__is_load) 
              & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__load_stall)) 
                 & (IData)(vlSelf->ysyx_25040109_top__DOT__load_data_ready)))) 
