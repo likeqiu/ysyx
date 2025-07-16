@@ -2,7 +2,10 @@ module ysyx_25040109_EXU (
     input [31:0] rs1_data,
     input [31:0] rs2_data,
     input [31:0] imm,
-    input reg_write_en,    
+    
+    input reg_write_in,    
+    output reg_write_en_out, 
+
     input [4:0] rd_addr,   
     input [31:0] pc,
     input [6:0] opcode,
@@ -11,8 +14,7 @@ module ysyx_25040109_EXU (
    // input [31:0] mem_data,
     input inst_invalid,  
     output [31:0] result,
-    output [4:0] rd_addr_out, 
-    output reg_write_en_out,  
+    output [4:0] rd_addr_out,  
     output [31:0] next_pc
 );
    
@@ -174,7 +176,7 @@ module ysyx_25040109_EXU (
     );
 
     assign rd_addr_out = rd_addr;
-    assign reg_write_en_out = reg_write_en && !inst_invalid && (opcode != 7'b0000011);
+    assign reg_write_en_out = reg_write_in && !inst_invalid;
 
 endmodule
 

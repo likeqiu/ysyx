@@ -2,7 +2,7 @@ module ysyx_25040109_IDU (
     input [31:0] inst,
     output [4:0] rd_addr,
     output [31:0] imm,
-    output reg_write_en,
+    output reg_write_en_idu,
     output [2:0] funct3,
     output [6:0] funct7,
     output reg inst_invalid 
@@ -43,7 +43,7 @@ module ysyx_25040109_IDU (
 
     assign rd_addr = inst[11:7];
 
-    assign reg_write_en = (opcode == 7'b0110111) || 
+    assign reg_write_en_idu = (opcode == 7'b0110111) || 
                           (opcode == 7'b0010111) || 
                           (opcode == 7'b1101111) || 
                           (opcode == 7'b1100111) || 

@@ -19,6 +19,11 @@ module ysyx_25040109_top (
    // reg [31:0] trap_pc;
    // reg [31:0] trap_cause;
 
+    reg load_stall;
+    reg load_data_ready;
+
+    
+
     wire pc_enable = step_en && !load_stall;
 
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
@@ -39,24 +44,25 @@ module ysyx_25040109_top (
 
 
 
+    
     ysyx_25040109_IDU idu (
         .inst(inst_ifu),
         .rd_addr(rd_addr_idu),
         .imm(imm),
-        .reg_write_en(reg_write_en_idu),
+        .reg_write_en_idu(reg_write_en_idu),
         .funct3(funct3),
         .funct7(funct7),
         .inst_invalid(inst_invalid)
     );
 
 
-    wire exu_reg_write_en = reg_write_en_idu && !load_stall;
+    wire  reg_write_en_in = reg_write_en_idu && !load_stall;
 
     ysyx_25040109_EXU exu (
         .rs1_data(rs1_data),
         .rs2_data(rs2_data),
         .imm(imm),
-        .reg_write_en(exu_reg_write_en),
+        .reg_write_in(reg_write_en_in),
         .rd_addr(rd_addr_idu),
         .pc(pc), 
         .opcode(load_stall ? 7'b0 : opcode), // 暂停时可以传入 NOP 的 opcode
@@ -72,12 +78,14 @@ module ysyx_25040109_top (
 
     );
 
+    wire regfile_write_en = (reg_write_en_exu && step_en) || (is_load && !load_stall && load_data_ready);
+
         ysyx_25040109_RegisterFile #(5, 32) regfile (
         .clk(clk),
         .pc(pc),
         .wdata(writeback_data),
         .waddr(rd_addr_exu),
-        .wen((reg_write_en_exu && step_en) || (is_load && !load_stall)),
+        .wen(regfile_write_en),
         .raddr1(inst_ifu[19:15]),
         .raddr2(inst_ifu[24:20]),
         .rdata1(rs1_data),
@@ -133,7 +141,6 @@ module ysyx_25040109_top (
     wire is_store = (opcode == 7'b0100011) && 
                     (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010);
 
-    reg load_stall;
 
 
     wire [31:0] mem_addr = result;
@@ -144,22 +151,25 @@ module ysyx_25040109_top (
    always @(posedge clk) begin
         if (rst) begin
             load_stall <= 1'b0;
+            load_data_ready<1'b0;
             mem_data <= 32'b0;
-        end else if(load_stall == 1'b1)begin
+        end else if(load_stall)begin
             
-            load_stall <= 1'b0;
+            load_stall <= !load_data_ready;
+            if(!load_data_ready )begin
+                
+                verilog_pmem_read(mem_addr,mem_data_temp);
+                mem_data <= mem_data_temp;
+                load_data_ready <= 1'b1;
+            end
 
         end else if (inst_pc_valid && !inst_invalid && step_en) begin
             // 加载操作
             if (is_load && addr_valid) begin
+
                 load_stall<=1'b1;
-                case(funct3)
-                    3'b000, 3'b001, 3'b010, 3'b100, 3'b101: begin
-                        verilog_pmem_read(mem_addr, mem_data_temp);
-                        mem_data <= mem_data_temp;
-                    end
-                    default: mem_data <= 32'b0;
-                endcase
+                load_data_ready <= 1'b0;
+
             end else begin
                 load_stall<=1'b0;
                 mem_data <= 32'b0;

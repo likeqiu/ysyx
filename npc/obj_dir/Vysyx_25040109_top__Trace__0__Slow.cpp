@@ -679,24 +679,23 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_full_sub_0(Vysyx_25040109_
     bufp->fullIData(oldp+162,(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__lut_out),32);
     bufp->fullBit(oldp+163,(vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__hit));
     bufp->fullIData(oldp+164,(vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem),32);
-    bufp->fullBit(oldp+165,(((IData)(vlSelf->ysyx_25040109_top__DOT__load_stall) 
-                             | ((~ ((IData)(vlSelf->ysyx_25040109_top__DOT__inst_invalid) 
-                                    | (3U == (IData)(vlSelf->ysyx_25040109_top__DOT____Vcellinp__exu__opcode)))) 
-                                & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__load_stall)) 
-                                   & ((IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hee48d914__0) 
-                                      | ((0x67U == 
-                                          (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
-                                         | ((3U == 
-                                             (0x7fU 
-                                              & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
-                                            | ((0x13U 
+    bufp->fullBit(oldp+165,((((~ ((IData)(vlSelf->ysyx_25040109_top__DOT__inst_invalid) 
+                                  | (3U == (IData)(vlSelf->ysyx_25040109_top__DOT____Vcellinp__exu__opcode)))) 
+                              & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__load_stall)) 
+                                 & ((IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hee48d914__0) 
+                                    | ((0x67U == (0x7fU 
+                                                  & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
+                                       | ((3U == (0x7fU 
+                                                  & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
+                                          | ((0x13U 
+                                              == (0x7fU 
+                                                  & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
+                                             | (0x33U 
                                                 == 
                                                 (0x7fU 
-                                                 & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
-                                               | (0x33U 
-                                                  == 
-                                                  (0x7fU 
-                                                   & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)))))))))));
+                                                 & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)))))))) 
+                             | ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__load_stall)) 
+                                & (IData)(vlSelf->ysyx_25040109_top__DOT__is_load)))));
     bufp->fullCData(oldp+166,((0x1fU & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                                         >> 0xfU))),5);
     bufp->fullCData(oldp+167,((0x1fU & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
