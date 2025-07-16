@@ -14,8 +14,7 @@ extern "C" void init_verilog(int argc, char **argv)
 
         top->trace(tfp, 99);
         tfp->open("sim.fst");
-
-        top->rst = 1;
+        
         top->clk = 0;
         top->eval();
         top->rst = 1;
