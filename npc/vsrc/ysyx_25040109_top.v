@@ -151,7 +151,7 @@ module ysyx_25040109_top (
    always @(posedge clk) begin
         if (rst) begin
             load_stall <= 1'b0;
-            load_data_ready<1'b0;
+            load_data_ready<=1'b0;
             mem_data <= 32'b0;
         end else if(load_stall)begin
             
