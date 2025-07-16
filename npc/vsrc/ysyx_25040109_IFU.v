@@ -1,7 +1,6 @@
 module ysyx_25040109_IFU (
     input [31:0] pc,          // 当前PC
-    output [31:0] inst_ifu,   // 当前PC对应的指令
-    output inst_valid
+    output [31:0] inst_ifu   // 当前PC对应的指令
 );
     wire is_pc_valid = (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF) ;
     
@@ -20,7 +19,7 @@ module ysyx_25040109_IFU (
     
  
     assign inst_ifu = inst_from_mem;
-    assign inst_valid = is_pc_valid;
+
 endmodule
 
 
