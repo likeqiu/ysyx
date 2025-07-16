@@ -1325,7 +1325,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         = vlSelf->ysyx_25040109_top__DOT__pmem_read_data__Vstatic__data;
     vlSelf->ysyx_25040109_top__DOT__mem_data = (((IData)(vlSelf->ysyx_25040109_top__DOT__is_load) 
                                                  & (0x80000000U 
-                                                    == vlSelf->pc))
+                                                    < vlSelf->pc))
                                                  ? vlSelf->__Vfunc_ysyx_25040109_top__DOT__pmem_read_data__0__Vfuncout
                                                  : 0U);
 }
