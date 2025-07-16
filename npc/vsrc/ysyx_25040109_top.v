@@ -114,7 +114,7 @@ module ysyx_25040109_top (
     end
     
 
-        function [31:0] pmem_read_data(input [31:0] addr);
+       /* function [31:0] pmem_read_data(input [31:0] addr);
         reg [31:0] data;
         begin
           if(is_load)begin  
@@ -126,7 +126,7 @@ module ysyx_25040109_top (
         end
         return data;
 
-    endfunction
+    endfunction*/
 
 
     always @(*) begin
