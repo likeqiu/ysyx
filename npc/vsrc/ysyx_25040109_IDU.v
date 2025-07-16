@@ -10,6 +10,9 @@ module ysyx_25040109_IDU (
     wire [6:0] opcode = inst[6:0];
     assign funct3 = inst[14:12];
     assign funct7 = inst[31:25];
+    assign rd_addr = inst[11:7];
+
+
 
 
     wire [11:0] imm_i = inst[31:20];
@@ -41,7 +44,6 @@ module ysyx_25040109_IDU (
         })
     );
 
-    assign rd_addr = inst[11:7];
 
     assign reg_write_en_idu= (opcode == 7'b0110111) || 
                           (opcode == 7'b0010111) || 
@@ -98,17 +100,7 @@ module ysyx_25040109_IDU (
 
 
 
-        wire valid_r_type = (opcode == 7'b110011) && (
-            funct3 == 3'b000 ||
-            funct3 == 3'b010 ||
-            funct3 == 3'b011 ||
-            funct3 == 3'b100 ||
-            funct3 == 3'b110 ||
-            funct3 == 3'b111 ||
-            (funct3 == 3'b001 && funct7 == 7'b0000000) ||
-            (funct3 == 3'b101 && funct7 == 7'b0000000) ||
-            (funct3 == 3'b101 && funct7 == 7'b0100000)
-        );
+
 
          wire valid_r_type = (opcode == 7'b0110011) && (
         (funct3 == 3'b000 && funct7 == 7'b0000000) ||         // ADD
