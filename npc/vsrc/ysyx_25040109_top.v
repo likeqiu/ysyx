@@ -5,8 +5,8 @@ module ysyx_25040109_top (
     output [31:0] pc,
     output [31:0] a0_out
 );
-    reg [31:0] inst_ifu;
-    wire [31:0] next_pc,  rs1_data, rs2_data, imm, result;
+   
+    wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;
     wire inst_pc_valid,inst_invalid;
     wire [2:0] funct3;
     wire [6:0] funct7;
@@ -36,8 +36,6 @@ module ysyx_25040109_top (
     );
 
     ysyx_25040109_IFU ifu (
-        .rst(rst),
-        .clk(clk),
         .pc(pc),
         .inst_ifu(inst_ifu),
         .inst_valid(inst_pc_valid)
@@ -204,6 +202,18 @@ module ysyx_25040109_top (
             // $finish;
         end
     end
+
+always @(posedge clk) begin
+    if (!rst && step_en) begin
+        // 添加PC检查
+        if (pc < 32'h80000000 || pc > 32'h87FFFFFF) begin
+            $display("ERROR: Invalid PC = 0x%h at time %t", pc, $time);
+        end
+        
+        // 其他现有逻辑...
+    end
+end
+
 endmodule
 
       

@@ -1,8 +1,6 @@
 module ysyx_25040109_IFU (
-    input rst,
-    input clk,
     input [31:0] pc,          // 当前PC
-    output reg [31:0] inst_ifu,   // 当前PC对应的指令
+    output [31:0] inst_ifu,   // 当前PC对应的指令
     output inst_valid
 );
     wire is_pc_valid = (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF) ;
@@ -12,17 +10,16 @@ module ysyx_25040109_IFU (
     reg [31:0] inst_from_mem;
     
     // 组合逻辑直接读取当前PC的指令
-      always @(posedge clk) begin
-        if (rst) begin
-            inst_ifu <= 32'h00000013; // NOP
-        end else if (is_pc_valid) begin
+    always @(*) begin
+        if (is_pc_valid) begin
             verilog_pmem_read(pc, inst_from_mem);
-            inst_ifu <= inst_from_mem;
         end else begin
-            inst_ifu <= 32'h00000013; // NOP
+            inst_from_mem = 32'h00000013; // NOP
         end
     end
-
+    
+    // 直接输出，不延迟
+    assign inst_ifu = inst_from_mem;
     assign inst_valid = is_pc_valid;
 endmodule
 
