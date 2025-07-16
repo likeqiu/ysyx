@@ -10,7 +10,7 @@ module ysyx_25040109_top (
     wire inst_invalid;
     wire [2:0] funct3;
     wire [6:0] funct7;
-    wire  [31:0] mem_data;
+    reg  [31:0] mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
     wire step_en =1'b1;
@@ -110,6 +110,7 @@ module ysyx_25040109_top (
                 default: load_result = 32'b0;
             endcase
         end else begin
+            mem_data = 32'h0;
             load_result = 32'b0;
         end
     end
