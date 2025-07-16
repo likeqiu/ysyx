@@ -22,9 +22,7 @@ module ysyx_25040109_IFU (
             inst_ifu <= 32'h00000013; // NOP
         end
     end
-    
-    // 直接输出，不延迟
-    assign inst_ifu = inst_from_mem;
+
     assign inst_valid = is_pc_valid;
 endmodule
 
