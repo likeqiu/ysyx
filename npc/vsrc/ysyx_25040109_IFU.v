@@ -2,7 +2,7 @@ module ysyx_25040109_IFU (
     input rst,
     input clk,
     input [31:0] pc,          // 当前PC
-    output [31:0] inst_ifu,   // 当前PC对应的指令
+    output reg [31:0] inst_ifu,   // 当前PC对应的指令
     output inst_valid
 );
     wire is_pc_valid = (pc >= 32'h80000000) && (pc <= 32'h87FFFFFF) ;
