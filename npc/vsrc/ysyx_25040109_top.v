@@ -120,7 +120,7 @@ module ysyx_25040109_top (
         return data;
     endfunction
 
-     assign mem_data = is_load ? pmem_read_data(mem_addr) : 32'b0;
+     assign mem_data = (is_load && rst == 1'b0) ? pmem_read_data(mem_addr) : 32'b0;
 
 
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
