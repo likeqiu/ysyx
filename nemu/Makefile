@@ -72,10 +72,36 @@ LDFLAGS += $(CFLAGS_BUILD)
 # Include rules for menuconfig 包含 menuconfig 的构建规则
 include $(NEMU_HOME)/scripts/config.mk
 
+
+
+
+
 ifdef CONFIG_TARGET_AM
 include $(AM_HOME)/Makefile
 LINKAGE += $(ARCHIVES)
 else
 # Include rules to build NEMU
 include $(NEMU_HOME)/scripts/native.mk
+
+
+
+
+#
+# Custom target for checking build variables (Add this section)
+# =======================================================================
+.PHONY: check
+
+check:
+	@echo "\n\033[1;34m=============== 🔍 NEMU Build Check ===============\033[0m"
+	@echo "\033[1;32m\n--- ✅ Active Source Directories (DIRS-y) ---\033[0m"
+	@echo "$(DIRS-y)" | fmt
+	@echo "\033[1;31m\n--- ❌ Blacklisted Directories (DIRS-BLACKLIST-y) ---\033[0m"
+	@echo "$(DIRS-BLACKLIST-y)" | fmt
+	@echo "\033[1;32m\n--- ✅ Used Source Files (SRCS) ---\033[0m"
+	@$(foreach f,$(SRCS),echo "  $(f)";)
+	@echo "\033[1;31m\n--- ❌ Blacklisted Source Files (SRCS-BLACKLIST-y) ---\033[0m"
+	@$(foreach f,$(SRCS-BLACKLIST-y),echo "  $(f)";)
+	@echo "\n\033[1;34m====================================================\033[0m\n"
+
+
 endif
