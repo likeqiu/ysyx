@@ -20,8 +20,7 @@ module ysyx_25040109_top (
    // reg [31:0] trap_pc;
    // reg [31:0] trap_cause;
 
-   // reg load_stall;
-    //reg load_data_ready;
+
 
     
 
@@ -64,7 +63,7 @@ module ysyx_25040109_top (
         .reg_write_in(reg_write_en_idu),
         .rd_addr(rd_addr_idu),
         .pc(pc), 
-        .opcode(opcode), // 暂停时可以传入 NOP 的 opcode
+        .opcode(opcode), 
         .funct3(funct3),
         .funct7(funct7),
        // .mem_data(mem_data),
@@ -146,7 +145,7 @@ module ysyx_25040109_top (
 
 
     wire [31:0] mem_addr = result;
-    //wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF)  && (mem_addr[1:0] == 2'b00);
+
    
 
     assign inst = inst_ifu;

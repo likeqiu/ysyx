@@ -140,7 +140,7 @@ endif
 	@echo "Dependencies: $(COMPILE_DEPS)"
 	@echo "LD_LIBRARY_PATH will include: $(shell pwd)/$(LLVM_DIR)"
 
-check:
+check:waveform
 	@echo "Verilog : $(VSRC)"
 	@echo "\n"
 	@echo "C/CPP   : $(CSRC)"
