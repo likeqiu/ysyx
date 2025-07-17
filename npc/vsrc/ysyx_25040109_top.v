@@ -1,6 +1,7 @@
 module ysyx_25040109_top (
     input clk,
     input rst,
+    input [31:0] p_count_number,
     output  [31:0]  inst,
     output [31:0] pc,
     output [31:0] a0_out
@@ -190,7 +191,7 @@ end*/
 
             // --- 仿真跟踪与结束 ---
             
-            itrace_print(pc, inst_ifu, 4,200);
+            itrace_print(pc, inst_ifu, 4,p_count_number);
             if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end

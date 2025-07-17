@@ -4,6 +4,7 @@
 #include <readline/history.h>
 #include "sdb.h"
 #include <memory/vaddr.h>
+#include <verilog_init.h>
 
 static int is_batch_mode = false;
 
@@ -32,6 +33,7 @@ static int cmd_q(char *args){
 
 static int cmd_c(char *args){
     cpu_exec(-1);
+    top->p_count_number = 10000;
     return 0;
 }
 
@@ -43,6 +45,7 @@ static int cmd_si(char *args){
         num = 1;
     }
 
+    top->p_count_number = num;
     cpu_exec(num);
     return 0;
 }
