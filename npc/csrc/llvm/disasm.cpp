@@ -186,7 +186,7 @@ static void objdump_disasm(long long pc, unsigned int instruction_word, int inst
 //   - pc: 程序计数器（指令地址）
 //   - instruction_word: 32位指令机器码
 //   - instr_len_bytes: 指令长度（字节）
-extern "C" void itrace_print(long long pc, unsigned int instruction_word, int instr_len_bytes)
+extern "C" void itrace_print(long long pc, unsigned int instruction_word, int instr_len_bytes,int p_count_number)
 {
     // 优先尝试使用LLVM反汇编器
     if (lib_loaded && f_llvm_disasm_instruction)
@@ -197,6 +197,10 @@ extern "C" void itrace_print(long long pc, unsigned int instruction_word, int in
         // 如果反汇编成功，打印结果
         if (result > 0)
         {
+            if(p_count_number > 100){
+                return;
+            }
+
             printf("0x%08llx: 0x%08x \t%s\n", pc, instruction_word, output);
             return;
         }

@@ -152,7 +152,7 @@ end*/
    // import "DPI-C" function void sdb_scan_mem(input int addr, output int value);
    // import "DPI-C" function void debug_exu(input int pc, input int inst, input int rs1_data, input int rd_addr, input int result);
     //import "DPI-C" function void mtrace_record(byte tp,int addr,int len,int  data);
-    import "DPI-C" function void itrace_print( int pc, int instruction_word, int instr_len_bytes);
+    import "DPI-C" function void itrace_print( int pc, int instruction_word, int instr_len_bytes,int p_count_number);
     import "DPI-C" function void trap_record(int pc,int cause);
    
 
@@ -173,6 +173,7 @@ end*/
     wire [31:0] mem_addr = result;
     //wire addr_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF)  && (mem_addr[1:0] == 2'b00);
    
+
     assign inst = inst_ifu;
 
       always @(posedge clk) begin
@@ -188,7 +189,8 @@ end*/
             end
 
             // --- 仿真跟踪与结束 ---
-            itrace_print(pc, inst_ifu, 4);
+            
+            itrace_print(pc, inst_ifu, 4,50);
             if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end

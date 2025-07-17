@@ -12,7 +12,7 @@ extern "C" void verilog_pmem_read(paddr_t addr,uint32_t *data){
 
 extern "C" void verilog_pmem_write(paddr_t addr, uint32_t data,uint32_t len){
     paddr_write(addr, len, data);
-    mtrace_record('W', addr, len, data);
+   // mtrace_record('W', addr, len, data);
 }
 
 extern "C" int printf_finish(uint32_t inst)
