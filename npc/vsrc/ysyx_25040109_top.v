@@ -190,7 +190,7 @@ end*/
 
             // --- 仿真跟踪与结束 ---
             
-            itrace_print(pc, inst_ifu, 4,50);
+            itrace_print(pc, inst_ifu, 4,200);
             if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end

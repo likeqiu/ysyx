@@ -46,9 +46,9 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     printf_finish__Vfuncrtn = printf_finish__Vfuncrtn__Vcvt;
 }
 
-extern "C" void itrace_print(int pc, int instruction_word, int instr_len_bytes);
+extern "C" void itrace_print(int pc, int instruction_word, int instr_len_bytes, int p_count_number);
 
-VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__itrace_print_TOP(IData/*31:0*/ pc, IData/*31:0*/ instruction_word, IData/*31:0*/ instr_len_bytes) {
+VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__itrace_print_TOP(IData/*31:0*/ pc, IData/*31:0*/ instruction_word, IData/*31:0*/ instr_len_bytes, IData/*31:0*/ p_count_number) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__itrace_print_TOP\n"); );
     // Body
     int pc__Vcvt;
@@ -57,7 +57,9 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     for (size_t instruction_word__Vidx = 0; instruction_word__Vidx < 1; ++instruction_word__Vidx) instruction_word__Vcvt = instruction_word;
     int instr_len_bytes__Vcvt;
     for (size_t instr_len_bytes__Vidx = 0; instr_len_bytes__Vidx < 1; ++instr_len_bytes__Vidx) instr_len_bytes__Vcvt = instr_len_bytes;
-    itrace_print(pc__Vcvt, instruction_word__Vcvt, instr_len_bytes__Vcvt);
+    int p_count_number__Vcvt;
+    for (size_t p_count_number__Vidx = 0; p_count_number__Vidx < 1; ++p_count_number__Vidx) p_count_number__Vcvt = p_count_number;
+    itrace_print(pc__Vcvt, instruction_word__Vcvt, instr_len_bytes__Vcvt, p_count_number__Vcvt);
 }
 
 extern "C" void trap_record(int pc, int cause);

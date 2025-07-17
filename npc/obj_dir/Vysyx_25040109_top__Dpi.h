@@ -17,7 +17,7 @@ extern "C" {
 
     // DPI IMPORTS
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v:155:34
-    extern void itrace_print(int pc, int instruction_word, int instr_len_bytes);
+    extern void itrace_print(int pc, int instruction_word, int instr_len_bytes, int p_count_number);
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v:151:33
     extern int printf_finish(int inst);
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v:156:34
