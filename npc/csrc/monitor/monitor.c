@@ -64,7 +64,9 @@ static int parse_args(int argc,char *argv[]){
         switch(o){
             case 'b':
                 sdb_set_batch_mode();break;
-            case ''    
+            case 'l':
+                log_file = optarg;break;
+                
             }
     }
     if(argc>1){
