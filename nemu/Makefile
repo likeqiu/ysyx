@@ -93,15 +93,14 @@ include $(NEMU_HOME)/scripts/native.mk
 
 check:
 	@echo "\n\033[1;34m=============== 🔍 NEMU Build Check ===============\033[0m"
-	@echo "\033[1;32m\n--- ✅ Active Source Directories (DIRS-y) ---\033[0m"
-	@echo "$(DIRS-y)" | fmt
 	@echo "\033[1;31m\n--- ❌ Blacklisted Directories (DIRS-BLACKLIST-y) ---\033[0m"
 	@echo "$(DIRS-BLACKLIST-y)" | fmt
-	@echo "\033[1;32m\n--- ✅ Used Source Files (SRCS) ---\033[0m"
-	@$(foreach f,$(SRCS),echo "  $(f)";)
 	@echo "\033[1;31m\n--- ❌ Blacklisted Source Files (SRCS-BLACKLIST-y) ---\033[0m"
 	@$(foreach f,$(SRCS-BLACKLIST-y),echo "  $(f)";)
 	@echo "\n\033[1;34m====================================================\033[0m\n"
-
+	@echo "\033[1;32m\n--- ✅ Used Source Files (SRCS) ---\033[0m"
+	@$(foreach f,$(SRCS),echo "  $(f)";)
+	@echo "\033[1;32m\n--- ✅ Active Source Directories (DIRS-y) ---\033[0m"
+	@echo "$(DIRS-y)" | fmt
 
 endif

@@ -2,6 +2,7 @@
 #include <memory/paddr.h>
 #include<verilog_init.h>
 #include<disasm.h>
+#include<getopt.h>
 
 void init_rand();
 void init_log(const char *log_file);
