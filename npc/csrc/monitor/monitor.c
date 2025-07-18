@@ -55,8 +55,10 @@ static long load_img(){
 
 static int parse_args(int argc,char *argv[]){
     const struct option table[] = {
+        {"batch",no_argument,NULL,'b'},
+        {"log",required_argument,NULL'l'},
         {0,0,NULL,0},
-        {""}
+        
     };
     int o;
     while((o = getopt_long(argc, argv,"-bhl:d:p:",table,NULL)) != -1){
@@ -66,7 +68,11 @@ static int parse_args(int argc,char *argv[]){
                 sdb_set_batch_mode();break;
             case 'l':
                 log_file = optarg;break;
-                
+            case 1:
+                img_file = optarg;
+                return 0;
+            default:
+                printf("");
             }
     }
     if(argc>1){
