@@ -30,6 +30,7 @@ static void welcome()
 void sdb_set_batch_mode();
 
 static char *img_file = NULL;
+static char *log_file = NULL;
 
 static long load_img(){
     if(img_file == NULL){
@@ -55,7 +56,17 @@ static long load_img(){
 static int parse_args(int argc,char *argv[]){
     const struct option table[] = {
         {0,0,NULL,0},
+        {""}
     };
+    int o;
+    while((o = getopt_long(argc, argv,"-bhl:d:p:",table,NULL)) != -1){
+
+        switch(o){
+            case 'b':
+                sdb_set_batch_mode();break;
+            case ''    
+            }
+    }
     if(argc>1){
     img_file = argv[1];
     }
