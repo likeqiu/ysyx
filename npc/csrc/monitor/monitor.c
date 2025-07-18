@@ -72,7 +72,7 @@ static int parse_args(int argc,char *argv[]){
                 img_file = optarg;
                 return 0;
             default:
-                printf("");
+                printf("\n");
             }
     }
     if(argc>1){
