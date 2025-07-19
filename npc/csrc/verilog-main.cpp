@@ -1,6 +1,6 @@
 #include<verilog_init.h>
 #include<iostream>
-#include<debug.h>
+
 
 Vysyx_25040109_top *top = new Vysyx_25040109_top;
 VerilatedFstC *tfp = new VerilatedFstC;
@@ -27,7 +27,6 @@ extern "C" void init_verilog(int argc, char **argv)
         top->rst = 0;
 
         std::cout << "After reset: PC = 0x" << std::hex << top->pc << std::dec << std::endl;
-        Log("11111");
 }
 
 extern "C" void clear_verilog(){
