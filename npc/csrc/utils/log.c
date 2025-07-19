@@ -21,3 +21,15 @@ bool log_enable()
     return MUXDEF(CONFIG_TRACE, (g_nr_guest_inst >= CONFIG_TRACE_START) && (g_nr_guest_inst <= CONFIG_TRACE_END), false);
 }
 #endif
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+    bool log_enable(); // 函数声明
+    void init_log(const char *log_file);
+
+#ifdef __cplusplus
+}
+#endif
