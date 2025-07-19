@@ -5,7 +5,6 @@
 #include<difftest-def.h>
 
 #ifdef CONFIG_DIFFTEST
-printf("11111\n");
 void difftest_skip_ref();
 void difftest_skip_dut(int nr_ref, int nr_dut);
 void difftest_set_patch(void (*fn)(void *arg), void *arg);
