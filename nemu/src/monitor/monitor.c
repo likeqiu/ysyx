@@ -134,7 +134,7 @@ void init_monitor(int argc, char *argv[])
   init_isa();
 
   /* Load the image to memory. This will overwrite the built-in image. */
-  long img_size = load_img();
+ long img_size = load_img();
   if (elf_file) init_ftrace(elf_file);
 
   /* Initialize differential testing. */
