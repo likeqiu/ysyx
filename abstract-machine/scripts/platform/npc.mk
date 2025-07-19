@@ -20,6 +20,9 @@ LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
 #    移除未使用的代码和数据段（垃圾回收）  指定程序入口点为_start符号
 
+NPCFLAGS += -b
+
+
 # 定义main函数参数的最大长度
 MAINARGS_MAX_LEN = 64
 MAINARGS_PLACEHOLDER = The insert-arg rule in Makefile will insert mainargs here.
@@ -48,7 +51,7 @@ image: image-dep
 #使用objdump反汇编ELF文件，生成汇编代码到txt 打印提示信息，显示正在生成二进制文件 移除符号表和调试信息 输出格式为纯二进制  从ELF文件生成二进制镜像
 
 run: insert-arg
-	$(MAKE) -C $(NPC_HOME) ISA=$(ISA) run  IMG=$(IMAGE).bin
+	$(MAKE) -C $(NPC_HOME) ISA=$(ISA) run ARGS="$(NPCFLAGS)" IMG=$(IMAGE).bin
 	
     #echo "TODO: add command here to run simulation"
 
