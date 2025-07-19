@@ -5,6 +5,7 @@
 
 void set_nemu_state(int state, vaddr_t pc,int halt_ret){
     difftest_skip_ref();
+    difftest_detach();
     npc_state.state = state;
     npc_state.halt_pc = pc;
     npc_state.halt_ret = halt_ret;
