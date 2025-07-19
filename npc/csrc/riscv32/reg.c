@@ -8,6 +8,14 @@ const char *regs[] = {
     "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
+void isa_reg_display()
+{
+    for (int i = 0; i < 32; i++)
+    {
+        printf("%s = %u\n", regs[i], gpr(i));
+    }
+    printf("$pc = 0x%x\n", cpu.pc);
+}
 
 word_t isa_reg_str2val(const char *s,bool *success){
     if(strcmp("pc",s) == 0){
