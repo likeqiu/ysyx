@@ -6,7 +6,7 @@ NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
 NAME = riscv32e-npc-interpreter
 BUILD_DIR = $(NPC_HOME)/build
-INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/ /home/zxj17/ysyx-workbench/npc/csrc/riscv32/local-include  /home/zxj17/ysyx-workbench/npc/csrc/llvm/
+INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/ /home/zxj17/ysyx-workbench/npc/csrc/riscv32/local-include  /home/zxj17/ysyx-workbench/npc/csrc/llvm/ /home/zxj17/ysyx-workbench/npc/csrc/cpu
 
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
