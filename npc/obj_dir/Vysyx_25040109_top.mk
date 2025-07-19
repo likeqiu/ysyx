@@ -66,6 +66,7 @@ VM_USER_LDLIBS = \
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
 	cpu-exec \
+	dut \
 	mmio \
 	hostcall \
 	init \
@@ -77,6 +78,7 @@ VM_USER_CLASSES = \
 	sdb \
 	watchpoint \
 	npc-main \
+	dut \
 	reg \
 	log \
 	state \
@@ -88,6 +90,7 @@ VM_USER_CLASSES = \
 VM_USER_DIR = \
 	csrc \
 	csrc/cpu \
+	csrc/cpu/difftest \
 	csrc/device/io \
 	csrc/engine \
 	csrc/engine/interpreter \
@@ -110,6 +113,8 @@ VPATH += $(VM_USER_DIR)
 
 cpu-exec.o: csrc/cpu/cpu-exec.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+dut.o: csrc/cpu/difftest/dut.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 mmio.o: csrc/device/io/mmio.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 hostcall.o: csrc/engine/hostcall.c
@@ -131,6 +136,8 @@ sdb.o: csrc/monitor/sdb/sdb.c
 watchpoint.o: csrc/monitor/sdb/watchpoint.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 npc-main.o: csrc/npc-main.cpp
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+dut.o: csrc/riscv32/dut.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 reg.o: csrc/riscv32/reg.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
