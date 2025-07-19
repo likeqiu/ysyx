@@ -72,7 +72,7 @@ static int parse_args(int argc,char *argv[]){
                 img_file = optarg;
                 return 0;
             default:
-                printf("\n");
+                printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
             }
     }
     if(argc>1){
