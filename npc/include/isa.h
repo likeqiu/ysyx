@@ -15,7 +15,20 @@ void init_isa();
 
 // reg
 extern CPU_state cpu;
-void isa_reg_display();
+
+
+#ifdef __cplusplus
+extern "C"{
+    
+#endif
+
+    void isa_reg_display();
+#ifdef __cplusplus
+}
+
+#endif
+
+
 word_t isa_reg_str2val(const char *name, bool *success);
 
 // exec
