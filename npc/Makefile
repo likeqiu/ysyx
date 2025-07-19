@@ -16,6 +16,7 @@ override ARGS ?=
 LDFLAGS = -lreadline -lhistory -lncurses
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
+include $(NEMU_HOME)/tools/difftest.mk
 
 # ===== 动态库方案 =====
 # 检查是否需要编译LLVM包装器动态库
@@ -116,7 +117,7 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 run: waveform
 	@echo "Setting library path and running..."
 	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH"
-	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS) $(IMG)
+	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS) $(IMG) $(ARGS_DIFF)
 
 look:
 	gtkwave sim.fst
