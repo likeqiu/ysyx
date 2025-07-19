@@ -4,6 +4,8 @@ CSRC = $(shell find csrc -type f -name '*.c') $(shell find csrc -type f -name '*
 SRCS = $(VSRC) $(CSRC)
 NXDC = constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
+NAME = riscv32-npc-interpreter
+BUILD_DIR = $(NPC_HOME)/build
 INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/ /home/zxj17/ysyx-workbench/npc/csrc/riscv32/local-include  /home/zxj17/ysyx-workbench/npc/csrc/llvm/
 
 INCFLAGS = $(addprefix -I, $(INC_PATH))
@@ -108,6 +110,7 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 		$(addprefix -LDFLAGS , $(LDFLAGS)) \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		$(addprefix -CFLAGS , $(CXXFLAGS) $(INCFLAGS))
+		mv obj_dir/V$(TOPNAME) $(BUILD_DIR)/$(NAME)
 
 run: waveform
 	@echo "Setting library path and running..."
