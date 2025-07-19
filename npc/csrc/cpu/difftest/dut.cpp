@@ -19,14 +19,14 @@ void (*ref_difftest_raise_intr)(uint64_t NO) = NULL;
 
 static bool is_skip_ref = false;
 static int skip_dut_nr_inst = 0;
-
-void difftest_skip_ref(){
+    
+extern "C" void difftest_skip_ref(){
     is_skip_ref = true;
     skip_dut_nr_inst = 0;
 }
 
 
-void difftest_skip_dut(int nr_ref,int nr_dut){
+extern "C" void difftest_skip_dut(int nr_ref,int nr_dut){
     skip_dut_nr_inst += nr_dut;
 
     while(nr_ref-- > 0){
@@ -34,14 +34,14 @@ void difftest_skip_dut(int nr_ref,int nr_dut){
     }
 }
 
-void init_difftest(char *ref_so_file,long img_size,int port){
+extern "C" void init_difftest(char *ref_so_file,long img_size,int port){
     assert(ref_so_file != NULL);
 
     void *handle;
     handle = dlopen(ref_so_file, RTLD_LAZY);
     assert(handle);
 
-    ref_difftest_memcpy = dlsym(handle, "difftest_memcpy");
+    ref_difftest_memcpy = reinterpret_cast<decltype(ref_difftest_memcpy)>(dlsym(handle, "difftest_memcpy"));
     assert(ref_difftest_memcpy);
 
     ref_difftest_regcpy = dlsym(handle, "difftest_regcpy");
