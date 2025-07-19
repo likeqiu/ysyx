@@ -78,7 +78,7 @@ VM_USER_CLASSES = \
 	sdb \
 	watchpoint \
 	npc-main \
-	dut \
+	dut_ \
 	reg \
 	log \
 	state \
@@ -137,7 +137,7 @@ watchpoint.o: csrc/monitor/sdb/watchpoint.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 npc-main.o: csrc/npc-main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-dut.o: csrc/riscv32/dut.c
+dut_.o: csrc/riscv32/dut_.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 reg.o: csrc/riscv32/reg.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
