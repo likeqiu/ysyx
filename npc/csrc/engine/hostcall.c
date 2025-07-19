@@ -1,7 +1,7 @@
 #include<utils.h>
 #include<cpu/ifetch.h>
 #include<isa.h>
-#include<difftest.h>
+#include<cpu/difftest.h>
 
 void set_nemu_state(int state, vaddr_t pc,int halt_ret){
     difftest_skip_ref();
