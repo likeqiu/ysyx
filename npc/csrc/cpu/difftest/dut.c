@@ -55,5 +55,55 @@ void init_difftest(char *ref_so_file,long img_size,int port){
     assert(ref_difftest_init);
 
     Log("Differential testing: %s", ANSI_FMT("ON", ANSI_FG_GREEN));
-    Log("The")
+    Log("The result of every instruction will be compared with %s."
+        "This will help you a lot for debugging, but also significantly reduce the performance ."
+        "If it is not neccessary,you can turn it off in menuconfig .",
+        ref_so_file);
+
+    ref_difftest_init(port);
+    ref_difftest_memcpy(RESET_VECTOR, guest_to_host(RESET_VECTOR), img_size, DIFFTEST_TO_REF);
+    ref_difftest_regcpy(&cpu, DIFFTEST_TO_REF);
 }
+
+static void checkregs(CPU_state *ref,vaddr_t pc){
+    if(!isa_difftest_checkregs(ref,pc)){
+        npc_state.state = NPC_ABORT;
+        npc_state.halt_pc = pc;
+        isa_reg_display();
+    }
+} 
+
+
+void difftest_step(vaddr_t pc,vaddr_t npc){
+    CPU_state ref_r;
+
+    if(skip_dut_nr_inst > 0){
+        ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+        if(ref_r.pc == npc){
+            skip_dut_nr_inst = 0;
+            checkregs(&ref_r, npc);
+            return;
+        }
+
+        skip_dut_nr_inst--;
+        if(skip_dut_nr_inst == 0)
+            panic("can not catch up with ref.pc = " FMT_WORD "at pc = " FMT_WORD, ref_r.pc, pc);
+        return;
+    }
+
+    if(is_skip_ref){
+        ref_difftest_regcpy(&cpu, DIFFTEST_TO_REF);
+        is_skip_ref = false;
+        return;
+    }
+    ref_difftest_exec(1);
+    ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
+    checkregs(&ref_r, pc);
+}
+
+#else
+
+void init_difftest(char *ref_so_file,long img_size,int port){ }
+
+
+#endif
