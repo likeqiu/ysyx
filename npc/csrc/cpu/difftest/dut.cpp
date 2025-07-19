@@ -52,7 +52,7 @@ extern "C" void init_difftest(char *ref_so_file,long img_size,int port){
 
     ref_difftest_raise_intr = reinterpret_cast<decltype(ref_difftest_raise_intr)>(dlsym(handle, "difftest_raise_intr"));
 
-    void (*ref_difftest_init)(int) = reinterpret_cast<decltype(ref_difftest_init) (dlsym(handle, "difftest_init"));
+    void (*ref_difftest_init)(int) = reinterpret_cast<decltype(ref_difftest_init)> (dlsym(handle, "difftest_init"));
     assert(ref_difftest_init);
 
     Log("Differential testing: %s", ANSI_FMT("ON", ANSI_FG_GREEN));
