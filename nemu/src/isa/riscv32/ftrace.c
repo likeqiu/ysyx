@@ -295,7 +295,7 @@ void ftrace_call(uint32_t pc, uint32_t target_addr)
         {
             length_idx = 0;
             length_category = "short";
-        }else if(size<=256)
+        }else if(size < 512)
         {
             length_idx = 1;
             length_category = "medium";
