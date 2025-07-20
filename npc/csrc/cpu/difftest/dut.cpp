@@ -5,7 +5,7 @@
 #include<utils.h>
 #include<difftest.h>
 
-//extern "C" bool log_enable();
+
 
 
 void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n, bool direction) = NULL;
@@ -76,7 +76,7 @@ static void checkregs(CPU_state *ref,vaddr_t pc){
 } 
 
 
-extern "C" void difftest_step(vaddr_t pc,vaddr_t npc){
+void difftest_step(vaddr_t pc,vaddr_t npc){
     CPU_state ref_r;
 
     if(skip_dut_nr_inst > 0){
