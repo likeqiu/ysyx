@@ -37,7 +37,11 @@ extern "C" int printf_finish(uint32_t inst)
 extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
 {
     cpu.pc = pc;
-    std::memcpy(cpu.gpr, regs, sizeof(cpu.gpr));
+    for (int i = 0; i < 32;i++)
+    {
+        cpu.gpr[i] = regs[i];
+    }
+        //std::memcpy(cpu.gpr, regs, sizeof(cpu.gpr));
 }
 
 extern "C" void update_decode_state(vaddr_t pc,vaddr_t snpc ,vaddr_t dnpc,uint32_t inst){
