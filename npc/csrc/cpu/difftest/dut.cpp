@@ -16,7 +16,7 @@ void (*ref_difftest_raise_intr)(uint64_t NO) = NULL;
 
 #ifdef CONFIG_DIFFTEST
 
-// nemu是逐条指令执行，目前不需要处理打包问题,但考虑到可能还要和其他模拟器进行比较，保留处理打包方式
+// nemu是逐条指令执行，目前不需要处理打包问题,但考虑到可能还要和其他模拟器进行比较，保留处理打包方式,，但没有使用
 
 static bool is_skip_ref = false;
 static int skip_dut_nr_inst = 0;
@@ -70,7 +70,7 @@ void init_difftest(char *ref_so_file,long img_size,int port){
 }
 
 static void checkregs(CPU_state *ref,vaddr_t pc){
-    if (pc < 0x80000000)
+    if (pc == 0x00000000)
         return;
     if(!isa_difftest_checkregs(ref,pc)){
         npc_state.state = NPC_ABORT;
