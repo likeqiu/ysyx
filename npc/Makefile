@@ -132,7 +132,7 @@ run: waveform
 	@echo "Setting library path and running..."
 	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH"
 	@echo "./build/$(NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
-	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS) $(IMG) -d $(ARGS_DIFF)
+	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS)  $(ARGS_DIFF) $(IMG) 
 
 look:
 	gtkwave sim.fst
