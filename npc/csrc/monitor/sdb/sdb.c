@@ -56,7 +56,7 @@ static int cmd_info(char *args){
         if(strcmp(args,"r") == 0)
         {
            // cmd_reg_info(args);
-            printf("$pc: 0x%08x\n", cpu.pc);
+           // printf("$pc: 0x%08x\n", cpu.pc);
            isa_reg_display();
         }
     }/*else if(strcmp(args,"w") == 0){
