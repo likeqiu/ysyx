@@ -74,22 +74,6 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top_
     trap_record(pc__Vcvt, cause__Vcvt);
 }
 
-extern "C" void update_decode_state(int pc, int snpc, int dnpc, int inst);
-
-VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__update_decode_state_TOP(IData/*31:0*/ pc, IData/*31:0*/ snpc, IData/*31:0*/ dnpc, IData/*31:0*/ inst) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__update_decode_state_TOP\n"); );
-    // Body
-    int pc__Vcvt;
-    for (size_t pc__Vidx = 0; pc__Vidx < 1; ++pc__Vidx) pc__Vcvt = pc;
-    int snpc__Vcvt;
-    for (size_t snpc__Vidx = 0; snpc__Vidx < 1; ++snpc__Vidx) snpc__Vcvt = snpc;
-    int dnpc__Vcvt;
-    for (size_t dnpc__Vidx = 0; dnpc__Vidx < 1; ++dnpc__Vidx) dnpc__Vcvt = dnpc;
-    int inst__Vcvt;
-    for (size_t inst__Vidx = 0; inst__Vidx < 1; ++inst__Vidx) inst__Vcvt = inst;
-    update_decode_state(pc__Vcvt, snpc__Vcvt, dnpc__Vcvt, inst__Vcvt);
-}
-
 extern "C" void update_cpu_state(unsigned int pc, const svOpenArrayHandle regs);
 
 VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__regfile__DOT__update_cpu_state__Vdpioc2_TOP(IData/*31:0*/ pc, const VlUnpacked<IData/*31:0*/, 32> &regs) {
