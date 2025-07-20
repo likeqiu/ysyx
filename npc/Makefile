@@ -12,7 +12,7 @@ INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
 override ARGS ?= 
 
-CFLAGS += -DCONFIG_DIFFTEST
+CONFIG_DIFFTEST = y
 
 ifdef CONFIG_DIFFTEST
 
