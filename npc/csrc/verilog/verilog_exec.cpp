@@ -2,6 +2,7 @@
 #include<verilog.h>
 #include<cpu/cpu.h>
 #include<cpu/decode.h>
+#include<cpu/difftest.h>
 #include<reg.h>
 
 CPU_state cpu = {};
@@ -13,8 +14,12 @@ Decode lastest_decode = {
 
 #define MAX_INST_TO_PRINT 100
 
-static void trace_and_difftest(Decode *_this)
+static void trace_and_difftest(Decode *_this,vaddr_t dnpc)
 {
+
+
+
+    IFDEF(CONFIG_DIFFTEST,difftest_step(_this->pc,dnpc))    
 
 #ifdef CONFIG_WATCHPOINT
     extern int monitor_point(uint32_t cpu_pc);
@@ -52,7 +57,7 @@ static void execute(uint64_t n)
         }
         exec_once();
         g_nr_guest_inst++;
-        trace_and_difftest();
+        trace_and_difftest(&lastest_decode,cpu.pc);
 
         if(npc_state.state != NPC_RUNNING)
         break;

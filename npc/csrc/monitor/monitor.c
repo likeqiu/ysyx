@@ -7,6 +7,7 @@
 void init_rand();
 void init_log(const char *log_file);
 void init_mem();
+void init_difftest(char *ref_so_file, long img_size, int port);
 void init_device();
 void init_sdb();
 void init_regex();
@@ -103,12 +104,17 @@ void init_monitor(int argc, char *argv[])
 
     parse_args(argc, argv);
     long img_size = load_img();
+
      init_regex();
      init_wp_pool();
      init_disasm_llvm();
+
      init_verilog(argc, argv);
      // init_sdb();
      init_mem();
+
+     init_difftest(diff_so_file, img_size, difftest_port);
+
      welcome();
 }
 
