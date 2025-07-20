@@ -81,7 +81,7 @@ void cpu_exec(uint64_t n){
 
 }
  
-extern "C" void cmd_reg_info(char *args)
+void cmd_reg_info(char *args)
 {
     for (int i = 0; i < 32; i++)
     {
