@@ -37,10 +37,10 @@ extern "C" int printf_finish(uint32_t inst)
 extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
 {
     cpu.pc = pc;
-    for (int i = 0; i < 32;i++)
+    /*for (int i = 0; i < 32;i++)
     {
         cpu.gpr[i] = regs[i];
-    }
+    }*/
         //std::memcpy(cpu.gpr, regs, sizeof(cpu.gpr));
 }
 
