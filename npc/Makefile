@@ -28,7 +28,7 @@ endif
 LDFLAGS = -lreadline -lhistory -lncurses
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
-include $(NEMU_HOME)/tools/difftest.mk
+
 
 ARGS_DIFF ?=
 
