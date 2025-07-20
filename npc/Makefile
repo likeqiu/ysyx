@@ -131,6 +131,7 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 run: waveform
 	@echo "Setting library path and running..."
 	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH"
+	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
 	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS) $(IMG) $(ARGS_DIFF)
 
 look:
