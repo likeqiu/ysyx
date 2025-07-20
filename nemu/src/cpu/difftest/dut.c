@@ -101,8 +101,7 @@ void init_difftest(char *ref_so_file, long img_size, int port) {
 
 
 static void checkregs(CPU_state *ref, vaddr_t pc) {
-  if(pc < 0x80000000)
-    return;
+
   if (!isa_difftest_checkregs(ref, pc))
   {
     nemu_state.state = NEMU_ABORT;
