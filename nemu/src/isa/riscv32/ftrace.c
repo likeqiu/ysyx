@@ -15,7 +15,7 @@ typedef struct
     uint32_t size;
     uint64_t call_count;
 } FuncSymbol;
-// 保存一个函数符号的信
+// 保存一个函数符号的信号
 
 typedef struct  
 {
@@ -56,9 +56,7 @@ void init_ftrace(const char *elf_file)
 
     // 检查是不是 ELF 文件（魔数检查 \x7fELF）
     // e_ident 是一个数组，是 ELF 文件的魔数 和基本信息，用来确认文件是 ELF 格式，并描述 ELF 文件的一些基本属性。
-    if (strncmp((char *)ehdr.e_ident, "\x7f"
-                                      "ELF",
-                4) != 0)
+    if (strncmp((char *)ehdr.e_ident, "\x7f""ELF",4) != 0)
     {
         printf("Error: Not an ELF file\n");
         fclose(fp);
