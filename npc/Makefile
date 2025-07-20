@@ -168,6 +168,7 @@ check:waveform
 	@echo "INC_PATH: $(INC_PATH)"	
 	@echo "111"
 	@echo "$(ARGS_DIFF)"
+	@echo "$(DIFF_REF_SO)"
 
 clean:
 	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp sim.fst
