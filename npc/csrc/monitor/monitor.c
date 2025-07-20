@@ -80,6 +80,7 @@ static int parse_args(int argc,char *argv[]){
                 diff_so_file = optarg;break;
             case 1:
                 img_file = optarg;
+                printf("%s\n", optarg);
                 return 0;
             default:
                 printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
