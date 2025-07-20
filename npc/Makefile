@@ -10,7 +10,7 @@ INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/z
 
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
-override ARGS ?= 
+ARGS ?= 
 
 CONFIG_DIFFTEST = y
 
