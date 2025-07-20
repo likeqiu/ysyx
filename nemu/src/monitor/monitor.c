@@ -27,14 +27,7 @@ void init_sdb();
 void init_disasm();
 void iringbuf_init();
 
-__attribute((visibility("default"))) void difftest_init(int port)
-{
 
-  init_mem();
-  /* Perform ISA dependent initialization. */
-   init_isa();
-
-  }
 
   static void welcome()
   {
@@ -45,6 +38,16 @@ __attribute((visibility("default"))) void difftest_init(int port)
     Log("Build time: %s, %s", __TIME__, __DATE__);
     printf("Welcome to %s-NEMU!\n", ANSI_FMT(str(__GUEST_ISA__), ANSI_FG_YELLOW ANSI_BG_RED));
     printf("For help, type \"help\"\n");
+  }
+
+  __attribute((visibility("default"))) void difftest_init(int port)
+  {
+
+    init_mem();
+    /* Perform ISA dependent initialization. */
+    init_isa();
+
+    welcome();
   }
 
 #ifndef CONFIG_TARGET_AM
