@@ -131,7 +131,7 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 run: waveform
 	@echo "Setting library path and running..."
 	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH"
-	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
+	@echo "./build/$(NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
 	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS) $(IMG) $(ARGS_DIFF)
 
 look:
@@ -168,7 +168,7 @@ check:waveform
 	@echo "INC_PATH: $(INC_PATH)"	
 	@echo "111"
 	@echo "$(ARGS_DIFF)"
-	@echo "$(DIFF_REF_SO)"
+
 
 clean:
 	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp sim.fst
