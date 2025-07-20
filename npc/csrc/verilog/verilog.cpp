@@ -3,9 +3,11 @@
 #include<verilog.h>
 #include<verilog_init.h>
 
+extern Decode lastest_decode;
 
-
-extern "C" void verilog_pmem_read(paddr_t addr,uint32_t *data){
+extern "C" void
+verilog_pmem_read(paddr_t addr, uint32_t *data)
+{
     *data = paddr_read(addr, 4);
    // mtrace_record('R', addr, 4, *data);
 }
@@ -38,8 +40,8 @@ extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
 }
 
 extern "C" void update_decode_state(vaddr_t pc,vaddr_t snpc ,vaddr_t dnpc,uint32_t inst){
-    Decode *decode;
-    decode
+    
+
     
 }
 
