@@ -14,4 +14,6 @@ typedef struct Decode {
     IFDEF(CONFIG_ITRACE, char logbuf[128]);
 } Decode;
 
+
+
 #endif

@@ -2,6 +2,7 @@
 #include<paddr.h>
 #include<verilog.h>
 #include<verilog_init.h>
+#include <cpu/decode.h>
 
 extern Decode lastest_decode;
 
@@ -40,11 +41,7 @@ extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
 }
 
 extern "C" void update_decode_state(vaddr_t pc,vaddr_t snpc ,vaddr_t dnpc,uint32_t inst){
-
     lastest_decode.pc = pc;
-    lastest_decode.snpc = pc + 4;
-    lastest_decode.dnpc = dnpc;
-    lastest_decode.inst = inst;
 }
 
 extern "C" void trap_record(int pc,int cause){
