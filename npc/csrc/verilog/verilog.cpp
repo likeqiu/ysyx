@@ -44,9 +44,8 @@ extern "C" void update_decode_state(vaddr_t pc,vaddr_t snpc ,vaddr_t dnpc,uint32
     lastest_decode.pc = pc;
     lastest_decode.snpc = pc + 4;
     lastest_decode.dnpc = dnpc;
-    lastest_decode.inst = inst;
+    lastest_decode.isa.inst = inst;
 }
-
 extern "C" void trap_record(int pc,int cause){
     std::cout << "pc: " << pc << ", cause:  " << cause << std::endl;
 
