@@ -81,12 +81,12 @@ void cpu_exec(uint64_t n){
 
 }
  
-void cmd_reg_info(char *args)
+extern "C" void cmd_reg_info(char *args)
 {
     for (int i = 0; i < 32; i++)
     {
         cpu.gpr[i] = top->rootp->ysyx_25040109_top__DOT__regfile__DOT__rf[i];
-        printf("%s = 0x%08x\n", reg_name(i), top->rootp->ysyx_25040109_top__DOT__regfile__DOT__rf[i]);
+       
     }
 
 

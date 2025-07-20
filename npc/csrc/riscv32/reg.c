@@ -8,8 +8,11 @@ const char *regs[] = {
     "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
+cmd_reg_info();
+
 void isa_reg_display()
 {
+    cmd_reg_info();
     for (int i = 0; i < 32; i++)
     {
         printf("%s = %u\n", regs[i], gpr(i));
