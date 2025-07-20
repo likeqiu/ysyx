@@ -17,7 +17,8 @@ Decode lastest_decode = {
 static void trace_and_difftest(Decode *_this,vaddr_t dnpc)
 {
 
-    IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+
+    IFDEF(CONFIG_DIFFTEST, if(cpu.pc >= 0x80000000)difftest_step(_this->pc, dnpc));
 
 #ifdef CONFIG_WATCHPOINT
     extern int monitor_point(uint32_t cpu_pc);
