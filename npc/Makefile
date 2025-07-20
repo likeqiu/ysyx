@@ -11,13 +11,15 @@ INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/z
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
 override ARGS ?= 
-ARGS_DIFF ?=
+
 
 # 基本链接库
 LDFLAGS = -lreadline -lhistory -lncurses
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
 include $(NEMU_HOME)/tools/difftest.mk
+
+ARGS_DIFF ?=
 
 # ===== 动态库方案 =====
 # 检查是否需要编译LLVM包装器动态库
