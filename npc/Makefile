@@ -151,7 +151,8 @@ check:waveform
 	@echo "C/CPP   : $(CSRC)"
 	@echo "\n"
 	@echo "INC_PATH: $(INC_PATH)"	
-	@echo $(ARGS_DIFF)
+	@echo "111"
+	@echo "$(ARGS_DIFF)"
 
 clean:
 	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp sim.fst
