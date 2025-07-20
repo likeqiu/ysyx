@@ -113,7 +113,7 @@ void init_monitor(int argc, char *argv[])
      // init_sdb();
      init_mem();
 
-     init_difftest(diff_so_file, img_size, difftest_port);
+    // init_difftest(diff_so_file, img_size, difftest_port);
 
      welcome();
 }
