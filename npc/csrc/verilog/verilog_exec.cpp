@@ -13,8 +13,8 @@ Decode lastest_decode = {
 
 #define MAX_INST_TO_PRINT 100
 
-static void trace_and_difftest(){
-
+static void trace_and_difftest(Decode *_this)
+{
 
 #ifdef CONFIG_WATCHPOINT
     extern int monitor_point(uint32_t cpu_pc);
