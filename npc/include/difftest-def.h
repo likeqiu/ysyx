@@ -1,6 +1,6 @@
-#ifndef __CPU_DIFFTEST_H__
-#define __CPU_DIFFTEST_H__
 
+#ifndef __DIFFTEST_DEF_H__
+#define __DIFFTEST_DEF_H__
 
 #include<stdint.h>
 #include<macro.h>
