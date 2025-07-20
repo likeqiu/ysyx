@@ -40,15 +40,6 @@ void iringbuf_init();
     printf("For help, type \"help\"\n");
   }
 
-  __attribute((visibility("default"))) void difftest_init(int port)
-  {
-
-    init_mem();
-    /* Perform ISA dependent initialization. */
-    init_isa();
-
-    welcome();
-  }
 
 #ifndef CONFIG_TARGET_AM
 #include <getopt.h>
