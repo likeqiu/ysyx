@@ -13,7 +13,7 @@ Decode lastest_decode = {
 
 #define MAX_INST_TO_PRINT 100
 
-static void trace_and_difftest(Decode *_this){
+static void trace_and_difftest(){
 
 
 #ifdef CONFIG_WATCHPOINT
