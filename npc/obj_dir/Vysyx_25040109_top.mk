@@ -35,7 +35,6 @@ VM_PREFIX = Vysyx_25040109_top
 VM_MODPREFIX = Vysyx_25040109_top
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-	-DCONFIG_DIFFTEST \
 	-MMD \
 	-O3 \
 	-I/usr/include/SDL2 \

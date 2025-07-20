@@ -5,10 +5,15 @@
 #include<reg.h>
 
 CPU_state cpu = {};
+Decode lastest_decode = {
+    .pc   = cpu.pc,
+    .snpc = cpu.pc + 4,
+    .logbuf = {},
+};
 
 #define MAX_INST_TO_PRINT 100
 
-static void trace_and_difftest(){
+static void trace_and_difftest(Decode *_this){
 
 
 #ifdef CONFIG_WATCHPOINT
