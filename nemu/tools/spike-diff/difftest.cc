@@ -62,7 +62,7 @@ void sim_t::diff_init(int port)
 // 执行n步模拟
 void sim_t::diff_step(uint64_t n)
 {
-  printf("1113\n");
+  //printf("1113\n");
   step(n); // 调用模拟器的step函数，执行n条指令
 }
 
