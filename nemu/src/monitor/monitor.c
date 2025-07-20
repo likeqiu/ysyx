@@ -27,16 +27,25 @@ void init_sdb();
 void init_disasm();
 void iringbuf_init();
 
-static void welcome()
+__attribute((visibility("default"))) void difftest_init(int port)
 {
-  Log("Trace: %s", MUXDEF(CONFIG_TRACE, ANSI_FMT("ON", ANSI_FG_GREEN), ANSI_FMT("OFF", ANSI_FG_RED)));
-  IFDEF(CONFIG_TRACE, Log("If trace is enabled, a log file will be generated "
-        "to record the trace. This may lead to a large log file. "
-        "If it is not necessary, you can disable it in menuconfig"));
-  Log("Build time: %s, %s", __TIME__, __DATE__);
-  printf("Welcome to %s-NEMU!\n", ANSI_FMT(str(__GUEST_ISA__), ANSI_FG_YELLOW ANSI_BG_RED));
-  printf("For help, type \"help\"\n");
-}
+
+  init_mem();
+  /* Perform ISA dependent initialization. */
+   init_isa();
+
+  }
+
+  static void welcome()
+  {
+    Log("Trace: %s", MUXDEF(CONFIG_TRACE, ANSI_FMT("ON", ANSI_FG_GREEN), ANSI_FMT("OFF", ANSI_FG_RED)));
+    IFDEF(CONFIG_TRACE, Log("If trace is enabled, a log file will be generated "
+                            "to record the trace. This may lead to a large log file. "
+                            "If it is not necessary, you can disable it in menuconfig"));
+    Log("Build time: %s, %s", __TIME__, __DATE__);
+    printf("Welcome to %s-NEMU!\n", ANSI_FMT(str(__GUEST_ISA__), ANSI_FG_YELLOW ANSI_BG_RED));
+    printf("For help, type \"help\"\n");
+  }
 
 #ifndef CONFIG_TARGET_AM
 #include <getopt.h>
@@ -109,46 +118,46 @@ static int parse_args(int argc, char *argv[]) {
 
 
 
-void init_monitor(int argc, char *argv[])
-{
-  /* Perform some global initialization. */
+  void init_monitor(int argc, char *argv[])
+  {
+    /* Perform some global initialization. */
 
-  /* Parse arguments. */
-  parse_args(argc, argv);
+    /* Parse arguments. */
+    parse_args(argc, argv);
 
-  /* Set random seed. */
-  init_rand();
+    /* Set random seed. */
+    init_rand();
 
-  /* Open the log file. */
-  init_log(log_file);
+    /* Open the log file. */
+    init_log(log_file);
 
-  IFDEF(CONFIG_ITRACE, iringbuf_init());
+    IFDEF(CONFIG_ITRACE, iringbuf_init());
 
-  /* Initialize memory. */
-  init_mem();
+    /* Initialize memory. */
+    init_mem();
 
-  /* Initialize devices. */
-  IFDEF(CONFIG_DEVICE, init_device());
+    /* Initialize devices. */
+    IFDEF(CONFIG_DEVICE, init_device());
 
-  /* Perform ISA dependent initialization. */
-  init_isa();
+    /* Perform ISA dependent initialization. */
+    init_isa();
 
-  /* Load the image to memory. This will overwrite the built-in image. */
- long img_size = load_img();
-  if (elf_file) init_ftrace(elf_file);
+    /* Load the image to memory. This will overwrite the built-in image. */
+    long img_size = load_img();
+    if (elf_file)
+      init_ftrace(elf_file);
 
-  /* Initialize differential testing. */
-  init_difftest(diff_so_file, img_size, difftest_port);
+    /* Initialize differential testing. */
+    init_difftest(diff_so_file, img_size, difftest_port);
 
-  /* Initialize the simple debugger. */
-  init_sdb();
+    /* Initialize the simple debugger. */
+    init_sdb();
 
-  IFDEF(CONFIG_ITRACE, init_disasm());
+    IFDEF(CONFIG_ITRACE, init_disasm());
 
-  
-  /* Display welcome message. */
-  welcome();
-}
+    /* Display welcome message. */
+    welcome();
+  }
 #else // CONFIG_TARGET_AM
 static long load_img() {
   extern char bin_start, bin_end;
