@@ -22,7 +22,7 @@ extern "C" {
     extern int printf_finish(int inst);
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v:108:34
     extern void trap_record(int pc, int cause);
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_RegisterFile.v:27:32
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_RegisterFile.v:30:32
     extern void update_cpu_state(unsigned int pc, const svOpenArrayHandle regs);
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v:109:36
     extern void update_decode_state(int pc, int snpc, int dnpc, int inst);

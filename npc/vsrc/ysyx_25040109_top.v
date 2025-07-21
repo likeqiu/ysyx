@@ -169,19 +169,30 @@ module ysyx_25040109_top (
             // --- 同步写 (用于Store指令) ---
             if (is_store && !inst_invalid) begin
                 case (funct3)
-                    3'b000: verilog_pmem_write(mem_addr, rs2_data, 1); // SB
-                    3'b001: verilog_pmem_write(mem_addr, rs2_data, 2); // SH
-                    3'b010: verilog_pmem_write(mem_addr, rs2_data, 4); // SW
+                    3'b000:
+                    `ifndef SYNTHESIS
+                     verilog_pmem_write(mem_addr, rs2_data, 1); // SB
+                    `endif
+                    3'b001:
+                    `ifndef SYNTHESIS 
+                    verilog_pmem_write(mem_addr, rs2_data, 2); // SH
+                    `endif
+                    3'b010: 
+                    `ifndef SYNTHESIS
+                    verilog_pmem_write(mem_addr, rs2_data, 4); // SW
+                    `endif
                     default: ;
                 endcase
             end
 
             // --- 仿真跟踪与结束 ---
-            
+            `ifndef SYNTHESIS
             itrace_print(pc, inst_ifu, 4,p_count_number);
+           
             if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end
+             `endif
         end
     end
 
