@@ -33,7 +33,9 @@ end
 
 
     always @(*) begin
+        `ifndef SYNTHESIS
         update_cpu_state(pc,rf);
+        `endif
     end
 
     
