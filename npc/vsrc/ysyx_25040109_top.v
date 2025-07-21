@@ -139,10 +139,12 @@ module ysyx_25040109_top (
 
   
     always @(posedge clk) begin
+        `ifndef SYNTHESIS
         update_decode_state(pc,pc + 32'd4,next_pc,inst_ifu);
+        `endif 
     end
 
-   `endif 
+   
 
 
     
