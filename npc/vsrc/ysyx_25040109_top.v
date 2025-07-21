@@ -96,7 +96,7 @@ module ysyx_25040109_top (
 
  
 
-
+`ifndef SYNTHESIS
 
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
     import "DPI-C" function void verilog_pmem_write(input int addr, input int data, input int len);
@@ -107,13 +107,16 @@ module ysyx_25040109_top (
     import "DPI-C" function void itrace_print( int pc, int instruction_word, int instr_len_bytes,int p_count_number);
     import "DPI-C" function void trap_record(int pc,int cause);
     import "DPI-C"  function void  update_decode_state(int pc,int snpc,int dnpc,int inst);
-
+    
+`endif 
 
 
         wire [31:0] writeback_data;
     reg  [31:0] load_result;
 
     assign writeback_data = is_load ? load_result  : result ;
+
+
 
    always @(*) begin
         if (is_load) begin // 加载指令
@@ -139,7 +142,7 @@ module ysyx_25040109_top (
         update_decode_state(pc,pc + 32'd4,next_pc,inst_ifu);
     end
 
-   
+   `endif 
 
 
     

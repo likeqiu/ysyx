@@ -12,6 +12,9 @@ INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
 ARGS ?= 
 
+
+CFLAGS += -DSYNTHESIS
+
 CONFIG_DIFFTEST = y
 
 ifdef CONFIG_DIFFTEST

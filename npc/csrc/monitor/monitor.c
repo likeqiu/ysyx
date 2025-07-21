@@ -77,9 +77,9 @@ static int parse_args(int argc,char *argv[]){
             case 'l':
                 log_file = optarg;break;    
             case 'd':
-                printf("344\n");
+                //printf("344\n");
                 diff_so_file = optarg;
-                printf("222%s\n", optarg);
+               // printf("222%s\n", optarg);
                 break;
             case 1:
                 img_file = optarg;

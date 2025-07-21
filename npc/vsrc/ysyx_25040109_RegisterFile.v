@@ -24,13 +24,19 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
 end
 
 
+
+`ifndef  SYNTHESIS
+
  import "DPI-C"  function void update_cpu_state(input int unsigned pc,input int unsigned  regs[]);
  
+ `endif 
 
 
     always @(*) begin
         update_cpu_state(pc,rf);
     end
+
+    
 
 
 
