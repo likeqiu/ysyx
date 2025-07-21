@@ -14,7 +14,6 @@ Vysyx_25040109_top::Vysyx_25040109_top(VerilatedContext* _vcontextp__, const cha
     , vlSymsp{new Vysyx_25040109_top__Syms(contextp(), _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
     , rst{vlSymsp->TOP.rst}
-    , __pinNumber7{vlSymsp->TOP.__pinNumber7}
     , p_count_number{vlSymsp->TOP.p_count_number}
     , inst{vlSymsp->TOP.inst}
     , pc{vlSymsp->TOP.pc}

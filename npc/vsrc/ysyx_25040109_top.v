@@ -4,11 +4,12 @@ module ysyx_25040109_top (
     input [31:0] p_count_number,
     output  [31:0]  inst,
     output [31:0] pc,
+    `ifdef SYNTHESIS
+    input [31:0] yosys_store_load,
+    `endif 
     output [31:0] a0_out
 
-    `ifdef SYNTHESIS
-    input [31:0] yosys_store_load
-    `endif 
+
 );
    
     wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;

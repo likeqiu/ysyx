@@ -29,14 +29,15 @@ end
 
  import "DPI-C"  function void update_cpu_state(input int unsigned pc,input int unsigned  regs[]);
  
-`endif 
-
 
     always @(*) begin
         `ifndef SYNTHESIS
         update_cpu_state(pc,rf);
         `endif
     end
+
+`endif 
+
 
     
 
