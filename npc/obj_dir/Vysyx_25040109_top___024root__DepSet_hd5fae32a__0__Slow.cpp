@@ -1448,8 +1448,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
     vlSelf->inst = VL_RAND_RESET_I(32);
     vlSelf->pc = VL_RAND_RESET_I(32);
     vlSelf->a0_out = VL_RAND_RESET_I(32);
-    vlSelf->yosys_store_load = VL_RAND_RESET_I(32);
-    vlSelf->yosys_store_write = VL_RAND_RESET_I(32);
+    vlSelf->__pinNumber7 = VL_RAND_RESET_I(1);
     vlSelf->ysyx_25040109_top__DOT__next_pc = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__rs1_data = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__rs2_data = VL_RAND_RESET_I(32);

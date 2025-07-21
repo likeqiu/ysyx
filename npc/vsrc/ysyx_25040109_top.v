@@ -4,7 +4,7 @@ module ysyx_25040109_top (
     input [31:0] p_count_number,
     output  [31:0]  inst,
     output [31:0] pc,
-    output [31:0] a0_out,
+    output [31:0] a0_out
 
     `ifdef SYNTHESIS
     input [31:0] yosys_store_load
