@@ -4,7 +4,9 @@ module ysyx_25040109_top (
     input [31:0] p_count_number,
     output  [31:0]  inst,
     output [31:0] pc,
-    output [31:0] a0_out
+    output [31:0] a0_out,
+    input [31:0] yosys_store_load,
+    input [31:0] yosys_store_write
 );
    
     wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;
@@ -120,7 +122,11 @@ module ysyx_25040109_top (
 
    always @(*) begin
         if (is_load) begin // 加载指令
+            `ifndef SYNTHESIS
             verilog_pmem_read(mem_addr, mem_data);
+            `else
+            mem_data = yosys_store_load;     
+            `endif 
             case (funct3)
                 3'b000: load_result = {{24{mem_data[7]}}, mem_data[7:0]};   // LB - 符号扩展
                 3'b001: load_result = {{16{mem_data[15]}}, mem_data[15:0]}; // LH - 符号扩展
@@ -172,6 +178,10 @@ module ysyx_25040109_top (
                     3'b000:
                     `ifndef SYNTHESIS
                      verilog_pmem_write(mem_addr, rs2_data, 1); // SB
+                    //`else
+                     
+
+
                     `endif
                     3'b001:
                     `ifndef SYNTHESIS 
