@@ -184,18 +184,27 @@ module ysyx_25040109_top (
                     3'b000:
                     `ifndef SYNTHESIS
                      verilog_pmem_write(mem_addr, rs2_data, 1); // SB
+                     `else 
+                     ;
                     `endif
-                    ;
+                    
                     3'b001:
                     `ifndef SYNTHESIS 
                     verilog_pmem_write(mem_addr, rs2_data, 2); // SH
-                    `endif
+
+                    `else
                     ;
+                    `endif
+                    
                     3'b010: 
                     `ifndef SYNTHESIS
                     verilog_pmem_write(mem_addr, rs2_data, 4); // SW
-                    `endif
+                    
+                    `else 
                     ;
+
+                    `endif
+                    
                     default: ;
                 endcase
             end
