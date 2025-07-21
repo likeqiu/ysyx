@@ -18,6 +18,8 @@ Vysyx_25040109_top::Vysyx_25040109_top(VerilatedContext* _vcontextp__, const cha
     , inst{vlSymsp->TOP.inst}
     , pc{vlSymsp->TOP.pc}
     , a0_out{vlSymsp->TOP.a0_out}
+    , yosys_store_load{vlSymsp->TOP.yosys_store_load}
+    , yosys_store_write{vlSymsp->TOP.yosys_store_write}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context

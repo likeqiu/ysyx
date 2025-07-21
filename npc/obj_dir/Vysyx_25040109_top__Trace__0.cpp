@@ -357,14 +357,16 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
     bufp->chgIData(oldp+194,(vlSelf->inst),32);
     bufp->chgIData(oldp+195,(vlSelf->pc),32);
     bufp->chgIData(oldp+196,(vlSelf->a0_out),32);
-    bufp->chgIData(oldp+197,(((IData)(4U) + vlSelf->pc)),32);
+    bufp->chgIData(oldp+197,(vlSelf->yosys_store_load),32);
+    bufp->chgIData(oldp+198,(vlSelf->yosys_store_write),32);
+    bufp->chgIData(oldp+199,(((IData)(4U) + vlSelf->pc)),32);
     __Vtemp_hfaf36e9a__0[0U] = vlSelf->pc;
     __Vtemp_hfaf36e9a__0[1U] = 0x6fU;
     __Vtemp_hfaf36e9a__0[2U] = (0x1b80U | (vlSelf->pc 
                                            << 0xeU));
     __Vtemp_hfaf36e9a__0[3U] = (0x5c000U | (vlSelf->pc 
                                             >> 0x12U));
-    bufp->chgWData(oldp+198,(__Vtemp_hfaf36e9a__0),117);
+    bufp->chgWData(oldp+200,(__Vtemp_hfaf36e9a__0),117);
     __Vtemp_h5619e6e8__0[0U] = (IData)((0x7300000000ULL 
                                         | (QData)((IData)(
                                                           ((IData)(4U) 
@@ -394,7 +396,7 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
                                                 >> 0x12U)));
     __Vtemp_h5619e6e8__0[4U] = (0xde00000U | (vlSelf->ysyx_25040109_top__DOT__exu__DOT__jal_target 
                                               >> 0xbU));
-    bufp->chgWData(oldp+202,(__Vtemp_h5619e6e8__0),156);
+    bufp->chgWData(oldp+204,(__Vtemp_h5619e6e8__0),156);
     __Vtemp_h5c0f3cd3__0[0U] = (IData)((0x6700000000ULL 
                                         | (QData)((IData)(
                                                           ((IData)(4U) 
@@ -409,8 +411,8 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
     __Vtemp_h5c0f3cd3__0[2U] = (0x3780U | (((IData)(4U) 
                                             + vlSelf->pc) 
                                            >> 0x19U));
-    bufp->chgWData(oldp+207,(__Vtemp_h5c0f3cd3__0),78);
-    bufp->chgBit(oldp+210,(((0x80000000U <= vlSelf->pc) 
+    bufp->chgWData(oldp+209,(__Vtemp_h5c0f3cd3__0),78);
+    bufp->chgBit(oldp+212,(((0x80000000U <= vlSelf->pc) 
                             & (0x87ffffffU >= vlSelf->pc))));
 }
 

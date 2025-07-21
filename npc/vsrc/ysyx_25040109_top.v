@@ -5,8 +5,10 @@ module ysyx_25040109_top (
     output  [31:0]  inst,
     output [31:0] pc,
     output [31:0] a0_out,
-    input [31:0] yosys_store_load,
-    input [31:0] yosys_store_write
+
+    `ifdef SYNTHESIS
+    input [31:0] yosys_store_load
+    `endif 
 );
    
     wire [31:0] next_pc, inst_ifu, rs1_data, rs2_data, imm, result;
@@ -178,10 +180,6 @@ module ysyx_25040109_top (
                     3'b000:
                     `ifndef SYNTHESIS
                      verilog_pmem_write(mem_addr, rs2_data, 1); // SB
-                    //`else
-                     
-
-
                     `endif
                     3'b001:
                     `ifndef SYNTHESIS 

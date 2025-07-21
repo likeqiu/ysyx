@@ -32,6 +32,8 @@ class Vysyx_25040109_top VL_NOT_FINAL : public VerilatedModel {
     VL_OUT(&inst,31,0);
     VL_OUT(&pc,31,0);
     VL_OUT(&a0_out,31,0);
+    VL_IN(&yosys_store_load,31,0);
+    VL_IN(&yosys_store_write,31,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
