@@ -1,5 +1,5 @@
 /* verilator lint_off DECLFILENAME */
-module ysyx_25040109_MuxKeyInternal #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1, HAS_DEFAULT = 0) (
+module ysyx_25040109_MuxKeyInternal #(parameter  NR_KEY = 2,parameter   KEY_LEN = 1,parameter  DATA_LEN = 1,parameter  HAS_DEFAULT = 0) (
   output reg [DATA_LEN-1:0] out,
   input [KEY_LEN-1:0] key,
   input [DATA_LEN-1:0] default_out,
@@ -36,7 +36,7 @@ module ysyx_25040109_MuxKeyInternal #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1, HAS
 endmodule
 
 // 不带默认值的选择器模板
-module ysyx_25040109_MuxKey #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1) (
+module ysyx_25040109_MuxKey #(parameter  NR_KEY = 2,parameter  KEY_LEN = 1,parameter DATA_LEN = 1) (
   output [DATA_LEN-1:0] out,
   input [KEY_LEN-1:0] key,
   input [NR_KEY*(KEY_LEN + DATA_LEN)-1:0] lut
@@ -45,7 +45,7 @@ module ysyx_25040109_MuxKey #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1) (
 endmodule
 
 // 带默认值的选择器模板
-module ysyx_25040109_MuxKeyWithDefault #(NR_KEY = 2, KEY_LEN = 1, DATA_LEN = 1) (
+module ysyx_25040109_MuxKeyWithDefault #(parameter  NR_KEY = 2, parameter  KEY_LEN = 1,parameter  DATA_LEN = 1) (
   output [DATA_LEN-1:0] out,
   input [KEY_LEN-1:0] key,
   input [DATA_LEN-1:0] default_out,
