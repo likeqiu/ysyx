@@ -25,11 +25,11 @@ end
 
 
 
-`ifndef  SYNTHESIS
+//`ifndef  SYNTHESIS
 
  import "DPI-C"  function void update_cpu_state(input int unsigned pc,input int unsigned  regs[]);
  
-`endif 
+//`endif 
 
 
     always @(*) begin
