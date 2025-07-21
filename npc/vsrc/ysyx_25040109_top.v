@@ -115,8 +115,8 @@ module ysyx_25040109_top (
     
 `endif 
 
-
-        wire [31:0] writeback_data;
+        
+    wire [31:0] writeback_data;
     reg  [31:0] load_result;
 
     assign writeback_data = is_load ? load_result  : result ;
@@ -145,7 +145,7 @@ module ysyx_25040109_top (
     end
     
 
-    
+
 
     `ifndef SYNTHESIS
   
@@ -185,14 +185,17 @@ module ysyx_25040109_top (
                     `ifndef SYNTHESIS
                      verilog_pmem_write(mem_addr, rs2_data, 1); // SB
                     `endif
+                    ;
                     3'b001:
                     `ifndef SYNTHESIS 
                     verilog_pmem_write(mem_addr, rs2_data, 2); // SH
                     `endif
+                    ;
                     3'b010: 
                     `ifndef SYNTHESIS
                     verilog_pmem_write(mem_addr, rs2_data, 4); // SW
                     `endif
+                    ;
                     default: ;
                 endcase
             end
