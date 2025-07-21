@@ -13,7 +13,7 @@ IMG ?=
 ARGS ?= 
 
 
-CFLAGS += -DSYNTHESIS
+#CFLAGS += -DSYNTHESIS
 
 CONFIG_DIFFTEST = y
 
@@ -124,7 +124,7 @@ sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 waveform: ensure-llvm-deps $(COMPILE_DEPS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building waveform with dynamic LLVM support..."
-		verilator -Wall --cc --exe --x-assign unique --x-initial -CFLAGS "-DSYNTHESIS" unique --build $(SRCS) \
+	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SRCS) \
 		--trace-fst --top-module $(TOPNAME) \
 		$(addprefix -LDFLAGS , $(LDFLAGS)) \
 		$(addprefix -CFLAGS , $(CFLAGS)) \
