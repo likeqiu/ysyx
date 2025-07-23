@@ -84,6 +84,8 @@ void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
 }
 
 static void dtrace(IOMap *map,char type,word_t data){
+  #ifdef CONFIG_DTRACE
   printf("Device: %-10s | PC: 0x%08x | Operation: '%c' | Data: 0x%08x (%u)\n",
          map->name, cpu.pc, type, data, data);
+  #endif
 }
