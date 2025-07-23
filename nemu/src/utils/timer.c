@@ -22,6 +22,7 @@ IFDEF(CONFIG_TIMER_CLOCK_GETTIME,
     static_assert(sizeof(clock_t) == 8, "sizeof(clock_t) != 8"));
 
 static uint64_t boot_time = 0;
+// 系统启动时间点
 
 static uint64_t get_time_internal() {
 #if defined(CONFIG_TARGET_AM)
