@@ -2,8 +2,6 @@
 html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
 .PHONY: html
-# - 使用 cat 读取 Makefile，通过 sed 将非注释行缩进 4 个空格。
-# - 将处理后的内容传递给 markdown_py，生成 HTML 文件 Makefile.html。
 
 ## 1. Basic Setup and Checks
 
