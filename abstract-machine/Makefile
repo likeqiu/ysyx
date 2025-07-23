@@ -228,10 +228,10 @@ $(IMAGE).elf: $(LINKAGE) $(LDSCRIPTS)
 	@echo + LD "->" $(IMAGE_REL).elf
 ifneq ($(filter $(ARCH),native),)
 	@$(CXX) -o $@ -Wl,--whole-archive $(LINKAGE) -Wl,-no-whole-archive $(LDFLAGS_CXX)
-	@echo "222$(CXX) -o $@ -Wl,--whole-archive $(LINKAGE) -Wl,-no-whole-archive $(LDFLAGS_CXX)"
+#	@echo "222$(CXX) -o $@ -Wl,--whole-archive $(LINKAGE) -Wl,-no-whole-archive $(LDFLAGS_CXX)"
 else
 	@$(LD) $(LDFLAGS) -o $@ --start-group $(LINKAGE) --end-group
-	@echo "333 $(LD) $(LDFLAGS) -o $@ --start-group $(LINKAGE) --end-group"
+#	@echo "333 $(LD) $(LDFLAGS) -o $@ --start-group $(LINKAGE) --end-group"
 
 endif
 # 链接生成 ELF 文件：
