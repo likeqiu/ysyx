@@ -8,15 +8,14 @@ void __am_timer_init() {
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
 
- uptime->us = *(volatile uint64_t *)RTC_ADDR;
-  /*uint32_t high = inl(RTC_ADDR + 4);
+ // uptime->us = *(volatile uint64_t *)RTC_ADDR;64位时读取
+  uint32_t high = inl(RTC_ADDR + 4);
    uint32_t low = inl(RTC_ADDR);
    // 低地址存储的是低 32 位，高地址存储的是高 32 位，这是小端内存布局
 
 
-   uptime->us = ((uint64_t)high << 32) | low;*/
-  /*printf("RTC_ADDR = 0x%08lx, high = 0x%08x, low = 0x%08x, us = %llu\n",
-          (unsigned long)RTC_ADDR, high, low, uptime->us);*/
+   uptime->us = ((uint64_t)high << 32) | low;
+
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {

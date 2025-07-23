@@ -22,20 +22,19 @@
 // - uint32_t offset: 相对于映射起始地址的偏移量
 typedef void(*io_callback_t)(uint32_t, int, bool);
 uint8_t* new_space(int size);
-// 分配指定大小的内存空间
+
 
 typedef struct {
   const char *name;
   // we treat ioaddr_t as paddr_t here
   // 将ioaddr_t 被视为 paddr_t（物理地址类型）
-  paddr_t low;    // 映射地址范围的起始地址（包含）
-  paddr_t high;   // 映射地址范围的结束地址（包含）
+  paddr_t low;    
+  paddr_t high;   
   void *space;
   io_callback_t callback;
 } IOMap;
 
 // 检查地址是否在映射范围内
-// 作用：判断给定的物理地址是否属于某个设备的地址空间
 static inline bool map_inside(IOMap *map, paddr_t addr) {
   return (addr >= map->low && addr <= map->high);
 }

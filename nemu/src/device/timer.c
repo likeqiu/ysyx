@@ -21,7 +21,6 @@
 static uint32_t *rtc_port_base = NULL;
 
 // 处理RTC设备的输入 / 输出操作
-//    - offset: RTC内存空间内的偏移量（预期为0或4）。
 //    - len: 读写数据的长度（此实现中未使用）。
 static void rtc_io_handler(uint32_t offset, int len, bool is_write)
 {
