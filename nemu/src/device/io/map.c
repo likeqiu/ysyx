@@ -84,6 +84,6 @@ void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
 }
 
 void dtrace(IOMap *map,char type,word_t data){
-  printf("Device: %-20s | PC: 0x%08x | Operation: '%c' | Data: 0x%08x (%u)\n",
+  printf("Device: %-10s | PC: 0x%08x | Operation: '%c' | Data: 0x%08x (%u)\n",
          map->name, cpu.pc, type, data, data);
 }
