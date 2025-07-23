@@ -25,6 +25,8 @@ static uint8_t *io_space = NULL;
 
 // 静态变量 p_space，指向当前可分配的 I/O 空间位置
 // 记录 io_space 中下一个可分配的内存位置，"pointer to space" 的缩写
+void dtrace(IOMap *map, char type, word_t data);
+
 static uint8_t *p_space = NULL;
 
 uint8_t* new_space(int size) {
@@ -68,6 +70,7 @@ word_t map_read(paddr_t addr, int len, IOMap *map) {
   paddr_t offset = addr - map->low;//计算偏移量
   invoke_callback(map->callback, offset, len, false); // prepare data to read
   word_t ret = host_read(map->space + offset, len);   // 从模拟存储读取数据
+  dtrace(map, 'R', ret);
   return ret;
 }
 
@@ -77,4 +80,10 @@ void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
   paddr_t offset = addr - map->low;
   host_write(map->space + offset, len, data);
   invoke_callback(map->callback, offset, len, true);
+
+}
+
+void dtrace(IOMap *map,char type,word_t data){
+  printf("Device: %-20s | PC: 0x%08x | Operation: '%c' | Data: 0x%08x (%u)\n",
+         map->name, cpu.pc, type, data, data);
 }
