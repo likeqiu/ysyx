@@ -163,6 +163,7 @@ config MTRACE
 config DTRACE
   bool "Enable device memory trace"
   default n    
+  help
 
 config FTRACE
 bool "Enable to use frace"
