@@ -94,7 +94,7 @@ void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
 
   uint16_t kbd_data = inw(KBD_ADDR);
 
-  uint8_t keycode = kbd_data & 0xffff; // 保留 16 位以处理扩展键码
+  uint16_t keycode = kbd_data & 0xffff; // 保留 16 位以处理扩展键码
   bool keydown = (kbd_data & KEYDOWN_MASK) != 0;
 
   kbd->keydown = keydown;
