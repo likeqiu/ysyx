@@ -48,6 +48,7 @@ static void init_keymap() {
 #define KEY_QUEUE_LEN 1024
 static int key_queue[KEY_QUEUE_LEN] = {};
 static int key_f = 0, key_r = 0;
+// 列的前端指针（front），指向队列中即将被读取的元素。,key_r：这是队列的后端指针（rear），指向队列中即将被插入的元素
 
 static void key_enqueue(uint32_t am_scancode) {
   key_queue[key_r] = am_scancode;
