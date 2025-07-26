@@ -18,13 +18,13 @@
 #include <SDL2/SDL.h>
 
 enum {
-  reg_freq,
-  reg_channels,
-  reg_samples,
-  reg_sbuf_size,
-  reg_init,
-  reg_count,
-  nr_reg
+  reg_freq,      // 音频频率寄存器
+  reg_channels,  // 音频通道数寄存器
+  reg_samples,   // 音频样本数寄存器
+  reg_sbuf_size, // 音频数据缓冲区大小寄存器
+  reg_init,      // 初始化寄存器，用于启动音频设备
+  reg_count,     // 音频流的已使用字节数寄存器
+  nr_reg         // 寄存器的总数量
 };
 
 static uint8_t *sbuf = NULL;
