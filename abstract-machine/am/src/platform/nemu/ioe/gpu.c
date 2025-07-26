@@ -4,13 +4,13 @@
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
 void __am_gpu_init() {
-   int i;
+  /* int i;
    uint32_t screen_info = inl(VGACTL_ADDR);
    int w = screen_info >> 16;
    int h = screen_info & 0xFFFF;
    uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
    for (i = 0; i < w * h; i ++) fb[i] = i;
-   outl(SYNC_ADDR, 1);
+   outl(SYNC_ADDR, 1);*/
 }
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
@@ -25,6 +25,25 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
+  if (ctl->pixels != NULL && ctl->w != 0 && ctl->h != 0) {
+    uint32_t screen_width = inl(VGACTL_ADDR) >> 16;
+    uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
+    uint32_t *pixels = ctl->pixels;
+    int x = ctl->x;
+    int y = ctl->y;
+    int w = ctl->w;
+    int h = ctl->h;
+
+    // 逐行复制像素
+    for (int j = 0; j < h; j++) {
+      for (int i = 0; i < w; i++) {
+        // 计算目标地址并写入像素
+        fb[(y + j) * screen_width + (x + i)] = pixels[j * w + i];
+      }
+    }
+  }
+
+  // 如果sync为true，则触发屏幕刷新
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
