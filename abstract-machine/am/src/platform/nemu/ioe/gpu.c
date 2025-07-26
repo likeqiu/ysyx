@@ -35,6 +35,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     int h = ctl->h;
 
     // 逐行复制像素
+    // 这一部分可以替换成memcpy
     for (int j = 0; j < h; j++) {
       for (int i = 0; i < w; i++) {
 
