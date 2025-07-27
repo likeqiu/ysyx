@@ -39,8 +39,13 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
     return;
 
   uint32_t sbuf_size = inl(AUDIO_COUNT_ADDR);
+  uint32_t count = inl(AUDIO_COUNT_ADDR);
 
+  printf("AM: Audio play called. Trying to write %u bytes.\n", len);
 
+  // 在循环前就打印一次状态
+  printf("AM: Buffer check: sbuf_size=%u, count=%u, free_space=%d. Needed=%u\n",
+         sbuf_size, count, sbuf_size - count, len);
   while(sbuf_size - inl(AUDIO_COUNT_ADDR) < len){
     //printf("AM: Waiting for buffer... Current count = %d\n",inl(AUDIO_COUNT_ADDR));
     // 空间不足，CPU自旋等待
@@ -61,5 +66,5 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
 
   outl(AUDIO_COUNT_ADDR, len);
 
-  printf("AM: Audio play called, trying to write %d bytes.\n", len);
+
 }
