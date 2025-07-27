@@ -68,8 +68,7 @@ static void audio_fill_callback(void *userdata,uint8_t *stream,int len){
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
 
   int reg_idx = offset / 4;
-  Log("Audio handler entered: offset=0x%x, reg_idx=%d, is_write=%d", offset,
-      reg_idx, is_write);
+  //Log("Audio handler entered: offset=0x%x, reg_idx=%d, is_write=%d", offset,reg_idx, is_write);
 
   if(is_write){
     switch(reg_idx){
@@ -105,7 +104,7 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
         audio_base[reg_sbuf_size] = CONFIG_SB_SIZE;
         break;
       case reg_count:
-        Log("Audio READ: case reg_count.");
+       // Log("Audio READ: case reg_count.");
         audio_base[reg_count] = get_audio_data_size();
         break;
       }
