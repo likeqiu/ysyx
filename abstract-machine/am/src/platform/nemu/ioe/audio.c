@@ -42,8 +42,7 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
 
 
   while(sbuf_size - inl(AUDIO_COUNT_ADDR) < len){
-    printf("AM: Waiting for buffer... Current count = %d\n",
-           inl(AUDIO_COUNT_ADDR));
+    //printf("AM: Waiting for buffer... Current count = %d\n",inl(AUDIO_COUNT_ADDR));
     // 空间不足，CPU自旋等待
     // 在真实操作系统中会使用更高效的等待方式（如让出CPU）
     // 但在AM这个抽象层中，自旋是可接受的
