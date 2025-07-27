@@ -13,6 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+#include <SDL2/SDL_audio.h>
 #include <common.h>
 #include <device/map.h>
 #include <SDL2/SDL.h>
@@ -30,7 +31,77 @@ enum {
 static uint8_t *sbuf = NULL;
 static uint32_t *audio_base = NULL;
 
+static uint32_t head = 0;
+static uint32_t tail = 0;
+static SDL_AudioSpec spec;
+
+static int get_audio_data_size(){
+  if(head <= tail){
+    return tail - head;
+  }
+
+  return CONFIG_SB_SIZE - (head - tail);
+}
+
+static void audio_fill_callback(void *userdata,uint8_t *stream,int len){
+
+  int data_size = get_audio_data_size();
+  int nread = len > data_size ? data_size : len;
+
+  if(head + nread <= CONFIG_SB_SIZE){
+    memcpy(stream, sbuf + head, nread);
+  }else{
+
+    int first_part_len = CONFIG_SB_SIZE - head;
+    memcpy(stream , sbuf +  head, first_part_len);
+    memcpy(stream + first_part_len, sbuf, nread - first_part_len);
+  }
+
+  head = (head + nread) % CONFIG_SB_SIZE;
+  if(nread < len){
+    memset(stream + nread, 0, len - nread);
+  }
+}
+
+
+
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
+
+  int reg_idx = offset / 4;
+
+  if(is_write){
+    switch(reg_idx){
+
+      case reg_init:
+        SDL_InitSubSystem(SDL_INIT_AUDIO);
+        spec.freq = audio_base[reg_freq];
+        spec.format = AUDIO_S16SYS;
+        spec.channels = audio_base[reg_channels];
+        spec.samples = audio_base[reg_samples];
+        spec.callback = audio_fill_callback;
+        spec.userdata = NULL;
+
+        int ret = SDL_OpenAudio(&spec, NULL);
+        Assert(ret == 0, "SDL_OpenAudio failed");
+        SDL_PauseAudio(0);
+        break;
+
+        case reg_count:
+          tail = (tail + audio_base[reg_count]) % CONFIG_SB_SIZE;
+          break;
+    }
+  } else{
+    switch(reg_idx){
+      case reg_sbuf_size:
+        audio_base[reg_sbuf_size] = CONFIG_SB_SIZE;
+        break;
+      case reg_count:
+        audio_base[reg_count] = get_audio_data_size();
+        break;
+      }
+  } 
+        
+  
 }
 
 void init_audio() {
