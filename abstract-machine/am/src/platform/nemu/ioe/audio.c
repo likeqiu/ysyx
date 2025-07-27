@@ -40,7 +40,7 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
   if(len == 0)
     return;
 
-  uint32_t sbuf_size = inl(AUDIO_COUNT_ADDR);
+  /*uint32_t sbuf_size = inl(AUDIO_COUNT_ADDR);
   uint32_t count = inl(AUDIO_COUNT_ADDR);
 
   printf("AM: Audio play called. Trying to write %u bytes.\n", len);
@@ -48,7 +48,7 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
   // 在循环前就打印一次状态
   printf("AM: Buffer check: sbuf_size=%u, count=%u, free_space=%d. Needed=%u\n",
          sbuf_size, count, sbuf_size - count, len);
- 
+ */
 
   static uint32_t write_offset = 0;
   uint8_t *src = (uint8_t *)ctl->buf.start;
