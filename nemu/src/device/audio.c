@@ -74,7 +74,7 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
     switch(reg_idx){
 
       case reg_init:
-        Log("Audio WRITE: case reg_init");
+       // Log("Audio WRITE: case reg_init");
         SDL_InitSubSystem(SDL_INIT_AUDIO);
         spec.freq = audio_base[reg_freq];
         spec.format = AUDIO_S16SYS;
@@ -89,18 +89,17 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
         break;
 
         case reg_count:
-          Log("Audio WRITE: case reg_count. Bytes added: %u",
-              audio_base[reg_count]);
+          //Log("Audio WRITE: case reg_count. Bytes added: %u",audio_base[reg_count]);
           tail = (tail + audio_base[reg_count]) % CONFIG_SB_SIZE;
           break;
         default:
-          Log("Audio WRITE: triggered with unknown reg_idx %d", reg_idx);
+        //  Log("Audio WRITE: triggered with unknown reg_idx %d", reg_idx);
           break;
         }
   } else{
     switch(reg_idx){
       case reg_sbuf_size:
-        Log("Audio READ: case reg_sbuf_size. Assigning size %u.",(unsigned)CONFIG_SB_SIZE);
+        //Log("Audio READ: case reg_sbuf_size. Assigning size %u.",(unsigned)CONFIG_SB_SIZE);
         audio_base[reg_sbuf_size] = CONFIG_SB_SIZE;
         break;
       case reg_count:

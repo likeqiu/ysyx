@@ -25,8 +25,7 @@ void __am_audio_ctrl(AM_AUDIO_CTRL_T *ctrl) {
   outl(AUDIO_SAMPLES_ADDR, ctrl->samples);
 
   outl(AUDIO_INIT_ADDR,1);
-  printf("AM: Audio control called. Freq=%d, Channels=%d, Samples=%d\n",
-         ctrl->freq, ctrl->channels, ctrl->samples);
+  //printf("AM: Audio control called. Freq=%d, Channels=%d, Samples=%d\n",ctrl->freq, ctrl->channels, ctrl->samples);
 }
 
 void __am_audio_status(AM_AUDIO_STATUS_T *stat) {
