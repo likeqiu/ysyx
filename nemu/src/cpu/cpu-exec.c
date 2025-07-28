@@ -126,7 +126,9 @@ static void statistic() {
 extern void iringbuf_dump();
 void assert_fail_msg()
 {
- // iringbuf_dump();
+#ifdef CONFIG_ITRACE
+  iringbuf_dump();
+  #endif
   isa_reg_display();
   statistic();
 }
