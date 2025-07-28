@@ -61,7 +61,7 @@ void device_update() {
       case SDL_KEYUP: {
         uint8_t k = event.key.keysym.scancode; //获取键码
         bool is_keydown = (event.key.type == SDL_KEYDOWN);
-        printf("11111\n");
+       // printf("11111\n");
         send_key(k, is_keydown);
         break;
       }
