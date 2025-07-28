@@ -126,7 +126,7 @@ static void statistic() {
 extern void iringbuf_dump();
 void assert_fail_msg()
 {
-  iringbuf_dump();
+ // iringbuf_dump();
   isa_reg_display();
   statistic();
 }

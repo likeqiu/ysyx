@@ -19,6 +19,7 @@
 #include <cpu/decode.h>
 #include<ftrace.h>
 #include<mtrace.h>
+//#include<stdlib.h>
 
 #define R(i) gpr(i)
 #define Mr vaddr_read
@@ -34,8 +35,10 @@ typedef struct {
 
 } BranchStat;
 
+
 static BranchStat *branch_stats = NULL;
 static int branch_count = 0;
+
 
 enum {
   TYPE_I,
@@ -76,6 +79,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
 
 void track_branch(Decode *s, bool taken, uint32_t target, const char *inst_type)
 {
+  #ifdef CONFIG_FTRACE
   for (int i = 0; i < branch_count; i++)
   {
     if (branch_stats[i].pc == s->pc)
@@ -98,6 +102,7 @@ void track_branch(Decode *s, bool taken, uint32_t target, const char *inst_type)
   strncpy(branch_stats[branch_count].type, inst_type, sizeof(branch_stats[branch_count].type) - 1); // 最大复制范围，不足最大就连'\0也复制
   branch_stats[branch_count].type[sizeof(branch_stats[branch_count].type) - 1] = '\0';
   branch_count++;
+  #endif
 }
 
 //操作数解码
