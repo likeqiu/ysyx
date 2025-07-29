@@ -58,6 +58,7 @@ static void key_enqueue(uint32_t am_scancode) {
 }
 
 static uint32_t key_dequeue() {
+  printf("11111\n");
   uint32_t key = NEMU_KEY_NONE;
   if (key_f != key_r) {
     key = key_queue[key_f];
@@ -76,7 +77,7 @@ void send_key(uint8_t scancode, bool is_keydown) {
 #define NEMU_KEY_NONE 0
 
 static uint32_t key_dequeue() {
-  printf("11111\n");
+  //printf("11111\n");
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
   uint32_t am_scancode = ev.keycode | (ev.keydown ? KEYDOWN_MASK : 0);
   return am_scancode;
