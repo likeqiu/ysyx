@@ -1,5 +1,5 @@
 #ifndef __CPU_IFETCH_H__
-
+#define __CPU_IFETCH_H__
 
 #include <memory/vaddr.h>
 
