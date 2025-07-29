@@ -87,7 +87,9 @@ static uint32_t *i8042_data_port_base = NULL;
 static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   assert(!is_write);
   assert(offset == 0);
- // printf("22222222\n");
+#ifdef CONFIG_TARGET_AM
+   printf("22222222\n");
+  #endif
   i8042_data_port_base[0] = key_dequeue();
 }
   
