@@ -76,6 +76,7 @@ void send_key(uint8_t scancode, bool is_keydown) {
 #define NEMU_KEY_NONE 0
 
 static uint32_t key_dequeue() {
+  printf("11111\n");
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
   uint32_t am_scancode = ev.keycode | (ev.keydown ? KEYDOWN_MASK : 0);
   return am_scancode;
@@ -87,9 +88,7 @@ static uint32_t *i8042_data_port_base = NULL;
 static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   assert(!is_write);
   assert(offset == 0);
-#ifdef CONFIG_TARGET_AM
-   printf("22222222\n");
-  #endif
+
   i8042_data_port_base[0] = key_dequeue();
 }
   
