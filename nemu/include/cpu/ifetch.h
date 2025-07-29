@@ -18,8 +18,7 @@
 #include <memory/vaddr.h>
 extern void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 
- inline uint32_t inst_fetch(vaddr_t *pc, int len)
-{
+static inline uint32_t inst_fetch(vaddr_t *pc, int len) {
 
   uint32_t inst = vaddr_ifetch(*pc, len);
 
