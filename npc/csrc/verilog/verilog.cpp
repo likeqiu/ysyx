@@ -6,8 +6,11 @@
 
 extern Decode lastest_decode;
 
-extern "C" void
-verilog_pmem_read(paddr_t addr, uint32_t *data)
+
+
+
+
+extern "C" void verilog_pmem_read(paddr_t addr, uint32_t *data)
 {
     *data = paddr_read(addr, 4);
    // mtrace_record('R', addr, 4, *data);

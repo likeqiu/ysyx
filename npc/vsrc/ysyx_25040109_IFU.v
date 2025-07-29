@@ -17,6 +17,10 @@ module ysyx_25040109_IFU (
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
 `endif 
 
+    `ifndef SYNTHESIS
+    import "DPI-C" function void verilog_inst_ifetch(input int addr, output int data);
+`endif 
+
     // 组合逻辑直接读取当前PC的指令
     always @(*) begin
         if (is_pc_valid) begin
