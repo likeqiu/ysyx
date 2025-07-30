@@ -70,6 +70,8 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
   int reg_idx = offset / 4;
   //Log("Audio handler entered: offset=0x%x, reg_idx=%d, is_write=%d", offset,reg_idx, is_write);
 
+  SDL_LockAudio();
+
   if(is_write){
     switch(reg_idx){
 
@@ -107,9 +109,9 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
         audio_base[reg_count] = get_audio_data_size();
         break;
       }
-  } 
-        
-  
+  }
+
+  SDL_UnlockAudio();
 }
 
 void init_audio() {
