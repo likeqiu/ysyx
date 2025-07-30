@@ -4,8 +4,15 @@ void __am_timer_init() {
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  uptime->us = 0;
+  uint32_t hi, lo;
+  do {
+    hi = inl(RTC_ADDR + 4);
+    lo = inl(RTC_ADDR);
+  } while (inl(RTC_ADDR + 4) != hi);
+
+  uptime->us = ((uint64_t)hi << 32) | lo;
 }
+
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
   rtc->second = 0;

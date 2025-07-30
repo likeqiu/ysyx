@@ -12,6 +12,8 @@ Decode lastest_decode = {
     .logbuf = {},
 };
 
+extern "C" void clint_update_mtime();
+
 #define MAX_INST_TO_PRINT 100
 
 static void trace_and_difftest(Decode *_this,vaddr_t dnpc)
@@ -53,6 +55,8 @@ static void execute(uint64_t n)
             npc_state.state = NPC_END;
             return;
         }
+
+        clint_update_mtime();
         exec_once();
         g_nr_guest_inst++;
         trace_and_difftest(&lastest_decode,cpu.pc);

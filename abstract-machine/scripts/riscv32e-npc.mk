@@ -1,7 +1,6 @@
 include $(AM_HOME)/scripts/isa/riscv.mk
 include $(AM_HOME)/scripts/platform/npc.mk
-# COMMON_CFLAGS: Common Compiler Flags
-# 追加并覆盖通用的编译器标志，指定RISC-V 32位嵌入式架构
+CFLAGS  += -DISA_H=\"riscv/riscv.h\"
 COMMON_CFLAGS += -march=rv32e_zicsr -mabi=ilp32e  # overwrite
 
 # LDFLAGS: Linker Flags

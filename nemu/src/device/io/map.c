@@ -20,13 +20,13 @@
 
 #define IO_SPACE_MAX (32 * 1024 * 1024)
 
+static void dtrace(IOMap *map, char type, word_t data);
+
 // 整个 I/O 空间的内存缓冲区，用于存储所有设备映射的模拟存储，指向分配的 I/O 空间起始地址
 static uint8_t *io_space = NULL;
 
 // 静态变量 p_space，指向当前可分配的 I/O 空间位置
 // 记录 io_space 中下一个可分配的内存位置，"pointer to space" 的缩写
-static void dtrace(IOMap *map, char type, word_t data);
-
 static uint8_t *p_space = NULL;
 
 uint8_t* new_space(int size) {
@@ -41,7 +41,7 @@ uint8_t* new_space(int size) {
 // 检查地址是否在映射范围内
 static void check_bound(IOMap *map, paddr_t addr) {
   if (map == NULL) {
-    Assert(map != NULL, "address (" FMT_PADDR ") is out of bound at pc = " FMT_WORD, addr, cpu.pc); // ，FMT_PADDR 和 FMT_WORD 是格式化宏，用于打印地址和字，#define FMT_PADDR "0x%08x" #define FMT_WORD "0x%08x"
+    Assert(map != NULL, "address (" FMT_PADDR ") is out of bound at pc = " FMT_WORD, addr, cpu.pc); 
   } else {
     Assert(addr <= map->high && addr >= map->low,
         "address (" FMT_PADDR ") is out of bound {%s} [" FMT_PADDR ", " FMT_PADDR "] at pc = " FMT_WORD,

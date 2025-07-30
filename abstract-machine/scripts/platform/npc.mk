@@ -10,6 +10,8 @@ AM_SRCS := riscv/npc/start.S \
 
 CFLAGS    += -fdata-sections -ffunction-sections
 # 将每个全局变量放入单独的数据段   将每个函数放入单独的代码段
+CFLAGS    += -I$(AM_HOME)/am/src/platform/npc/include
+
 LDSCRIPTS += $(AM_HOME)/scripts/linker.ld
 # 指定链接脚本文件，用于定义内存布局
 LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
