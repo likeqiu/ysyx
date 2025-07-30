@@ -75,6 +75,8 @@ void paddr_write(paddr_t addr, int len, word_t data) {
      pmem_write(addr, len, data);
      mtrace_record('W', addr, len, data);
      return; }
+
+  printf("9999\n");
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); mtrace_record('W', addr, len, data); return);
   out_of_bound(addr);
 }
