@@ -25,6 +25,5 @@ static void serial_io_handle(uint32_t offset,int len,bool is_write){
 void init_serial(){
     serial_port_base = new_space(8);
 
-    add_mmio_map("serial", CONFIG_SERIAL_MMIO, serial_port_base, 8,serial_port_handler);
-    
+    add_mmio_map("serial", CONFIG_SERIAL_MMIO, serial_port_base, 8,serial_io_handle);
 }
