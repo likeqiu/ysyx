@@ -19,7 +19,7 @@ void difftest_attach();
 void init_difftest(char *ref_so_file, long img_size, int port);
 
 #ifdef __cplusplus
-}
+},
 #endif
 
 /*extern "C" void difftest_skip_ref();
