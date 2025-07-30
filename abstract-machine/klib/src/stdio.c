@@ -47,9 +47,9 @@ static int itoa(int num, char *buf, int base) {
   return p - buf;
 }
 
-static int ltoa(long num, char *buf, int base) {
+static int lltoa(long long num, char *buf, int base) {
   char *p = buf;
-  unsigned long unum;
+  unsigned long long unum;
 
   if (num == 0) {
     *p++ = '0';
@@ -104,15 +104,15 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
     }
     case 'd': {
       if (is_long) {
-        long num = va_arg(args, long);
-        char buf[32];
-        ltoa(num, buf, 10);
+        long long num = va_arg(args, long long);
+        char buf[64];
+        lltoa(num, buf, 10);
         for (char *q = buf; *q; q++) {
           out(*q, data);
         }
       } else {
         int num = va_arg(args, int);
-        char buf[16];
+        char buf[32];
         itoa(num, buf, 10);
         for (char *q = buf; *q; q++) {
           out(*q, data);
@@ -122,7 +122,7 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
     }
     case 'x': {
       int num = va_arg(args, int);
-      char buf[16];
+      char buf[32];
       itoa(num, buf, 16);
       for (char *q = buf; *q; q++) {
         out(*q, data);
