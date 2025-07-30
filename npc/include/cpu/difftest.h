@@ -6,8 +6,8 @@
 
 #ifdef CONFIG_DIFFTEST
 
-#ifdef __caplusplus
-#warning "__caplusplus is defined"
+#ifdef __cplusplus
+
 
 extern "C" {
 
@@ -20,7 +20,7 @@ extern "C" {
     void difftest_attach();
     void init_difftest(char *ref_so_file, long img_size, int port);
 
-#ifdef __caplusplus
+#ifdef __cplusplus
     }
 #endif
 
