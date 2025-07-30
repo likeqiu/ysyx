@@ -6,10 +6,8 @@
 
 #ifdef CONFIG_DIFFTEST
 
-
-#ifdef __caplusplus
+#ifdef __cplusplus
 extern "C" {
-
 
 #endif
     void difftest_skip_ref();
