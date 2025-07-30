@@ -70,6 +70,6 @@ void paddr_write(paddr_t addr, int len, word_t data)
   }
     //printf("222222\n");
     IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
-    printf("333\n");
+    printf("3334\n");
     out_of_bound(addr);
 }
