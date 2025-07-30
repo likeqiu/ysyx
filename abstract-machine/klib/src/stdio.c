@@ -1,98 +1,160 @@
 #include <am.h>
-#include <klib.h>
 #include <klib-macros.h>
+#include <klib.h>
 #include <stdarg.h>
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 typedef void (*OutputFunc)(char c, void *data);
-static int itoa(int num, char *buf,int base);
 
-static void format_core(const char *fmt,va_list args,OutputFunc out,void *data)
-{
-  for (const char *p = fmt; *p != '\0';p++)
-  {
-    if(*p != '%')
-    {
+static void reverse_str(char *start, int len) {
+  char *end = start + len - 1;
+  while (start < end) {
+    char temp = *start;
+    *start = *end;
+    *end = temp;
+    start++;
+    end--;
+  }
+}
+
+static int itoa(int num, char *buf, int base) {
+  char *p = buf;
+  unsigned int unum;
+
+  if (num == 0) {
+    *p++ = '0';
+    *p = '\0';
+    return 1;
+  }
+
+  if (num < 0 && base == 10) {
+    *p++ = '-';
+    unum = -num;
+  } else {
+    unum = num;
+  }
+
+  char *start_of_digits = p;
+  while (unum > 0) {
+    int digit = unum % base;
+    *p++ = (digit < 10) ? ('0' + digit) : ('a' + digit - 10);
+    unum /= base;
+  }
+  *p = '\0';
+
+  reverse_str(start_of_digits, p - start_of_digits);
+  return p - buf;
+}
+
+static int ltoa(long num, char *buf, int base) {
+  char *p = buf;
+  unsigned long unum;
+
+  if (num == 0) {
+    *p++ = '0';
+    *p = '\0';
+    return 1;
+  }
+
+  if (num < 0 && base == 10) {
+    *p++ = '-';
+    unum = -num;
+  } else {
+    unum = num;
+  }
+
+  char *start_of_digits = p;
+  while (unum > 0) {
+    int digit = unum % base;
+    *p++ = (digit < 10) ? ('0' + digit) : ('a' + digit - 10);
+    unum /= base;
+  }
+  *p = '\0';
+
+  reverse_str(start_of_digits, p - start_of_digits);
+  return p - buf;
+}
+
+static void format_core(const char *fmt, va_list args, OutputFunc out,
+                        void *data) {
+  for (const char *p = fmt; *p != '\0'; p++) {
+    if (*p != '%') {
       out(*p, data);
       continue;
     }
 
+    p++;
+
+    bool is_long = false;
+    if (*p == 'l') {
+      is_long = true;
       p++;
-      switch (*p)
-      {
-      case 's':
-      {
-        const char *s = va_arg(args,const char *);
-        if(s==NULL)
-        {
-          s = "(null)";
-        }
-          while (*s)
-          {
-            out(*s++, data);
-          }
-        break;
+    }
+
+    switch (*p) {
+    case 's': {
+      const char *s = va_arg(args, const char *);
+      if (s == NULL)
+        s = "(null)";
+      while (*s) {
+        out(*s++, data);
       }
-        
-          
-      case 'd':
-      {
+      break;
+    }
+    case 'd': {
+      if (is_long) {
+        long num = va_arg(args, long);
+        char buf[32];
+        ltoa(num, buf, 10);
+        for (char *q = buf; *q; q++) {
+          out(*q, data);
+        }
+      } else {
         int num = va_arg(args, int);
         char buf[16];
         itoa(num, buf, 10);
-        for (char *q = buf; *q;q++)
-        {
+        for (char *q = buf; *q; q++) {
           out(*q, data);
         }
-        break;
       }
-
-        case 'x':
-        {
-          int num = va_arg(args, int);
-          char buf[16];
-          itoa(num, buf, 16);
-          for (char *q = buf; *q;q++)
-          {
-            out(*q, data);
-          }
-            break;
-          }
-
-          case '%':
-            out('%', data);break;
-
-          default:
-            out(*p, data); break;
+      break;
+    }
+    case 'x': {
+      int num = va_arg(args, int);
+      char buf[16];
+      itoa(num, buf, 16);
+      for (char *q = buf; *q; q++) {
+        out(*q, data);
       }
-    
+      break;
+    }
+    case '%':
+      out('%', data);
+      break;
+    default:
+      out('%', data);
+      if (is_long)
+        out('l', data);
+      out(*p, data);
+      break;
+    }
   }
 }
 
-void sprintf_out(char c, void *data)
-{
+void sprintf_out(char c, void *data) {
   char **buf = (char **)data;
   *(*buf)++ = c;
-  // 使用 char ** 是为了在 sprintf_out() 中修改原指针的位置，从而支持连续写入字符。使用char *只在函数内部有效
 }
 
-void printf_out(char c, void *data)
-{
-  putch(c);
-}
+void printf_out(char c, void *data) { putch(c); }
 
-int printf(const char *fmt, ...)
-{
-
+int printf(const char *fmt, ...) {
   va_list args;
   va_start(args, fmt);
-
-  format_core(fmt, args, printf_out,NULL );
+  format_core(fmt, args, printf_out, NULL);
   va_end(args);
   return 0;
-
-  panic("Not implemented");
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
@@ -107,8 +169,6 @@ int sprintf(char *str, const char *fmt, ...) {
   *str = '\0';
   va_end(args);
   return str - str_start;
-
-  panic("Not implemented");
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
@@ -117,47 +177,6 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
 
 int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
   panic("Not implemented");
-}
-
-static int itoa(int num,char *buf,int base)
-{
-  char *p = buf;
-  char *p_start = buf;
-
-
-  if(num < 0 && base==10)
-  {
-
-    num = -num;
-    *p++ = '-';
-  }
-
-  if(num == 0)
-  {
-    *p++ = '0';
-    *p = '\0';
-    return p - p_start;
-  }
-
-  // 转换为字符串（逆序）
-  while(num>0){
-    int digit = num % base;
-    *p++ = (digit < 10) ? ('0' + digit) : ('a' + digit - 10);
-    num /= base;
-  }
-
-  *p-- = '\0';
-
-  // 反转字符串
-  char *p_end = p;
-  while(p_start < p_end)
-  {
-    char temp = *p_start;
-    *p_start++ = *p_end;
-    *p_end-- = temp;
-  }
-
-  return p - buf;
 }
 
 #endif
