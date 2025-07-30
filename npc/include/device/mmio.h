@@ -3,6 +3,8 @@
 
 #include <common.h>
 
+typedef void (*io_callback_t)(uint32_t, int, bool);
+
 void add_pio_map(const char *name, ioaddr_t addr, void *space, uint32_t len,
                  io_callback_t callback);
 
