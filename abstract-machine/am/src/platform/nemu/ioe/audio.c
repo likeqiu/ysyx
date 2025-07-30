@@ -34,10 +34,13 @@ void __am_audio_status(AM_AUDIO_STATUS_T *stat) {
 
 void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
 
+  /*
+  
   uint32_t len = (uintptr_t)ctl->buf.end - (uintptr_t)ctl->buf.start;
 
   if(len == 0)
     return;
+    */
 
   /*uint32_t sbuf_size = inl(AUDIO_COUNT_ADDR);
   uint32_t count = inl(AUDIO_COUNT_ADDR);
@@ -49,6 +52,8 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
          sbuf_size, count, sbuf_size - count, len);
  */
 
+
+ /*
   static uint32_t write_offset = 0;
   uint8_t *src = (uint8_t *)ctl->buf.start;
   while (SBUF_SIZE - inl(AUDIO_COUNT_ADDR) < len) {
@@ -59,6 +64,8 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
     //  空间不足，CPU自旋等待
     //  在真实操作系统中会使用更高效的等待方式（如让出CPU）
     //  但在AM这个抽象层中，自旋是可接受的
+
+    
   }
 
   for (int i = 0; i < len;i++){
@@ -70,5 +77,5 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
 
   outl(AUDIO_COUNT_ADDR, len);
 
-
+*/
 }
