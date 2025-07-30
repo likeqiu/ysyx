@@ -86,7 +86,6 @@ VM_USER_CLASSES = \
 	reg \
 	log \
 	state \
-	timer_u \
 	verilog-main \
 	verilog \
 	verilog_exec \
@@ -158,8 +157,6 @@ reg.o: csrc/riscv32/reg.c
 log.o: csrc/utils/log.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 state.o: csrc/utils/state.c
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-timer_u.o: csrc/utils/timer_u.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 verilog-main.o: csrc/verilog-main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
