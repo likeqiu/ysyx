@@ -12,7 +12,7 @@ Decode lastest_decode = {
     .logbuf = {},
 };
 
-extern "C" void clint_update_mtime();
+ void clint_update_mtime();
 
 #define MAX_INST_TO_PRINT 100
 
