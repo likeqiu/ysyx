@@ -1,4 +1,5 @@
 #include <am.h>
+#include<npc.h>
 
 void __am_timer_init() {
 }
