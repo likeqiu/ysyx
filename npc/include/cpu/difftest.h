@@ -45,7 +45,7 @@ static inline void difftest_set_patch(void (*fn)(void *arg), void *arg) {}
 static inline void difftest_step(vaddr_t pc, vaddr_t npc) {}
 static inline void difftest_detach() {}
 static inline void difftest_attach() {}
- void init_difftest(char *ref_so_file, long img_size, int port);
+extern "C" void init_difftest(char *ref_so_file, long img_size, int port);
 
 #ifdef __caplusplus
 }
