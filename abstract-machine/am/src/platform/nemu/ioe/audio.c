@@ -52,6 +52,8 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
   static uint32_t write_offset = 0;
   uint8_t *src = (uint8_t *)ctl->buf.start;
   while (SBUF_SIZE - inl(AUDIO_COUNT_ADDR) < len) {
+
+    return;
     // printf("AM: Waiting for buffer... Current count =
     // %d\n",inl(AUDIO_COUNT_ADDR));
     //  空间不足，CPU自旋等待
