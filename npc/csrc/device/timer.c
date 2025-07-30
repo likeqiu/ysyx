@@ -8,10 +8,7 @@ static uint64_t clint_mtimecmp = -1;
 
 static uint8_t *clint_port_base = NULL;
 
-void clint_update_and_check_interrupt(){
-    clint_mtime++;
-}
-
+void clint_update_mtime() { clint_mtime++; }
 
 static void clint_io_handler(uint32_t offset,int len,bool is_write){
     //逻辑在mmio里
@@ -25,9 +22,7 @@ void init_timer(){
     
 }
 
-void clint_update_ctimecmp(uint64_t new_mtimecmp){
-    clint_mtimecmp = new_mtimecmp;
-}
+
 
 uint64_t clint_get_mtime(){
     return clint_mtime;
