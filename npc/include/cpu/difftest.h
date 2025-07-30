@@ -30,6 +30,7 @@ extern "C" void difftest_detach();
 extern "C" void difftest_attach();*/
 //extern "C" void init_difftest(char *ref_so_file, long img_size, int port);
 #else
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -46,7 +47,9 @@ void init_difftest(char *ref_so_file, long img_size,
 #ifdef __cplusplus
 }
 #endif
-    
+
+#endif
+
 extern void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n, bool direction);
 extern void (*ref_difftest_regcpy)(void *dut, bool direction);
 extern void (*ref_difftest_exec)(uint64_t n);
