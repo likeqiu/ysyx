@@ -39,7 +39,7 @@ static inline void difftest_set_patch(void (*fn)(void *arg), void *arg) {}
 static inline void difftest_step(vaddr_t pc, vaddr_t npc) {}
 static inline void difftest_detach() {}
 static inline void difftest_attach() {}
-static inline void init_difftest(char *ref_so_file, long img_size, int port);
+void init_difftest(char *ref_so_file, long img_size, int port);
 #endif
     
 extern void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n, bool direction);
