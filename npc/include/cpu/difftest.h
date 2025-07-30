@@ -7,6 +7,8 @@
 #ifdef CONFIG_DIFFTEST
 
 #ifdef __caplusplus
+#warning "__caplusplus is defined"
+
 extern "C" {
 
 #endif
