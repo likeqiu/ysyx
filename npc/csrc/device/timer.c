@@ -1,8 +1,7 @@
-#include<device/map.h>
+#include<map.h>
 #include<utils.h>
 
-void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len,
-                  io_callback_t callback);
+
 static uint64_t clint_mtime = 0;
 static uint64_t clint_mtimecmp = -1;
 
