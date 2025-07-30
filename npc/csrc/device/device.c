@@ -6,14 +6,13 @@
 */
 void init_map();
 void init_serial();
+void init_timer();
 
-
-void device_uodate(){
+void device_uodate()
+{
 
     static uint64_t last = 0;
-
 }
-
 
 void init_device(){
     init_map();
