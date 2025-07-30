@@ -1,9 +1,6 @@
 #include<common.h>
 #include<utils.h>
-/*#ifndef CONFIG_TARGET_AM
-#include<SDL2/SDL.h>
-#endif
-*/
+
 void init_map();
 void init_serial();
 void init_timer();

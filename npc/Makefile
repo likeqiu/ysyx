@@ -13,6 +13,7 @@ IMG ?=
 ARGS ?= 
 
 
+
 #CFLAGS += -DSYNTHESIS
 
 CONFIG_DIFFTEST = y
