@@ -18,6 +18,7 @@ static void report_mmio_overlap(const char *name1, paddr_t l1, paddr_t r1,
         name1, l1, r1, name2, l2, r2);
 }
 
+
 void add_mmio_map(const char *name, paddr_t addr, void *space, int len,
                   io_callback_t callback) {
   assert(nr_map < NR_MAP);
@@ -37,13 +38,11 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, int len,
     nr_map++;
 }
 
-extern uint64_t clint_get_mtime();
-
 
 
 
 uint64_t clint_get_mtime();
-void clint_update_mtimecmp(uint64_t new_mtimecmp);
+
 
 
 word_t mmio_read(paddr_t addr, int len){

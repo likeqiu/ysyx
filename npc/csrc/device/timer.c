@@ -20,7 +20,9 @@ static void clint_io_handler(uint32_t offset,int len,bool is_write){
 
 void init_timer(){
     uint8_t *space = new_space(0x4008);
+    
     add_mmio_map("timer", CONFIG_RTC_MMIO, space, 0x4008, clint_io_handler);
+    
 }
 
 /*void clint_update_ctimecmp(uint64_t new_mtimecmp){
