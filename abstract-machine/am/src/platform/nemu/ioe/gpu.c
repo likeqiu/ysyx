@@ -14,6 +14,7 @@ void __am_gpu_init() {
 }
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
+  /**/
   uint32_t screen_info = inl(VGACTL_ADDR);
   uint32_t width = screen_info >> 16;
   uint32_t height = screen_info & 0xFFFF;
