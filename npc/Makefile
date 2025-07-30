@@ -160,9 +160,10 @@ ifneq ($(LLVM_CONFIG),)
 	@echo "LLVM Config: $(LLVM_CONFIG)"
 	@echo "LLVM Version: $(shell $(LLVM_CONFIG) --version)"
 endif
-	@echo "Source files: $(words $(CSRC)) C/C++ files, $(words $(VSRC)) Verilog files"
+	@echo "Source files: $(words $(CSRC))  $(CSRC) C/C++ files, $(words $(VSRC)) Verilog files"
 	@echo "Dependencies: $(COMPILE_DEPS)"
 	@echo "LD_LIBRARY_PATH will include: $(shell pwd)/$(LLVM_DIR)"
+	@echo "INC_PATH: $(INC_PATH)"
 
 check:waveform
 	@echo "Verilog : $(VSRC)"
