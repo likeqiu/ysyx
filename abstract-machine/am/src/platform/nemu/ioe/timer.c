@@ -1,6 +1,6 @@
 #include <am.h>
 #include <nemu.h>
-#include<klib.h>
+//#include<klib.h>
 
 void __am_timer_init() {}
 
@@ -12,7 +12,7 @@ void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   // 低地址存储的是低 32 位，高地址存储的是高 32 位，这是小端内存布局
 
   uptime->us = ((uint64_t)high << 32) | low;
-  printf("22222\n");
+ // printf("22222\n");
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
