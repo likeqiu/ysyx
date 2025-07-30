@@ -46,11 +46,6 @@ static inline void difftest_step(vaddr_t pc, vaddr_t npc) {}
 static inline void difftest_detach() {}
 static inline void difftest_attach() {}
 extern "C" void init_difftest(char *ref_so_file, long img_size, int port);
-
-#ifdef __caplusplus
-}
-#endif
-
 #endif
     
 extern void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n, bool direction);
