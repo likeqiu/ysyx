@@ -81,6 +81,13 @@ void vga_update_screen() {
   }
 }
 
+static void vga_ctl_io_handler(uint32_t offset, int len, bool is_write) {
+  // 我们只关心对 SYNC 寄存器（偏移量为4）的写操作
+  if (offset == 4 && is_write) {
+    vga_update_screen();
+  }
+}
+
 void init_vga() {
   vgactl_port_base = (uint32_t *)new_space(8);
   vgactl_port_base[0] = (screen_width() << 16) | screen_height();
@@ -92,7 +99,7 @@ void init_vga() {
 #endif
 
   vmem = new_space(screen_size());
-  add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
+  add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), vga_ctl_io_handler);
   IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());
   IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));
 }
