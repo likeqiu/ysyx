@@ -7,8 +7,6 @@
 #ifdef CONFIG_DIFFTEST
 
 #ifdef __cplusplus
-
-
 extern "C" {
 
 #endif
