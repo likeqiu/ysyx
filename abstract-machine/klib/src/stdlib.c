@@ -5,14 +5,9 @@
 
 
 
-static void *addr = NULL;
+static void *hbrk = NULL;
 
-static inline void *align_up(void *ptr,size_t align) {
-  uintptr_t p = (uintptr_t)ptr;
-  uintptr_t aligned = (p + align -1) & ~(align - 1);
 
-  return (void *)aligned;
-}
 
  #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
@@ -47,24 +42,27 @@ void *malloc(size_t size) {
   // Therefore do not call panic() here, else it will yield a dead recursion:
   //   panic() -> putchar() -> (glibc) -> malloc() -> panic()
 
-  if (addr == NULL) {
-    addr = heap.start;
+  if (hbrk == NULL) {
+    hbrk = (void *)ROUNDUP(heap.start, 8);
   }
 
   if (size == 0) {
     return NULL;
   }
 
-  void *current = align_up(addr, 8);
+  size_t aligned_size = ROUNDUP(size, 8);
 
-  void *next_addr = (char *)current + size;
+  void *prev_hbrk = hbrk;
 
-  if (next_addr > heap.end) {
+  void *next_hbrk = (char *)prev_hbrk + aligned_size;
+
+  if (next_hbrk > heap.end) {
     return NULL;
   }
 
-  addr = next_addr;
-  return current;
+  hbrk = next_hbrk;
+
+  return prev_hbrk;
 
 #if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
   panic("Not implemented");
