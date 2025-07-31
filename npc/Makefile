@@ -29,7 +29,7 @@ endif
 
 
 # 基本链接库
-LDFLAGS = -lreadline -lhistory -lncurses
+LDFLAGS = -lreadline -lhistory -lncurses -lSDL2
 
 include $(NVBOARD_HOME)/scripts/nvboard.mk
 
