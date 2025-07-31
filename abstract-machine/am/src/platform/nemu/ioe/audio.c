@@ -64,14 +64,23 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
   printf("AM Audio: len=%u, current_count=%u, free_space=%u, SBUF_SIZE=%u\n",
          len, current_count, free_space, SBUF_SIZE);
 
-  // 缓冲区满或空间不足
+  // 缓冲区满或空间不足的处理
   if (free_space < len) {
-    if (free_space == 0) {
-      printf("AM Audio: Buffer full, dropping data\n");
+    if (free_space == 0 || current_count > SBUF_SIZE / 2) {
+      printf("AM Audio: Buffer too full (count=%u), dropping data\n",
+             current_count);
       return;
     }
     printf("AM Audio: Truncating from %u to %u bytes\n", len, free_space);
     len = free_space;
+  }
+
+  // 如果缓冲区中数据过多，减少写入量来避免延迟累积
+  if (current_count > SBUF_SIZE / 4) {
+    uint32_t reduced_len = len / 2;
+    printf("AM Audio: Reducing write size from %u to %u to prevent lag\n", len,
+           reduced_len);
+    len = reduced_len;
   }
 
   static uint32_t write_offset = 0;
