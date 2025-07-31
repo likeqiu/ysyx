@@ -40,10 +40,11 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     // 逐行复制像素
     // 这一部分可以替换成memcpy
     for (int j = 0; j < h; j++) {
-      for (int i = 0; i < w; i++) {
+      // 计算源数据和目标数据的偏移量
+      size_t src_offset = j * w;
+      size_t dst_offset = (y + j) * screen_width + x;
 
-        fb[(y + j) * screen_width + (x + i)] = pixels[j * w + i];
-      }
+      memcpy(&fb[dst_offset], &pixels[src_offset], w * sizeof(*pixels));
     }
   }
   
