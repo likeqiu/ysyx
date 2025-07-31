@@ -1,5 +1,6 @@
 #include <am.h>
 #include <nemu.h>
+#include<klib.h>
 
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
@@ -40,11 +41,9 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     // 逐行复制像素
     // 这一部分可以替换成memcpy
     for (int j = 0; j < h; j++) {
-      // 计算源数据和目标数据的偏移量
-      size_t src_offset = j * w;
-      size_t dst_offset = (y + j) * screen_width + x;
-
-      memcpy(&fb[dst_offset], &pixels[src_offset], w * sizeof(*pixels));
+      uint32_t *dest = &fb[(y + j) * screen_width + x];
+      uint32_t *src = &pixels[j * w];
+      memcpy(dest, src, w * sizeof(uint32_t));
     }
   }
   
