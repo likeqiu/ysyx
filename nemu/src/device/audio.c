@@ -29,49 +29,40 @@ enum {
 
 static uint8_t *sbuf = NULL;
 static uint32_t *audio_base = NULL;
-static uint32_t head = 0;
-static uint32_t tail = 0;
+
+// 简单的指针管理，类似pipe
+static volatile uint32_t data_count = 0; // 当前缓冲区中的数据量
+static uint32_t consume_pos = 0;         // SDL消费位置
 static SDL_AudioSpec spec;
 static bool audio_initialized = false;
 
-// 极简的数据大小计算
-static int get_audio_data_size() {
-  head = head % CONFIG_SB_SIZE;
-  tail = tail % CONFIG_SB_SIZE;
+// SDL音频回调函数
+static void audio_play_callback(void *userdata, uint8_t *stream, int len) {
+  SDL_LockAudio();
 
-  if (tail >= head) {
-    return tail - head;
-  } else {
-    return CONFIG_SB_SIZE - (head - tail);
-  }
-}
+  int nread = (len > data_count) ? data_count : len;
 
-// 极简的音频回调
-static void audio_fill_callback(void *userdata, uint8_t *stream, int len) {
-  int data_size = get_audio_data_size();
-  int nread = (len > data_size) ? data_size : len;
+  if (nread > 0) {
+    // 从缓冲区读取数据
+    if (consume_pos + nread <= CONFIG_SB_SIZE) {
+      memcpy(stream, sbuf + consume_pos, nread);
+    } else {
+      // 处理环形缓冲区边界
+      int first_part = CONFIG_SB_SIZE - consume_pos;
+      memcpy(stream, sbuf + consume_pos, first_part);
+      memcpy(stream + first_part, sbuf, nread - first_part);
+    }
 
-  if (nread <= 0) {
-    memset(stream, 0, len);
-    return;
-  }
-
-  // 简单的线性拷贝，不处理环形缓冲区的复杂情况
-  if (head + nread <= CONFIG_SB_SIZE) {
-    memcpy(stream, sbuf + head, nread);
-  } else {
-    // 如果跨越边界，只拷贝到边界为止，剩余填0
-    int first_part = CONFIG_SB_SIZE - head;
-    memcpy(stream, sbuf + head, first_part);
-    memset(stream + first_part, 0, len - first_part);
-    nread = first_part;
+    consume_pos = (consume_pos + nread) % CONFIG_SB_SIZE;
+    data_count -= nread;
   }
 
-  head = (head + nread) % CONFIG_SB_SIZE;
-
+  // 剩余部分填静音
   if (nread < len) {
     memset(stream + nread, 0, len - nread);
   }
+
+  SDL_UnlockAudio();
 }
 
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
@@ -82,49 +73,44 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
     case reg_init:
       if (!audio_initialized) {
         SDL_InitSubSystem(SDL_INIT_AUDIO);
+
         spec.freq = audio_base[reg_freq];
         spec.format = AUDIO_S16SYS;
         spec.channels = audio_base[reg_channels];
-        spec.samples = 2048; // 大缓冲区
-        spec.callback = audio_fill_callback;
+        spec.samples = audio_base[reg_samples];
+        spec.callback = audio_play_callback;
         spec.userdata = NULL;
 
-        if (SDL_OpenAudio(&spec, NULL) == 0) {
+        int ret = SDL_OpenAudio(&spec, NULL);
+        if (ret == 0) {
           SDL_PauseAudio(0);
           audio_initialized = true;
-          head = 0;
-          tail = 0;
+
+          // 重置状态
+          data_count = 0;
+          consume_pos = 0;
         }
       }
       break;
 
     case reg_count: {
-      uint32_t bytes_to_add = audio_base[reg_count];
+      // AM层通知有新数据写入
+      uint32_t bytes_added = audio_base[reg_count];
 
-      // 极简处理：直接限制大小并添加
-      if (bytes_to_add > CONFIG_SB_SIZE / 2) {
-        bytes_to_add = CONFIG_SB_SIZE / 2;
+      SDL_LockAudio();
+
+      // 更新数据计数，但要防止溢出
+      if (data_count + bytes_added > CONFIG_SB_SIZE) {
+        data_count = CONFIG_SB_SIZE;
+      } else {
+        data_count += bytes_added;
       }
 
-      int current_size = get_audio_data_size();
-
-      // 如果缓冲区超过一半，丢弃一些数据
-      if (current_size > CONFIG_SB_SIZE / 2) {
-        head = (head + CONFIG_SB_SIZE / 4) % CONFIG_SB_SIZE;
-      }
-
-      // 重新计算可用空间
-      current_size = get_audio_data_size();
-      int available = CONFIG_SB_SIZE - current_size;
-
-      if (bytes_to_add > available) {
-        bytes_to_add = available;
-      }
-
-      if (bytes_to_add > 0) {
-        tail = (tail + bytes_to_add) % CONFIG_SB_SIZE;
-      }
+      SDL_UnlockAudio();
     } break;
+
+    default:
+      break;
     }
   } else {
     switch (reg_idx) {
@@ -133,7 +119,11 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
       break;
 
     case reg_count:
-      audio_base[reg_count] = get_audio_data_size();
+      // 返回当前缓冲区中的数据量
+      audio_base[reg_count] = data_count;
+      break;
+
+    default:
       break;
     }
   }
@@ -152,9 +142,11 @@ void init_audio() {
 #endif
 
   sbuf = (uint8_t *)new_space(CONFIG_SB_SIZE);
+  // 音频缓冲区不需要特殊处理函数，AM层直接写入
   add_mmio_map("audio-sbuf", CONFIG_SB_ADDR, sbuf, CONFIG_SB_SIZE, NULL);
 
-  head = 0;
-  tail = 0;
+  // 初始化状态
+  data_count = 0;
+  consume_pos = 0;
   audio_initialized = false;
 }
