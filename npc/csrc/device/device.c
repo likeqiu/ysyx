@@ -6,9 +6,11 @@ void init_serial();
 void init_timer();
 void init_vga();
 
-#define TIMER_HZ 60
+void vga_update_screen()
 
-    void device_uodate() {
+#define TIMER_HZ 60
+    
+void device_uodate() {
 
   static uint64_t last = 0; // 只初始化一次
   uint64_t now = get_time();

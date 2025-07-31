@@ -59,6 +59,7 @@ VM_USER_LDLIBS = \
 	-lhistory \
 	-lncurses \
 	-lSDL2 \
+	-lSDL2 \
 	-lSDL2_image \
 	-lSDL2_ttf \
 	-ldl \
@@ -72,6 +73,7 @@ VM_USER_CLASSES = \
 	mmio \
 	serial \
 	timer \
+	vga \
 	hostcall \
 	init \
 	paddr \
@@ -86,6 +88,7 @@ VM_USER_CLASSES = \
 	reg \
 	log \
 	state \
+	timer_u \
 	verilog-main \
 	verilog \
 	verilog_exec \
@@ -130,6 +133,8 @@ serial.o: csrc/device/serial.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 timer.o: csrc/device/timer.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+vga.o: csrc/device/vga.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 hostcall.o: csrc/engine/hostcall.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 init.o: csrc/engine/interpreter/init.c
@@ -157,6 +162,8 @@ reg.o: csrc/riscv32/reg.c
 log.o: csrc/utils/log.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 state.o: csrc/utils/state.c
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+timer_u.o: csrc/utils/timer_u.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 verilog-main.o: csrc/verilog-main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
