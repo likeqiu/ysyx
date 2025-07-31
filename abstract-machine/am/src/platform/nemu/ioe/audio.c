@@ -38,14 +38,11 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
   // 初始化SBUF_SIZE（如果还没有初始化）
   if (SBUF_SIZE == 0) {
     SBUF_SIZE = inl(AUDIO_SBUF_SIZE_ADDR);
-    printf("AM Audio: SBUF_SIZE initialized to %u\n", SBUF_SIZE);
   }
 
-  // 严格限制单次写入的大小
-  if (len > SBUF_SIZE / 4) {
-    printf("AM Audio: len too large (%u), limiting to %u\n", len,
-           SBUF_SIZE / 4);
-    len = SBUF_SIZE / 4;
+  // 严格限制单次写入的大小 - 更激进的限制
+  if (len > 1024) { // Mario每次366字节是正常的，但限制在1KB以内
+    len = 1024;
   }
 
   // 检查缓冲区状态
@@ -53,34 +50,26 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
 
   // 防止current_count异常值
   if (current_count > SBUF_SIZE) {
-    printf("AM Audio: WARNING - current_count (%u) > SBUF_SIZE (%u), treating "
-           "as full\n",
-           current_count, SBUF_SIZE);
-    return;
+    return; // 异常情况直接返回
   }
 
   uint32_t free_space = SBUF_SIZE - current_count;
 
-  printf("AM Audio: len=%u, current_count=%u, free_space=%u, SBUF_SIZE=%u\n",
-         len, current_count, free_space, SBUF_SIZE);
+  // 激进的丢弃策略：如果缓冲区使用超过25%就开始丢弃数据
+  if (current_count > SBUF_SIZE / 4) {
+    static int drop_counter = 0;
+    drop_counter++;
+    if (drop_counter % 2 == 0) { // 每隔一次丢弃数据
+      return;
+    }
+  }
 
   // 缓冲区满或空间不足的处理
   if (free_space < len) {
-    if (free_space == 0 || current_count > SBUF_SIZE / 2) {
-      printf("AM Audio: Buffer too full (count=%u), dropping data\n",
-             current_count);
-      return;
+    if (free_space == 0) {
+      return; // 直接丢弃
     }
-    printf("AM Audio: Truncating from %u to %u bytes\n", len, free_space);
-    len = free_space;
-  }
-
-  // 如果缓冲区中数据过多，减少写入量来避免延迟累积
-  if (current_count > SBUF_SIZE / 4) {
-    uint32_t reduced_len = len / 2;
-    printf("AM Audio: Reducing write size from %u to %u to prevent lag\n", len,
-           reduced_len);
-    len = reduced_len;
+    len = free_space; // 截断
   }
 
   static uint32_t write_offset = 0;
@@ -88,8 +77,6 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
 
   // 确保write_offset在有效范围内
   if (write_offset >= SBUF_SIZE) {
-    printf("AM Audio: write_offset overflow (%u), resetting to 0\n",
-           write_offset);
     write_offset = 0;
   }
 
@@ -104,5 +91,10 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
   // 通知硬件写入的数据量
   outl(AUDIO_COUNT_ADDR, len);
 
-  printf("AM Audio: Wrote %u bytes, write_offset=%u\n", len, write_offset);
+  // 只在特定条件下输出日志，减少性能开销
+  static int log_counter = 0;
+  if (++log_counter % 100 == 0) {
+    printf("AM Audio: Periodic check - count=%d, len=%d\n", (int)current_count,
+           (int)len);
+  }
 }
