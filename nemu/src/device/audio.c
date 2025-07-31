@@ -33,18 +33,36 @@ static uint32_t *audio_base = NULL;
 static uint32_t head = 0;
 static uint32_t tail = 0;
 static SDL_AudioSpec spec;
+static bool audio_initialized = false;
 
-// 修复：正确计算音频数据大小
+// 强制确保指针在有效范围内的安全函数
+static void normalize_pointers() {
+  if (head >= CONFIG_SB_SIZE) {
+    printf("NEMU Audio: WARNING - head overflow (%u), resetting to %u\n", head,
+           head % CONFIG_SB_SIZE);
+    head = head % CONFIG_SB_SIZE;
+  }
+  if (tail >= CONFIG_SB_SIZE) {
+    printf("NEMU Audio: WARNING - tail overflow (%u), resetting to %u\n", tail,
+           tail % CONFIG_SB_SIZE);
+    tail = tail % CONFIG_SB_SIZE;
+  }
+}
+
+// 健壮的音频数据大小计算
 static int get_audio_data_size() {
+  normalize_pointers();
+
   if (tail >= head) {
     return tail - head;
   } else {
-    // 当tail < head时，数据跨越了缓冲区边界
     return CONFIG_SB_SIZE - (head - tail);
   }
 }
 
 static void audio_fill_callback(void *userdata, uint8_t *stream, int len) {
+  normalize_pointers();
+
   int data_size = get_audio_data_size();
   int nread = len > data_size ? data_size : len;
 
@@ -77,41 +95,61 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
   if (is_write) {
     switch (reg_idx) {
     case reg_init:
-      SDL_InitSubSystem(SDL_INIT_AUDIO);
-      spec.freq = audio_base[reg_freq];
-      spec.format = AUDIO_S16SYS;
-      spec.channels = audio_base[reg_channels];
-      spec.samples = audio_base[reg_samples];
-      spec.callback = audio_fill_callback;
-      spec.userdata = NULL;
+      if (!audio_initialized) {
+        SDL_InitSubSystem(SDL_INIT_AUDIO);
+        spec.freq = audio_base[reg_freq];
+        spec.format = AUDIO_S16SYS;
+        spec.channels = audio_base[reg_channels];
+        spec.samples = audio_base[reg_samples];
+        spec.callback = audio_fill_callback;
+        spec.userdata = NULL;
 
-      int ret = SDL_OpenAudio(&spec, NULL);
-      Assert(ret == 0, "SDL_OpenAudio failed");
-      SDL_PauseAudio(0);
-      break;
+        int ret = SDL_OpenAudio(&spec, NULL);
+        Assert(ret == 0, "SDL_OpenAudio failed");
+        SDL_PauseAudio(0);
+        audio_initialized = true;
 
-    case reg_count:
-      // 修复：正确更新tail指针并处理缓冲区溢出
-      {
-        uint32_t bytes_to_add = audio_base[reg_count];
-        uint32_t current_data_size = get_audio_data_size();
-
-        printf("NEMU Audio: Adding %u bytes, current size: %u, head: %u, tail: "
-               "%u\n",
-               bytes_to_add, current_data_size, head, tail);
-
-        // 确保不会超过缓冲区大小
-        if (current_data_size + bytes_to_add > CONFIG_SB_SIZE) {
-          printf("NEMU Audio: Buffer would overflow, truncating\n");
-          bytes_to_add = CONFIG_SB_SIZE - current_data_size;
-        }
-
-        if (bytes_to_add > 0) {
-          tail = (tail + bytes_to_add) % CONFIG_SB_SIZE;
-          printf("NEMU Audio: New tail: %u\n", tail);
-        }
+        // 重置缓冲区指针
+        head = 0;
+        tail = 0;
+        printf("NEMU Audio: Initialized - freq=%d, channels=%d, samples=%d, "
+               "buf_size=%d\n",
+               spec.freq, spec.channels, spec.samples, CONFIG_SB_SIZE);
       }
       break;
+
+    case reg_count: {
+      uint32_t bytes_to_add = audio_base[reg_count];
+
+      // 强制规范化指针
+      normalize_pointers();
+
+      // 严格限制bytes_to_add的大小
+      if (bytes_to_add > CONFIG_SB_SIZE / 2) {
+        printf(
+            "NEMU Audio: ERROR - bytes_to_add too large (%u), limiting to %u\n",
+            bytes_to_add, CONFIG_SB_SIZE / 2);
+        bytes_to_add = CONFIG_SB_SIZE / 2;
+      }
+
+      uint32_t current_data_size = get_audio_data_size();
+      uint32_t max_can_add = CONFIG_SB_SIZE - current_data_size;
+
+      if (bytes_to_add > max_can_add) {
+        printf(
+            "NEMU Audio: Truncating add from %u to %u (current: %u, max: %u)\n",
+            bytes_to_add, max_can_add, current_data_size, CONFIG_SB_SIZE);
+        bytes_to_add = max_can_add;
+      }
+
+      if (bytes_to_add > 0) {
+        uint32_t old_tail = tail;
+        tail = (tail + bytes_to_add) % CONFIG_SB_SIZE;
+        printf("NEMU Audio: Added %u bytes, tail: %u->%u, data_size: %u->%u\n",
+               bytes_to_add, old_tail, tail, current_data_size,
+               get_audio_data_size());
+      }
+    } break;
 
     default:
       break;
@@ -122,10 +160,12 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
       audio_base[reg_sbuf_size] = CONFIG_SB_SIZE;
       break;
 
-    case reg_count:
-      // 返回当前缓冲区中的数据量
-      audio_base[reg_count] = get_audio_data_size();
-      break;
+    case reg_count: {
+      uint32_t data_size = get_audio_data_size();
+      audio_base[reg_count] = data_size;
+      printf("NEMU Audio: READ reg_count = %u (head=%u, tail=%u)\n", data_size,
+             head, tail);
+    } break;
 
     default:
       break;
@@ -148,9 +188,12 @@ void init_audio() {
 #endif
 
   sbuf = (uint8_t *)new_space(CONFIG_SB_SIZE);
-  add_mmio_map("audio-sbuf", CONFIG_SB_ADDR, sbuf, CONFIG_SB_SIZE, NULL);
+  add_mmio_map("audio-sbuf", CONFIG_SB_ADDR, sbuf,CONFIG_SB_SIZE, NULL);
 
-  // 初始化头尾指针
+  // 初始化状态
   head = 0;
   tail = 0;
+  audio_initialized = false;
+
+  printf("NEMU Audio: Initialized buffers - sbuf at %p, size %d\n", sbuf,CONFIG_SB_SIZE);
 }
