@@ -8,7 +8,7 @@
 
 void __am_uart_tx(AM_UART_TX_T *uart) {
 
-  printf("11111111\n");
+  printf("1111\n");
   while ((*(volatile uint8_t *)LSR_REG & LSR_THRE_BIT) == 0)
     ;
 
@@ -16,6 +16,5 @@ void __am_uart_tx(AM_UART_TX_T *uart) {
 }
 
 void __am_uart_rx(AM_UART_RX_T *uart) {
-  printf("2222222\n");
   uart->data = 0;
 }
