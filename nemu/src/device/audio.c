@@ -18,96 +18,132 @@
 #include <device/map.h>
 
 enum {
-  reg_freq,
-  reg_channels,
-  reg_samples,
-  reg_sbuf_size,
-  reg_init,
-  reg_count,
-  nr_reg
+  reg_freq,      // 音频频率寄存器
+  reg_channels,  // 音频通道数寄存器
+  reg_samples,   // 音频样本数寄存器
+  reg_sbuf_size, // 音频数据缓冲区大小寄存器
+  reg_init,      // 初始化寄存器，用于启动音频设备
+  reg_count,     // 音频流的已使用字节数寄存器
+  nr_reg         // 寄存器的总数量
 };
 
 static uint8_t *sbuf = NULL;
 static uint32_t *audio_base = NULL;
 
-// 简单的指针管理，类似pipe
-static volatile uint32_t data_count = 0; // 当前缓冲区中的数据量
-static uint32_t consume_pos = 0;         // SDL消费位置
+static uint32_t head = 0;
+static uint32_t tail = 0;
 static SDL_AudioSpec spec;
 static bool audio_initialized = false;
 
-// SDL音频回调函数
-static void audio_play_callback(void *userdata, uint8_t *stream, int len) {
-  SDL_LockAudio();
+// 修复：正确计算音频数据大小，确保指针在有效范围内
+static int get_audio_data_size() {
+  // 确保head和tail在有效范围内
+  head = head % CONFIG_SB_SIZE;
+  tail = tail % CONFIG_SB_SIZE;
 
-  int nread = (len > data_count) ? data_count : len;
+  if (tail >= head) {
+    return tail - head;
+  } else {
+    // 当tail < head时，数据跨越了缓冲区边界
+    return CONFIG_SB_SIZE - (head - tail);
+  }
+}
 
-  if (nread > 0) {
-    // 从缓冲区读取数据
-    if (consume_pos + nread <= CONFIG_SB_SIZE) {
-      memcpy(stream, sbuf + consume_pos, nread);
-    } else {
-      // 处理环形缓冲区边界
-      int first_part = CONFIG_SB_SIZE - consume_pos;
-      memcpy(stream, sbuf + consume_pos, first_part);
-      memcpy(stream + first_part, sbuf, nread - first_part);
-    }
+static void audio_fill_callback(void *userdata, uint8_t *stream, int len) {
+  int data_size = get_audio_data_size();
+  int nread = len > data_size ? data_size : len;
 
-    consume_pos = (consume_pos + nread) % CONFIG_SB_SIZE;
-    data_count -= nread;
+  if (nread == 0) {
+    // 没有数据时填充静音
+    memset(stream, 0, len);
+    return;
   }
 
-  // 剩余部分填静音
+  if (head + nread <= CONFIG_SB_SIZE) {
+    memcpy(stream, sbuf + head, nread);
+  } else {
+    int first_part_len = CONFIG_SB_SIZE - head;
+    memcpy(stream, sbuf + head, first_part_len);
+    memcpy(stream + first_part_len, sbuf, nread - first_part_len);
+  }
+
+  head = (head + nread) % CONFIG_SB_SIZE;
+
   if (nread < len) {
     memset(stream + nread, 0, len - nread);
   }
-
-  SDL_UnlockAudio();
 }
 
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
   int reg_idx = offset / 4;
+
+  SDL_LockAudio();
 
   if (is_write) {
     switch (reg_idx) {
     case reg_init:
       if (!audio_initialized) {
         SDL_InitSubSystem(SDL_INIT_AUDIO);
-
         spec.freq = audio_base[reg_freq];
         spec.format = AUDIO_S16SYS;
         spec.channels = audio_base[reg_channels];
         spec.samples = audio_base[reg_samples];
-        spec.callback = audio_play_callback;
+        spec.callback = audio_fill_callback;
         spec.userdata = NULL;
 
         int ret = SDL_OpenAudio(&spec, NULL);
-        if (ret == 0) {
-          SDL_PauseAudio(0);
-          audio_initialized = true;
+        Assert(ret == 0, "SDL_OpenAudio failed");
+        SDL_PauseAudio(0);
+        audio_initialized = true;
 
-          // 重置状态
-          data_count = 0;
-          consume_pos = 0;
-        }
+        // 重置缓冲区指针
+        head = 0;
+        tail = 0;
+        printf(
+            "NEMU Audio: Initialized with freq=%d, channels=%d, samples=%d\n",
+            spec.freq, spec.channels, spec.samples);
       }
       break;
 
-    case reg_count: {
-      // AM层通知有新数据写入
-      uint32_t bytes_added = audio_base[reg_count];
+    case reg_count:
+      // 修复：正确更新tail指针，严格控制范围
+      {
+        uint32_t bytes_to_add = audio_base[reg_count];
 
-      SDL_LockAudio();
+        // 确保指针在有效范围内
+        head = head % CONFIG_SB_SIZE;
+        tail = tail % CONFIG_SB_SIZE;
 
-      // 更新数据计数，但要防止溢出
-      if (data_count + bytes_added > CONFIG_SB_SIZE) {
-        data_count = CONFIG_SB_SIZE;
-      } else {
-        data_count += bytes_added;
+        uint32_t current_data_size = get_audio_data_size();
+
+        printf("NEMU Audio: Adding %u bytes, current size: %u, head: %u, tail: "
+               "%u, buf_size: %u\n",
+               bytes_to_add, current_data_size, head, tail, CONFIG_SB_SIZE);
+
+        // 严格检查：确保不会超过缓冲区大小
+        if (bytes_to_add > CONFIG_SB_SIZE) {
+          printf("NEMU Audio: ERROR - bytes_to_add (%u) > buffer size (%u), "
+                 "truncating\n",
+                 bytes_to_add, CONFIG_SB_SIZE);
+          bytes_to_add = CONFIG_SB_SIZE / 4; // 保守处理
+        }
+
+        if (current_data_size + bytes_to_add > CONFIG_SB_SIZE) {
+          printf("NEMU Audio: Buffer would overflow, current: %u, adding: %u, "
+                 "max: %u\n",
+                 current_data_size, bytes_to_add, CONFIG_SB_SIZE);
+          bytes_to_add = CONFIG_SB_SIZE - current_data_size;
+        }
+
+        if (bytes_to_add > 0) {
+          uint32_t new_tail = (tail + bytes_to_add) % CONFIG_SB_SIZE;
+          tail = new_tail;
+          printf("NEMU Audio: New tail: %u\n", tail);
+        } else {
+          printf("NEMU Audio: No bytes added\n");
+        }
       }
-
-      SDL_UnlockAudio();
-    } break;
+      break;
 
     default:
       break;
@@ -120,13 +156,15 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
 
     case reg_count:
       // 返回当前缓冲区中的数据量
-      audio_base[reg_count] = data_count;
+      audio_base[reg_count] = get_audio_data_size();
       break;
 
     default:
       break;
     }
   }
+
+  SDL_UnlockAudio();
 }
 
 void init_audio() {
@@ -142,11 +180,9 @@ void init_audio() {
 #endif
 
   sbuf = (uint8_t *)new_space(CONFIG_SB_SIZE);
-  // 音频缓冲区不需要特殊处理函数，AM层直接写入
   add_mmio_map("audio-sbuf", CONFIG_SB_ADDR, sbuf, CONFIG_SB_SIZE, NULL);
 
-  // 初始化状态
-  data_count = 0;
-  consume_pos = 0;
-  audio_initialized = false;
+  // 初始化头尾指针
+  head = 0;
+  tail = 0;
 }
