@@ -5,6 +5,9 @@
 #include<cpu/difftest.h>
 #include<reg.h>
 
+
+extern "C" void device_uodate();
+
 CPU_state cpu = {};
 Decode lastest_decode = {
     .pc   = cpu.pc,
@@ -63,6 +66,8 @@ static void execute(uint64_t n)
 
         if(npc_state.state != NPC_RUNNING)
         break;
+
+         IFDEF(CONFIG_DEVICE, device_update());
     }
 }
 
