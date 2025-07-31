@@ -35,48 +35,41 @@ void __am_audio_status(AM_AUDIO_STATUS_T *stat) {
 }
 
 void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
-
-  
   uint32_t len = (uintptr_t)ctl->buf.end - (uintptr_t)ctl->buf.start;
 
-  if(len == 0)
+  if (len == 0)
     return;
-    
 
-  /*uint32_t sbuf_size = inl(AUDIO_COUNT_ADDR);
-  uint32_t count = inl(AUDIO_COUNT_ADDR);
-
-  printf("AM: Audio play called. Trying to write %u bytes.\n", len);
-
-  // 在循环前就打印一次状态
-  printf("AM: Buffer check: sbuf_size=%u, count=%u, free_space=%d. Needed=%u\n",
-         sbuf_size, count, sbuf_size - count, len);
- */
-
-
- 
   static uint32_t write_offset = 0;
   uint8_t *src = (uint8_t *)ctl->buf.start;
-  while (SBUF_SIZE - inl(AUDIO_COUNT_ADDR) < len) {
 
-    return;
-    // printf("AM: Waiting for buffer... Current count =
-    // %d\n",inl(AUDIO_COUNT_ADDR));
-    //  空间不足，CPU自旋等待
-    //  在真实操作系统中会使用更高效的等待方式（如让出CPU）
-    //  但在AM这个抽象层中，自旋是可接受的
+  // 分块写入，避免一次写入过多数据导致缓冲区溢出
+  uint32_t written = 0;
+  while (written < len) {
+    uint32_t current_count = inl(AUDIO_COUNT_ADDR);
+    uint32_t free_space = SBUF_SIZE - current_count;
 
-    
+    if (free_space == 0) {
+      // 缓冲区满，等待一小段时间或直接返回
+      // 在实际应用中，这里应该yield CPU或使用更好的同步机制
+      break;
+    }
+
+    uint32_t chunk_size = len - written;
+    if (chunk_size > free_space) {
+      chunk_size = free_space;
+    }
+
+    // 写入数据到循环缓冲区
+    for (uint32_t i = 0; i < chunk_size; i++) {
+      uint32_t offset = (write_offset + i) % SBUF_SIZE;
+      outb(AUDIO_SBUF_ADDR + offset, src[written + i]);
+    }
+
+    write_offset = (write_offset + chunk_size) % SBUF_SIZE;
+    written += chunk_size;
+
+    // 通知硬件有新数据
+    outl(AUDIO_COUNT_ADDR, chunk_size);
   }
-
-  for (int i = 0; i < len;i++){
-    uint32_t offset = (write_offset + i) % SBUF_SIZE;
-    outb(AUDIO_SBUF_ADDR + offset,src[i]);
-  }
-
-  write_offset = (write_offset + len) % SBUF_SIZE;
-
-  outl(AUDIO_COUNT_ADDR, len);
-
-
 }

@@ -35,12 +35,12 @@ static uint32_t head = 0;
 static uint32_t tail = 0;
 static SDL_AudioSpec spec;
 
-static int get_audio_data_size(){
-  if(head <= tail){
+static int get_audio_data_size() {
+  if (head <= tail) {
     return tail - head;
   }
-
-  return CONFIG_SB_SIZE - (head - tail);
+  // 修复：当head > tail时，数据跨越了缓冲区边界
+  return (CONFIG_SB_SIZE - head) + tail;
 }
 
 static void audio_fill_callback(void *userdata,uint8_t *stream,int len){
@@ -48,17 +48,23 @@ static void audio_fill_callback(void *userdata,uint8_t *stream,int len){
   int data_size = get_audio_data_size();
   int nread = len > data_size ? data_size : len;
 
-  if(head + nread <= CONFIG_SB_SIZE){
-    memcpy(stream, sbuf + head, nread);
-  }else{
+  if (nread == 0) {
+    // 没有数据时填充静音
+    memset(stream, 0, len);
+    return;
+  }
 
+  if (head + nread <= CONFIG_SB_SIZE) {
+    memcpy(stream, sbuf + head, nread);
+  } else {
     int first_part_len = CONFIG_SB_SIZE - head;
-    memcpy(stream , sbuf +  head, first_part_len);
+    memcpy(stream, sbuf + head, first_part_len);
     memcpy(stream + first_part_len, sbuf, nread - first_part_len);
   }
 
   head = (head + nread) % CONFIG_SB_SIZE;
-  if(nread < len){
+
+  if (nread < len) {
     memset(stream + nread, 0, len - nread);
   }
 }
@@ -90,14 +96,21 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
         SDL_PauseAudio(0);
         break;
 
-        case reg_count:
-          //Log("Audio WRITE: case reg_count. Bytes added: %u",audio_base[reg_count]);
-          tail = (tail + audio_base[reg_count]) % CONFIG_SB_SIZE;
-          break;
-        default:
-        //  Log("Audio WRITE: triggered with unknown reg_idx %d", reg_idx);
-          break;
+      case reg_count: {
+        uint32_t bytes_to_add = audio_base[reg_count];
+        uint32_t current_data_size = get_audio_data_size();
+
+        // 确保不会超过缓冲区大小
+        if (current_data_size + bytes_to_add > CONFIG_SB_SIZE) {
+          bytes_to_add = CONFIG_SB_SIZE - current_data_size;
         }
+
+        tail = (tail + bytes_to_add) % CONFIG_SB_SIZE;
+      } break;
+
+      default:
+        break;
+      }
   } else{
     switch(reg_idx){
       case reg_sbuf_size:
@@ -125,4 +138,7 @@ void init_audio() {
 
   sbuf = (uint8_t *)new_space(CONFIG_SB_SIZE);
   add_mmio_map("audio-sbuf", CONFIG_SB_ADDR, sbuf, CONFIG_SB_SIZE, NULL);
+
+  head = 0;
+  tail = 0;
 }
