@@ -1,7 +1,7 @@
 #include <am.h>
 #include <npc.h>
 
-#define SYNC_ADDR (VGACTL_ADDR + 4)
+
 
 void __am_gpu_init() {
   /*
