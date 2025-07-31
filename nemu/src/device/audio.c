@@ -50,6 +50,8 @@ static int get_audio_data_size() {
 }
 
 static void audio_fill_callback(void *userdata, uint8_t *stream, int len) {
+
+  printf("NEMU Audio: Callback triggered, requested %d bytes\n", len);
   int data_size = get_audio_data_size();
   int nread = len > data_size ? data_size : len;
 

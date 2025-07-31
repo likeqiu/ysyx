@@ -32,9 +32,10 @@ void __am_audio_status(AM_AUDIO_STATUS_T *stat) {
 void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
   uint32_t len = (uintptr_t)ctl->buf.end - (uintptr_t)ctl->buf.start;
 
-  if (len == 0)
+  if (len == 0){
+    printf("AM Audio: No data to play (len == 0)\n");
     return;
-
+  }
   // 检查缓冲区状态 - 如果满了就直接返回，不等待
   uint32_t current_count = inl(AUDIO_COUNT_ADDR);
   uint32_t free_space = SBUF_SIZE - current_count;
