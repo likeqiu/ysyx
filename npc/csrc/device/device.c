@@ -10,7 +10,7 @@ void init_vga();
 
 void vga_update_screen();
 
-void device_uodate() {
+void device_update() {
 
   static uint64_t last = 0; // 只初始化一次
   uint64_t now = get_time();

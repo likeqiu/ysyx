@@ -6,7 +6,7 @@
 #include<reg.h>
 
 
-extern "C" void device_uodate();
+extern "C" void device_update();
 
 CPU_state cpu = {};
 Decode lastest_decode = {
