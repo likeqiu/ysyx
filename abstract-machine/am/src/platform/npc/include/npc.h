@@ -16,7 +16,7 @@
 
 #define VGACTL_ADDR (VGA_BASE + 0x00000000)
 #define SYNC_ADDR (VGA_BASE + 0x00000004)
-#define FB_ADDR (VGA_BASE + 0x00001000)
+#define FB_ADDR 0x1F010000
 
 typedef uintptr_t PTE;
 
