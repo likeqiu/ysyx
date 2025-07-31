@@ -81,13 +81,6 @@ void vga_update_screen() {
   }
 }
 
-/*
-static void vga_ctl_io_handler(uint32_t offset, int len, bool is_write) {
-  // 我们只关心对 SYNC 寄存器（偏移量为4）的写操作
-  if (offset == 4 && is_write) {
-    vga_update_screen();
-  }
-}*/
 
 void init_vga() {
   vgactl_port_base = (uint32_t *)new_space(8);
