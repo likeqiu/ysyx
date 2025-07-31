@@ -13,9 +13,9 @@ static uint32_t SBUF_SIZE = 0;
 void __am_audio_init() {}
 
 void __am_audio_config(AM_AUDIO_CONFIG_T *cfg) {
-  SBUF_SIZE = inl(AUDIO_SBUF_SIZE_ADDR);
-  cfg->bufsize = SBUF_SIZE;
-  cfg->present = true;
+  //SBUF_SIZE = inl(AUDIO_SBUF_SIZE_ADDR);
+  //cfg->bufsize = SBUF_SIZE;
+  cfg->present = false;
 }
 
 void __am_audio_ctrl(AM_AUDIO_CTRL_T *ctrl) {
