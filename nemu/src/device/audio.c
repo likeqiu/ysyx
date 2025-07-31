@@ -51,7 +51,7 @@ static int get_audio_data_size() {
 
 static void audio_fill_callback(void *userdata, uint8_t *stream, int len) {
 
-  printf("NEMU Audio: Callback triggered, requested %d bytes\n", len);
+  //printf("NEMU Audio: Callback triggered, requested %d bytes\n", len);
   int data_size = get_audio_data_size();
   int nread = len > data_size ? data_size : len;
 
@@ -101,9 +101,8 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
         // 重置缓冲区指针
         head = 0;
         tail = 0;
-        printf(
-            "NEMU Audio: Initialized with freq=%d, channels=%d, samples=%d\n",
-            spec.freq, spec.channels, spec.samples);
+       // printf("NEMU Audio: Initialized with freq=%d, channels=%d, samples=%d\n",
+            //spec.freq, spec.channels, spec.samples);
       }
       break;
 
@@ -118,31 +117,26 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
 
         uint32_t current_data_size = get_audio_data_size();
 
-        printf("NEMU Audio: Adding %u bytes, current size: %u, head: %u, tail: "
-               "%u, buf_size: %u\n",
-               bytes_to_add, current_data_size, head, tail, CONFIG_SB_SIZE);
+        //printf("NEMU Audio: Adding %u bytes, current size: %u, head: %u, tail: "
+               //"%u, buf_size: %u\n",bytes_to_add, current_data_size, head, tail, CONFIG_SB_SIZE);
 
         // 严格检查：确保不会超过缓冲区大小
         if (bytes_to_add > CONFIG_SB_SIZE) {
-          printf("NEMU Audio: ERROR - bytes_to_add (%u) > buffer size (%u), "
-                 "truncating\n",
-                 bytes_to_add, CONFIG_SB_SIZE);
+         // printf("NEMU Audio: ERROR - bytes_to_add (%u) > buffer size (%u), ""truncating\n",bytes_to_add, CONFIG_SB_SIZE);
           bytes_to_add = CONFIG_SB_SIZE / 4; // 保守处理
         }
 
         if (current_data_size + bytes_to_add > CONFIG_SB_SIZE) {
-          printf("NEMU Audio: Buffer would overflow, current: %u, adding: %u, "
-                 "max: %u\n",
-                 current_data_size, bytes_to_add, CONFIG_SB_SIZE);
+          //printf("NEMU Audio: Buffer would overflow, current: %u, adding: %u, ""max: %u\n",current_data_size, bytes_to_add, CONFIG_SB_SIZE);
           bytes_to_add = CONFIG_SB_SIZE - current_data_size;
         }
 
         if (bytes_to_add > 0) {
           uint32_t new_tail = (tail + bytes_to_add) % CONFIG_SB_SIZE;
           tail = new_tail;
-          printf("NEMU Audio: New tail: %u\n", tail);
+         // printf("NEMU Audio: New tail: %u\n", tail);
         } else {
-          printf("NEMU Audio: No bytes added\n");
+         // printf("NEMU Audio: No bytes added\n");
         }
       }
       break;
@@ -185,6 +179,5 @@ void init_audio() {
   add_mmio_map("audio-sbuf", CONFIG_SB_ADDR, sbuf, CONFIG_SB_SIZE, NULL);
 
   // 初始化头尾指针
-  head = 0;
-  tail = 0;
+
 }

@@ -40,24 +40,22 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
   uint32_t current_count = inl(AUDIO_COUNT_ADDR);
   uint32_t free_space = SBUF_SIZE - current_count;
 
-  printf("AM Audio: Request %u bytes, current_count=%u, free_space=%u, "
-         "SBUF_SIZE=%u\n",
-         len, current_count, free_space, SBUF_SIZE);
+//  printf("AM Audio: Request %u bytes, current_count=%u, free_space=%u, ""SBUF_SIZE=%u\n",len, current_count, free_space, SBUF_SIZE);
 
   if (free_space == 0) {
-    printf("AM Audio: Buffer full, dropping data\n");
+   // printf("AM Audio: Buffer full, dropping data\n");
     return; // 缓冲区满，直接丢弃数据
   }
 
   // 如果空间不够，只写入能写的部分
   if (len > free_space) {
-    printf("AM Audio: Truncating from %u to %u bytes\n", len, free_space);
+   // printf("AM Audio: Truncating from %u to %u bytes\n", len, free_space);
     len = free_space;
   }
 
   // 额外的安全检查
   if (len > SBUF_SIZE) {
-    printf("AM Audio: len > SBUF_SIZE, setting len = SBUF_SIZE/4\n");
+    //printf("AM Audio: len > SBUF_SIZE, setting len = SBUF_SIZE/4\n");
     len = SBUF_SIZE / 4;
   }
 
@@ -78,6 +76,5 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
   // 一次性通知硬件写入的数据量
   outl(AUDIO_COUNT_ADDR, len);
 
-  printf("AM Audio: Successfully wrote %u bytes, write_offset=%u\n", len,
-         write_offset);
+  //printf("AM Audio: Successfully wrote %u bytes, write_offset=%u\n", len,write_offset);
 }
