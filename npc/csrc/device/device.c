@@ -1,15 +1,15 @@
 #include<common.h>
 #include<utils.h>
 
+#define TIMER_HZ 60
+
 void init_map();
 void init_serial();
 void init_timer();
 void init_vga();
 
-void vga_update_screen()
+void vga_update_screen();
 
-#define TIMER_HZ 60
-    
 void device_uodate() {
 
   static uint64_t last = 0; // 只初始化一次
