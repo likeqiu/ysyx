@@ -258,9 +258,9 @@ static int decode_exec(Decode *s) {
 
     }
 
-    printf("  mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
-    printf("  mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
-    printf("  mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
+    printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
+    printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
+    printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
 #endif
   });
 
@@ -271,6 +271,7 @@ static int decode_exec(Decode *s) {
   });
 
   INSTPAT("0000000 00000 00000 000 00000 1110011", ecall, N, {
+
 #ifdef CONFIG_INTERRUPT_TRACE
     printf("\033[1;33minterrupte before:\033[0m\n");
     for (int i = 0; i < 32; i++) {
@@ -278,9 +279,10 @@ static int decode_exec(Decode *s) {
 
     }
 
-    printf("  mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
-    printf("  mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
-    printf("  mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
+    printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
+    printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
+    printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
+
 #endif
     vaddr_t handler_addr = isa_raise_intr(11, s->pc);
     s->dnpc = handler_addr;
