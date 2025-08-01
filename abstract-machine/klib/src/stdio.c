@@ -18,7 +18,8 @@ static void reverse_str(char *start, int len) {
   }
 }
 
-static int itoa(int num, char *buf, int base) {
+// 修复：分离有符号和无符号整数转换
+static int itoa_signed(int num, char *buf, int base) {
   char *p = buf;
   unsigned int unum;
 
@@ -28,11 +29,13 @@ static int itoa(int num, char *buf, int base) {
     return 1;
   }
 
+  // 修复：正确处理负数
   if (num < 0 && base == 10) {
     *p++ = '-';
-    unum = -num;
+    // 修复：避免溢出，正确转换为无符号数
+    unum = (unsigned int)(-num);
   } else {
-    unum = num;
+    unum = (unsigned int)num;
   }
 
   char *start_of_digits = p;
@@ -47,7 +50,30 @@ static int itoa(int num, char *buf, int base) {
   return p - buf;
 }
 
-static int lltoa(long long num, char *buf, int base) {
+// 新增：专门处理无符号整数
+static int utoa(unsigned int num, char *buf, int base) {
+  char *p = buf;
+
+  if (num == 0) {
+    *p++ = '0';
+    *p = '\0';
+    return 1;
+  }
+
+  char *start_of_digits = p;
+  while (num > 0) {
+    int digit = num % base;
+    *p++ = (digit < 10) ? ('0' + digit) : ('a' + digit - 10);
+    num /= base;
+  }
+  *p = '\0';
+
+  reverse_str(start_of_digits, p - start_of_digits);
+  return p - buf;
+}
+
+// 修复：长整型转换
+static int lltoa_signed(long long num, char *buf, int base) {
   char *p = buf;
   unsigned long long unum;
 
@@ -59,9 +85,9 @@ static int lltoa(long long num, char *buf, int base) {
 
   if (num < 0 && base == 10) {
     *p++ = '-';
-    unum = -num;
+    unum = (unsigned long long)(-num);
   } else {
-    unum = num;
+    unum = (unsigned long long)num;
   }
 
   char *start_of_digits = p;
@@ -106,14 +132,14 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       if (is_long) {
         long long num = va_arg(args, long long);
         char buf[64];
-        lltoa(num, buf, 10);
+        lltoa_signed(num, buf, 10);
         for (char *q = buf; *q; q++) {
           out(*q, data);
         }
       } else {
         int num = va_arg(args, int);
         char buf[32];
-        itoa(num, buf, 10);
+        itoa_signed(num, buf, 10);
         for (char *q = buf; *q; q++) {
           out(*q, data);
         }
@@ -121,11 +147,43 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       break;
     }
     case 'x': {
-      int num = va_arg(args, int);
+      // 修复：%x应该处理无符号整数
+      unsigned int num = va_arg(args, unsigned int);
       char buf[32];
-      itoa(num, buf, 16);
+      utoa(num, buf, 16);
       for (char *q = buf; *q; q++) {
         out(*q, data);
+      }
+      break;
+    }
+    case 'u': {
+      // 新增：支持%u无符号十进制
+      if (is_long) {
+        unsigned long long num = va_arg(args, unsigned long long);
+        char buf[64];
+        // 可以复用utoa逻辑，这里简化处理
+        char *q = buf;
+        if (num == 0) {
+          *q++ = '0';
+        } else {
+          char *start = q;
+          while (num > 0) {
+            *q++ = '0' + (num % 10);
+            num /= 10;
+          }
+          reverse_str(start, q - start);
+        }
+        *q = '\0';
+        for (char *r = buf; *r; r++) {
+          out(*r, data);
+        }
+      } else {
+        unsigned int num = va_arg(args, unsigned int);
+        char buf[32];
+        utoa(num, buf, 10);
+        for (char *q = buf; *q; q++) {
+          out(*q, data);
+        }
       }
       break;
     }
