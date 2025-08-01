@@ -22,21 +22,19 @@ Context* __am_irq_handle(Context *c) {
   printf(" mstatus: 0x%08x\n", c->mstatus);
 
 
-  const char *reg_names[] = {"$0 ", "ra ", "sp ", "gp ", "tp ", "t0 ", "t1 ",
-                             "t2 ", "s0 ", "s1 ", "a0 ", "a1 ", "a2 ", "a3 ",
-                             "a4 ", "a5 ", "a6 ", "a7 ", "s2 ", "s3 ", "s4 ",
-                             "s5 ", "s6 ", "s7 ", "s8 ", "s9 ", "s10", "s11",
-                             "t3 ", "t4 ", "t5 ", "t6 "};
 
 
 
   for (int i = 0; i < 32; i++)
   {
     printf("  gpr[%2d](%s): 0x%08x\n", i, reg_names[i], c->gpr[i]);
-  }
+  }*/
 
-  */
-
+  const char *reg_names[] = {"$0 ", "ra ", "sp ", "gp ", "tp ", "t0 ", "t1 ",
+                             "t2 ", "s0 ", "s1 ", "a0 ", "a1 ", "a2 ", "a3 ",
+                             "a4 ", "a5 ", "a6 ", "a7 ", "s2 ", "s3 ", "s4 ",
+                             "s5 ", "s6 ", "s7 ", "s8 ", "s9 ", "s10", "s11",
+                             "t3 ", "t4 ", "t5 ", "t6 "};
 
   if (user_handler) {
     Event ev = {0};
@@ -59,7 +57,7 @@ Context* __am_irq_handle(Context *c) {
     assert(c != NULL);
   }
 
-  /*
+  
  // c->gpr[1] = 0x80000000;测试恢复的是这个函数的返回内容
 
   printf("\033[1;33m cte regs interrupt during 2.0:\033[0m\n");
@@ -70,7 +68,7 @@ Context* __am_irq_handle(Context *c) {
 
   for (int i = 0; i < 32; i++) {
     printf("  gpr[%2d](%s): 0x%08x\n", i, reg_names[i], c->gpr[i]);
-  }*/
+  }
 
   return c;
 }
