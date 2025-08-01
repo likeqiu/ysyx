@@ -11,7 +11,7 @@ Context* __am_irq_handle(Context *c) {
   printf("  mcause : 0x%08x (%d)\n", c->mcause, c->mcause);
   printf("  mstatus: 0x%08x\n", c->mstatus);
 
-  // 为了方便查看，我们可以创建一个寄存器名称数组
+ /* // 为了方便查看，我们可以创建一个寄存器名称数组
   const char *reg_names[] = {"$0 ", "ra ", "sp ", "gp ", "tp ", "t0 ", "t1 ",
                              "t2 ", "s0 ", "s1 ", "a0 ", "a1 ", "a2 ", "a3 ",
                              "a4 ", "a5 ", "a6 ", "a7 ", "s2 ", "s3 ", "s4 ",
@@ -25,7 +25,7 @@ Context* __am_irq_handle(Context *c) {
     // if ((i + 1) % 4 == 0) {
     //   printf("\n");
     // }
-  }
+  }*/
 
   if (user_handler) {
     Event ev = {0};

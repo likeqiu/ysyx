@@ -226,6 +226,14 @@ static int decode_exec(Decode *s) {
 });
 
   INSTPAT("0011000 00010 00000 000 00000 11100 11", mret, N, {
+    for (int i = 0; i < 32; i++) {
+      printf("interrupt before : gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
+      // 每打印4个寄存器换一行，方便阅读
+      // if ((i + 1) % 4 == 0) {
+      //   printf("\n");
+      // }
+    }
+
     s->dnpc = cpu.csr[CSR_MEPC];
     word_t mstatus = cpu.csr[CSR_MSTATUS];
 
@@ -244,15 +252,12 @@ static int decode_exec(Decode *s) {
     cpu.csr[CSR_MSTATUS] = mstatus;
 
     for (int i = 0; i < 32; i++) {
-      printf("  gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
+      printf("interrupt after:  gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
       // 每打印4个寄存器换一行，方便阅读
       // if ((i + 1) % 4 == 0) {
       //   printf("\n");
       // }
     }
-
-
-
   });
 
   INSTPAT("???????????? ????? 010 ????? 1110011", csrr, I, R(rd) = cpu.csr[imm]);
