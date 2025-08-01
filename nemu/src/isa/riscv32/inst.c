@@ -249,7 +249,7 @@ static int decode_exec(Decode *s) {
 
     cpu.csr[CSR_MSTATUS] = mstatus;
 
-#ifdef CONFIG_INTERRUPT_TRACE
+
     printf("\033[1;33minterrupte after:\033[0m\n");
     for (int i = 0; i < 32; i++)
     {
@@ -261,7 +261,7 @@ static int decode_exec(Decode *s) {
     printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
     printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
     printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
-#endif
+
   });
 
   INSTPAT("???????????? ????? 010 ????? 1110011", csrr, I, R(rd) = cpu.csr[imm]);
