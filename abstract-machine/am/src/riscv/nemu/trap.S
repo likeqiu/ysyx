@@ -38,7 +38,7 @@ f(30) f(31)
 #define OFFSET_EPC    ((NR_REGS + 2) * XLEN)
 
 
-
+#我自己添加的，注意注意
 # ========== 通用SP追踪宏定义 ==========
 # 这个宏可以在任何地方插入，完全不影响原有逻辑
 
@@ -74,7 +74,7 @@ f(30) f(31)
     LOAD t2, 56(sp)
     addi sp, sp, 64               # 恢复栈指针
 .endm
-
+#我自己添加的，注意注意
 
 .align 3
 .globl __am_asm_trap
@@ -98,8 +98,11 @@ __am_asm_trap:
   csrw mstatus, t1
  
   TRACE_SP  
+
   mv a0, sp
+  TRACE_SP  
   call __am_irq_handle
+  TRACE_SP  
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
