@@ -7,11 +7,11 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 Context* __am_irq_handle(Context *c) {
 
 
-  printf("\033[1;33minterrupt during:\033[0m\n");
+  printf("\033[1;33minterrupt during 1.0:\033[0m\n");
   printf("\n[AM] IRQ handled, context at: %p\n", c);
-  printf("  mepc   : 0x%08x\n", c->mepc);
-  printf("  mcause : 0x%08x (%d)\n", c->mcause, c->mcause);
-  printf("  mstatus: 0x%08x\n", c->mstatus);
+  printf(" mepc   : 0x%08x\n", c->mepc);
+  printf(" mcause : 0x%08x (%d)\n", c->mcause, c->mcause);
+  printf(" mstatus: 0x%08x\n", c->mstatus);
 
 
   const char *reg_names[] = {"$0 ", "ra ", "sp ", "gp ", "tp ", "t0 ", "t1 ",
@@ -49,6 +49,16 @@ Context* __am_irq_handle(Context *c) {
 
     c = user_handler(ev, c);
     assert(c != NULL);
+  }
+
+  printf("\033[1;33minterrupt during 2.0:\033[0m\n");
+  printf("\n[AM] IRQ handled, context at: %p\n", c);
+  printf(" mepc   : 0x%08x\n", c->mepc);
+  printf(" mcause : 0x%08x (%d)\n", c->mcause, c->mcause);
+  printf(" mstatus: 0x%08x\n", c->mstatus);
+
+  for (int i = 0; i < 32; i++) {
+    printf("  gpr[%2d](%s): 0x%08x\n", i, reg_names[i], c->gpr[i]);
   }
 
   return c;
