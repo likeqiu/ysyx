@@ -6,7 +6,7 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
 
-/*
+
   printf("\033[1;33minterrupt during:\033[0m\n");
   printf("\n[AM] IRQ handled, context at: %p\n", c);
   printf("  mepc   : 0x%08x\n", c->mepc);
@@ -27,7 +27,7 @@ Context* __am_irq_handle(Context *c) {
     printf("  gpr[%2d](%s): 0x%08x\n", i, reg_names[i], c->gpr[i]);
   }
 
-  */
+  
 
 
   if (user_handler) {
