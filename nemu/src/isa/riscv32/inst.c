@@ -249,16 +249,15 @@ static int decode_exec(Decode *s) {
 
     cpu.csr[CSR_MSTATUS] = mstatus;
 
+#ifdef CONFIG_INTERRUPT_TRACE
     printf("interrupt after :\n");
     for (int i = 0; i < 32; i++)
     {
       
       printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
-      // 每打印4个寄存器换一行，方便阅读
-      // if ((i + 1) % 4 == 0) {
-      //   printf("\n");
-      // }
+
     }
+    #endif
   });
 
   INSTPAT("???????????? ????? 010 ????? 1110011", csrr, I, R(rd) = cpu.csr[imm]);
@@ -268,14 +267,13 @@ static int decode_exec(Decode *s) {
   });
 
   INSTPAT("0000000 00000 00000 000 00000 1110011", ecall, N, {
+    #ifdef CONFIG_INTERRUPT_TRACE
     printf("interrupt before :\n");
     for (int i = 0; i < 32; i++) {
       printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
-      // 每打印4个寄存器换一行，方便阅读
-      // if ((i + 1) % 4 == 0) {
-      //   printf("\n");
-      // }
+
     }
+    #endif
     vaddr_t handler_addr = isa_raise_intr(11, s->pc);
     s->dnpc = handler_addr;
   });

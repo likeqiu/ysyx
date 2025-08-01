@@ -165,6 +165,11 @@ config DTRACE
   default n    
   help
 
+config INTERRUPT_TRACE
+  bool "INTERRUPT_TRACE"
+  default n    
+  help
+
 config FTRACE
 bool "Enable to use frace"
 default n    
