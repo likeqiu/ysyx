@@ -2,10 +2,14 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+
+//搭配trap.s使用可追踪汇编过程的寄存器变化
+/*
  void printf_SP(uintptr_t sp) {
 
    printf("sp:0x%08x\n", sp);
 }
+*/
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 
