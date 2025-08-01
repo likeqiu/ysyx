@@ -56,6 +56,8 @@ Context* __am_irq_handle(Context *c) {
     assert(c != NULL);
   }
 
+
+  /*
   
  // c->gpr[1] = 0x80000000;测试恢复的是这个函数的返回内容
 
@@ -68,7 +70,7 @@ Context* __am_irq_handle(Context *c) {
   for (int i = 0; i < 32; i++) {
     printf("  gpr[%2d]: 0x%08x\n", i,  c->gpr[i]);
   }
-
+*/
   return c;
 }
 
