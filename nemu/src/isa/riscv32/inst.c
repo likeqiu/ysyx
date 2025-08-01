@@ -227,12 +227,11 @@ static int decode_exec(Decode *s) {
 
   INSTPAT("0011000 00010 00000 000 00000 11100 11", mret, N, {
 
+    //验证 靠谁恢复
 #ifdef CONFIG_INTERRUPT_TRACE
     printf("\033[1;33m cpu reg interrupte after:\033[0m\n");
-    for (int i = 0; i < 32; i++) {
-
-      printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
-    }
+     for (int i = 0; i < 32; i++) {
+     printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);}
 
     printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
     printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
@@ -259,6 +258,19 @@ static int decode_exec(Decode *s) {
     mstatus &= ~((1U << 12) | (1U << 11));
 
     cpu.csr[CSR_MSTATUS] = mstatus;
+
+    /*
+    //查看这三个寄存器的变化
+#ifdef CONFIG_INTERRUPT_TRACE
+    printf("\033[1;33m cpu reg interrupte after:\033[0m\n");
+    // for (int i = 0; i < 32; i++) {
+    // printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);}
+
+    printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
+    printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
+    printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
+
+#endif*/
   });
 
   INSTPAT("???????????? ????? 010 ????? 1110011", csrr, I,
@@ -269,6 +281,8 @@ static int decode_exec(Decode *s) {
 
   INSTPAT("0000000 00000 00000 000 00000 1110011", ecall, N, {
 
+
+    //检查复制的对不对
 #ifdef CONFIG_INTERRUPT_TRACE
     printf("\033[1;33 cpu reg minterrupte before:\033[0m\n");
     for (int i = 0; i < 32; i++) {
