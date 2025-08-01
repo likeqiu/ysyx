@@ -224,8 +224,9 @@ static int decode_exec(Decode *s) {
     s->dnpc = s->pc + imm;
   track_branch(s, taken, s->pc + imm, "bgeu");
 });
+  
 
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret, N, {
+INSTPAT("0011000 00010 00000 000 00000 11100 11", mret, N, {
 
 
 
@@ -249,7 +250,7 @@ static int decode_exec(Decode *s) {
 
     cpu.csr[CSR_MSTATUS] = mstatus;
 
-
+#ifdef CONFIG_INTERRUPT_TRACE
     printf("\033[1;33minterrupte after:\033[0m\n");
     for (int i = 0; i < 32; i++)
     {
@@ -262,31 +263,32 @@ static int decode_exec(Decode *s) {
     printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
     printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
 
+    #endif
+
   });
 
-  INSTPAT("???????????? ????? 010 ????? 1110011", csrr, I, R(rd) = cpu.csr[imm]);
+INSTPAT("???????????? ????? 010 ????? 1110011", csrr, I, R(rd) = cpu.csr[imm]);
 
-  INSTPAT("??????? ????? ????? 001 ????? 1110011", csrw, I, {
-    cpu.csr[imm] = src1;
-  });
+INSTPAT("??????? ????? ????? 001 ????? 1110011", csrw, I,
+        { cpu.csr[imm] = src1; });
 
-  INSTPAT("0000000 00000 00000 000 00000 1110011", ecall, N, {
+INSTPAT("0000000 00000 00000 000 00000 1110011", ecall, N, {
 
 #ifdef CONFIG_INTERRUPT_TRACE
-    printf("\033[1;33minterrupte before:\033[0m\n");
-    for (int i = 0; i < 32; i++) {
-      printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
+  printf("\033[1;33minterrupte before:\033[0m\n");
+  for (int i = 0; i < 32; i++) {
+    printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
+  }
 
-    }
-
-    printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
-    printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
-    printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
+  printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
+  printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
+  printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
 
 #endif
-    vaddr_t handler_addr = isa_raise_intr(11, s->pc);
-    s->dnpc = handler_addr;
-  });
+
+  vaddr_t handler_addr = isa_raise_intr(11, s->pc);
+  s->dnpc = handler_addr;
+});
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak, N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv, N, INV(s->pc));
 
