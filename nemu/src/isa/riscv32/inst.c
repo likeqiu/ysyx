@@ -257,9 +257,10 @@ static int decode_exec(Decode *s) {
 
     cpu.csr[CSR_MSTATUS] = mstatus;
 
+    printf("interrupt after :\n");
     for (int i = 0; i < 32; i++)
     {
-      printf("interrupt before :\n");
+      
       printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
       // 每打印4个寄存器换一行，方便阅读
       // if ((i + 1) % 4 == 0) {
