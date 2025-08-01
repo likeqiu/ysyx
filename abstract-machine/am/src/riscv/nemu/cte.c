@@ -2,8 +2,11 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
-Context *printf_SP(Context *c) { printf("sp:0x%08x\n", c->gpr[2]);
-  return c;
+ void printf_SP(uintptr_t sp) {
+   
+   asm volatile("mv t0, a0"); // 备份
+   printf("sp:0x%08x\n", sp);
+   asm volatile("mv a0, t0");
 }
 
 static Context* (*user_handler)(Event, Context*) = NULL;
