@@ -42,8 +42,8 @@ f(30) f(31)
 __am_asm_trap:
   addi sp, sp, -CONTEXT_SIZE
       
-  mv a0, sp
-  call printf_SP
+  #mv a0, sp
+  #call printf_SP
   MAP(REGS, PUSH)
 
   csrr t0, mcause
