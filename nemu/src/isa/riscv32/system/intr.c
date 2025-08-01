@@ -21,7 +21,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
    * Then return the address of the interrupt/exception vector.
    */
  
-   
+
   cpu.csr[CSR_MEPC] = epc;
   cpu.csr[CSR_MCAUSE] = NO;
 
@@ -40,7 +40,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 
   word_t handler_addr = cpu.csr[CSR_MTVEC];
 
-  printf("异常地址入口:0x%08x\n", handler_addr);
+  //printf("异常地址入口:0x%08x\n", handler_addr);
 
   return handler_addr;
 }
