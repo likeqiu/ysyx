@@ -43,9 +43,8 @@ __am_asm_trap:
   addi sp, sp, -CONTEXT_SIZE
       
   mv a0, sp
-  mv t3, a0       # 暂存到 t3
   call printf_SP  # 用 t3 也行
-  mv a0, t3 
+
 
   MAP(REGS, PUSH)
 
@@ -61,8 +60,6 @@ __am_asm_trap:
   li a0, (1 << 17)
   or t1, t1, a0
   csrw mstatus, t1
-   
- 
 
   mv a0, sp
   call __am_irq_handle
