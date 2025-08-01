@@ -11,6 +11,7 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
 
+  /*
 
   printf("\033[1;33m cte regs interrupt during 1.0:\033[0m\n");
   printf("\n[AM] IRQ handled, context at: %p\n", c);
@@ -32,7 +33,7 @@ Context* __am_irq_handle(Context *c) {
     printf("  gpr[%2d](%s): 0x%08x\n", i, reg_names[i], c->gpr[i]);
   }
 
-  
+  */
 
 
   if (user_handler) {
@@ -56,6 +57,7 @@ Context* __am_irq_handle(Context *c) {
     assert(c != NULL);
   }
 
+  /*
  // c->gpr[1] = 0x80000000;测试恢复的是这个函数的返回内容
 
   printf("\033[1;33m cte regs interrupt during 2.0:\033[0m\n");
@@ -66,7 +68,7 @@ Context* __am_irq_handle(Context *c) {
 
   for (int i = 0; i < 32; i++) {
     printf("  gpr[%2d](%s): 0x%08x\n", i, reg_names[i], c->gpr[i]);
-  }
+  }*/
 
   return c;
 }

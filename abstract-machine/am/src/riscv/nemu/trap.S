@@ -41,7 +41,9 @@ f(30) f(31)
 .globl __am_asm_trap
 __am_asm_trap:
   addi sp, sp, -CONTEXT_SIZE
-
+      
+  mv a0, sp
+  call printf_SP
   MAP(REGS, PUSH)
 
   csrr t0, mcause
@@ -57,6 +59,8 @@ __am_asm_trap:
   or t1, t1, a0
   csrw mstatus, t1
 
+  mv a0, sp
+  call printf_SP
   mv a0, sp
   call __am_irq_handle
 
