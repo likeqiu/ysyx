@@ -229,6 +229,7 @@ static int decode_exec(Decode *s) {
   });
 
   INSTPAT("000000000000 00000 000 00000 1110011", ecall, N, {
+    printf("22222\n");
     vaddr_t handler_addr = isa_raise_intr(11, s->pc);
     s->dnpc = handler_addr;
   });
