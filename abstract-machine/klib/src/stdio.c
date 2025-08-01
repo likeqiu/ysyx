@@ -18,7 +18,7 @@ static void reverse_str(char *start, int len) {
   }
 }
 
-// 修复：分离有符号和无符号整数转换
+
 static int itoa_signed(int num, char *buf, int base) {
   char *p = buf;
   unsigned int unum;
@@ -29,7 +29,6 @@ static int itoa_signed(int num, char *buf, int base) {
     return 1;
   }
 
-  // 修复：正确处理负数
   if (num < 0 && base == 10) {
     *p++ = '-';
     // 修复：避免溢出，正确转换为无符号数
