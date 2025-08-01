@@ -2,6 +2,11 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+
+void printf_SP(uintptr_t sp){
+  printf("sp:0x%08x\n", sp);
+}
+
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
@@ -20,7 +25,7 @@ Context* __am_irq_handle(Context *c) {
                              "s5 ", "s6 ", "s7 ", "s8 ", "s9 ", "s10", "s11",
                              "t3 ", "t4 ", "t5 ", "t6 "};
 
- 
+
 
   for (int i = 0; i < 32; i++)
   {
