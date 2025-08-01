@@ -4,9 +4,9 @@
 
  void printf_SP(uintptr_t sp) {
    
-   asm volatile("mv t0, a0"); // 备份
+   //asm volatile("mv t0, a0"); // 备份
    printf("sp:0x%08x\n", sp);
-   asm volatile("mv a0, t0");
+  // asm volatile("mv a0, t0");
 }
 
 static Context* (*user_handler)(Event, Context*) = NULL;
