@@ -5,10 +5,43 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
+
+  printf("\n[AM] IRQ handled, context at: %p\n", c);
+  printf("  mepc   : 0x%08x\n", c->mepc);
+  printf("  mcause : 0x%08x (%d)\n", c->mcause, c->mcause);
+  printf("  mstatus: 0x%08x\n", c->mstatus);
+
+  // 为了方便查看，我们可以创建一个寄存器名称数组
+  const char *reg_names[] = {"$0 ", "ra ", "sp ", "gp ", "tp ", "t0 ", "t1 ",
+                             "t2 ", "s0 ", "s1 ", "a0 ", "a1 ", "a2 ", "a3 ",
+                             "a4 ", "a5 ", "a6 ", "a7 ", "s2 ", "s3 ", "s4 ",
+                             "s5 ", "s6 ", "s7 ", "s8 ", "s9 ", "s10", "s11",
+                             "t3 ", "t4 ", "t5 ", "t6 "};
+
+  // 循环打印所有通用寄存器
+  for (int i = 0; i < 32; i++) {
+    printf("  gpr[%2d](%s): 0x%08x\n", i, reg_names[i], c->gpr[i]);
+    // 每打印4个寄存器换一行，方便阅读
+    // if ((i + 1) % 4 == 0) {
+    //   printf("\n");
+    // }
+  }
+
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
-      default: ev.event = EVENT_ERROR; break;
+      case 11:
+        ev.event = EVENT_YIELD;
+        ev.cause = c->mcause;
+        ev.ref   = c->mepc;
+        ev.msg = "Machine External Interrupt";
+        break;
+
+      default: 
+      ev.event = EVENT_ERROR;
+      ev.cause = c->mcause;
+      ev.ref = c->mepc;
+      break;
     }
 
     c = user_handler(ev, c);

@@ -19,6 +19,7 @@
 #include <cpu/decode.h>
 #include<ftrace.h>
 #include<mtrace.h>
+#include<csr.h>
 //#include<stdlib.h>
 
 #define R(i) gpr(i)
@@ -224,14 +225,33 @@ static int decode_exec(Decode *s) {
   track_branch(s, taken, s->pc + imm, "bgeu");
 });
 
-  INSTPAT("???????????? ????? 010 ????? 1110011", csrr, I,R(rd) = cpu.csr[imm]);
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret, N, {
+    s->dnpc = cpu.csr[CSR_MEPC];
+    word_t mstatus = cpu.csr[CSR_MSTATUS];
+
+    bool mpie = (mstatus >> 7) & 1;
+    if(mpie){
+      mstatus |= (1 << 3);
+
+    }else{
+      mstatus &= ~(1 << 3);
+    }
+
+    mstatus |= (1 << 7);
+
+    mstatus &= ~((1U << 12) | (1U << 11));
+
+    cpu.csr[CSR_MSTATUS] = mstatus;
+
+  });
+
+  INSTPAT("???????????? ????? 010 ????? 1110011", csrr, I, R(rd) = cpu.csr[imm]);
 
   INSTPAT("??????? ????? ????? 001 ????? 1110011", csrw, I, {
     cpu.csr[imm] = src1;
   });
 
-  INSTPAT("000000000000 00000 000 00000 1110011", ecall, N, {
-    
+  INSTPAT("0000000 00000 00000 000 00000 1110011", ecall, N, {
     vaddr_t handler_addr = isa_raise_intr(11, s->pc);
     s->dnpc = handler_addr;
   });
