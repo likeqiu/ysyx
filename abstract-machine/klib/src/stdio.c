@@ -72,6 +72,37 @@ static int utoa(unsigned int num, char *buf, int base) {
   return p - buf;
 }
 
+// 输出带格式的数字字符串（支持宽度和零填充）
+static void output_formatted_number(char *buf, int width, bool zero_pad,
+                                    OutputFunc out, void *data) {
+  int len = 0;
+  char *p = buf;
+  while (*p) {
+    len++;
+    p++;
+  }
+
+  // 如果需要填充
+  if (width > len) {
+    char pad_char = zero_pad ? '0' : ' ';
+    // 如果是负数且零填充，先输出负号
+    if (zero_pad && buf[0] == '-') {
+      out('-', data);
+      buf++;
+      len--;
+    }
+    // 填充
+    for (int i = 0; i < width - len; i++) {
+      out(pad_char, data);
+    }
+  }
+
+  // 输出数字
+  while (*buf) {
+    out(*buf++, data);
+  }
+}
+
 // 修复：长整型转换
 static int lltoa_signed(long long num, char *buf, int base) {
   char *p = buf;
@@ -112,7 +143,24 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
 
     p++;
 
+    // 解析格式说明符
+    bool zero_pad = false;
+    int width = 0;
     bool is_long = false;
+
+    // 检查零填充标志
+    if (*p == '0') {
+      zero_pad = true;
+      p++;
+    }
+
+    // 解析宽度
+    while (*p >= '0' && *p <= '9') {
+      width = width * 10 + (*p - '0');
+      p++;
+    }
+
+    // 检查长度修饰符
     if (*p == 'l') {
       is_long = true;
       p++;
@@ -133,16 +181,12 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
         long long num = va_arg(args, long long);
         char buf[64];
         lltoa_signed(num, buf, 10);
-        for (char *q = buf; *q; q++) {
-          out(*q, data);
-        }
+        output_formatted_number(buf, width, zero_pad, out, data);
       } else {
         int num = va_arg(args, int);
         char buf[32];
         itoa_signed(num, buf, 10);
-        for (char *q = buf; *q; q++) {
-          out(*q, data);
-        }
+        output_formatted_number(buf, width, zero_pad, out, data);
       }
       break;
     }
@@ -151,9 +195,17 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       unsigned int num = va_arg(args, unsigned int);
       char buf[32];
       utoa(num, buf, 16);
-      for (char *q = buf; *q; q++) {
-        out(*q, data);
-      }
+      output_formatted_number(buf, width, zero_pad, out, data);
+      break;
+    }
+    case 'p': {
+      // 新增：指针格式支持
+      void *ptr = va_arg(args, void *);
+      char buf[32];
+      utoa((unsigned long)ptr, buf, 16);
+      out('0', data);
+      out('x', data);
+      output_formatted_number(buf, 0, false, out, data);
       break;
     }
     case 'u': {
@@ -174,16 +226,12 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
           reverse_str(start, q - start);
         }
         *q = '\0';
-        for (char *r = buf; *r; r++) {
-          out(*r, data);
-        }
+        output_formatted_number(buf, width, zero_pad, out, data);
       } else {
         unsigned int num = va_arg(args, unsigned int);
         char buf[32];
         utoa(num, buf, 10);
-        for (char *q = buf; *q; q++) {
-          out(*q, data);
-        }
+        output_formatted_number(buf, width, zero_pad, out, data);
       }
       break;
     }
