@@ -51,7 +51,7 @@ Context* __am_irq_handle(Context *c) {
     assert(c != NULL);
   }
 
-  printf("\033[1;33minterrupt during 2.0:\033[0m\n");
+  printf("\033[1;33minterrupt during 3.0:\033[0m\n");
   printf("\n[AM] IRQ handled, context at: %p\n", c);
   printf(" mepc   : 0x%08x\n", c->mepc);
   printf(" mcause : 0x%08x (%d)\n", c->mcause, c->mcause);
