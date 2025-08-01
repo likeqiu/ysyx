@@ -14,15 +14,32 @@
 ***************************************************************************************/
 
 #include <isa.h>
+#include<csr.h>
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
    */
+  cpu.csr[CSR_MEPC] = epc;
+  cpu.csr[CSR_MCAUSE] = NO;
 
-  cpu.csr[0] = 0;
 
-  return 0;
+  word_t mstatus = cpu.csr[CSR_MSTATUS];
+
+  if ((mstatus >> 3) & 1) { 
+    mstatus |= (1 << 7);    
+  } else {
+    mstatus &= ~(1 << 7); 
+  }
+
+  mstatus &= ~(1 << 3);
+
+  cpu.csr[CSR_MSTATUS] = mstatus;
+
+  word_t handler_addr = cpu.csr[CSR_MTVEC];
+
+
+  return handler_addr;
 }
 
 word_t isa_query_intr() {
