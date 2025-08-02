@@ -242,23 +242,23 @@ static int decode_exec(Decode *s) {
 
        s->dnpc = cpu.csr[CSR_MEPC];
 
-      /* word_t mstatus = cpu.csr[CSR_MSTATUS];
+    // 这注释掉不符合标准，但是后边才需要处理
+    /* word_t mstatus = cpu.csr[CSR_MSTATUS];
 
-       bool mpie = (mstatus >> 7) & 1;
-       if (mpie) {
-         mstatus |= (1 << 3);
+     bool mpie = (mstatus >> 7) & 1;
+     if (mpie) {
+       mstatus |= (1 << 3);
 
-       } else {
-         mstatus &= ~(1 << 3);
-       }
+     } else {
+       mstatus &= ~(1 << 3);
+     }
 
-    mstatus |= (1 << 7);
+  mstatus |= (1 << 7);
 
-    mstatus &= ~((1U << 12) | (1U << 11));
+  mstatus &= ~((1U << 12) | (1U << 11));
 
-    cpu.csr[CSR_MSTATUS] = mstatus;*/
+  cpu.csr[CSR_MSTATUS] = mstatus;*/
 
-    
     //查看这三个寄存器的变化
 #ifdef CONFIG_ETRACE
     printf("\033[1;33m cpu system  reg interrupte after:\033[0m\n");

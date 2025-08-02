@@ -27,7 +27,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 
   cpu.csr[CSR_MEPC] = epc ;
 
-  
+  //这注释掉不符合标准，但是后边才需要处理
   /*
   word_t mstatus = cpu.csr[CSR_MSTATUS];
 
