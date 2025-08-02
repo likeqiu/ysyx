@@ -232,27 +232,24 @@ static int decode_exec(Decode *s) {
 #ifdef CONFIG_ETRACE
     printf("\033[1;33m cpu reg interrupte after:\033[0m\n");
      for (int i = 0; i < 32; i++) {
-     printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);}
+       printf(" %2s: 0x%08x\n", reg_name(i), cpu.gpr[i]);}
 
-    printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
-    printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
-    printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
+       printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
+       printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
+       printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
 
 #endif
 
-    s->dnpc = cpu.csr[CSR_MEPC];
-    word_t mstatus = cpu.csr[CSR_MSTATUS];
+       s->dnpc = cpu.csr[CSR_MEPC];
+       word_t mstatus = cpu.csr[CSR_MSTATUS];
 
-    bool mpie = (mstatus >> 7) & 1;
-    if(mpie)
-    {
-      mstatus |= (1 << 3);
+       bool mpie = (mstatus >> 7) & 1;
+       if (mpie) {
+         mstatus |= (1 << 3);
 
-    }
-    else
-    {
-      mstatus &= ~(1 << 3);
-    }
+       } else {
+         mstatus &= ~(1 << 3);
+       }
 
     mstatus |= (1 << 7);
 
@@ -265,7 +262,7 @@ static int decode_exec(Decode *s) {
 #ifdef CONFIG_ETRACE
     printf("\033[1;33m cpu system  reg interrupte after:\033[0m\n");
     // for (int i = 0; i < 32; i++) {
-    // printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);}
+    // printf(" %2s: 0x%08x\n", reg_name(i), cpu.gpr[i]);
 
     printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
     printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
@@ -287,7 +284,7 @@ static int decode_exec(Decode *s) {
 #ifdef CONFIG_ETRACE
     printf("\033[1;33, cpu reg interrupte before:\033[0m\n");
     for (int i = 0; i < 32; i++) {
-      printf(" gpr[%2s]: 0x%08x\n", reg_name(i), cpu.gpr[i]);
+      printf(" %2s: 0x%08x\n", reg_name(i), cpu.gpr[i]);
     }
 
     printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
@@ -302,7 +299,7 @@ static int decode_exec(Decode *s) {
 #ifdef CONFIG_ETRACE
     printf("\033[1;33m cpu system reg interrupte before:\033[0m\n");
     // for (int i = 0; i < 32; i++) {
-    // printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);}
+    // printf(" %2s: 0x%08x\n", reg_name(i), cpu.gpr[i]);
 
     printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
     printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
