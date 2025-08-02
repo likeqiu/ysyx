@@ -25,14 +25,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   
   cpu.csr[CSR_MCAUSE] = NO;
 
-
-  bool is_interrupt = (NO >> 31) & 1;
-  if(is_interrupt){
-    cpu.csr[CSR_MEPC] = epc;
-  }else{
-    cpu.csr[CSR_MEPC] = epc + 4;
-  }
-
+  cpu.csr[CSR_MEPC] = epc;
 
   word_t mstatus = cpu.csr[CSR_MSTATUS];
 

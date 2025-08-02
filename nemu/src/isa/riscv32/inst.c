@@ -275,7 +275,10 @@ static int decode_exec(Decode *s) {
           R(rd) = cpu.csr[imm]);
 
   INSTPAT("??????? ????? ????? 001 ????? 1110011", csrw, I,
-          { cpu.csr[imm] = src1; });
+          word_t old_val = cpu.csr[imm];
+          cpu.csr[imm] = src1;
+          R(rd) = old_val;
+        );
 
   INSTPAT("0000000 00000 00000 000 00000 1110011", ecall, N, {
 
