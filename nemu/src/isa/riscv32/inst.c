@@ -287,7 +287,7 @@ static int decode_exec(Decode *s) {
 #ifdef CONFIG_ETRACE
     printf("\033[1;33, cpu reg interrupte before:\033[0m\n");
     for (int i = 0; i < 32; i++) {
-      printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
+      printf(" gpr[%2s]: 0x%08x\n", reg_name(i), cpu.gpr[i]);
     }
 
     printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
