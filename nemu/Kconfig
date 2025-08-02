@@ -165,8 +165,8 @@ config DTRACE
   default n    
   help
 
-config INTERRUPT_TRACE
-  bool "INTERRUPT_TRACE"
+config ETRACE
+  bool "ETRACE"
   default n    
   help
 
