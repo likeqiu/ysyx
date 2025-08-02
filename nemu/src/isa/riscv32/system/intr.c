@@ -27,7 +27,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 
   cpu.csr[CSR_MEPC] = epc ;
 
-  /*
+  
   word_t mstatus = cpu.csr[CSR_MSTATUS];
 
   if ((mstatus >> 3) & 1) { 
@@ -39,7 +39,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   mstatus &= ~(1 << 3);
 
   cpu.csr[CSR_MSTATUS] = mstatus;
-  */
+  
 
   word_t handler_addr = cpu.csr[CSR_MTVEC];
 
