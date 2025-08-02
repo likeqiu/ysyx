@@ -25,7 +25,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   
   cpu.csr[CSR_MCAUSE] = NO;
 
-  cpu.csr[CSR_MEPC] = epc;
+  cpu.csr[CSR_MEPC] = epc + 4;
 
   word_t mstatus = cpu.csr[CSR_MSTATUS];
 

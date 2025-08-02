@@ -241,6 +241,7 @@ static int decode_exec(Decode *s) {
 #endif
 
        s->dnpc = cpu.csr[CSR_MEPC];
+       
        word_t mstatus = cpu.csr[CSR_MSTATUS];
 
        bool mpie = (mstatus >> 7) & 1;
