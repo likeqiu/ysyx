@@ -263,7 +263,7 @@ static int decode_exec(Decode *s) {
     
     //查看这三个寄存器的变化
 #ifdef CONFIG_ETRACE
-    printf("\033[1;33m cpu reg interrupte after:\033[0m\n");
+    printf("\033[1;33m cpu system  reg interrupte after:\033[0m\n");
     // for (int i = 0; i < 32; i++) {
     // printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);}
 
@@ -285,7 +285,7 @@ static int decode_exec(Decode *s) {
 
     //检查复制的对不对
 #ifdef CONFIG_ETRACE
-    printf("\033[1;33 cpu reg minterrupte before:\033[0m\n");
+    printf("\033[1;33, cpu reg interrupte before:\033[0m\n");
     for (int i = 0; i < 32; i++) {
       printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);
     }
@@ -300,7 +300,7 @@ static int decode_exec(Decode *s) {
     s->dnpc = handler_addr;
 
 #ifdef CONFIG_ETRACE
-    printf("\033[1;33m cpu reg interrupte after:\033[0m\n");
+    printf("\033[1;33m cpu system reg interrupte before:\033[0m\n");
     // for (int i = 0; i < 32; i++) {
     // printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);}
 
