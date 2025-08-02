@@ -241,8 +241,8 @@ static int decode_exec(Decode *s) {
 #endif
 
        s->dnpc = cpu.csr[CSR_MEPC];
-       
-       word_t mstatus = cpu.csr[CSR_MSTATUS];
+
+      /* word_t mstatus = cpu.csr[CSR_MSTATUS];
 
        bool mpie = (mstatus >> 7) & 1;
        if (mpie) {
@@ -256,7 +256,7 @@ static int decode_exec(Decode *s) {
 
     mstatus &= ~((1U << 12) | (1U << 11));
 
-    cpu.csr[CSR_MSTATUS] = mstatus;
+    cpu.csr[CSR_MSTATUS] = mstatus;*/
 
     
     //查看这三个寄存器的变化
