@@ -25,7 +25,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   
   cpu.csr[CSR_MCAUSE] = NO;
 
-  cpu.csr[CSR_MEPC] = epc + 4 ;
+  cpu.csr[CSR_MEPC] = epc ;
 
   /*
   word_t mstatus = cpu.csr[CSR_MSTATUS];
@@ -41,9 +41,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.csr[CSR_MSTATUS] = mstatus;
   */
 
-  printf("0x%08x\n", cpu.csr[CSR_MSTATUS]);
-  word_t handler_addr =
-      cpu.csr[CSR_MTVEC];
+  word_t handler_addr = cpu.csr[CSR_MTVEC];
 
   //printf("异常地址入口:0x%08x\n", handler_addr);
 
