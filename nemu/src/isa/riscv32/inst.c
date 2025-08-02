@@ -227,7 +227,7 @@ static int decode_exec(Decode *s) {
 
   INSTPAT("0011000 00010 00000 000 00000 11100 11", mret, N, {
 
-    /*
+    
     //验证 靠谁恢复
 #ifdef CONFIG_INTERRUPT_TRACE
     printf("\033[1;33m cpu reg interrupte after:\033[0m\n");
@@ -238,7 +238,7 @@ static int decode_exec(Decode *s) {
     printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
     printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
 
-#endif*/
+#endif
 
     s->dnpc = cpu.csr[CSR_MEPC];
     word_t mstatus = cpu.csr[CSR_MSTATUS];
@@ -298,6 +298,18 @@ static int decode_exec(Decode *s) {
 
     vaddr_t handler_addr = isa_raise_intr(11, s->pc);
     s->dnpc = handler_addr;
+
+#ifdef CONFIG_INTERRUPT_TRACE
+    printf("\033[1;33m cpu reg interrupte after:\033[0m\n");
+    // for (int i = 0; i < 32; i++) {
+    // printf(" gpr[%2d]: 0x%08x\n", i, cpu.gpr[i]);}
+
+    printf(" mepc   : 0x%08x\n", cpu.csr[CSR_MEPC]);
+    printf(" mcause : 0x%08x\n", cpu.csr[CSR_MCAUSE]);
+    printf(" mstatus: 0x%08x\n", cpu.csr[CSR_MSTATUS]);
+
+#endif
+
   });
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak, N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv, N, INV(s->pc));
