@@ -242,7 +242,7 @@ static int decode_exec(Decode *s) {
 
        s->dnpc = cpu.csr[CSR_MEPC];
 
-    // 这注释掉不符合标准，但是后边才需要处理
+    // 这注释掉不符合标准，但是当前测试程序不支持，后边才需要处理
     /* word_t mstatus = cpu.csr[CSR_MSTATUS];
 
      bool mpie = (mstatus >> 7) & 1;
@@ -275,14 +275,16 @@ static int decode_exec(Decode *s) {
   INSTPAT("???????????? ????? 010 ????? 1110011", csrr, I,
           R(rd) = cpu.csr[imm]);
 
-  INSTPAT("??????? ????? ????? 001 ????? 1110011", csrw, I,
+  //csrw是伪指令        
+  INSTPAT("??????? ????? ????? 001 ????? 1110011", csrrw, I,
           word_t old_val = cpu.csr[imm];
           cpu.csr[imm] = src1;
           R(rd) = old_val;
         );
 
-  INSTPAT("0000000 00000 00000 000 00000 1110011", ecall, N, {
 
+
+  INSTPAT("0000000 00000 00000 000 00000 1110011", ecall, N, {
 
     //检查复制的对不对
 #ifdef CONFIG_ETRACE

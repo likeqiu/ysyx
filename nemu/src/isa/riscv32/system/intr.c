@@ -27,14 +27,14 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 
   cpu.csr[CSR_MEPC] = epc ;
 
-  //这注释掉不符合标准，但是后边才需要处理
+  // 这注释掉不符合标准，，但是当前测试程序不支持，后边才需要处理
   /*
   word_t mstatus = cpu.csr[CSR_MSTATUS];
 
-  if ((mstatus >> 3) & 1) { 
-    mstatus |= (1 << 7);    
+  if ((mstatus >> 3) & 1) {
+    mstatus |= (1 << 7);
   } else {
-    mstatus &= ~(1 << 7); 
+    mstatus &= ~(1 << 7);
   }
 
   mstatus &= ~(1 << 3);
