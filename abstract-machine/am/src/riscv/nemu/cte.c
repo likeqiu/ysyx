@@ -17,13 +17,19 @@ Context* __am_irq_handle(Context *c) {
 
   if (user_handler) {
     Event ev = {0};
-
-    // 根据mcause判断事件类型
-    if (c->mcause == 11) { // Environment call from M-mode (ecall)
+    switch (c->mcause) {
+    case 11:
       ev.event = EVENT_YIELD;
-      c->mepc += 4; // 重要！跳过ecall指令，避免无限循环
-    } else {
+      ev.cause = c->mcause;
+      ev.ref = c->mepc;
+      ev.msg = "Machine External Interrupt";
+      break;
+
+    default:
       ev.event = EVENT_ERROR;
+      ev.cause = c->mcause;
+      ev.ref = c->mepc;
+      break;
     }
 
     c = user_handler(ev, c);
