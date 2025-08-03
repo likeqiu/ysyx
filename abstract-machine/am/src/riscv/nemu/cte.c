@@ -52,19 +52,30 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   return true;
 }
 
+extern void __am_kcontext_start(void);
+
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
-  Context *ctx = (Context *)((uintptr_t)kstack.end - sizeof(Context));
+  Context *c = (Context *)((char *)kstack.end - sizeof(Context));
 
-  memset(ctx, 0, sizeof(Context));
-  ctx->mepc = (uintptr_t)entry;
+  // 清零上下文结构体
+  memset(c, 0, sizeof(Context));
 
-  ctx->gpr[10] = (uintptr_t)arg;
+  // 设置程序计数器为kcontext_start入口
+  c->mepc = (uintptr_t)__am_kcontext_start;
 
-  ctx->mstatus = 0x1800;
+  // 设置栈指针，指向Context结构体之前的位置
+  // 预留16字节用于栈对齐和函数调用
+  c->gpr[2] = (uintptr_t)c - 16; // sp寄存器是x2
 
-  return ctx;
+  // 设置参数寄存器
+  c->gpr[10] = (uintptr_t)arg;   // a0寄存器是x10，传递arg参数
+  c->gpr[11] = (uintptr_t)entry; // a1寄存器是x11，传递entry函数指针
 
+  // 设置mstatus寄存器，确保中断可以被处理
+  c->mstatus = 0x1800; // 设置MPP=11(Machine mode)
+
+  return c;
 }
 
 void yield() {
