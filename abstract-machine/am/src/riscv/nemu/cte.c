@@ -15,22 +15,15 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
 
-
   if (user_handler) {
     Event ev = {0};
-    switch (c->mcause) {
-      case 11:
-        ev.event = EVENT_YIELD;
-        ev.cause = c->mcause;
-        ev.ref   = c->mepc;
-        ev.msg = "Machine External Interrupt";
-        break;
 
-      default: 
+    // 根据mcause判断事件类型
+    if (c->mcause == 11) { // Environment call from M-mode (ecall)
+      ev.event = EVENT_YIELD;
+      c->mepc += 4; // 重要！跳过ecall指令，避免无限循环
+    } else {
       ev.event = EVENT_ERROR;
-      ev.cause = c->mcause;
-      ev.ref = c->mepc;
-      break;
     }
 
     c = user_handler(ev, c);
@@ -55,8 +48,8 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 extern void __am_kcontext_start(void);
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-
-  Context *c = (Context *)((char *)kstack.end - sizeof(Context));
+  // 在栈顶分配Context结构体空间，注意要对齐
+  Context *c = (Context *)(((uintptr_t)kstack.end - sizeof(Context)) & ~0xF);
 
   // 清零上下文结构体
   memset(c, 0, sizeof(Context));
@@ -64,16 +57,16 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   // 设置程序计数器为kcontext_start入口
   c->mepc = (uintptr_t)__am_kcontext_start;
 
-  // 设置栈指针，指向Context结构体之前的位置
-  // 预留16字节用于栈对齐和函数调用
-  c->gpr[2] = (uintptr_t)c - 16; // sp寄存器是x2
+  // 设置栈指针 - 关键修正！
+  // sp应该指向Context结构体的起始位置，因为trap处理会减去CONTEXT_SIZE
+  c->gpr[2] = (uintptr_t)kstack.end; // sp寄存器是x2
 
   // 设置参数寄存器
-  c->gpr[10] = (uintptr_t)arg;   // a0寄存器是x10，传递arg参数
-  c->gpr[11] = (uintptr_t)entry; // a1寄存器是x11，传递entry函数指针
+  c->gpr[10] = (uintptr_t)arg;   // a0寄存器是x10
+  c->gpr[11] = (uintptr_t)entry; // a1寄存器是x11
 
-  // 设置mstatus寄存器，确保中断可以被处理
-  c->mstatus = 0x1800; // 设置MPP=11(Machine mode)
+  // 设置mstatus寄存器 - 重要！
+  c->mstatus = 0x1800; // MPP=11 (Machine mode), 允许中断
 
   return c;
 }
