@@ -22,6 +22,7 @@ Context* __am_irq_handle(Context *c) {
       ev.event = EVENT_YIELD;
       ev.cause = c->mcause;
       ev.ref = c->mepc;
+      c->mepc += 4;
       ev.msg = "Machine External Interrupt";
       break;
 
