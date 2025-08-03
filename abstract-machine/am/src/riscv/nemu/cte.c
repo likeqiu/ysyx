@@ -69,7 +69,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   c->gpr[2] = (uintptr_t)kstack.end; // sp寄存器是x2
 
   // 设置参数寄存器
-  c->gpr[10] = (uintptr_t)arg;   // a0寄存器是x10
+ // c->gpr[10] = (uintptr_t)arg;   // a0寄存器是x10
   c->gpr[11] = (uintptr_t)entry; // a1寄存器是x11
 
   // 设置mstatus寄存器 - 重要！
