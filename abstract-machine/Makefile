@@ -2,6 +2,8 @@
 html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
 .PHONY: html
+# - 使用 cat 读取 Makefile，通过 sed 将非注释行缩进 4 个空格。
+# - 将处理后的内容传递给 markdown_py，生成 HTML 文件 Makefile.html。
 
 ## 1. Basic Setup and Checks
 
@@ -230,8 +232,6 @@ ifneq ($(filter $(ARCH),native),)
 	@$(CXX) -o $@ -Wl,--whole-archive $(LINKAGE) -Wl,-no-whole-archive $(LDFLAGS_CXX)
 else
 	@$(LD) $(LDFLAGS) -o $@ --start-group $(LINKAGE) --end-group
-
-
 endif
 # 链接生成 ELF 文件：
 # - 将目标文件和库链接为 $(IMAGE).elf。
@@ -288,3 +288,5 @@ $(CLEAN_ALL):
 # - CLEAN_ALL: 查找深度 2 以内的子目录中的 Makefile 所在目录。
 # - 递归调用 make clean 清理子项目。
 # - -@: 忽略子项目清理中的错误。
+
+

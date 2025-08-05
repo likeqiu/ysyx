@@ -72,7 +72,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   c->gpr[10] = (uintptr_t)arg;   // a0寄存器是x10
   c->gpr[11] = (uintptr_t)entry; // a1寄存器是x11
 
-  // 设置mstatus寄存器 - 重要！
+
   c->mstatus = 0x1800; // MPP=11 (Machine mode), 允许中断
 
   return c;
