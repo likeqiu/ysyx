@@ -57,10 +57,12 @@ end
         update_cpu_state(pc,rf);
         `endif
 
-        mstatus = 32'h0; 
+        /* mstatus = 32'h0; 
         mtvec   = 32'h0; 
         mepc    = 32'h0;
         mcause  = 32'h0;
+        */
+
     end
 
 `endif 
