@@ -15,7 +15,15 @@ module ysyx_25040109_EXU (
     input inst_invalid,  
     output [31:0] result,
     output [4:0] rd_addr_out,  
-    output [31:0] next_pc
+    output [31:0] next_pc,
+
+    input [11:0] csr_addr,
+    input [31:0] csr_rdata,
+    input [31:0] mepc,
+    input [31:0] mtvec,
+
+    output reg csr_we_out,
+    output [31:0] csr_wdata_out
 );
    
 
@@ -131,6 +139,20 @@ module ysyx_25040109_EXU (
     end
 
 
+    assign csr_wdata_out = rs1_data;
+    always @(*) begin
+        csr_we_out = (opcode == 7'b1110011 && funct3 == 3'b001 && !inst_invalid);
+    end
+
+
+    wire is_csr_op = (opcode == 7'b1110011);
+    assign result = (is_csr_op) ? csr_rdata : (opcode == 7'b1101111 || opcode==7'b1100111) ? pc + 4 : alu_out;
+
+    wire [11:0] funct12 = csr_addr;
+    wire is_ecall = (opcode == 7'b1110011) && (funct3 == 3'b000) && (funct12 == 12'h000);
+    wire is_mret  = (opcode == 7'b1110011) && (funct3 == 3'b000) && (funct12 == 12'h302);
+
+
     // 分支/跳转目标计算
     wire [31:0] jal_result      = pc + 4;
     wire [31:0] jal_target      = pc + imm;
@@ -162,18 +184,31 @@ module ysyx_25040109_EXU (
         })
     );
 
+
     // 下一 PC 的选择器
-    ysyx_25040109_MuxKeyWithDefault #(4, 7, 32) next_pc_select(
-        .out(next_pc),
-        .key(opcode),
-        .default_out(pc + 32'h4),     
-        .lut({
-            7'b1101111, jal_target,    
-            7'b1100111, jalr_target,   
-            7'b1100011, branch_taken ? branch_target : (pc + 4),
-            7'b1110011,  pc + 32'h4 
-        })
-    );
+
+     always @(*) begin
+        if (!inst_invalid) begin
+            if (is_ecall) begin
+                next_pc = mtvec; // ecall: 跳转到异常入口
+            end else if (is_mret) begin
+                next_pc = mepc;  // mret: 从异常返回
+            end else if (opcode == 7'b1101111) begin
+                next_pc = jal_target;
+            end else if (opcode == 7'b1100111) begin
+                next_pc = jalr_target;
+            end else if (branch_taken) begin
+                next_pc = branch_target;
+            end else begin
+                next_pc = pc + 4; // 默认顺序执行
+            end
+        end else begin
+            $finish;
+            $display("invalid inst");
+            //next_pc = pc + 4; // 无效指令, 也继续往下走 (或者可以设计成陷入异常)
+        end
+    end
+
 
     assign rd_addr_out = rd_addr;
     assign reg_write_en_out = reg_write_in && !inst_invalid;

@@ -22,21 +22,37 @@ module ysyx_25040109_top (
     wire step_en =1'b1;
     wire [6:0] opcode = inst_ifu[6:0];
         
-   // reg [31:0] trap_pc;
-   // reg [31:0] trap_cause;
+    wire [11:0] csr_addr;
+    wire [31:0] csr_rdata_from_regfile;
+    wire [31:0] csr_wdata_from_exu;
+    wire csr_we_from_exu;
+    wire [31:0] mepc_from_regfile;
+    wire [31:0] mtvec_from_regfile;
 
 
+    reg trap_state;
+    localparam S_NORMAL = 1'b0;
+    localparam S_TRAP_MCAUSE = 1'b1;
+    wire is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);  
 
-    
 
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            trap_state <= S_NORMAL;
+        end else if (is_ecall) begin 
+            trap_state <= S_TRAP_MCAUSE;
+        end else begin
+            trap_state <= S_NORMAL; 
+        end
+    end
 
-
+    wire pc_wen = !is_stalled_by_trap;
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
         .rst(rst),
         .din(next_pc),
         .dout(pc),
-        .wen(step_en)
+        .wen(pc_wen)
     );
 
     ysyx_25040109_IFU ifu (
@@ -55,7 +71,8 @@ module ysyx_25040109_top (
         .reg_write_en_idu(reg_write_en_idu),
         .funct3(funct3),
         .funct7(funct7),
-        .inst_invalid(inst_invalid)
+        .inst_invalid(inst_invalid),
+        .csr_addr(csr_addr)
     );
 
 
@@ -76,10 +93,49 @@ module ysyx_25040109_top (
         .result(result),
         .rd_addr_out(rd_addr_exu),
         .reg_write_en_out(reg_write_en_exu),
-        .next_pc(next_pc)
-        
+        .next_pc(next_pc),
+
+        .csr_addr(csr_addr),
+        .csr_rdata(csr_rdata_from_regfile),
+        .mepc(mepc_from_regfile),
+        .mtvec(mtvec_from_regfile),
+        .csr_we_out(csr_we_from_exu),
+        .csr_wdata_out(csr_wdata_from_exu)
 
     );
+
+
+    wire is_ecall = (opcode == 7'b1110011) && (funct3 == 3'b000) && (csr_addr == 12'h000) && !inst_invalid;
+
+    wire final_gpr_we = reg_write_en_exu && !is_stalled_by_trap;
+
+   wire is_store = (opcode == 7'b0100011);
+    wire final_mem_we = is_store && !inst_invalid && !is_stalled_by_trap;
+
+
+    wire [11:0] final_csr_waddr;
+    wire [31:0] final_csr_wdata;
+    wire final_csr_we;
+
+    assign final_csr_we = csr_we_from_exu || is_ecall;
+    assign final_csr_waddr = is_ecall ? 12'h341 : csr_addr;
+    assign final_csr_wdata = is_ecall ? pc : csr_wdata_from_exu;
+
+
+    localparam CSR_MEPC   = 12'h341;
+    localparam CSR_MCAUSE = 12'h342;
+    
+    assign final_csr_we = (is_stalled_by_trap) ? 1'b1 :               
+                          (is_ecall)           ? 1'b1 :                // ecall时, 强制写CSR
+                          csr_we_from_exu;                           // 正常情况
+
+    assign final_csr_waddr = (is_stalled_by_trap) ? CSR_MCAUSE :        // 暂停时, 写mcause
+                             (is_ecall)           ? CSR_MEPC   :        // ecall时, 写mepc
+                             csr_addr;                                 // 正常情况
+
+    assign final_csr_wdata = (is_stalled_by_trap) ? 32'd11 :           
+                             (is_ecall)           ? pc     :            
+                             csr_wdata_from_exu;    
 
 
 
@@ -88,12 +144,20 @@ module ysyx_25040109_top (
         .pc(pc),
         .wdata(writeback_data),
         .waddr(rd_addr_exu),
-        .wen(reg_write_en_exu && !inst_invalid),
+        .wen(final_gpr_we),
         .raddr1(inst_ifu[19:15]),
         .raddr2(inst_ifu[24:20]),
         .rdata1(rs1_data),
         .rdata2(rs2_data),
-        .a0_out(a0_out)
+        .a0_out(a0_out),
+
+        .csr_we(final_csr_we),
+        .csr_addr(final_csr_waddr),
+        .csr_wdata(final_csr_wdata),
+        .mepc_out(mepc_from_regfile),
+        .mtvec_out(mtvec_from_regfile),
+        .csr_rdata(csr_rdata_from_regfile)
+
 
     );
 
@@ -165,8 +229,7 @@ module ysyx_25040109_top (
    wire is_load =  (opcode == 7'b0000011) && 
                    (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
                     funct3 == 3'b100 || funct3 == 3'b101);
-    wire is_store = (opcode == 7'b0100011) && 
-                    (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010);
+
 
 
 
@@ -179,7 +242,7 @@ module ysyx_25040109_top (
       always @(posedge clk) begin
         if (!rst) begin
             // --- 同步写 (用于Store指令) ---
-            if (is_store && !inst_invalid) begin
+            if (final_mem_we) begin
                 case (funct3)
                     3'b000:
                     `ifndef SYNTHESIS

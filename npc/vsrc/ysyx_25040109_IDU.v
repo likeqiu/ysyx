@@ -5,13 +5,15 @@ module ysyx_25040109_IDU (
     output reg_write_en_idu,
     output [2:0] funct3,
     output [6:0] funct7,
-    output reg inst_invalid 
+    output reg inst_invalid,
+
+    output [11:0] csr_addr
 );
     wire [6:0] opcode = inst[6:0];
     assign funct3 = inst[14:12];
     assign funct7 = inst[31:25];
     assign rd_addr = inst[11:7];
-
+    assign csr_addr = inst[31:20];
 
 
 
@@ -51,7 +53,8 @@ module ysyx_25040109_IDU (
                           (opcode == 7'b1100111) || 
                           (opcode == 7'b0000011) || 
                           (opcode == 7'b0010011) || 
-                          (opcode == 7'b0110011); 
+                          (opcode == 7'b0110011) || 
+                          (opcode == 7'b1110011);
 
                               
     wire valid_lui    = (opcode == 7'b0110111);
@@ -121,17 +124,28 @@ module ysyx_25040109_IDU (
         (funct3 == 3'b110 && funct7 == 7'b0000001) ||         // REM
         (funct3 == 3'b111 && funct7 == 7'b0000001)            // REMU
     );
-    
-    // EBREAK指令检查
+
+    wire is_system_op = (opcode == 7'b1110011);
+    wire [11:0] funct12  = inst[31:20];
+
     wire valid_ebreak = (opcode == 7'b1110011) && 
                        (funct3 == 3'b000) && 
                        (inst[31:20] == 12'h001);
 
 
+
+    wire valid_system = is_system_op && (
+    // 第1部分：处理 ECALL, EBREAK, MRET
+    (funct3 == 3'b000 && (funct12 == 12'h000 || funct12 == 12'h001 || funct12 == 12'h302)) || 
+    // 第2部分：处理所有 CSR 读写指令
+    (funct3 == 3'b001 || funct3 == 3'b010 || funct3 == 3'b011 || funct3 == 3'b101 || funct3 == 3'b110 || funct3 == 3'b111));            
+
+
+
         always @(*) begin
         if (valid_lui || valid_auipc || valid_jal || valid_jalr ||
             valid_load || valid_store || valid_branch || 
-            valid_i_type || valid_r_type || valid_ebreak) begin
+            valid_i_type || valid_r_type || valid_system) begin
             inst_invalid = 1'b0;
         end else begin
             inst_invalid = 1'b1;

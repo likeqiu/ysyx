@@ -22,7 +22,7 @@ static void __am_timer_config(AM_TIMER_CONFIG_T *cfg) { cfg->present = true; cfg
 // 静态函数，处理输入设备配置
 static void __am_input_config(AM_INPUT_CONFIG_T *cfg) { cfg->present = true;  }
 // 静态函数，处理串口配置（未启用）
-static void __am_uart_config(AM_UART_CONFIG_T *cfg)   { cfg->present = true; }
+static void __am_uart_config(AM_UART_CONFIG_T *cfg)   { cfg->present = false; }
 // 静态函数，处理网络配置（未启用）
 static void __am_net_config (AM_NET_CONFIG_T *cfg)    { cfg->present = false; }
 

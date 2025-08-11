@@ -58,7 +58,8 @@ run: image
 # - $(IMAGE).elf: 执行生成的 ELF 文件，$(IMAGE) 是内核镜像的绝对路径，.elf 是可执行文件后缀。
 
 gdb: image
-	gdb -ex "handle SIGUSR1 SIGUSR2 SIGSEGV noprint nostop" $(IMAGE).elf
+#	gdb  --args $(IMAGE).elf
+	gdb  -ex "handle SIGUSR1 SIGUSR2 SIGSEGV noprint nostop" $(IMAGE).elf
 # gdb: 调试目标，用于通过 GDB 调试生成的 ELF 可执行文件。
 # - 依赖于 image 目标，确保在调试前已生成可执行文件。
 # - gdb -ex "handle SIGUSR1 SIGUSR2 SIGSEGV noprint nostop": 启动 GDB 并设置信号处理，忽略 SIGUSR1、SIGUSR2 和 SIGSEGV 信号（不打印、不停止）。
