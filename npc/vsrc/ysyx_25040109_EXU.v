@@ -203,6 +203,7 @@ module ysyx_25040109_EXU (
                 next_pc = pc + 4; // 默认顺序执行
             end
         end else begin
+            next_pc = 32'h0;
             $finish;
             $display("invalid inst");
             //next_pc = pc + 4; // 无效指令, 也继续往下走 (或者可以设计成陷入异常)
