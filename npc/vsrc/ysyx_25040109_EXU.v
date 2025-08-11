@@ -15,7 +15,7 @@ module ysyx_25040109_EXU (
     input inst_invalid,  
     output [31:0] result,
     output [4:0] rd_addr_out,  
-    output [31:0] next_pc,
+    output reg [31:0] next_pc,
 
     input [11:0] csr_addr,
     input [31:0] csr_rdata,
