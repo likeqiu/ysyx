@@ -124,9 +124,7 @@ end
     wire [11:0] final_csr_waddr;
     wire [31:0] final_csr_wdata;
     wire final_csr_we;
-    
-    assign final_csr_waddr = is_ecall ? 12'h341 : csr_addr;
-    assign final_csr_wdata = is_ecall ? pc : csr_wdata_from_exu;
+
 
 
     localparam CSR_MEPC   = 12'h341;
