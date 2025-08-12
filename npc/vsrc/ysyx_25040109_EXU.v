@@ -7,6 +7,7 @@ module ysyx_25040109_EXU (
     output reg_write_en_out, 
 
     input [4:0] rd_addr,   
+    input  [4:0]  rs1_addr, 
     input [31:0] pc,
     input [6:0] opcode,
     input [2:0] funct3,
@@ -23,7 +24,7 @@ module ysyx_25040109_EXU (
     input [31:0] mtvec,
 
     output reg csr_we_out,
-    output [31:0] csr_wdata_out
+    output reg [31:0] csr_wdata_out
 );
    
 
@@ -141,7 +142,26 @@ module ysyx_25040109_EXU (
 
     assign csr_wdata_out = rs1_data;
     always @(*) begin
-        csr_we_out = (opcode == 7'b1110011 && funct3 == 3'b001 && !inst_invalid);
+        csr_we_out = 1'b0;
+        csr_wdata_out = 32'h0;
+
+        if(opcode == 7'b1110011 && !inst_invalid)begin
+            case(funct3)
+            3'b001:begin
+                csr_we_out = 1'b1;
+                csr_wdata_out = rs1_data;
+            end
+            3'b010:begin
+                csr_we_out = (rs1_addr != 5'b0);
+                csr_wdata_out = csr_rdata | rs1_data;
+            end
+            default: begin
+                csr_we_out = 1'b0;
+                csr_wdata_out = 32'b0;
+            end
+
+        endcase
+        end
     end
 
 

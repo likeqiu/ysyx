@@ -28,7 +28,7 @@ module ysyx_25040109_top (
     wire csr_we_from_exu;
     wire [31:0] mepc_from_regfile;
     wire [31:0] mtvec_from_regfile;
-
+    wire [4:0] rs1_addr = inst_ifu[19:15];
 
     reg trap_state;
     localparam S_NORMAL = 1'b0;
@@ -85,6 +85,7 @@ module ysyx_25040109_top (
         .reg_write_in(reg_write_en_idu),
         .rd_addr(rd_addr_idu),
         .pc(pc), 
+        .rs1_addr(rs1_addr),
         .opcode(opcode), 
         .funct3(funct3),
         .funct7(funct7),
