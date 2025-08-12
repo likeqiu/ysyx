@@ -255,10 +255,13 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
                                 & (IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hd1deae94__0))));
         bufp->chgBit(oldp+115,(((0x63U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
                                 & ((IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_he2c0485b__0) 
-                                   | ((4U == (7U & 
+                                   | ((5U == (7U & 
                                               (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                                                >> 0xcU))) 
-                                      | (IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h92aa4f4c__0))))));
+                                      | ((4U == (7U 
+                                                 & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
+                                                    >> 0xcU))) 
+                                         | (IData)(vlSelf->ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h92aa4f4c__0)))))));
         bufp->chgBit(oldp+116,(((0x13U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
                                 & ((0U == (7U & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                                                  >> 0xcU))) 

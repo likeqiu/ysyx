@@ -135,11 +135,12 @@ module ysyx_25040109_IDU (
 
 
 
-    wire valid_system = is_system_op && (
-    // 第1部分：处理 ECALL, EBREAK, MRET
-    (funct3 == 3'b000 && (funct12 == 12'h000 || funct12 == 12'h001 || funct12 == 12'h302)) || 
-    // 第2部分：处理所有 CSR 读写指令
-    (funct3 == 3'b001 || funct3 == 3'b010 || funct3 == 3'b011 || funct3 == 3'b101 || funct3 == 3'b110 || funct3 == 3'b111));            
+        wire valid_system = is_system_op && (
+        (funct3 == 3'b000 && funct12 == 12'h000) || // ECALL
+        (funct3 == 3'b000 && funct12 == 12'h302) || // MRET
+        (funct3 == 3'b001) || // CSRRW
+        (funct3 == 3'b010)    // CSRRS
+    );            
 
 
 
