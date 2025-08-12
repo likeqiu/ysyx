@@ -21,7 +21,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__csr_we_from_exu;
         CData/*0:0*/ ysyx_25040109_top__DOT__trap_state;
         CData/*0:0*/ ysyx_25040109_top__DOT__is_ecall;
-        CData/*0:0*/ ysyx_25040109_top__DOT__final_csr_we;
         CData/*0:0*/ ysyx_25040109_top__DOT__is_load;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__valid_r_type;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hee48d914__0;
@@ -72,6 +71,7 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__mcause;
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__mtvec;
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i;
+        IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__unnamedblk2__DOT__i;
         IData/*31:0*/ __VdfgTmp_ha3c42dfe__0;
         IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__0__data;
         IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__7__data;

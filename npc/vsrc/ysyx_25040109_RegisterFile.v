@@ -17,7 +17,7 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
     input  [DATA_WIDTH-1:0]     csr_wdata,
     output reg [DATA_WIDTH-1:0] mepc_out,    
     output reg [DATA_WIDTH-1:0] mtvec_out,   
-    output [DATA_WIDTH-1:0]     csr_rdata   
+    output  [DATA_WIDTH-1:0]     csr_rdata   
     
     
 );
@@ -108,12 +108,6 @@ initial begin
 end
 `endif
 
-// 确保CSR读取逻辑正确
-assign csr_rdata = (csr_addr == CSR_MSTATUS) ? mstatus :
-                   (csr_addr == CSR_MTVEC)   ? mtvec   :
-                   (csr_addr == CSR_MEPC)    ? mepc    :
-                   (csr_addr == CSR_MCAUSE)  ? mcause  :
-                   32'h0;
 
 // 确保CSR写入逻辑正确
 always @(posedge clk) begin
