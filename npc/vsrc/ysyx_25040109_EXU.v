@@ -166,7 +166,9 @@ module ysyx_25040109_EXU (
 
 
     wire is_csr_op = (opcode == 7'b1110011);
-    assign result = (is_csr_op) ? csr_rdata : (opcode == 7'b1101111 || opcode==7'b1100111) ? pc + 4 : alu_out;
+    assign result = (is_csr_op)  ? csr_rdata :  
+                    (opcode == 7'b1101111 || 
+                     opcode == 7'b1100111)  ? jal_result :alu_out;   
 
     wire [11:0] funct12 = csr_addr;
     wire is_ecall = (opcode == 7'b1110011) && (funct3 == 3'b000) && (funct12 == 12'h000);
