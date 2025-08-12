@@ -1572,6 +1572,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mtvec = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__unnamedblk2__DOT__i = VL_RAND_RESET_I(32);
+    vlSelf->ysyx_25040109_top__DOT__regfile__DOT__unnamedblk3__DOT__i = 0;
     vlSelf->__VdfgTmp_h61070d84__0 = 0;
     vlSelf->__VdfgTmp_ha3c42dfe__0 = 0;
     vlSelf->__Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__0__data = 0;
