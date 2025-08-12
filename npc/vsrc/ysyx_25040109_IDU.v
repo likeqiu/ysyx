@@ -151,6 +151,7 @@ module ysyx_25040109_IDU (
             inst_invalid = 1'b0;
         end else begin
             inst_invalid = 1'b1;
+            $display("inst:0x%08x",inst);
         end
     end
 
