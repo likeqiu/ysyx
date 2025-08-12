@@ -33,6 +33,8 @@ int i=0;
 
     c = user_handler(ev, c);
     assert(c != NULL);
+    printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,
+           c->mstatus);
   }
 
   return c;
