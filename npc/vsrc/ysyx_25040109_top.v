@@ -276,9 +276,9 @@ module ysyx_25040109_top (
             `ifndef SYNTHESIS
             itrace_print(pc, inst_ifu, 4,p_count_number);
            
-            if (printf_finish(inst_ifu) == 0) begin
+           /* if (printf_finish(inst_ifu) == 0) begin
                 $finish;
-            end
+            end*/
              `endif
         end
     end

@@ -83,8 +83,9 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_initial__TOP(Vysyx_2504010
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[0x1eU] = 0U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[0x1fU] = 0U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i = 0x20U;
+    vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mepc = 0U;
+    vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mcause = 0U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mstatus = 0x1800U;
-    vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mtvec = 0x80000000U;
 }
 
 VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_final(Vysyx_25040109_top___024root* vlSelf) {
