@@ -45,7 +45,7 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
 
     mepc    = 32'h0;
     mcause  = 32'h0;
-    $display("mtvec:%x",mtvec);
+   $display("11111:%x\n",mtvec);
     mstatus = 32'h1800;        // 设置初始状态
 
 end
