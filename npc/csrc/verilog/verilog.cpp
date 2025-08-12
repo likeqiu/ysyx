@@ -38,7 +38,7 @@ extern "C" int printf_finish(uint32_t inst)
 
 extern "C" int printf_finish(uint32_t inst)
 {
-    if (inst == 0x00000073)
+    if (inst == 0x00100073 )
     {
         uint32_t a0 = top->a0_out;
         std::cout << "Finish program (" << (inst == 0x00100073 ? "EBREAK" : "ECALL")
