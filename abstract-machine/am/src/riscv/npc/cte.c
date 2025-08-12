@@ -1,4 +1,5 @@
 #include <am.h>
+#include <linux/limits.h>
 #include <riscv/riscv.h>
 #include <klib.h>
 
@@ -7,7 +8,12 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context *__am_irq_handle(Context *c) {
-  printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n",c->mepc,c->mcause,c->mstatus);
+  printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,
+         c->mstatus);
+int i=0;
+  for ( i = 0; i < NR_REGS; i++) {
+    printf("%d : 0x%08x\n",i,c->gpr[i]);
+  }
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {

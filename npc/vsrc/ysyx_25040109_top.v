@@ -47,13 +47,12 @@ always @(posedge clk) begin
                 end
             end
             S_TRAP_MCAUSE: begin
-                trap_state <= S_NORMAL; // 写入MCAUSE后返回
+                trap_state <= S_NORMAL;
             end
             default: trap_state <= S_NORMAL;
         endcase
     end
 end
-
     wire pc_wen = !is_stalled_by_trap;
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
         .clk(clk),
@@ -129,17 +128,6 @@ end
     assign final_csr_waddr = is_ecall ? 12'h341 : csr_addr;
     assign final_csr_wdata = is_ecall ? pc : csr_wdata_from_exu;
 
-assign final_csr_we = (trap_state == S_TRAP_MCAUSE) ? 1'b1 :    // 写MCAUSE
-                      (is_ecall && !is_stalled_by_trap) ? 1'b1 : // 写MEPC  
-                      csr_we_from_exu;                           // 正常CSR操作
-
-assign final_csr_waddr = (trap_state == S_TRAP_MCAUSE) ? CSR_MCAUSE : // 写MCAUSE
-                         (is_ecall && !is_stalled_by_trap) ? CSR_MEPC : // 写MEPC
-                         csr_addr;                                       // 正常地址
-
-assign final_csr_wdata = (trap_state == S_TRAP_MCAUSE) ? 32'd11 :      // MCAUSE值
-                         (is_ecall && !is_stalled_by_trap) ? pc :       // MEPC值
-                         csr_wdata_from_exu;     
 
     localparam CSR_MEPC   = 12'h341;
     localparam CSR_MCAUSE = 12'h342;

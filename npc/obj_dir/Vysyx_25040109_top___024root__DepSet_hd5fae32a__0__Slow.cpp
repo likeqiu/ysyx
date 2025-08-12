@@ -658,7 +658,8 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
     }
     vlSelf->ysyx_25040109_top__DOT__final_csr_we = 
         ((IData)(vlSelf->ysyx_25040109_top__DOT__trap_state) 
-         | ((IData)(vlSelf->ysyx_25040109_top__DOT__is_ecall) 
+         | (((~ (IData)(vlSelf->ysyx_25040109_top__DOT__trap_state)) 
+             & (IData)(vlSelf->ysyx_25040109_top__DOT__is_ecall)) 
             | (IData)(vlSelf->ysyx_25040109_top__DOT__csr_we_from_exu)));
     if (VL_UNLIKELY(vlSelf->ysyx_25040109_top__DOT__inst_invalid)) {
         VL_FINISH_MT("/home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_EXU.v", 227, "");

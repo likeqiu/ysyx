@@ -44,6 +44,7 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
 
     mepc    = 32'h0;
     mcause  = 32'h0;
+    $display("mtvec:%x",mtvec);
     mstatus = 32'h1800;        // 设置初始状态
 
 end
@@ -91,17 +92,53 @@ end
         mtvec_out = mtvec;
     end    
 
-    always @(posedge clk) begin
-        if (csr_we) begin
-            case (csr_addr)
-                CSR_MSTATUS: mstatus <= csr_wdata;
-                CSR_MTVEC:   mtvec   <= csr_wdata;
-                CSR_MEPC:    mepc    <= csr_wdata;
-                CSR_MCAUSE:  mcause  <= csr_wdata;
-                default:; 
-            endcase
-        end
+// 在RegisterFile模块中，确保CSR寄存器正确初始化
+`ifndef SYNTHESIS    
+initial begin
+    integer i;
+    for (i = 0; i < 32; i = i + 1) begin
+        rf[i] = 0;
     end
+    
+    // 这些初始化很关键！
+    mstatus = 32'h1800;     // 设置合理的初始值
+    mtvec   = 32'h80000000; // 异常处理入口地址
+    mepc    = 32'h0;
+    mcause  = 32'h0;
+end
+`endif
+
+// 确保CSR读取逻辑正确
+assign csr_rdata = (csr_addr == CSR_MSTATUS) ? mstatus :
+                   (csr_addr == CSR_MTVEC)   ? mtvec   :
+                   (csr_addr == CSR_MEPC)    ? mepc    :
+                   (csr_addr == CSR_MCAUSE)  ? mcause  :
+                   32'h0;
+
+// 确保CSR写入逻辑正确
+always @(posedge clk) begin
+    if (csr_we) begin
+        case (csr_addr)
+            CSR_MSTATUS: begin
+                mstatus <= csr_wdata;
+                $display("写入MSTATUS: 0x%08x", csr_wdata); // 调试用
+            end
+            CSR_MTVEC: begin
+                mtvec <= csr_wdata;
+                $display("写入MTVEC: 0x%08x", csr_wdata);
+            end
+            CSR_MEPC: begin
+                mepc <= csr_wdata;
+                $display("写入MEPC: 0x%08x", csr_wdata);
+            end
+            CSR_MCAUSE: begin
+                mcause <= csr_wdata;
+                $display("写入MCAUSE: 0x%08x", csr_wdata);
+            end
+            default: ;
+        endcase
+    end
+end
 
 endmodule
 
