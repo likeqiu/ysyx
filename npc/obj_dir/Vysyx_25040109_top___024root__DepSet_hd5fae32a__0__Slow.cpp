@@ -491,20 +491,25 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                                                     (0xfff07000U 
                                                      & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem))) 
                                            | ((IData)(
-                                                      (0x30200000U 
+                                                      (0x100000U 
                                                        == 
                                                        (0xfff07000U 
                                                         & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem))) 
-                                              | ((1U 
-                                                  == 
-                                                  (7U 
-                                                   & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
-                                                      >> 0xcU))) 
-                                                 | (2U 
-                                                    == 
-                                                    (7U 
-                                                     & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
-                                                        >> 0xcU)))))))))))))))) {
+                                              | ((IData)(
+                                                         (0x30200000U 
+                                                          == 
+                                                          (0xfff07000U 
+                                                           & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem))) 
+                                                 | ((1U 
+                                                     == 
+                                                     (7U 
+                                                      & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
+                                                         >> 0xcU))) 
+                                                    | (2U 
+                                                       == 
+                                                       (7U 
+                                                        & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
+                                                           >> 0xcU))))))))))))))))) {
         vlSelf->ysyx_25040109_top__DOT__inst_invalid = 0U;
     } else {
         vlSelf->ysyx_25040109_top__DOT__inst_invalid = 1U;

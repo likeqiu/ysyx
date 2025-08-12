@@ -604,15 +604,18 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_full_sub_0(Vysyx_25040109_
     bufp->fullBit(oldp+119,(((0x73U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
                              & ((IData)((0U == (0xfff07000U 
                                                 & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem))) 
-                                | ((IData)((0x30200000U 
+                                | ((IData)((0x100000U 
                                             == (0xfff07000U 
                                                 & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem))) 
-                                   | ((1U == (7U & 
-                                              (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
-                                               >> 0xcU))) 
-                                      | (2U == (7U 
-                                                & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
-                                                   >> 0xcU)))))))));
+                                   | ((IData)((0x30200000U 
+                                               == (0xfff07000U 
+                                                   & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem))) 
+                                      | ((1U == (7U 
+                                                 & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
+                                                    >> 0xcU))) 
+                                         | (2U == (7U 
+                                                   & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
+                                                      >> 0xcU))))))))));
     __Vtemp_h9bdf6ee8__0[0U] = (IData)((0x6300000000ULL 
                                         | (QData)((IData)(
                                                           (((- (IData)(
