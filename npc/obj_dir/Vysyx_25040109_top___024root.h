@@ -27,7 +27,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hee48d914__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hd1deae94__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_he2c0485b__0;
-        CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h92aa4f4c__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h26e5c323__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h5db903ec__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_h5f3f1c8d__0;
@@ -79,9 +78,9 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ __VstlIterCount;
         IData/*31:0*/ __VactIterCount;
         QData/*63:0*/ ysyx_25040109_top__DOT__exu__DOT__mul_temp;
+        VlUnpacked<QData/*38:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list;
     };
     struct {
-        VlUnpacked<QData/*38:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list;
         VlUnpacked<CData/*6:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__key_list;
         VlUnpacked<IData/*31:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__data_list;
         VlUnpacked<QData/*38:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__pair_list;
