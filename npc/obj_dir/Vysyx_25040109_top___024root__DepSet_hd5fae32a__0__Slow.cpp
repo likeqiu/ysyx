@@ -724,7 +724,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
         VL_FINISH_MT("/home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_EXU.v", 227, "");
         vlSelf->ysyx_25040109_top__DOT__next_pc = ((IData)(4U) 
                                                    + vlSelf->pc);
-        VL_WRITEF("%10#\n",32,vlSelf->pc);
+        VL_WRITEF("0x%08x\n",32,vlSelf->pc);
     }
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__lut_out 
         = ((- (IData)(((0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem) 

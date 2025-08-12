@@ -82,6 +82,7 @@ module ysyx_25040109_IDU (
         wire valid_branch = (opcode == 7'b1100011) && (
             funct3 == 3'b000 ||
             funct3 == 3'b001 ||
+            funct3 == 3'b101 ||
             funct3 == 3'b100 ||
             funct3 == 3'b110 ||
             funct3 == 3'b111
