@@ -665,7 +665,10 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
         = vlSelf->ysyx_25040109_top__DOT__imm;
     vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__data_list[1U] 
         = vlSelf->ysyx_25040109_top__DOT__imm;
-    if (vlSelf->ysyx_25040109_top__DOT__is_ecall) {
+    if (vlSelf->ysyx_25040109_top__DOT__trap_state) {
+        vlSelf->ysyx_25040109_top__DOT__final_csr_wdata = 0xbU;
+        vlSelf->ysyx_25040109_top__DOT__final_csr_waddr = 0x342U;
+    } else if (vlSelf->ysyx_25040109_top__DOT__is_ecall) {
         vlSelf->ysyx_25040109_top__DOT__final_csr_wdata 
             = vlSelf->pc;
         vlSelf->ysyx_25040109_top__DOT__final_csr_waddr = 0x341U;

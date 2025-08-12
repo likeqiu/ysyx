@@ -140,7 +140,7 @@ module ysyx_25040109_EXU (
     end
 
 
-    assign csr_wdata_out = rs1_data;
+
     always @(*) begin
         csr_we_out = 1'b0;
         csr_wdata_out = 32'h0;
@@ -192,17 +192,6 @@ module ysyx_25040109_EXU (
 
 
 
-
-    // 结果选择器
-    ysyx_25040109_MuxKeyWithDefault #(2, 7, 32) result_select( 
-        .out(result),
-        .key(opcode),
-        .default_out(alu_out),
-        .lut({
-            7'b1101111, jal_result, 
-            7'b1100111, jal_result
-        })
-    );
 
 
     // 下一 PC 的选择器
