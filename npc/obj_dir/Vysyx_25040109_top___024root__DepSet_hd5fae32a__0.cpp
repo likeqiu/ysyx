@@ -112,7 +112,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
             vlSelf->ysyx_25040109_top__DOT__regfile__DOT__unnamedblk3__DOT__i = 0x10U;
             vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mcause 
                 = vlSelf->ysyx_25040109_top__DOT__final_csr_wdata;
-            VL_WRITEF("gpr[          0]: 0x%8x\n\ngpr[          1]: 0x%8x\n\ngpr[          2]: 0x%8x\n\ngpr[          3]: 0x%8x\n\ngpr[          4]: 0x%8x\n\ngpr[          5]: 0x%8x\n\ngpr[          6]: 0x%8x\n\ngpr[          7]: 0x%8x\n\ngpr[          8]: 0x%8x\n\ngpr[          9]: 0x%8x\n\ngpr[         10]: 0x%8x\n\ngpr[         11]: 0x%8x\n\ngpr[         12]: 0x%8x\n\ngpr[         13]: 0x%8x\n\ngpr[         14]: 0x%8x\n\ngpr[         15]: 0x%8x\n\n",
+            VL_WRITEF("before:gpr[          0]: 0x%x\n\nbefore:gpr[          1]: 0x%x\n\nbefore:gpr[          2]: 0x%x\n\nbefore:gpr[          3]: 0x%x\n\nbefore:gpr[          4]: 0x%x\n\nbefore:gpr[          5]: 0x%x\n\nbefore:gpr[          6]: 0x%x\n\nbefore:gpr[          7]: 0x%x\n\nbefore:gpr[          8]: 0x%x\n\nbefore:gpr[          9]: 0x%x\n\nbefore:gpr[         10]: 0x%x\n\nbefore:gpr[         11]: 0x%x\n\nbefore:gpr[         12]: 0x%x\n\nbefore:gpr[         13]: 0x%x\n\nbefore:gpr[         14]: 0x%x\n\nbefore:gpr[         15]: 0x%x\n\n",
                       32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
                       [0U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
                       [1U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
