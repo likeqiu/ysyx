@@ -2,7 +2,7 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
-void printf_SP() { printf("111\n"); }
+
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 

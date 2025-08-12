@@ -57,11 +57,8 @@ end
         update_cpu_state(pc,rf);
         `endif
 
-        /* mstatus = 32'h0; 
-        mtvec   = 32'h0; 
-        mepc    = 32'h0;
-        mcause  = 32'h0;
-        */
+        mstatus = 32'h1800;        // 设置初始状态
+        mtvec   = 32'h80000000;    // 设置异常处理入口地址
 
     end
 
