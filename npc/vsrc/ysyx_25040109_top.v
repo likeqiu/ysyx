@@ -36,15 +36,20 @@ module ysyx_25040109_top (
     wire is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);  
 
 
-    always @(posedge clk) begin
-        if (rst) begin
-            trap_state <= S_NORMAL;
-        end else if (is_ecall) begin 
-            trap_state <= S_TRAP_MCAUSE;
-        end else begin
-            trap_state <= S_NORMAL; 
-        end
+always @(posedge clk) begin
+    if (rst) begin
+        trap_state <= S_NORMAL;
+    end else begin
+        case (trap_state)
+            S_NORMAL: begin
+                if (is_ecall) trap_state <= S_TRAP_MCAUSE;
+            end
+            S_TRAP_MCAUSE: begin
+                trap_state <= S_NORMAL;  // 一个周期后返回
+            end
+        endcase
     end
+end
 
     wire pc_wen = !is_stalled_by_trap;
     ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
