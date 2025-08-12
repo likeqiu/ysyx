@@ -1,4 +1,3 @@
-
 #include <am.h>
 #include <klib-macros.h>
 #include <klib.h>
@@ -207,7 +206,7 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
     // 解析格式说明符
     bool zero_pad = false;
     int width = 0;
-    bool is_long = false;
+    int long_count = 0; // 计算 'l' 的数量
 
     // 检查零填充标志
     if (*p == '0') {
@@ -221,9 +220,9 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       p++;
     }
 
-    // 检查长度修饰符
-    if (*p == 'l') {
-      is_long = true;
+    // 检查长度修饰符 - 支持 l 和 ll
+    while (*p == 'l' && long_count < 2) {
+      long_count++;
       p++;
     }
 
@@ -238,12 +237,17 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       break;
     }
     case 'd': {
-      if (is_long) {
+      if (long_count >= 2) { // ll 或 更多 l
         long long num = va_arg(args, long long);
         char buf[64];
         lltoa_signed(num, buf, 10);
         output_formatted_number(buf, width, zero_pad, out, data);
-      } else {
+      } else if (long_count == 1) { // l
+        long num = va_arg(args, long);
+        char buf[64];
+        lltoa_signed((long long)num, buf, 10);
+        output_formatted_number(buf, width, zero_pad, out, data);
+      } else { // 无修饰符
         int num = va_arg(args, int);
         char buf[32];
         itoa_signed(num, buf, 10);
@@ -252,12 +256,17 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       break;
     }
     case 'x': {
-      if (is_long) {
+      if (long_count >= 2) { // ll 或 更多 l
         unsigned long long num = va_arg(args, unsigned long long);
         char buf[64];
         ulltoa(num, buf, 16);
         output_formatted_number(buf, width, zero_pad, out, data);
-      } else {
+      } else if (long_count == 1) { // l
+        unsigned long num = va_arg(args, unsigned long);
+        char buf[64];
+        ulltoa((unsigned long long)num, buf, 16);
+        output_formatted_number(buf, width, zero_pad, out, data);
+      } else { // 无修饰符
         unsigned int num = va_arg(args, unsigned int);
         char buf[32];
         utoa(num, buf, 16);
@@ -278,12 +287,17 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       break;
     }
     case 'u': {
-      if (is_long) {
+      if (long_count >= 2) { // ll 或 更多 l
         unsigned long long num = va_arg(args, unsigned long long);
         char buf[64];
         ulltoa(num, buf, 10);
         output_formatted_number(buf, width, zero_pad, out, data);
-      } else {
+      } else if (long_count == 1) { // l
+        unsigned long num = va_arg(args, unsigned long);
+        char buf[64];
+        ulltoa((unsigned long long)num, buf, 10);
+        output_formatted_number(buf, width, zero_pad, out, data);
+      } else { // 无修饰符
         unsigned int num = va_arg(args, unsigned int);
         char buf[32];
         utoa(num, buf, 10);
@@ -302,8 +316,9 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
     default:
       // 处理未知格式说明符
       out('%', data);
-      if (is_long)
+      for (int i = 0; i < long_count; i++) {
         out('l', data);
+      }
       out(*p, data);
       break;
     }
