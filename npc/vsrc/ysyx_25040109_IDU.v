@@ -136,7 +136,9 @@ module ysyx_25040109_IDU (
 
 
         wire valid_system = is_system_op && (
+
         (funct3 == 3'b000 && funct12 == 12'h000) || // ECALL
+         (funct3 == 3'b000 && funct12 == 12'h001) ||
         (funct3 == 3'b000 && funct12 == 12'h302) || // MRET
         (funct3 == 3'b001) || // CSRRW
         (funct3 == 3'b010)    // CSRRS
