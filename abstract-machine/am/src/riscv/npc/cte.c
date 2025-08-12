@@ -23,6 +23,7 @@ int i=0;
       ev.ref += c->mepc;
       c->mepc += 4;
       ev.msg = "Machine External Interrupt";
+      break;
 
     default:
       ev.event = EVENT_ERROR;
