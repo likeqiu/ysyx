@@ -37,7 +37,7 @@ Context *__am_irq_handle(Context *c) {
      printf("ev:%d\n",ev.event);*/
     c = user_handler(ev, c);
     assert(c != NULL);
-    printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,c->mstatus);
+    //printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,c->mstatus);
   }
 
   return c;
