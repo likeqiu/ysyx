@@ -36,7 +36,7 @@ module ysyx_25040109_top (
     wire is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);  
 
 
-always @(posedge clk or posedge rst) begin
+always @(posedge clk ) begin
     if (rst) begin
         trap_state <= S_NORMAL;
     end else begin

@@ -174,7 +174,7 @@ module ysyx_25040109_EXU (
 
 
     // 分支/跳转目标计算
-    wire [31:0] jal_result      = pc + 4;
+   // wire [31:0] jal_result      = pc + 4;
     wire [31:0] jal_target      = pc + imm;
     wire [31:0] jalr_target = (rs1_data + imm) & 32'hFFFFFFFE; //低位清零
     wire [31:0] branch_target   = pc + imm;
