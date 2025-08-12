@@ -224,8 +224,8 @@ module ysyx_25040109_EXU (
             end
         end else begin
             next_pc = pc+4;
-            $finish;
-            $display("invalid inst");
+           //finish;
+          //$display("invalid inst");
             //next_pc = pc + 4; // 无效指令, 也继续往下走 (或者可以设计成陷入异常)
         end
     end
