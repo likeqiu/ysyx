@@ -42,8 +42,10 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
     end
 
 
+    mepc    = 32'h0;
+    mcause  = 32'h0;
     mstatus = 32'h1800;        // 设置初始状态
-    mtvec   = 32'h80000000;    // 设置异常处理入口地址
+
 end
 
 `endif 
