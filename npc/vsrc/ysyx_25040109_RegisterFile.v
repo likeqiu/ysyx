@@ -78,7 +78,7 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
         mtvec_out = mtvec;
     end    
 
-// 在RegisterFile模块中，确保CSR寄存器正确初始化
+
 `ifndef SYNTHESIS    
 initial begin
     integer i;
@@ -86,9 +86,6 @@ initial begin
         rf[i] = 0;
     end
 
-    mstatus = 32'h1800;     
-    mepc    = 32'h0;
-    mcause  = 32'h0;
 end
 `endif
 
@@ -125,8 +122,8 @@ end*/
 
     always @(posedge clk) begin
         if (rst) begin
-            mstatus <= 32'h1800; // M-mode, all interrupts disabled
-            mtvec   <= 32'h0; // Reset vector is 0, will be set by software
+            mstatus <= 32'h1800; 
+            mtvec   <= 32'h0; 
             mepc    <= 32'h0;
             mcause  <= 32'h0;
         end else if (csr_we) begin

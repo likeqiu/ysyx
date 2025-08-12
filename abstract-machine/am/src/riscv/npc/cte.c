@@ -8,12 +8,12 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context *__am_irq_handle(Context *c) {
-  printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,
+ /* printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,
          c->mstatus);
-int i=0;
+  int i=0;
   for ( i = 0; i < NR_REGS; i++) {
     printf("%d : 0x%08x\n",i,c->gpr[i]);
-  }
+  }*/
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
@@ -32,9 +32,9 @@ int i=0;
       break;
     }
 
-    printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,
+   /* printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,
            c->mstatus);
-     printf("ev:%d\n",ev.event);
+     printf("ev:%d\n",ev.event);*/
     c = user_handler(ev, c);
     assert(c != NULL);
     printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,
