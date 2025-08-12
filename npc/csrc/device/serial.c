@@ -10,11 +10,11 @@
 
 static uint8_t *serial_port_base = NULL;
 
-static void serial_io_handle(uint32_t offset,int len,bool is_write){
-    if(!is_write){
-      switch (offset){
-      case LSR_OFFSET:
-        serial_port_base[LSR_OFFSET] = LSR_THRE_MASK;
+static void serial_io_handle(uint32_t offset, int len, bool is_write) {
+  if (!is_write) {
+    switch (offset) {
+    case LSR_OFFSET:
+      serial_port_base[LSR_OFFSET] = LSR_THRE_MASK;
       break;
         default:
             break;    

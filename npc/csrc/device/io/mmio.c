@@ -58,7 +58,7 @@ void mmio_write(paddr_t addr, int len, word_t data){
 
   if (addr == CONFIG_SERIAL_MMIO && len == 1) {
    // printf("111\n");
-    putc(data & 0xff);
+    putchar(data & 0xff);
     return;
   }
 
