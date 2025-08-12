@@ -438,14 +438,15 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
     bufp->chgIData(oldp+185,(vlSelf->inst),32);
     bufp->chgIData(oldp+186,(vlSelf->pc),32);
     bufp->chgIData(oldp+187,(vlSelf->a0_out),32);
+    bufp->chgIData(oldp+188,(((IData)(4U) + vlSelf->pc)),32);
     __Vtemp_hfaf36e9a__0[0U] = vlSelf->pc;
     __Vtemp_hfaf36e9a__0[1U] = 0x6fU;
     __Vtemp_hfaf36e9a__0[2U] = (0x1b80U | (vlSelf->pc 
                                            << 0xeU));
     __Vtemp_hfaf36e9a__0[3U] = (0x5c000U | (vlSelf->pc 
                                             >> 0x12U));
-    bufp->chgWData(oldp+188,(__Vtemp_hfaf36e9a__0),117);
-    bufp->chgBit(oldp+192,(((0x80000000U <= vlSelf->pc) 
+    bufp->chgWData(oldp+189,(__Vtemp_hfaf36e9a__0),117);
+    bufp->chgBit(oldp+193,(((0x80000000U <= vlSelf->pc) 
                             & (0x87ffffffU >= vlSelf->pc))));
 }
 

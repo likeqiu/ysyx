@@ -128,6 +128,10 @@ always @(posedge clk) begin
             CSR_MCAUSE: begin
                 mcause <= csr_wdata;
                 $display("写入MCAUSE: 0x%08x", csr_wdata);
+                for(int i = 0;i<32;i++)begin
+                    $display("gpr[%d]: 0x%08x\n",i,rf[i]);
+                end
+                
             end
             default: ;
         endcase
