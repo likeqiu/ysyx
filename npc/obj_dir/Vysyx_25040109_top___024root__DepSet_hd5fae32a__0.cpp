@@ -109,10 +109,10 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         } else if (VL_UNLIKELY((0x342U == (IData)(vlSelf->ysyx_25040109_top__DOT__final_csr_waddr)))) {
             VL_WRITEF("\345\206\231\345\205\245MCAUSE: 0x%08x\n",
                       32,vlSelf->ysyx_25040109_top__DOT__final_csr_wdata);
-            vlSelf->ysyx_25040109_top__DOT__regfile__DOT__unnamedblk3__DOT__i = 0x20U;
+            vlSelf->ysyx_25040109_top__DOT__regfile__DOT__unnamedblk3__DOT__i = 0x10U;
             vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mcause 
                 = vlSelf->ysyx_25040109_top__DOT__final_csr_wdata;
-            VL_WRITEF("gpr[          0]: 0x%08x\n\ngpr[          1]: 0x%08x\n\ngpr[          2]: 0x%08x\n\ngpr[          3]: 0x%08x\n\ngpr[          4]: 0x%08x\n\ngpr[          5]: 0x%08x\n\ngpr[          6]: 0x%08x\n\ngpr[          7]: 0x%08x\n\ngpr[          8]: 0x%08x\n\ngpr[          9]: 0x%08x\n\ngpr[         10]: 0x%08x\n\ngpr[         11]: 0x%08x\n\ngpr[         12]: 0x%08x\n\ngpr[         13]: 0x%08x\n\ngpr[         14]: 0x%08x\n\ngpr[         15]: 0x%08x\n\ngpr[         16]: 0x%08x\n\ngpr[         17]: 0x%08x\n\ngpr[         18]: 0x%08x\n\n",
+            VL_WRITEF("gpr[          0]: 0x%8x\n\ngpr[          1]: 0x%8x\n\ngpr[          2]: 0x%8x\n\ngpr[          3]: 0x%8x\n\ngpr[          4]: 0x%8x\n\ngpr[          5]: 0x%8x\n\ngpr[          6]: 0x%8x\n\ngpr[          7]: 0x%8x\n\ngpr[          8]: 0x%8x\n\ngpr[          9]: 0x%8x\n\ngpr[         10]: 0x%8x\n\ngpr[         11]: 0x%8x\n\ngpr[         12]: 0x%8x\n\ngpr[         13]: 0x%8x\n\ngpr[         14]: 0x%8x\n\ngpr[         15]: 0x%8x\n\n",
                       32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
                       [0U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
                       [1U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
@@ -129,25 +129,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                       [0xcU],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
                       [0xdU],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
                       [0xeU],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0xfU],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x10U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x11U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x12U]);
-            VL_WRITEF("gpr[         19]: 0x%08x\n\ngpr[         20]: 0x%08x\n\ngpr[         21]: 0x%08x\n\ngpr[         22]: 0x%08x\n\ngpr[         23]: 0x%08x\n\ngpr[         24]: 0x%08x\n\ngpr[         25]: 0x%08x\n\ngpr[         26]: 0x%08x\n\ngpr[         27]: 0x%08x\n\ngpr[         28]: 0x%08x\n\ngpr[         29]: 0x%08x\n\ngpr[         30]: 0x%08x\n\ngpr[         31]: 0x%08x\n\n",
-                      32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x13U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x14U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x15U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x16U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x17U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x18U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x19U],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x1aU],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x1bU],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x1cU],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x1dU],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x1eU],32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf
-                      [0x1fU]);
+                      [0xfU]);
         }
     }
     if (vlSelf->rst) {

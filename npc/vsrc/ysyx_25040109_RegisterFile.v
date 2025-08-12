@@ -129,7 +129,7 @@ always @(posedge clk) begin
                 mcause <= csr_wdata;
                 $display("写入MCAUSE: 0x%08x", csr_wdata);
                 for(int i = 0;i<16;i++)begin
-                    $display("gpr[%d]: 0x%8x\n",i,rf[i]);
+                    $display("before:gpr[%d]: 0x%x\n",i,rf[i]);
                 end
                 
             end
