@@ -2,7 +2,7 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
 (
     input [31:0] pc,
     input clk,
-   // input rst,
+    input rst,
     input [DATA_WIDTH-1:0] wdata,
     input [ADDR_WIDTH-1:0] waddr,
     input wen,
@@ -35,22 +35,7 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
     localparam CSR_MEPC    = 12'h341;
     localparam CSR_MCAUSE  = 12'h342;
     
-`ifndef  SYNTHESIS    
-    initial begin
-    integer i;
-    for (i = 0; i < 32; i = i + 1) begin
-        rf[i] = 0; 
-    end
 
-
-    mepc    = 32'h0;
-    mcause  = 32'h0;
-   $display("11111:%x\n",mtvec);
-    mstatus = 32'h1800;        // 设置初始状态
-
-end
-
-`endif 
 
 
 `ifndef  SYNTHESIS
@@ -100,10 +85,8 @@ initial begin
     for (i = 0; i < 32; i = i + 1) begin
         rf[i] = 0;
     end
-    
-    // 这些初始化很关键！
-    mstatus = 32'h1800;     // 设置合理的初始值
-    mtvec   = 32'h80000000; // 异常处理入口地址
+
+    mstatus = 32'h1800;     
     mepc    = 32'h0;
     mcause  = 32'h0;
 end
@@ -111,7 +94,8 @@ end
 
 
 // 确保CSR写入逻辑正确
-always @(posedge clk) begin
+
+/*always @(posedge clk) begin
     if (csr_we) begin
         case (csr_addr)
             CSR_MSTATUS: begin
@@ -137,7 +121,24 @@ always @(posedge clk) begin
             default: ;
         endcase
     end
-end
+end*/
+
+    always @(posedge clk) begin
+        if (rst) begin
+            mstatus <= 32'h1800; // M-mode, all interrupts disabled
+            mtvec   <= 32'h0; // Reset vector is 0, will be set by software
+            mepc    <= 32'h0;
+            mcause  <= 32'h0;
+        end else if (csr_we) begin
+            case (csr_addr)
+                CSR_MSTATUS: mstatus <= csr_wdata;
+                CSR_MTVEC:   mtvec   <= csr_wdata;
+                CSR_MEPC:    mepc    <= csr_wdata;
+                CSR_MCAUSE:  mcause  <= csr_wdata;
+                default:;
+            endcase
+        end
+    end
 
 endmodule
 

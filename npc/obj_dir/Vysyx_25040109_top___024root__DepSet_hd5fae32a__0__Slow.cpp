@@ -81,7 +81,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_initial__TOP(Vysyx_2504010
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[0x1eU] = 0U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[0x1fU] = 0U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i = 0x20U;
-    VL_WRITEF("mtvec:%x\n",32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mtvec);
+    VL_WRITEF("11111:%x\n\n",32,vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mtvec);
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[0U] = 0U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[1U] = 0U;
     vlSelf->ysyx_25040109_top__DOT__regfile__DOT__rf[2U] = 0U;

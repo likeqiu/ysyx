@@ -147,6 +147,7 @@ end
 
         ysyx_25040109_RegisterFile #(5, 32) regfile (
         .clk(clk),
+        .rst(rst),
         .pc(pc),
         .wdata(writeback_data),
         .waddr(rd_addr_exu),
