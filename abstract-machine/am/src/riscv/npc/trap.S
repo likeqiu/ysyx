@@ -52,9 +52,22 @@ __am_asm_trap:
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
 
-  mv a0, sp
-  jal __am_irq_handle
+  # set mstatus.MPRV to pass difftest
+  li a0, (1 << 17)
+  or t1, t1, a0
+  csrw mstatus, t1
 
+  mv a0, sp
+  call __am_irq_handle
+      
+
+
+  beqz a0, 1f          # 如果返回NULL，继续使用当前上下文
+  mv t0, sp            # 保存当前sp
+  beq a0, t0, 1f       # 如果新旧上下文相同，跳过切换
+  mv sp, a0            # 切换到新的上下文栈
+
+1:
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
   csrw mstatus, t1
@@ -64,3 +77,21 @@ __am_asm_trap:
 
   addi sp, sp, CONTEXT_SIZE
   mret
+
+
+
+
+.globl __am_kcontext_start
+__am_kcontext_start:
+  # a0包含arg参数，a1包含entry函数指针
+  # 根据RISC-V ABI，栈指针需要16字节对齐
+  addi sp, sp, -16
+  andi sp, sp, ~15
+  
+  # 调用entry(arg)
+  # a0已经包含了arg参数
+  jalr a1
+  
+  # 如果entry函数返回（不应该发生,因为这是一个线程），进入死循环
+1:
+  j 1b

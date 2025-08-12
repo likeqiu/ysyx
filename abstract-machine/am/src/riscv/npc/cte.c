@@ -8,7 +8,18 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
-      default: ev.event = EVENT_ERROR; break;
+    case 11:
+      ev.event = EVENT_YIELD;
+      ev.cause = c->mcause;
+      ev.ref += c->mepc;
+      c->mepc += 4;
+      ev.msg = "Machine External Interrupt";
+
+    default:
+      ev.event = EVENT_ERROR;
+      ev.cause = c->mcause;
+      ev.ref = c->mepc;
+      break;
     }
 
     c = user_handler(ev, c);
@@ -31,8 +42,22 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   return true;
 }
 
+extern void __am_kcontext_start(void);
+
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  Context *c = (Context *)(((uintptr_t)kstack.end - sizeof(Context)) & ~0xF);
+  memset(c, 0, sizeof(Context));
+
+  c->mepc = (uintptr_t)__am_kcontext_start;
+
+  c->gpr[2] = (uintptr_t)kstack.end;
+  c->gpr[10] = (uintptr_t)arg;
+  c->gpr[11] = (uintptr_t)entry;
+
+  c->mstatus = 0x1800;
+
+  return c;
+
 }
 
 void yield() {
