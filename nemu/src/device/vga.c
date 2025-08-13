@@ -90,46 +90,50 @@ typedef struct {
   bool sync;
 } vga_blit_req_t;
 
+word_t paddr_read(paddr_t addr, int len);
 uint8_t *guest_to_host(paddr_t paddr);
 
 static uint32_t *dma_req_paddr_ptr = NULL;
 static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
-
   if (!is_write)
     return;
 
-  // 1. 从我们为 DMA 端口分配的 MMIO 空间中，读取 Guest 写入的 ctl 地址。
-  //    我们不再使用错误的 offset 参数。
+  // 1. 获取 Guest 端控制块的【物理地址】
   uint32_t ctl_paddr = *dma_req_paddr_ptr;
 
-  // 2. 将 ctl 的物理地址（paddr）转换为 Host 可以访问的虚拟地址（haddr）
-  vga_blit_req_t *req = (vga_blit_req_t *)guest_to_host(ctl_paddr);
-  //printf("[NEMU DEBUG] req data: x=%d, y=%d, w=%d, h=%d, pixels=%p, sync=%d\n", req->x, req->y, req->w, req->h, req->pixels, req->sync);
-  // 3. 后续逻辑保持不变，因为我们现在有了正确的 req 指针
-  if (req->pixels != NULL && req->w != 0 && req->h != 0) {
-    int x = req->x, y = req->y, w = req->w, h = req->h;
+  // 2. 【关键】按照 32 位 Guest 的内存布局，手动解析数据。
+  //    我们不再进行危险的类型转换，而是像硬件一样，从确切的偏移量读取数据。
+  //    paddr_read 可以安全地从 Guest 的物理内存读取指定长度的数据。
+  int x = paddr_read(ctl_paddr + 0, 4); // x 成员在偏移量 0 处，占 4 字节
+  int y = paddr_read(ctl_paddr + 4, 4); // y 成员在偏移量 4 处，占 4 字节
+  uint32_t pixels = paddr_read(
+      ctl_paddr + 8, 4); // pixels 指针在偏移量 8 处，在 32位 Guest 中占 4 字节
+  int w = paddr_read(ctl_paddr + 12, 4); // w 成员在偏移量 12 处，占 4 字节
+  int h = paddr_read(ctl_paddr + 16, 4); // h 成员在偏移量 16 处，占 4 字节
+  bool sync =
+      paddr_read(ctl_paddr + 20, 1); // sync 成员在偏移量 20 处，占 1 字节
 
+  // 为了最终验证，我们打印手动解析出的数据
+  printf(
+      "[NEMU DEBUG] Parsed req: x=%d, y=%d, w=%d, h=%d, pixels=0x%x, sync=%d\n",
+      x, y, w, h, pixels, sync);
+
+  // 3. 使用我们手动解析出的、100% 正确的数据执行后续逻辑
+  if (pixels != 0 && w != 0 && h != 0) {
     uint32_t screen_w = screen_width();
     uint32_t *fb = (uint32_t *)(uintptr_t)vmem;
 
-    // 因为 VA = PA，所以 req->pixels 本身也是物理地址
-    uint32_t *pixels =
-        (uint32_t *)guest_to_host((paddr_t)(uintptr_t)req->pixels);
-
-    // 安全检查
-    if (pixels == NULL && (paddr_t)(uintptr_t)req->pixels != 0)
-      return;
+    // 将 Guest 的 pixels 地址（现在是正确的 uint32_t）转换为 Host 指针
+    uint32_t *pixels_haddr = (uint32_t *)guest_to_host(pixels);
 
     for (int j = 0; j < h; j++) {
       uint32_t *dest = &fb[(y + j) * screen_w + x];
-      uint32_t *src = &pixels[j * w];
+      uint32_t *src = &pixels_haddr[j * w];
       memcpy(dest, src, w * sizeof(uint32_t));
     }
-    //printf("[NEMU DEBUG] Memcpy finished. vmem[0]=0x%08x, vmem[100]=0x%08x\n",((uint32_t *)vmem)[0], ((uint32_t *)vmem)[100]);
   }
 
-
-  if (req->sync) {
+  if (sync) {
     vgactl_port_base[1] = 1;
   }
 }
