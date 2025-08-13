@@ -132,8 +132,7 @@ void init_vga() {
                NULL);
 #endif
 
-  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, new_space(4), 4,
-               vga_blit_handler);
+  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, new_space(4), 4, vga_blit_handler);
 
   vmem = new_space(screen_size());
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
