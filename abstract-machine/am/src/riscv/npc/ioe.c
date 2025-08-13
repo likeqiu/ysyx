@@ -13,6 +13,7 @@ void __am_gpu_status(AM_GPU_STATUS_T *);
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *);
 void __am_audio_init();
 void __am_audio_config(AM_AUDIO_CONFIG_T *);
+void __am_gpu_tileblit(AM_GPU_TILEBLIT_T *);
 
 static void __am_timer_config(AM_TIMER_CONFIG_T *cfg)
 {
@@ -36,6 +37,7 @@ static void *lut[128] = {
     [AM_GPU_STATUS] = __am_gpu_status,
     [AM_UART_CONFIG] = __am_uart_config,
     [AM_AUDIO_CONFIG] = __am_audio_config,
+    [AM_GPU_TILEBLIT] = __am_gpu_tileblit,
 };
 
 static void fail(void *buf) { panic("access nonexist register"); }

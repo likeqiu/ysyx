@@ -1,6 +1,7 @@
 #include <am.h>
+#include <klib.h>
 #include <npc.h>
-#include<klib.h>
+
 
 
 void __am_gpu_init() {
@@ -11,8 +12,7 @@ void __am_gpu_init() {
    int h = screen_info & 0xFFFF;
    uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
    for (i = 0; i < w * h; i ++) fb[i] = i;
-   outl(SYNC_ADDR, 1);
-   */
+   outl(SYNC_ADDR, 1);*/
 }
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
@@ -29,27 +29,23 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
 
-  if (ctl->pixels != NULL && ctl->w != 0 && ctl->h != 0) {
-    uint32_t screen_width = inl(VGACTL_ADDR) >> 16;
-    uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-    uint32_t *pixels = ctl->pixels;
-    int x = ctl->x;
-    int y = ctl->y;
-    int w = ctl->w;
-    int h = ctl->h;
+  static AM_GPU_FBDRAW_T static_ctl;
 
-    // 逐行复制像素
-    // 这一部分可以替换成memcpy
-    for (int j = 0; j < h; j++) {
-      uint32_t *dest = &fb[(y + j) * screen_width + x];
-      uint32_t *src = &pixels[j * w];
-      memcpy(dest, src, w * sizeof(uint32_t));
-    }
-  }
+  // 将栈上传来的临时 ctl 的内容，完整地拷贝到静态变量中。
+  static_ctl = *ctl;
 
-  if (ctl->sync) {
-    outl(SYNC_ADDR, 1);
-  }
+  // printf("[AM DEBUG] req data: x=%d, y=%d, w=%d, h=%d, pixels=%p,
+  // sync=%d\n",ctl->x, ctl->y, ctl->w, ctl->h, ctl->pixels, ctl->sync);
+
+  // 将这个【持久有效】的静态变量的地址发给 NEMU。
+  outl(VGACTL_ADDR + 8, (uintptr_t)&static_ctl);
+}
+
+void __am_gpu_tileblit(AM_GPU_TILEBLIT_T *ctl) {
+  // 同样使用静态变量确保数据持久性
+  static AM_GPU_TILEBLIT_T static_ctl;
+  static_ctl = *ctl;
+  outl(VGACTL_ADDR + 12, (uintptr_t)&static_ctl);
 }
 
 void __am_gpu_status(AM_GPU_STATUS_T *status) { status->ready = true; }
