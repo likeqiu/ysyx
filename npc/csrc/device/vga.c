@@ -163,4 +163,7 @@ void init_vga() {
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
   IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());
   IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));
+  printf("====== VGA Sanity Check: Painting screen magenta! ======\n");
+  memset(vmem, 0xff, screen_size()); // 用一个刺眼的颜色（紫红色）填满显存
+  update_screen();
 }
