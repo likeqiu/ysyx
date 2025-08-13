@@ -16,6 +16,7 @@
 #include <common.h>
 #include <device/map.h>
 
+
 #define SCREEN_W (MUXDEF(CONFIG_VGA_SIZE_800x600, 800, 400))
 #define SCREEN_H (MUXDEF(CONFIG_VGA_SIZE_800x600, 600, 300))
 
@@ -81,6 +82,44 @@ void vga_update_screen() {
   }
 }
 
+typedef struct {
+  int x, y;
+  void *pixels;
+  int w, h;
+  bool sync;
+} vga_blit_req_t;
+
+uint8_t *guest_to_host(paddr_t paddr);
+
+static void vga_blit_handler(uint32_t offset, int len, bool is_write)
+{
+  if (!is_write)
+    return;
+
+  // 将 Guest 传来的地址转换为 Host 指针，
+  // 并用我们 NEMU 本地定义的结构体类型来解释它。
+  vga_blit_req_t *req = (vga_blit_req_t *)guest_to_host(offset);
+
+  int x = req->x, y = req->y, w = req->w, h = req->h;
+  if (w == 0 || h == 0)
+    return;
+
+  uint32_t screen_w = screen_width();
+  uint32_t *fb = (uint32_t *)(uintptr_t)vmem;
+
+  // 获取像素源地址，同样需要从 Guest 地址转换
+  uint32_t *pixels = (uint32_t *)guest_to_host((uintptr_t)req->pixels);
+
+  for (int j = 0; j < h; j++) {
+    uint32_t *dest = &fb[(y + j) * screen_w + x];
+    uint32_t *src = &pixels[j * w];
+    memcpy(dest, src, w * sizeof(uint32_t));
+  }
+
+  if (req->sync) {
+    vgactl_port_base[1] = 1;
+  }
+}
 
 void init_vga() {
   vgactl_port_base = (uint32_t *)new_space(8);
@@ -92,6 +131,9 @@ void init_vga() {
   add_mmio_map("vgactl", CONFIG_VGA_CTL_MMIO, vgactl_port_base, 8,
                NULL);
 #endif
+
+  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, new_space(4), 4,
+               vga_blit_handler);
 
   vmem = new_space(screen_size());
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);

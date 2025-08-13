@@ -26,8 +26,9 @@ AM_DEVREG(8, INPUT_KEYBRD, RD, bool keydown; int keycode); // 读取键盘事件
 // GPU 设备
 AM_DEVREG(9, GPU_CONFIG, RD, bool present, has_accel; int width, height, vmemsz); // GPU 配置
 AM_DEVREG(10, GPU_STATUS, RD, bool ready);   // 帧缓冲区绘制
-AM_DEVREG(11, GPU_FBDRAW, WR, int x, y; void *pixels; int w, h; bool sync); // 内存拷贝
-AM_DEVREG(12, GPU_MEMCPY, WR, uint32_t dest; void *src; int size);          // 渲染
+AM_DEVREG(11, GPU_FBDRAW, WR, int x, y; void *pixels; int w, h; bool sync); 
+AM_DEVREG(12, GPU_MEMCPY, WR, uint32_t dest; void *src; int size);          
+AM_DEVREG(25, GPU_BLIT, WR, int x, y; void *pixels; int w, h; bool sync);
 
 // 音频设备
 AM_DEVREG(13, GPU_RENDER,   WR, uint32_t root);
