@@ -29,7 +29,7 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
 
-  outl(VGACTL_ADDR , (uintptr_t)ctl);
+  outl(VGACTL_ADDR + 4, (uintptr_t)ctl);
   }
   
 
