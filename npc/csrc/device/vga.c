@@ -98,7 +98,7 @@ static uint32_t *tileblit_paddr_ptr = NULL;
 
 
 // FBDRAW 的处理逻辑
-void handle_fbdraw_dma() {
+static void handle_fbdraw_dma() {
   uint32_t ctl_paddr = *fbdraw_paddr_ptr;
   int x = paddr_read(ctl_paddr + 0, 4);
   int y = paddr_read(ctl_paddr + 4, 4);
@@ -124,7 +124,7 @@ void handle_fbdraw_dma() {
 }
 
 // TILEBLIT 的处理逻辑
-void handle_tileblit_dma() {
+static void handle_tileblit_dma() {
   printf("11111111\n");
   uint32_t ctl_paddr = *tileblit_paddr_ptr;
   int x0 = paddr_read(ctl_paddr + 0, 4);
