@@ -110,13 +110,10 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
       ctl_paddr + 8, 4); // pixels 指针在偏移量 8 处，在 32位 Guest 中占 4 字节
   int w = paddr_read(ctl_paddr + 12, 4); // w 成员在偏移量 12 处，占 4 字节
   int h = paddr_read(ctl_paddr + 16, 4); // h 成员在偏移量 16 处，占 4 字节
-  bool sync =
-      paddr_read(ctl_paddr + 20, 1); // sync 成员在偏移量 20 处，占 1 字节
+  bool sync =paddr_read(ctl_paddr + 20, 1); // sync 成员在偏移量 20 处，占 1 字节
 
   // 为了最终验证，我们打印手动解析出的数据
-  printf(
-      "[NEMU DEBUG] Parsed req: x=%d, y=%d, w=%d, h=%d, pixels=0x%x, sync=%d\n",
-      x, y, w, h, pixels, sync);
+ // printf("[NEMU DEBUG] Parsed req: x=%d, y=%d, w=%d, h=%d, pixels=0x%x, sync=%d\n",x, y, w, h, pixels, sync);
 
   // 3. 使用我们手动解析出的、100% 正确的数据执行后续逻辑
   if (pixels != 0 && w != 0 && h != 0) {
