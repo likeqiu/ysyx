@@ -40,9 +40,13 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   // 将这个【持久有效】的静态变量的地址发给 NEMU。
   outl(VGACTL_ADDR  + 8, (uintptr_t)&static_ctl);
   }
-  
 
-
+  void __am_gpu_tileblit(AM_GPU_TILEBLIT_T *ctl) {
+    // 同样使用静态变量确保数据持久性
+    static AM_GPU_TILEBLIT_T static_ctl;
+    static_ctl = *ctl;
+    outl(VGACTL_ADDR + 12, (uintptr_t)&static_ctl);
+  }
 
 void __am_gpu_status(AM_GPU_STATUS_T *status) {
   status->ready = true;
