@@ -83,6 +83,7 @@ static uint32_t *tileblit_paddr_ptr = NULL;
 // FBDRAW 的处理函数：主要用于处理同步信号，或传统的 memcpy 绘图
 static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
   printf("[NPC DEBUG] Sync bit SET by FBDRAW!\n");
+  fflush(stdout);
   if (!is_write)
     return;
   uint32_t ctl_paddr = *fbdraw_paddr_ptr;
@@ -121,6 +122,7 @@ static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
 
   printf("[NPC DEBUG] TILEBLIT finished. vmem[0]=0x%08x\n",
          ((uint32_t *)vmem)[0]);
+  fflush(stdout);
 
   if (!is_write)
     return;
