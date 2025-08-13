@@ -81,7 +81,6 @@ static uint32_t *tileblit_paddr_ptr = NULL;
 
 // FBDRAW 的处理函数：主要用于处理同步信号，或传统的 memcpy 绘图
 static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
-  printf("22222222\n");
   if (!is_write)
     return;
   uint32_t ctl_paddr = *fbdraw_paddr_ptr;
@@ -114,7 +113,6 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
 
 // TILEBLIT 的处理函数：高性能的硬件加速器
 static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
-  printf("1111111\n");
   if (!is_write)
     return;
   uint32_t ctl_paddr = *tileblit_paddr_ptr;
