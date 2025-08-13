@@ -60,7 +60,7 @@ static inline void update_screen() {
 void vga_update_screen() {
   // TODO: call `update_screen()` when the sync register is non-zero,
   // then zero out the sync register
-
+  printf("[NPC DEBUG] Sync bit FOUND! Updating screen...\n");
   if (vgactl_port_base[1]) {
     printf("[NPC DEBUG] Sync bit FOUND! Updating screen...\n");
     update_screen();
