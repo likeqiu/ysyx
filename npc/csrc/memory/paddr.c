@@ -52,10 +52,11 @@ word_t paddr_read(paddr_t addr, int len)
         return ret;
     }
 
-    
+    printf("R:0x%08x\n", addr);
     // IFDEF(CONFIG_ITRACE, iringbuf_dump(addr));
     IFDEF(CONFIG_DEVICE, ret = mmio_read(addr, len); return ret);
     //printf("333\n");
+    
     out_of_bound(addr);
     return 0;
 }
@@ -69,7 +70,8 @@ void paddr_write(paddr_t addr, int len, word_t data)
     return;
   }
     //printf("222222\n");
-    IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
-    //printf("3334\n");
-    out_of_bound(addr);
+  printf("W:0x%08x\n",addr);
+  IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
+  // printf("3334\n");
+  out_of_bound(addr);
 }
