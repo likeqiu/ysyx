@@ -62,6 +62,7 @@ void vga_update_screen() {
   // then zero out the sync register
 
   if (vgactl_port_base[1]) {
+    printf("[NPC DEBUG] Sync bit FOUND! Updating screen...\n");
     update_screen();
     vgactl_port_base[1] = 0;
   }
@@ -107,14 +108,18 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
 
   // 如果有同步标志，则设置同步位
   if (sync) {
+    printf("[NPC DEBUG] Sync bit SET by FBDRAW!\n");
     vgactl_port_base[1] = 1;
   }
+
+
 }
 
 // TILEBLIT 的处理函数：高性能的硬件加速器
 static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
   if (!is_write)
     return;
+  printf("[NPC DEBUG] TILEBLIT handler received request.\n");
   uint32_t ctl_paddr = *tileblit_paddr_ptr;
 
   // 手动解析 AM_GPU_TILEBLIT_T 结构体
@@ -138,6 +143,8 @@ static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
       fb[(y0 + y) * screen_w + (x0 + x)] = tiles[canvas_y * tile_w + canvas_x];
     }
   }
+  printf("[NPC DEBUG] TILEBLIT finished. vmem[0]=0x%08x\n",
+         ((uint32_t *)vmem)[0]);
 }
 
 void init_vga() {
@@ -163,7 +170,5 @@ void init_vga() {
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
   IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());
   IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));
-  printf("====== VGA Sanity Check: Painting screen magenta! ======\n");
-  memset(vmem, 0xff, screen_size()); // 用一个刺眼的颜色（紫红色）填满显存
-  update_screen();
+
 }
