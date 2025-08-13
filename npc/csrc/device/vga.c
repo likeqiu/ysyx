@@ -159,7 +159,7 @@ void init_vga() {
 
   tileblit_paddr_ptr = (uint32_t *)new_space(4);
   add_mmio_map("vga_tileblit", CONFIG_VGA_CTL_MMIO + 12, tileblit_paddr_ptr, 4,
-               handle_tileblit_dma());
+               handle_tileblit_dma);
 
   vmem = new_space(screen_size());
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
