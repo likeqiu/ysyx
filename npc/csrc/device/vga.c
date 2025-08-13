@@ -57,8 +57,8 @@ static inline void update_screen() {
 #endif
 #endif
 
-void handle_fbdraw_dma();
-void handle_tileblit_dma();
+//void handle_fbdraw_dma();
+//void handle_tileblit_dma();
 
 // 主设备更新函数，现在是所有逻辑的核心
 void vga_update_screen() {
