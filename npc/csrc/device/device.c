@@ -18,7 +18,7 @@ void device_update() {
     return; // 限制更新频率
   }
   last = now;
-
+  printf("111111n\n");
   IFDEF(CONFIG_HAS_VGA, vga_update_screen());
 }
 
