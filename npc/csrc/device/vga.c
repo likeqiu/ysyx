@@ -57,7 +57,15 @@ static inline void update_screen() {
 #endif
 #endif
 
+void vga_update_screen() {
+  // TODO: call `update_screen()` when the sync register is non-zero,
+  // then zero out the sync register
 
+  if (vgactl_port_base[1]) {
+    update_screen();
+    vgactl_port_base[1] = 0;
+  }
+}
 
 typedef struct {
   int x, y;
@@ -71,35 +79,14 @@ uint8_t *guest_to_host(paddr_t paddr);
 static uint32_t *fbdraw_paddr_ptr = NULL;
 static uint32_t *tileblit_paddr_ptr = NULL;
 
-// 【重要】我们将 handler 函数的声明从 static 去掉，因为要在 vga_update_screen
-// 中调用
-void handle_fbdraw_dma();
-void handle_tileblit_dma();
-
-// 主设备更新函数，现在是所有逻辑的核心
-void vga_update_screen() {
-  // 1. 检查是否有 TILEBLIT 请求（检查信箱1）
-  if (*tileblit_paddr_ptr != 0) {
-    handle_tileblit_dma();
-    *tileblit_paddr_ptr = 0; // 处理完后，清空信箱
-  }
-
-  // 2. 检查是否有 FBDRAW 请求（检查信箱2）
-  if (*fbdraw_paddr_ptr != 0) {
-    handle_fbdraw_dma();
-    *fbdraw_paddr_ptr = 0; // 处理完后，清空信箱
-  }
-
-  // 3. 检查是否有同步信号，并刷新屏幕
-  if (vgactl_port_base[1]) {
-    update_screen();
-    vgactl_port_base[1] = 0;
-  }
-}
-
-// FBDRAW 的处理逻辑
-void handle_fbdraw_dma() {
+// FBDRAW 的处理函数：主要用于处理同步信号，或传统的 memcpy 绘图
+static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
+  printf("22222222\n");
+  if (!is_write)
+    return;
   uint32_t ctl_paddr = *fbdraw_paddr_ptr;
+
+  // 手动解析 AM_GPU_FBDRAW_T 结构体
   int x = paddr_read(ctl_paddr + 0, 4);
   int y = paddr_read(ctl_paddr + 4, 4);
   uint32_t pixels = paddr_read(ctl_paddr + 8, 4);
@@ -107,6 +94,7 @@ void handle_fbdraw_dma() {
   int h = paddr_read(ctl_paddr + 16, 4);
   bool sync = paddr_read(ctl_paddr + 20, 1);
 
+  // 如果有像素数据，则执行 memcpy
   if (pixels != 0 && w != 0 && h != 0) {
     uint32_t screen_w = screen_width();
     uint32_t *fb = (uint32_t *)vmem;
@@ -118,14 +106,20 @@ void handle_fbdraw_dma() {
     }
   }
 
+  // 如果有同步标志，则设置同步位
   if (sync) {
     vgactl_port_base[1] = 1;
   }
 }
 
-// TILEBLIT 的处理逻辑
-void handle_tileblit_dma() {
+// TILEBLIT 的处理函数：高性能的硬件加速器
+static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
+  printf("1111111\n");
+  if (!is_write)
+    return;
   uint32_t ctl_paddr = *tileblit_paddr_ptr;
+
+  // 手动解析 AM_GPU_TILEBLIT_T 结构体
   int x0 = paddr_read(ctl_paddr + 0, 4);
   int y0 = paddr_read(ctl_paddr + 4, 4);
   uint32_t tiles_paddr = paddr_read(ctl_paddr + 8, 4);
@@ -138,6 +132,7 @@ void handle_tileblit_dma() {
   uint32_t *fb = (uint32_t *)vmem;
   uint32_t screen_w = screen_width();
 
+  // 在 Host 端高速执行像素填充
   for (int y = 0; y < h; y++) {
     for (int x = 0; x < w; x++) {
       int canvas_x = x * tile_w / w;
@@ -146,23 +141,28 @@ void handle_tileblit_dma() {
     }
   }
 }
+
 void init_vga() {
   vgactl_port_base = (uint32_t *)new_space(8);
   vgactl_port_base[0] = (screen_width() << 16) | screen_height();
+
+#ifdef CONFIG_HAS_PORT_IO
+  add_pio_map("vgactl", CONFIG_VGA_CTL_PORT, vgactl_port_base, 8, NULL);
+#else
   add_mmio_map("vgactl", CONFIG_VGA_CTL_MMIO, vgactl_port_base, 8, NULL);
+#endif
 
-  // 【重要】我们仍然需要注册 MMIO 区域，但回调函数设为 NULL
-  // 这样，当 AM 写入时，数据能被正确存入 fbdraw_paddr_ptr 和 tileblit_paddr_ptr
   fbdraw_paddr_ptr = (uint32_t *)new_space(4);
-  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4, NULL);
+  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4,
+               vga_blit_handler);
 
+  // 为 TILEBLIT 分配独立的 MMIO 端口和指针
   tileblit_paddr_ptr = (uint32_t *)new_space(4);
   add_mmio_map("vga_tileblit", CONFIG_VGA_CTL_MMIO + 12, tileblit_paddr_ptr, 4,
-               NULL);
+               vga_tileblit_handler);
 
   vmem = new_space(screen_size());
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
-
   IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());
   IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));
 }
