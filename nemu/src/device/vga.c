@@ -95,8 +95,7 @@ uint8_t *guest_to_host(paddr_t paddr);
 static uint32_t *dma_req_paddr_ptr = NULL;
 static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
 
-  if (
-      !is_write)
+  if (!is_write)
     return;
 
   // 1. 从我们为 DMA 端口分配的 MMIO 空间中，读取 Guest 写入的 ctl 地址。
