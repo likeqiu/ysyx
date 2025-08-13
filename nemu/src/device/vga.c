@@ -105,8 +105,7 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
 
   // 2. 将 ctl 的物理地址（paddr）转换为 Host 可以访问的虚拟地址（haddr）
   vga_blit_req_t *req = (vga_blit_req_t *)guest_to_host(ctl_paddr);
-  printf("[NEMU DEBUG] req data: x=%d, y=%d, w=%d, h=%d, pixels=%p, sync=%d\n",
-         req->x, req->y, req->w, req->h, req->pixels, req->sync);
+  //printf("[NEMU DEBUG] req data: x=%d, y=%d, w=%d, h=%d, pixels=%p, sync=%d\n", req->x, req->y, req->w, req->h, req->pixels, req->sync);
   // 3. 后续逻辑保持不变，因为我们现在有了正确的 req 指针
   if (req->pixels != NULL && req->w != 0 && req->h != 0) {
     int x = req->x, y = req->y, w = req->w, h = req->h;
@@ -127,7 +126,10 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
       uint32_t *src = &pixels[j * w];
       memcpy(dest, src, w * sizeof(uint32_t));
     }
+    printf("[NEMU DEBUG] Memcpy finished. vmem[0]=0x%08x, vmem[100]=0x%08x\n",
+           ((uint32_t *)vmem)[0], ((uint32_t *)vmem)[100]);
   }
+
 
   if (req->sync) {
     vgactl_port_base[1] = 1;
