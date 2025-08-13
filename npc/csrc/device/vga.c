@@ -118,7 +118,7 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
 
 // TILEBLIT 的处理函数：高性能的硬件加速器
 static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
-  printf("[NPC DEBUG] TILEBLIT handler received request.\n");
+  
   if (!is_write)
     return;
   printf("[NPC DEBUG] TILEBLIT handler received request.\n");
@@ -165,8 +165,7 @@ void init_vga() {
 
   // 为 TILEBLIT 分配独立的 MMIO 端口和指针
   tileblit_paddr_ptr = (uint32_t *)new_space(4);
-  add_mmio_map("vga_tileblit", CONFIG_VGA_CTL_MMIO + 12, tileblit_paddr_ptr, 4,
-               vga_tileblit_handler);
+  add_mmio_map("vga_tileblit", CONFIG_VGA_CTL_MMIO + 12, tileblit_paddr_ptr, 4,vga_tileblit_handler);
 
   vmem = new_space(screen_size());
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
