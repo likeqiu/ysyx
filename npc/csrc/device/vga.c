@@ -57,7 +57,29 @@ static inline void update_screen() {
 #endif
 #endif
 
+void handle_fbdraw_dma();
+void handle_tileblit_dma();
 
+// 主设备更新函数，现在是所有逻辑的核心
+void vga_update_screen() {
+  // 1. 检查是否有 TILEBLIT 请求（检查信箱1）
+  /*if (*tileblit_paddr_ptr != 0) {
+    handle_tileblit_dma();
+    *tileblit_paddr_ptr = 0; // 处理完后，清空信箱
+  }
+
+  // 2. 检查是否有 FBDRAW 请求（检查信箱2）
+  if (*fbdraw_paddr_ptr != 0) {
+    handle_fbdraw_dma();
+    *fbdraw_paddr_ptr = 0; // 处理完后，清空信箱
+  }
+*/
+  // 3. 检查是否有同步信号，并刷新屏幕
+  if (vgactl_port_base[1]) {
+    update_screen();
+    vgactl_port_base[1] = 0;
+  }
+}
 
 typedef struct {
   int x, y;
@@ -73,29 +95,7 @@ static uint32_t *tileblit_paddr_ptr = NULL;
 
 // 【重要】我们将 handler 函数的声明从 static 去掉，因为要在 vga_update_screen
 // 中调用
-void handle_fbdraw_dma();
-void handle_tileblit_dma();
 
-// 主设备更新函数，现在是所有逻辑的核心
-void vga_update_screen() {
-  // 1. 检查是否有 TILEBLIT 请求（检查信箱1）
-  if (*tileblit_paddr_ptr != 0) {
-    handle_tileblit_dma();
-    *tileblit_paddr_ptr = 0; // 处理完后，清空信箱
-  }
-
-  // 2. 检查是否有 FBDRAW 请求（检查信箱2）
-  if (*fbdraw_paddr_ptr != 0) {
-    handle_fbdraw_dma();
-    *fbdraw_paddr_ptr = 0; // 处理完后，清空信箱
-  }
-
-  // 3. 检查是否有同步信号，并刷新屏幕
-  if (vgactl_port_base[1]) {
-    update_screen();
-    vgactl_port_base[1] = 0;
-  }
-}
 
 // FBDRAW 的处理逻辑
 void handle_fbdraw_dma() {
@@ -125,6 +125,7 @@ void handle_fbdraw_dma() {
 
 // TILEBLIT 的处理逻辑
 void handle_tileblit_dma() {
+  printf("11111111\n");
   uint32_t ctl_paddr = *tileblit_paddr_ptr;
   int x0 = paddr_read(ctl_paddr + 0, 4);
   int y0 = paddr_read(ctl_paddr + 4, 4);
@@ -154,11 +155,11 @@ void init_vga() {
   // 【重要】我们仍然需要注册 MMIO 区域，但回调函数设为 NULL
   // 这样，当 AM 写入时，数据能被正确存入 fbdraw_paddr_ptr 和 tileblit_paddr_ptr
   fbdraw_paddr_ptr = (uint32_t *)new_space(4);
-  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4, NULL);
+  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4,handle_fbdraw_dma);
 
   tileblit_paddr_ptr = (uint32_t *)new_space(4);
   add_mmio_map("vga_tileblit", CONFIG_VGA_CTL_MMIO + 12, tileblit_paddr_ptr, 4,
-               NULL);
+               handle_tileblit_dma());
 
   vmem = new_space(screen_size());
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);

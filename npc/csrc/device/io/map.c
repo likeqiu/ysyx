@@ -35,8 +35,7 @@ static void check_bound(IOMap *map, paddr_t addr) {
 }
 
 // 调用设备映射的回调函数，- c: 回调函数（io_callback_t 类型）
-static void invoke_callback(io_callback_t c, paddr_t offset, int len,
-                            bool is_write) {
+static void invoke_callback(io_callback_t c, paddr_t offset, int len,bool is_write) {
   if (c != NULL) {
     c(offset, len, is_write);
   }
