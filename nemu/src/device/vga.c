@@ -91,36 +91,37 @@ typedef struct {
 
 uint8_t *guest_to_host(paddr_t paddr);
 
-static void vga_blit_handler(uint32_t offset, int len, bool is_write)
-{
+static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
   if (!is_write)
     return;
 
-  // 将 Guest 传来的地址转换为 Host 指针，
-  // 并用我们 NEMU 本地定义的结构体类型来解释它。
   vga_blit_req_t *req = (vga_blit_req_t *)guest_to_host(offset);
 
-  int x = req->x, y = req->y, w = req->w, h = req->h;
-  if (w == 0 || h == 0)
-    return;
+  // 如果 req->pixels 不为 NULL, 且 w, h 不为 0, 才执行像素复制
+  if (req->pixels != NULL && req->w != 0 && req->h != 0) {
+    int x = req->x, y = req->y, w = req->w, h = req->h;
 
-  uint32_t screen_w = screen_width();
-  uint32_t *fb = (uint32_t *)(uintptr_t)vmem;
+    uint32_t screen_w = screen_width();
+    uint32_t *fb = (uint32_t *)(uintptr_t)vmem;
+    uint32_t *pixels = (uint32_t *)guest_to_host((uintptr_t)req->pixels);
 
-  // 获取像素源地址，同样需要从 Guest 地址转换
-  uint32_t *pixels = (uint32_t *)guest_to_host((uintptr_t)req->pixels);
+    // 增加一个额外的安全检查，防止 guest_to_host 失败返回 NULL
+    if (pixels == NULL)
+      return;
 
-  for (int j = 0; j < h; j++) {
-    uint32_t *dest = &fb[(y + j) * screen_w + x];
-    uint32_t *src = &pixels[j * w];
-    memcpy(dest, src, w * sizeof(uint32_t));
+    for (int j = 0; j < h; j++) {
+      uint32_t *dest = &fb[(y + j) * screen_w + x];
+      uint32_t *src = &pixels[j * w];
+      memcpy(dest, src, w * sizeof(uint32_t));
+    }
   }
 
+  // 像素复制逻辑 和 同步逻辑 分开处理
+  // 这样，即使 pixels 为 NULL，同步信号依然能被正确处理
   if (req->sync) {
     vgactl_port_base[1] = 1;
   }
 }
-
 void init_vga() {
   vgactl_port_base = (uint32_t *)new_space(8);
   vgactl_port_base[0] = (screen_width() << 16) | screen_height();
