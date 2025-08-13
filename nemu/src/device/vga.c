@@ -17,6 +17,7 @@
 #include <device/map.h>
 
 
+
 #define SCREEN_W (MUXDEF(CONFIG_VGA_SIZE_800x600, 800, 400))
 #define SCREEN_H (MUXDEF(CONFIG_VGA_SIZE_800x600, 600, 300))
 
@@ -91,22 +92,31 @@ typedef struct {
 
 uint8_t *guest_to_host(paddr_t paddr);
 
+static uint32_t *dma_req_paddr_ptr = NULL;
 static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
   if (!is_write)
     return;
 
-  vga_blit_req_t *req = (vga_blit_req_t *)guest_to_host(offset);
+  // 1. 从我们为 DMA 端口分配的 MMIO 空间中，读取 Guest 写入的 ctl 地址。
+  //    我们不再使用错误的 offset 参数。
+  uint32_t ctl_paddr = *dma_req_paddr_ptr;
 
-  // 如果 req->pixels 不为 NULL, 且 w, h 不为 0, 才执行像素复制
+  // 2. 将 ctl 的物理地址（paddr）转换为 Host 可以访问的虚拟地址（haddr）
+  vga_blit_req_t *req = (vga_blit_req_t *)guest_to_host(ctl_paddr);
+
+  // 3. 后续逻辑保持不变，因为我们现在有了正确的 req 指针
   if (req->pixels != NULL && req->w != 0 && req->h != 0) {
     int x = req->x, y = req->y, w = req->w, h = req->h;
 
     uint32_t screen_w = screen_width();
     uint32_t *fb = (uint32_t *)(uintptr_t)vmem;
-    uint32_t *pixels = (uint32_t *)guest_to_host((uintptr_t)req->pixels);
 
-    // 增加一个额外的安全检查，防止 guest_to_host 失败返回 NULL
-    if (pixels == NULL)
+    // 因为 VA = PA，所以 req->pixels 本身也是物理地址
+    uint32_t *pixels =
+        (uint32_t *)guest_to_host((paddr_t)(uintptr_t)req->pixels);
+
+    // 安全检查
+    if (pixels == NULL && (paddr_t)(uintptr_t)req->pixels != 0)
       return;
 
     for (int j = 0; j < h; j++) {
@@ -116,8 +126,6 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
     }
   }
 
-  // 像素复制逻辑 和 同步逻辑 分开处理
-  // 这样，即使 pixels 为 NULL，同步信号依然能被正确处理
   if (req->sync) {
     vgactl_port_base[1] = 1;
   }
@@ -133,7 +141,8 @@ void init_vga() {
                NULL);
 #endif
 
-  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, new_space(4), 4, vga_blit_handler);
+  dma_req_paddr_ptr = (uint32_t *)new_space(4);
+  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, dma_req_paddr_ptr, 4,vga_blit_handler);
 
   vmem = new_space(screen_size());
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
