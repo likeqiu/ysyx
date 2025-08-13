@@ -126,8 +126,7 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
       uint32_t *src = &pixels[j * w];
       memcpy(dest, src, w * sizeof(uint32_t));
     }
-    printf("[NEMU DEBUG] Memcpy finished. vmem[0]=0x%08x, vmem[100]=0x%08x\n",
-           ((uint32_t *)vmem)[0], ((uint32_t *)vmem)[100]);
+    //printf("[NEMU DEBUG] Memcpy finished. vmem[0]=0x%08x, vmem[100]=0x%08x\n",((uint32_t *)vmem)[0], ((uint32_t *)vmem)[100]);
   }
 
 

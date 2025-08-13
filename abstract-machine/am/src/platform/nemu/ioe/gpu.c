@@ -29,7 +29,13 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
 
-  outl(VGACTL_ADDR + 8, (uintptr_t)ctl);
+  static AM_GPU_FBDRAW_T static_ctl;
+
+  // 将栈上传来的临时 ctl 的内容，完整地拷贝到静态变量中。
+  static_ctl = *ctl;
+
+  // 将这个【持久有效】的静态变量的地址发给 NEMU。
+  outl(VGACTL_ADDR  + 8, (uintptr_t)&static_ctl);
   }
   
 
