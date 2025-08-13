@@ -118,7 +118,10 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
 
 // TILEBLIT 的处理函数：高性能的硬件加速器
 static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
-  
+
+  printf("[NPC DEBUG] TILEBLIT finished. vmem[0]=0x%08x\n",
+         ((uint32_t *)vmem)[0]);
+
   if (!is_write)
     return;
   printf("[NPC DEBUG] TILEBLIT handler received request.\n");
