@@ -1,6 +1,7 @@
 #include <am.h>
 #include <nemu.h>
 #include<klib.h>
+#include<klib.h>
 
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
@@ -33,6 +34,9 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
 
   // 将栈上传来的临时 ctl 的内容，完整地拷贝到静态变量中。
   static_ctl = *ctl;
+
+  printf("[NEMU DEBUG] req data: x=%d, y=%d, w=%d, h=%d, pixels=%p, sync=%d\n",
+         ctl->x, ctl->y, ctl->w, ctl->h, ctl->pixels, ctl->sync);
 
   // 将这个【持久有效】的静态变量的地址发给 NEMU。
   outl(VGACTL_ADDR  + 8, (uintptr_t)&static_ctl);
