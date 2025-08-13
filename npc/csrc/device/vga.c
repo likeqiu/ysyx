@@ -163,8 +163,7 @@ void init_vga() {
 #endif
 
   fbdraw_paddr_ptr = (uint32_t *)new_space(4);
-  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4,
-               vga_blit_handler);
+  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4, vga_blit_handler);
 
   // 为 TILEBLIT 分配独立的 MMIO 端口和指针
   tileblit_paddr_ptr = (uint32_t *)new_space(4);
