@@ -146,27 +146,23 @@ void handle_tileblit_dma() {
     }
   }
 }
-
 void init_vga() {
   vgactl_port_base = (uint32_t *)new_space(8);
   vgactl_port_base[0] = (screen_width() << 16) | screen_height();
-
-#ifdef CONFIG_HAS_PORT_IO
-  add_pio_map("vgactl", CONFIG_VGA_CTL_PORT, vgactl_port_base, 8, NULL);
-#else
   add_mmio_map("vgactl", CONFIG_VGA_CTL_MMIO, vgactl_port_base, 8, NULL);
-#endif
 
+  // 【重要】我们仍然需要注册 MMIO 区域，但回调函数设为 NULL
+  // 这样，当 AM 写入时，数据能被正确存入 fbdraw_paddr_ptr 和 tileblit_paddr_ptr
   fbdraw_paddr_ptr = (uint32_t *)new_space(4);
-  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4, vga_blit_handler);
+  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4, NULL);
 
-  // 为 TILEBLIT 分配独立的 MMIO 端口和指针
   tileblit_paddr_ptr = (uint32_t *)new_space(4);
-  add_mmio_map("vga_tileblit", CONFIG_VGA_CTL_MMIO + 12, tileblit_paddr_ptr, 4,vga_tileblit_handler);
+  add_mmio_map("vga_tileblit", CONFIG_VGA_CTL_MMIO + 12, tileblit_paddr_ptr, 4,
+               NULL);
 
   vmem = new_space(screen_size());
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
+
   IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());
   IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));
-
 }
