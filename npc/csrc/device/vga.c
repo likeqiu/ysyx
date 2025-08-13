@@ -57,6 +57,22 @@ static inline void update_screen() {
 #endif
 #endif
 
+
+
+typedef struct {
+  int x, y;
+  void *pixels;
+  int w, h;
+  bool sync;
+} vga_blit_req_t;
+
+word_t paddr_read(paddr_t addr, int len);
+uint8_t *guest_to_host(paddr_t paddr);
+static uint32_t *fbdraw_paddr_ptr = NULL;
+static uint32_t *tileblit_paddr_ptr = NULL;
+
+// 【重要】我们将 handler 函数的声明从 static 去掉，因为要在 vga_update_screen
+// 中调用
 void handle_fbdraw_dma();
 void handle_tileblit_dma();
 
@@ -80,22 +96,6 @@ void vga_update_screen() {
     vgactl_port_base[1] = 0;
   }
 }
-
-typedef struct {
-  int x, y;
-  void *pixels;
-  int w, h;
-  bool sync;
-} vga_blit_req_t;
-
-word_t paddr_read(paddr_t addr, int len);
-uint8_t *guest_to_host(paddr_t paddr);
-static uint32_t *fbdraw_paddr_ptr = NULL;
-static uint32_t *tileblit_paddr_ptr = NULL;
-
-// 【重要】我们将 handler 函数的声明从 static 去掉，因为要在 vga_update_screen
-// 中调用
-
 
 // FBDRAW 的处理逻辑
 void handle_fbdraw_dma() {
