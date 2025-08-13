@@ -94,7 +94,7 @@ uint8_t *guest_to_host(paddr_t paddr);
 
 static uint32_t *dma_req_paddr_ptr = NULL;
 static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
-  printf("[NEMU DEBUG] vga_blit_handler: DMA request received!\n");
+
   if (
       !is_write)
     return;
@@ -105,7 +105,8 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
 
   // 2. 将 ctl 的物理地址（paddr）转换为 Host 可以访问的虚拟地址（haddr）
   vga_blit_req_t *req = (vga_blit_req_t *)guest_to_host(ctl_paddr);
-
+  printf("[NEMU DEBUG] req data: x=%d, y=%d, w=%d, h=%d, pixels=%p, sync=%d\n",
+         req->x, req->y, req->w, req->h, req->pixels, req->sync);
   // 3. 后续逻辑保持不变，因为我们现在有了正确的 req 指针
   if (req->pixels != NULL && req->w != 0 && req->h != 0) {
     int x = req->x, y = req->y, w = req->w, h = req->h;
