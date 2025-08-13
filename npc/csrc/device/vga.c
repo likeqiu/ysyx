@@ -57,13 +57,13 @@ static inline void update_screen() {
 #endif
 #endif
 
-//void handle_fbdraw_dma();
-//void handle_tileblit_dma();
+void handle_fbdraw_dma();
+void handle_tileblit_dma();
 
 // 主设备更新函数，现在是所有逻辑的核心
 void vga_update_screen() {
   // 1. 检查是否有 TILEBLIT 请求（检查信箱1）
-  /*if (*tileblit_paddr_ptr != 0) {
+  if (*tileblit_paddr_ptr != 0) {
     handle_tileblit_dma();
     *tileblit_paddr_ptr = 0; // 处理完后，清空信箱
   }
@@ -73,7 +73,7 @@ void vga_update_screen() {
     handle_fbdraw_dma();
     *fbdraw_paddr_ptr = 0; // 处理完后，清空信箱
   }
-*/
+
   // 3. 检查是否有同步信号，并刷新屏幕
   if (vgactl_port_base[1]) {
     update_screen();
@@ -98,7 +98,7 @@ static uint32_t *tileblit_paddr_ptr = NULL;
 
 
 // FBDRAW 的处理逻辑
-static void handle_fbdraw_dma() {
+void handle_fbdraw_dma() {
   uint32_t ctl_paddr = *fbdraw_paddr_ptr;
   int x = paddr_read(ctl_paddr + 0, 4);
   int y = paddr_read(ctl_paddr + 4, 4);
@@ -124,8 +124,7 @@ static void handle_fbdraw_dma() {
 }
 
 // TILEBLIT 的处理逻辑
-static void handle_tileblit_dma() {
-  printf("11111111\n");
+void handle_tileblit_dma() {
   uint32_t ctl_paddr = *tileblit_paddr_ptr;
   int x0 = paddr_read(ctl_paddr + 0, 4);
   int y0 = paddr_read(ctl_paddr + 4, 4);
@@ -155,11 +154,11 @@ void init_vga() {
   // 【重要】我们仍然需要注册 MMIO 区域，但回调函数设为 NULL
   // 这样，当 AM 写入时，数据能被正确存入 fbdraw_paddr_ptr 和 tileblit_paddr_ptr
   fbdraw_paddr_ptr = (uint32_t *)new_space(4);
-  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4,handle_fbdraw_dma);
+  add_mmio_map("vga_blit", CONFIG_VGA_CTL_MMIO + 8, fbdraw_paddr_ptr, 4, NULL);
 
   tileblit_paddr_ptr = (uint32_t *)new_space(4);
   add_mmio_map("vga_tileblit", CONFIG_VGA_CTL_MMIO + 12, tileblit_paddr_ptr, 4,
-               handle_tileblit_dma);
+               NULL);
 
   vmem = new_space(screen_size());
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
