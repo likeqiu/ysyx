@@ -200,7 +200,9 @@ end
    always @(*) begin
         if (is_load) begin // 加载指令
             `ifndef SYNTHESIS
-            difftest_skip_ref();
+             if( !is_mem_valid )
+             difftest_skip_ref();
+             
             verilog_pmem_read(mem_addr, mem_data);
             `else
             mem_data = yosys_store_load;     
@@ -239,11 +241,15 @@ end
 
     assign inst = inst_ifu;
 
+     wire is_mem_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF) ;
+
       always @(posedge clk) begin
         if (!rst) begin
             // --- 同步写 (用于Store指令) ---
             if (final_mem_we) begin
+                if( !is_mem_valid )
                 difftest_skip_ref();
+
                 case (funct3)
                     3'b000:
                     `ifndef SYNTHESIS
