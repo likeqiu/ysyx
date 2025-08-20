@@ -98,7 +98,7 @@ void difftest_step(vaddr_t pc,vaddr_t npc){
     }
 
     if(is_skip_ref){
-        ref_difftest_regcpy(&cpu, DIFFTEST_TO_REF);
+        ref_difftest_regcpy(&cpu, DIFFTEST_TO_REF); 
         is_skip_ref = false;
         return;
     }
