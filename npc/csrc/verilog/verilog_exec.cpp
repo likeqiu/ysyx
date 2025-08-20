@@ -15,7 +15,7 @@ Decode lastest_decode = {
     .logbuf = {},
 };
 
- void clint_update_mtime();
+// void clint_update_mtime();
 
 #define MAX_INST_TO_PRINT 100
 
@@ -59,7 +59,7 @@ static void execute(uint64_t n)
             return;
         }
 
-        clint_update_mtime();
+     //   clint_update_mtime();
         exec_once();
         g_nr_guest_inst++;
         trace_and_difftest(&lastest_decode ,cpu.pc);

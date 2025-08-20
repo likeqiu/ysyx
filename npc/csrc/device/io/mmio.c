@@ -37,18 +37,11 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len,io_c
     nr_map++;
 }
 
-uint64_t clint_get_mtime();
+
 
 
 
 word_t mmio_read(paddr_t addr, int len){
-
-  if (addr == CONFIG_RTC_MMIO) {
-    return (uint32_t)clint_get_mtime();
-  }
-  if (addr == CONFIG_RTC_MMIO + 4) {
-    return (uint32_t)(clint_get_mtime() >> 32);
-  }
 
     return map_read(addr, len, fetch_mmio_map(addr));
 }
@@ -56,10 +49,6 @@ word_t mmio_read(paddr_t addr, int len){
 void mmio_write(paddr_t addr, int len, word_t data){
 
 
-  if (addr == CONFIG_SERIAL_MMIO && len == 1) {
-    putc(data, stderr);
-    return;
-  }
 
 
   map_write(addr, len, data, fetch_mmio_map(addr));
