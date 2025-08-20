@@ -8,6 +8,14 @@
 #include "Vysyx_25040109_top__Syms.h"
 #include "Vysyx_25040109_top___024root.h"
 
+extern "C" void difftest_skip_ref();
+
+VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__difftest_skip_ref_TOP() {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__difftest_skip_ref_TOP\n"); );
+    // Body
+    difftest_skip_ref();
+}
+
 extern "C" void verilog_pmem_read(int addr, int* data);
 
 VL_INLINE_OPT void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(IData/*31:0*/ addr, IData/*31:0*/ &data) {
