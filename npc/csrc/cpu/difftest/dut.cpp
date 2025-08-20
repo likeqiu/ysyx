@@ -37,7 +37,7 @@ extern "C" void difftest_skip_dut(int nr_ref,int nr_dut){
 
 /*标记一下，本来在头文件中不声明的，可是monitor识别不到啊*/
 
-void init_difftest(char *ref_so_file,long img_size,int port){
+extern "C" void init_difftest(char *ref_so_file,long img_size,int port){
     assert(ref_so_file != NULL);
 
     void *handle;
