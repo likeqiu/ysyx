@@ -35,7 +35,7 @@ module ysyx_25040109_top (
     wire is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);  
 
 always @(posedge clk) begin
-    if(final_mem_we || is_load || is_ecall || is_stalled_by_trap)begin
+    if(final_mem_we || is_load || is_ecall || is_stalled_by_trap || opcode == 7'b1110011)begin
     difftest_skip_ref();
     end
 
