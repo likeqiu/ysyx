@@ -245,7 +245,7 @@ end
 
     
 always @(posedge clk) begin
-    if(final_mem_we)begin
+    if(final_mem_we || is_load)begin
     control<=2'b1;
     difftest_skip_ref();
     end
