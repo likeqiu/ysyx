@@ -73,8 +73,8 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__mtvec;
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i;
         IData/*31:0*/ __VdfgTmp_ha3c42dfe__0;
-        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__2__data;
-        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__9__data;
+        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__1__data;
+        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__8__data;
         IData/*31:0*/ __VstlIterCount;
         IData/*31:0*/ __VactIterCount;
         QData/*63:0*/ ysyx_25040109_top__DOT__exu__DOT__mul_temp;
