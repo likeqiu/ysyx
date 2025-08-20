@@ -243,14 +243,14 @@ end
 
      //wire is_mem_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF) ;
 
-    
+    /*
 always @(posedge clk) begin
     if(final_mem_we || is_load)begin
     difftest_skip_ref();
     end
 
 end
-
+*/
 
       always @(posedge clk) begin
         if (!rst) begin
