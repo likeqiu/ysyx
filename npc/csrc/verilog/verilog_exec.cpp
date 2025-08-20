@@ -15,7 +15,7 @@ Decode lastest_decode = {
     .logbuf = {},
 };
 
-// void clint_update_mtime();
+
 
 #define MAX_INST_TO_PRINT 100
 
@@ -90,13 +90,3 @@ void cpu_exec(uint64_t n){
 
 }
  
-/*void cmd_reg_info(char *args)
-{
-    for (int i = 0; i < 32; i++)
-    {
-        cpu.gpr[i] = top->rootp->ysyx_25040109_top__DOT__regfile__DOT__rf[i];
-       
-    }
-
-
-}*/
