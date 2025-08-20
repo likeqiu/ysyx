@@ -190,7 +190,9 @@ end
 
     assign writeback_data = is_load ? load_result  : result ;
 
-
+   wire is_load =  (opcode == 7'b0000011) && 
+                   (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
+                    funct3 == 3'b100 || funct3 == 3'b101);
 
    always @(*) begin
         if (is_load) begin // 加载指令
@@ -231,9 +233,7 @@ end
     
 
 
-   wire is_load =  (opcode == 7'b0000011) && 
-                   (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
-                    funct3 == 3'b100 || funct3 == 3'b101);
+
 
 
 
