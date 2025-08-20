@@ -96,7 +96,6 @@ end
         .opcode(opcode), 
         .funct3(funct3),
         .funct7(funct7),
-       // .mem_data(mem_data),
         .inst_invalid(inst_invalid),
         .result(result),
         .rd_addr_out(rd_addr_exu),
@@ -219,7 +218,7 @@ end
 
     `ifndef SYNTHESIS
   
-    always @(posedge clk) begin
+    always @(*) begin
         
         update_decode_state(pc,pc + 32'd4,next_pc,inst_ifu);
         

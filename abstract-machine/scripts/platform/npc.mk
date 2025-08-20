@@ -25,7 +25,7 @@ LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
 #    移除未使用的代码和数据段（垃圾回收）  指定程序入口点为_start符号
 
-NPCFLAGS += 
+NPCFLAGS += -b
 
 
 # 定义main函数参数的最大长度
