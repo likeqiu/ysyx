@@ -28,23 +28,23 @@ static bool lib_loaded = false;                                       // 标记�
 extern "C" void init_disasm_llvm()
 {
     // 可能的共享库路径列表
-    const char *wrapper_libs[] = 
-    {
-        "./libllvm_wrapper.so",              // 当前目录下的共享库
+    const char *wrapper_libs = "libllvm_wrapper.so";
+   // {
+       /* "./libllvm_wrapper.so",              // 当前目录下的共享库
         "/usr/local/lib/libllvm_wrapper.so", // 系统标准库路径
-        "libllvm_wrapper.so"};     
+        "libllvm_wrapper.so"};*/
     // 依赖系统库路径查找
 
     // 尝试加载共享库
-    for (int i = 0; i < 3; i++)
-    {
-        llvm_lib_handle = dlopen(wrapper_libs[i], RTLD_LAZY); // RTLD_LAZY表示延迟符号解析
+   // for (int i = 0; i < 3; i++)
+    //{
+        llvm_lib_handle = dlopen(wrapper_libs, RTLD_LAZY); // RTLD_LAZY表示延迟符号解析
         if (llvm_lib_handle)
         {
-            printf("Successfully loaded LLVM wrapper: %s\n", wrapper_libs[i]);
-            break; // 成功加载后退出循环
+            printf("Successfully loaded LLVM wrapper: %s\n", wrapper_libs);
+      //      break; // 成功加载后退出循环
         }
-    }
+    //}
 
     // 检查是否成功加载共享库
     if (!llvm_lib_handle)
