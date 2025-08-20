@@ -243,20 +243,24 @@ end
 
      //wire is_mem_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF) ;
 
-    /*
+    
 always @(posedge clk) begin
     if(final_mem_we)begin
-    control<=1'b1;
+    control<=2'b1;
     difftest_skip_ref();
     end
-    if(control == 1'b1)begin
-    control<=1'b0;
+    if(control == 2'b1)begin
+    control<=2'b11;
      difftest_skip_ref();
 end
+    if(control == 2'b11)begin
+        control<=2'b0;
+        difftest_skip_ref();
+    end
 
 end
-reg control;
-*/
+reg [1:0] control;
+
       always @(posedge clk) begin
         if (!rst) begin
             // --- 同步写 (用于Store指令) ---
