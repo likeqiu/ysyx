@@ -12,7 +12,6 @@ module ysyx_25040109_EXU (
     input [6:0] opcode,
     input [2:0] funct3,
     input [6:0] funct7,    
-   // input [31:0] mem_data,
     input inst_invalid,  
     output [31:0] result,
     output [4:0] rd_addr_out,  
@@ -171,8 +170,8 @@ module ysyx_25040109_EXU (
                      opcode == 7'b1100111)  ? jal_result :alu_out;   
 
     wire [11:0] funct12 = csr_addr;
-    wire is_ecall = (opcode == 7'b1110011) && (funct3 == 3'b000) && (funct12 == 12'h000);
-    wire is_mret  = (opcode == 7'b1110011) && (funct3 == 3'b000) && (funct12 == 12'h302);
+    wire is_ecall = is_csr_op && (funct3 == 3'b000) && (funct12 == 12'h000);
+    wire is_mret  = is_csr_op && (funct3 == 3'b000) && (funct12 == 12'h302);
 
 
     // 分支/跳转目标计算

@@ -301,6 +301,7 @@ static int decode_exec(Decode *s) {
 
     vaddr_t handler_addr = isa_raise_intr(11, s->pc);
     s->dnpc = handler_addr;
+    printf("0x%08x\n", handler_addr);
 
 #ifdef CONFIG_ETRACE
     printf("\033[1;33m cpu system reg interrupte before:\033[0m\n");
