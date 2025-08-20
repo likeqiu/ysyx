@@ -217,7 +217,7 @@ end
 
     `ifndef SYNTHESIS
   
-    always @(*) begin
+    always @(posedge clk) begin
         
         update_decode_state(pc,pc + 32'd4,next_pc,inst_ifu);
         
