@@ -139,7 +139,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___dump_triggers__stl(Vysyx_250401
 
 void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__regfile__DOT__update_cpu_state__Vdpioc2_TOP(IData/*31:0*/ pc, const VlUnpacked<IData/*31:0*/, 32> &regs);
 void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(IData/*31:0*/ addr, IData/*31:0*/ &data);
-void Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__update_decode_state_TOP(IData/*31:0*/ pc, IData/*31:0*/ snpc, IData/*31:0*/ dnpc, IData/*31:0*/ inst);
 
 VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040109_top___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -188,11 +187,11 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                                                 [(0x1fU 
                                                   & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                                                      >> 0xfU))]);
+    vlSelf->inst = vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem;
     vlSelf->ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hee48d914__0 
         = ((0x37U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
            | ((0x17U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
               | (0x6fU == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem))));
-    vlSelf->inst = vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem;
     vlSelf->__VdfgTmp_h61070d84__0 = ((4U == (7U & 
                                               (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
                                                >> 0xcU))) 
@@ -751,17 +750,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
         = ((IData)(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__hit)
             ? vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b_select__DOT__i0__DOT__lut_out
             : vlSelf->ysyx_25040109_top__DOT__imm);
-    vlSelf->ysyx_25040109_top__DOT__final_csr_we = 
-        ((IData)(vlSelf->ysyx_25040109_top__DOT__trap_state) 
-         | ((IData)(vlSelf->ysyx_25040109_top__DOT__is_ecall) 
-            | (IData)(vlSelf->ysyx_25040109_top__DOT__csr_we_from_exu)));
-    vlSelf->ysyx_25040109_top__DOT__final_csr_waddr 
-        = ((IData)(vlSelf->ysyx_25040109_top__DOT__trap_state)
-            ? 0x342U : ((IData)(vlSelf->ysyx_25040109_top__DOT__is_ecall)
-                         ? 0x341U : (IData)(vlSelf->ysyx_25040109_top__DOT__exu__DOT__funct12)));
-    Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__update_decode_state_TOP(vlSelf->pc, 
-                                                                                ((IData)(4U) 
-                                                                                + vlSelf->pc), vlSelf->ysyx_25040109_top__DOT__next_pc, vlSelf->inst);
     if (vlSelf->ysyx_25040109_top__DOT__inst_invalid) {
         vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_out = 0U;
     } else if (((((((((0x4c00U == (0x1ff80U & ((0x1fc00U 
@@ -1333,6 +1321,14 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                                + vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b)
                             : 0U))));
     }
+    vlSelf->ysyx_25040109_top__DOT__final_csr_we = 
+        ((IData)(vlSelf->ysyx_25040109_top__DOT__trap_state) 
+         | ((IData)(vlSelf->ysyx_25040109_top__DOT__is_ecall) 
+            | (IData)(vlSelf->ysyx_25040109_top__DOT__csr_we_from_exu)));
+    vlSelf->ysyx_25040109_top__DOT__final_csr_waddr 
+        = ((IData)(vlSelf->ysyx_25040109_top__DOT__trap_state)
+            ? 0x342U : ((IData)(vlSelf->ysyx_25040109_top__DOT__is_ecall)
+                         ? 0x341U : (IData)(vlSelf->ysyx_25040109_top__DOT__exu__DOT__funct12)));
     vlSelf->ysyx_25040109_top__DOT__csr_rdata_from_regfile 
         = ((0x300U == (IData)(vlSelf->ysyx_25040109_top__DOT__final_csr_waddr))
             ? vlSelf->ysyx_25040109_top__DOT__regfile__DOT__mstatus
