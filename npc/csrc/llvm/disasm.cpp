@@ -117,7 +117,7 @@ static void objdump_disasm(long long pc, unsigned int instruction_word, int inst
     // 检查临时文件创建是否成功
     if (fd == -1)
     {
-        printf("0x%08llx: 0x%08x \t(Error creating temp file)\n", pc, instruction_word);
+        printf("0x%08llx: 0x%08x \t(Error creating temp file)\n", pc,instruction_word);
         return;
     }
 

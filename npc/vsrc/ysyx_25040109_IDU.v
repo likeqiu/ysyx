@@ -129,10 +129,6 @@ module ysyx_25040109_IDU (
     wire is_system_op = (opcode == 7'b1110011);
     wire [11:0] funct12  = inst[31:20];
 
-  /*  wire valid_ebreak = (opcode == 7'b1110011) && 
-                       (funct3 == 3'b000) && 
-                       (inst[31:20] == 12'h001);*/
-
 
 
         wire valid_system = is_system_op && (

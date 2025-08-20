@@ -1,5 +1,5 @@
 module ysyx_25040109_IFU (
-    input [31:0] pc,          // 当前PC
+    input [31:0] pc,          
     `ifdef SYNTHESIS
     input [31:0] yosys_inst_from_mem,        
 

@@ -8,7 +8,7 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
     input wen,
     input [ADDR_WIDTH-1:0] raddr1,
     input [ADDR_WIDTH-1:0] raddr2,
-    output  [DATA_WIDTH-1:0] rdata1,
+    output  [DATA_WIDTH-1:0] rdata1,         
     output  [DATA_WIDTH-1:0] rdata2,
     output [DATA_WIDTH-1:0] a0_out,
        
@@ -89,36 +89,6 @@ initial begin
 end
 `endif
 
-
-// 确保CSR写入逻辑正确
-
-/*always @(posedge clk) begin
-    if (csr_we) begin
-        case (csr_addr)
-            CSR_MSTATUS: begin
-                mstatus <= csr_wdata;
-                $display("写入MSTATUS: 0x%08x", csr_wdata); // 调试用
-            end
-            CSR_MTVEC: begin
-                mtvec <= csr_wdata;
-                $display("写入MTVEC: 0x%08x", csr_wdata);
-            end
-            CSR_MEPC: begin
-                mepc <= csr_wdata;
-                $display("写入MEPC: 0x%08x", csr_wdata);
-            end
-            CSR_MCAUSE: begin
-                mcause <= csr_wdata;
-                $display("写入MCAUSE: 0x%08x", csr_wdata);
-                for(int i = 0;i<16;i++)begin
-                    $display("before:gpr[%d]: 0x%x\n",i,rf[i]);
-                end
-                
-            end
-            default: ;
-        endcase
-    end
-end*/
 
     always @(posedge clk) begin
         if (rst) begin

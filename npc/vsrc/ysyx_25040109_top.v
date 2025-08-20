@@ -19,7 +19,6 @@ module ysyx_25040109_top (
     reg  [31:0] mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
-   // wire step_en =1'b1;
     wire [6:0] opcode = inst_ifu[6:0];
         
     wire [11:0] csr_addr;
@@ -118,7 +117,7 @@ end
 
     wire final_gpr_we = reg_write_en_exu && !is_stalled_by_trap;
 
-   wire is_store = (opcode == 7'b0100011);
+    wire is_store = (opcode == 7'b0100011);
     wire final_mem_we = is_store && !inst_invalid && !is_stalled_by_trap;
 
 
