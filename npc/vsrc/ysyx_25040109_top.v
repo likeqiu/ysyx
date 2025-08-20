@@ -243,11 +243,11 @@ end
 
      //wire is_mem_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF) ;
 
-always @(*) begin
+always @(posedge clk) begin
     if(control==1'b1)
     difftest_skip_ref();
 
-    control=1'b0;
+    contro <= 1'b0;
 end
 reg control;
 
