@@ -34,6 +34,12 @@ module ysyx_25040109_top (
     localparam S_TRAP_MCAUSE = 1'b1;
     wire is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);  
 
+always @(posedge clk) begin
+    if(final_mem_we || is_load || is_ecall || is_stalled_by_trap)begin
+    difftest_skip_ref();
+    end
+
+end    
 
 always @(posedge clk ) begin
     if (rst) begin
@@ -42,7 +48,7 @@ always @(posedge clk ) begin
         case (trap_state)
             S_NORMAL: begin
                 if (is_ecall) begin
-                  //  difftest_skip_ref();
+                    difftest_skip_ref();
                     trap_state <= S_TRAP_MCAUSE;
                 end
             end
@@ -243,20 +249,14 @@ end
 
      //wire is_mem_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF) ;
 
-    /*
-always @(posedge clk) begin
-    if(final_mem_we || is_load)begin
-    difftest_skip_ref();
-    end
+    
 
-end
-*/
+
 
       always @(posedge clk) begin
         if (!rst) begin
             // --- 同步写 (用于Store指令) ---
             if (final_mem_we) begin
-              //  difftest_skip_ref();
 
                 case (funct3)
                     3'b000:
