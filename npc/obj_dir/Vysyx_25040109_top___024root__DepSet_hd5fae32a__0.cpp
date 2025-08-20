@@ -61,7 +61,8 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
             VL_FINISH_MT("/home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_top.v", 304, "");
         }
     }
-    if (vlSelf->ysyx_25040109_top__DOT__final_mem_we) {
+    if (((IData)(vlSelf->ysyx_25040109_top__DOT__final_mem_we) 
+         | (IData)(vlSelf->ysyx_25040109_top__DOT__is_load))) {
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__difftest_skip_ref_TOP();
         __Vdly__ysyx_25040109_top__DOT__control = 1U;
     }

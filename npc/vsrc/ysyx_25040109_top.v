@@ -253,11 +253,11 @@ always @(posedge clk) begin
     control<=2'b11;
      difftest_skip_ref();
 end
-    if(control == 2'b11)begin
+/*    if(control == 2'b11)begin
         control<=2'b0;
         difftest_skip_ref();
     end
-
+*/
 end
 reg [1:0] control;
 
