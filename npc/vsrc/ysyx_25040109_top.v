@@ -200,8 +200,8 @@ end
    always @(*) begin
         if (is_load) begin // 加载指令
             `ifndef SYNTHESIS
-         //    if( !is_mem_valid )
-           //  difftest_skip_ref();
+           //  if( !is_mem_valid )
+             difftest_skip_ref();
 
             verilog_pmem_read(mem_addr, mem_data);
             `else
