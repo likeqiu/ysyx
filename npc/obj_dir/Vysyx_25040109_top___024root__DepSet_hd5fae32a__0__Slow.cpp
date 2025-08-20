@@ -1376,11 +1376,9 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
                                                   ((IData)(4U) 
                                                    + vlSelf->pc)
                                                    : vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_out));
-    vlSelf->ysyx_25040109_top__DOT__is_mem_valid = 
-        ((0x80000000U <= vlSelf->ysyx_25040109_top__DOT__result) 
-         & (0x87ffffffU >= vlSelf->ysyx_25040109_top__DOT__result));
     if (vlSelf->ysyx_25040109_top__DOT__is_load) {
-        if ((1U & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__is_mem_valid)))) {
+        if ((1U & (~ ((0x80000000U <= vlSelf->ysyx_25040109_top__DOT__result) 
+                      & (0x87ffffffU >= vlSelf->ysyx_25040109_top__DOT__result))))) {
             Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__difftest_skip_ref_TOP();
         }
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(vlSelf->ysyx_25040109_top__DOT__result, vlSelf->__Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__3__data);
@@ -1477,7 +1475,6 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
     vlSelf->ysyx_25040109_top__DOT__final_csr_we = VL_RAND_RESET_I(1);
     vlSelf->ysyx_25040109_top__DOT__load_result = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__is_load = VL_RAND_RESET_I(1);
-    vlSelf->ysyx_25040109_top__DOT__is_mem_valid = VL_RAND_RESET_I(1);
     vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_j = VL_RAND_RESET_I(20);
     vlSelf->ysyx_25040109_top__DOT__idu__DOT__imm_s = VL_RAND_RESET_I(12);
