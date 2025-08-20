@@ -21,7 +21,7 @@ void (*ref_difftest_raise_intr)(uint64_t NO) = NULL;
 static bool is_skip_ref = false;
 static int skip_dut_nr_inst = 0;
     
-void difftest_skip_ref(){
+extern "C" void difftest_skip_ref(){
     is_skip_ref = true;
     skip_dut_nr_inst = 0;
 }

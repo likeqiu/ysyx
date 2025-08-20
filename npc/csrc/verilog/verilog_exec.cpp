@@ -62,7 +62,7 @@ static void execute(uint64_t n)
         clint_update_mtime();
         exec_once();
         g_nr_guest_inst++;
-        trace_and_difftest(&lastest_decode,lastest_decode.dnpc + 4);
+        trace_and_difftest(&lastest_decode ,cpu.pc);
 
         if(npc_state.state != NPC_RUNNING)
         break;

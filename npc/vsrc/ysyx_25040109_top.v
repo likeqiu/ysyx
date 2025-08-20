@@ -46,6 +46,7 @@ always @(posedge clk ) begin
                 end
             end
             S_TRAP_MCAUSE: begin
+                
                 // 在这个状态下，无条件地在下一个周期返回正常状态
                 trap_state <= S_NORMAL;
             end
