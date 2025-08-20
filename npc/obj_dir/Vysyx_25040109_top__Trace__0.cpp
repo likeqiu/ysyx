@@ -129,7 +129,8 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
                                   : vlSelf->ysyx_25040109_top__DOT__result)),32);
         bufp->chgIData(oldp+46,(vlSelf->ysyx_25040109_top__DOT__load_result),32);
         bufp->chgBit(oldp+47,(vlSelf->ysyx_25040109_top__DOT__is_load));
-        bufp->chgBit(oldp+48,(vlSelf->ysyx_25040109_top__DOT__is_mem_valid));
+        bufp->chgBit(oldp+48,(((0x80000000U <= vlSelf->ysyx_25040109_top__DOT__result) 
+                               & (0x87ffffffU >= vlSelf->ysyx_25040109_top__DOT__result))));
         bufp->chgIData(oldp+49,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_a),32);
         bufp->chgIData(oldp+50,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_b),32);
         bufp->chgIData(oldp+51,(vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_out),32);

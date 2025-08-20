@@ -241,7 +241,7 @@ end
 
     assign inst = inst_ifu;
 
-     wire is_mem_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF) ;
+     //wire is_mem_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF) ;
 
       always @(posedge clk) begin
         if (!rst) begin

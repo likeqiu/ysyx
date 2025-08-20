@@ -23,7 +23,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__is_ecall;
         CData/*0:0*/ ysyx_25040109_top__DOT__final_csr_we;
         CData/*0:0*/ ysyx_25040109_top__DOT__is_load;
-        CData/*0:0*/ ysyx_25040109_top__DOT__is_mem_valid;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__valid_r_type;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT__valid_system;
         CData/*0:0*/ ysyx_25040109_top__DOT__idu__DOT____VdfgTmp_hee48d914__0;
@@ -74,14 +73,14 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__mtvec;
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i;
         IData/*31:0*/ __VdfgTmp_ha3c42dfe__0;
-        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__3__data;
-        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__11__data;
+        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__2__data;
+        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__10__data;
         IData/*31:0*/ __VstlIterCount;
         IData/*31:0*/ __VactIterCount;
         QData/*63:0*/ ysyx_25040109_top__DOT__exu__DOT__mul_temp;
+        VlUnpacked<QData/*38:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list;
     };
     struct {
-        VlUnpacked<QData/*38:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list;
         VlUnpacked<CData/*6:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__key_list;
         VlUnpacked<IData/*31:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__data_list;
         VlUnpacked<QData/*38:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__pair_list;
