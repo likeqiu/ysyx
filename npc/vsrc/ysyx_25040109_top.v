@@ -42,7 +42,7 @@ always @(posedge clk ) begin
         case (trap_state)
             S_NORMAL: begin
                 if (is_ecall) begin
-                    difftest_skip_ref();
+                  //  difftest_skip_ref();
                     trap_state <= S_TRAP_MCAUSE;
                 end
             end
