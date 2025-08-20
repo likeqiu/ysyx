@@ -202,7 +202,7 @@ end
             `ifndef SYNTHESIS
              if( !is_mem_valid )
              difftest_skip_ref();
-             
+
             verilog_pmem_read(mem_addr, mem_data);
             `else
             mem_data = yosys_store_load;     
@@ -247,7 +247,7 @@ end
         if (!rst) begin
             // --- 同步写 (用于Store指令) ---
             if (final_mem_we) begin
-                if( !is_mem_valid )
+              //  if( !is_mem_valid )
                 difftest_skip_ref();
 
                 case (funct3)
