@@ -200,8 +200,8 @@ end
    always @(*) begin
         if (is_load) begin // 加载指令
             `ifndef SYNTHESIS
-             if( !is_mem_valid )
-             difftest_skip_ref();
+           //  if( !is_mem_valid )
+            // difftest_skip_ref();
 
             verilog_pmem_read(mem_addr, mem_data);
             `else
@@ -247,7 +247,7 @@ end
         if (!rst) begin
             // --- 同步写 (用于Store指令) ---
             if (final_mem_we) begin
-                if( !is_mem_valid )
+               // if( !is_mem_valid )
                 difftest_skip_ref();
 
                 case (funct3)

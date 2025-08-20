@@ -43,8 +43,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         if (((0x23U == (0x7fU & vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem)) 
              & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__inst_invalid)) 
                 & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__trap_state))))) {
-            if ((1U & (~ ((0x80000000U <= vlSelf->ysyx_25040109_top__DOT__result) 
-                          & (0x87ffffffU >= vlSelf->ysyx_25040109_top__DOT__result))))) {
+            if ((1U & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__is_mem_valid)))) {
                 Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__difftest_skip_ref_TOP();
             }
             if ((0U == (7U & (vlSelf->ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem 
@@ -1365,8 +1364,13 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                                                   ((IData)(4U) 
                                                    + vlSelf->pc)
                                                    : vlSelf->ysyx_25040109_top__DOT__exu__DOT__alu_out));
+    vlSelf->ysyx_25040109_top__DOT__is_mem_valid = 
+        ((0x80000000U <= vlSelf->ysyx_25040109_top__DOT__result) 
+         & (0x87ffffffU >= vlSelf->ysyx_25040109_top__DOT__result));
     if (vlSelf->ysyx_25040109_top__DOT__is_load) {
-        Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__difftest_skip_ref_TOP();
+        if ((1U & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__is_mem_valid)))) {
+            Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__difftest_skip_ref_TOP();
+        }
         Vysyx_25040109_top___024root____Vdpiimwrap_ysyx_25040109_top__DOT__verilog_pmem_read_TOP(vlSelf->ysyx_25040109_top__DOT__result, vlSelf->__Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__3__data);
         vlSelf->ysyx_25040109_top__DOT__mem_data = vlSelf->__Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__3__data;
         vlSelf->ysyx_25040109_top__DOT__load_result 
