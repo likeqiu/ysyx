@@ -75,6 +75,7 @@ static void checkregs(CPU_state *ref,vaddr_t pc){
     {
         npc_state.state = NPC_ABORT;
         npc_state.halt_pc = pc;
+        printf("99999999\n");
         isa_reg_display();
     }
 } 
