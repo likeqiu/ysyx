@@ -46,7 +46,7 @@ always @(posedge clk ) begin
                 end
             end
             S_TRAP_MCAUSE: begin
-                
+                difftest_skip_ref();
                 // 在这个状态下，无条件地在下一个周期返回正常状态
                 trap_state <= S_NORMAL;
             end
@@ -173,6 +173,7 @@ end
 
 `ifndef SYNTHESIS
 
+    import "DPI-C" function void difftest_skip_ref();
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
     import "DPI-C" function void verilog_pmem_write(input int addr, input int data, input int len);
     import "DPI-C" function int printf_finish(input int inst);  
