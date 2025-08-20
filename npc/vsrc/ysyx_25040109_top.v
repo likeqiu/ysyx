@@ -262,7 +262,7 @@ reg control;
         if (!rst) begin
             // --- 同步写 (用于Store指令) ---
             if (final_mem_we) begin
-                difftest_skip_ref();
+              //  difftest_skip_ref();
 
                 case (funct3)
                     3'b000:

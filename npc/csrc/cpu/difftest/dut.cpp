@@ -75,7 +75,7 @@ static void checkregs(CPU_state *ref,vaddr_t pc){
     {
         npc_state.state = NPC_ABORT;
         npc_state.halt_pc = pc;
-        printf("99999999\n");
+       // printf("99999999\n");
         isa_reg_display();
     }
 } 
@@ -87,7 +87,6 @@ void difftest_step(vaddr_t pc,vaddr_t npc){
     if(skip_dut_nr_inst > 0){
         ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
         if(ref_r.pc == npc){
-            printf("33333\n");
             skip_dut_nr_inst = 0;
             checkregs(&ref_r, npc);
             return;
@@ -106,7 +105,6 @@ void difftest_step(vaddr_t pc,vaddr_t npc){
     }
     ref_difftest_exec(1);
     ref_difftest_regcpy(&ref_r, DIFFTEST_TO_DUT);
-    printf("22222\n");
     checkregs(&ref_r, pc);
 }
 
