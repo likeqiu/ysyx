@@ -175,9 +175,6 @@ end
     import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
     import "DPI-C" function void verilog_pmem_write(input int addr, input int data, input int len);
     import "DPI-C" function int printf_finish(input int inst);  
-   // import "DPI-C" function void sdb_scan_mem(input int addr, output int value);
-   // import "DPI-C" function void debug_exu(input int pc, input int inst, input int rs1_data, input int rd_addr, input int result);
-    //import "DPI-C" function void mtrace_record(byte tp,int addr,int len,int  data);
     import "DPI-C" function void itrace_print( int pc, int instruction_word, int instr_len_bytes,int p_count_number);
     import "DPI-C" function void trap_record(int pc,int cause);
     import "DPI-C"  function void  update_decode_state(int pc,int snpc,int dnpc,int inst);

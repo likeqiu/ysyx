@@ -13,7 +13,7 @@ module ysyx_25040109_IDU (
     assign funct3 = inst[14:12];
     assign funct7 = inst[31:25];
     assign rd_addr = inst[11:7];
-    assign csr_addr = inst[31:20];
+    
 
 
 
@@ -140,7 +140,7 @@ module ysyx_25040109_IDU (
         (funct3 == 3'b010)    // CSRRS
     );            
 
-
+        assign csr_addr = valid_system ? inst[31:20] : 12'h0;
 
         always @(*) begin
         if (valid_lui || valid_auipc || valid_jal || valid_jalr ||
