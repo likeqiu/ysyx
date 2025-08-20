@@ -9,8 +9,7 @@ bool  isa_difftest_checkregs(CPU_state *ref_r,vaddr_t pc){
     for (int i = 1; i < 32;i++){
 
         if(i == 0 && (cpu.gpr[0] != 0 || ref_r->gpr[0] != 0)){
-            Log("Register %s mismatch: DUT = 0x%08x, REF = 0x%08x at PC = 0x%08x\n",
-                regs[i], cpu.gpr[i], ref_r->gpr[i], pc);
+            Log("Register %s mismatch: DUT = 0x%08x, REF = 0x%08x at PC = 0x%08x\n",regs[i], cpu.gpr[i], ref_r->gpr[i], pc);
             return false;
         }
 

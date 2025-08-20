@@ -250,7 +250,7 @@ always @(posedge clk) begin
     end
     if(control == 1'b1)begin
     control<=1'b0;
-        difftest_skip_ref();
+     difftest_skip_ref();
 end
 
 

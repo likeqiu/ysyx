@@ -126,6 +126,7 @@ static void statistic() {
 extern void iringbuf_dump();
 void assert_fail_msg()
 {
+  printf("22222222222222\n");
 #ifdef CONFIG_ITRACE
   iringbuf_dump();
   #endif
