@@ -194,9 +194,13 @@ end
                    (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
                     funct3 == 3'b100 || funct3 == 3'b101);
 
+
+    wire [31:0] mem_addr = result;
+
    always @(*) begin
         if (is_load) begin // 加载指令
             `ifndef SYNTHESIS
+            difftest_skip_ref();
             verilog_pmem_read(mem_addr, mem_data);
             `else
             mem_data = yosys_store_load;     
@@ -230,15 +234,6 @@ end
    
 
 
-    
-
-
-
-
-
-
-
-    wire [31:0] mem_addr = result;
 
    
 
@@ -248,6 +243,7 @@ end
         if (!rst) begin
             // --- 同步写 (用于Store指令) ---
             if (final_mem_we) begin
+                difftest_skip_ref();
                 case (funct3)
                     3'b000:
                     `ifndef SYNTHESIS
