@@ -247,7 +247,7 @@ always @(posedge clk) begin
     if(control==1'b1)
     difftest_skip_ref();
 
-    control <= 1'b0;
+    control = 1'b0;
 end
 reg control;
 
