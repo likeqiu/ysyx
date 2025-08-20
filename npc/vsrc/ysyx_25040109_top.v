@@ -246,20 +246,20 @@ end
     
 always @(posedge clk) begin
     if(final_mem_we || is_load)begin
-    control<=2'b1;
+  //  control<=2'b1;
     difftest_skip_ref();
     end
-    if(control == 2'b1)begin
+/*    if(control == 2'b1)begin
     control<=2'b11;
      difftest_skip_ref();
 end
-/*    if(control == 2'b11)begin
+    if(control == 2'b11)begin
         control<=2'b0;
         difftest_skip_ref();
     end
 */
 end
-reg [1:0] control;
+//reg [1:0] control;
 
       always @(posedge clk) begin
         if (!rst) begin
