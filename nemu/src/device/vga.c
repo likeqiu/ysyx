@@ -129,12 +129,12 @@ static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
   uint32_t ctl_paddr = *tileblit_paddr_ptr;
 
 
-  int x0 = paddr_read(ctl_paddr + 0, 4);
+  int x0 = paddr_read(ctl_paddr + 0, 4);//画布起始坐标
   int y0 = paddr_read(ctl_paddr + 4, 4);
   uint32_t tiles_paddr = paddr_read(ctl_paddr + 8, 4);
-  int w = paddr_read(ctl_paddr + 12, 4);
+  int w = paddr_read(ctl_paddr + 12, 4);//目标尺寸
   int h = paddr_read(ctl_paddr + 16, 4);
-  int tile_w = paddr_read(ctl_paddr + 20, 4);
+  int tile_w = paddr_read(ctl_paddr + 20, 4);//源尺寸
   int tile_h = paddr_read(ctl_paddr + 24, 4);
 
   uint32_t *tiles = (uint32_t *)guest_to_host(tiles_paddr);
@@ -144,9 +144,11 @@ static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
   // 最邻近插值的图像缩放算法
   for (int y = 0; y < h; y++) {
     for (int x = 0; x < w; x++) {
+      //计算出在画布中的绝对坐标
       int canvas_x = x * tile_w / w;
       int canvas_y = y * tile_h / h;
       fb[(y0 + y) * screen_w + (x0 + x)] = tiles[canvas_y * tile_w + canvas_x];
+      // 计算目标像素在整个屏幕帧缓冲区 fb 中的线性索引，将源瓦片的线索引赋值给它
     }
   }
 }

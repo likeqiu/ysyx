@@ -35,9 +35,9 @@ static uint32_t tail = 0;
 static SDL_AudioSpec spec;
 static bool audio_initialized = false;
 
-// 修复：正确计算音频数据大小，确保指针在有效范围内
+
 static int get_audio_data_size() {
-  // 确保head和tail在有效范围内
+
   head = head % CONFIG_SB_SIZE;
   tail = tail % CONFIG_SB_SIZE;
 
@@ -123,7 +123,7 @@ static void audio_io_handler(uint32_t offset, int len, bool is_write) {
         // 严格检查：确保不会超过缓冲区大小
         if (bytes_to_add > CONFIG_SB_SIZE) {
          // printf("NEMU Audio: ERROR - bytes_to_add (%u) > buffer size (%u), ""truncating\n",bytes_to_add, CONFIG_SB_SIZE);
-          bytes_to_add = CONFIG_SB_SIZE / 4; // 保守处理
+          bytes_to_add = CONFIG_SB_SIZE / 4; 
         }
 
         if (current_data_size + bytes_to_add > CONFIG_SB_SIZE) {
@@ -177,7 +177,5 @@ void init_audio() {
 
   sbuf = (uint8_t *)new_space(CONFIG_SB_SIZE);
   add_mmio_map("audio-sbuf", CONFIG_SB_ADDR, sbuf, CONFIG_SB_SIZE, NULL);
-
-  // 初始化头尾指针
 
 }
