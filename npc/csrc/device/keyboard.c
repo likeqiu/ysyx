@@ -20,7 +20,7 @@
                                       f(LEFT) f(RIGHT) f(INSERT) f(DELETE)     \
                                           f(HOME) f(END) f(PAGEUP) f(PAGEDOWN)
 
-#define NPC_KEY_NAME(k) NEMU_KEY_##k,
+#define NPC_KEY_NAME(k) NPC_KEY_##k,
 
 enum { NPC_KEY_NONE = 0, MAP(NPC_KEYS, NPC_KEY_NAME) };
 
