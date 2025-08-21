@@ -1,17 +1,15 @@
 #include <am.h>
 #include<npc.h>
-//#include<klib.h>
+
 
 void __am_timer_init() {
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uint32_t hi, lo;
-  do {
     hi = inl(RTC_ADDR + 4);
     lo = inl(RTC_ADDR);
-    
-  } while (inl(RTC_ADDR + 4) != hi);
+
 
   uptime->us = ((uint64_t)hi << 32) | lo;
 }

@@ -2,7 +2,7 @@
 #include <sys/time.h>
 #include <time.h>
 
-static struct timeval boot_time = {};
+static struct timeval boot_time = {};//系统启动时间
 
 void __am_timer_config(AM_TIMER_CONFIG_T *cfg) {
   cfg->present = cfg->has_rtc = true;
