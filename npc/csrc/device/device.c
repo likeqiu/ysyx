@@ -1,6 +1,8 @@
 #include<common.h>
 #include<utils.h>
-
+#ifndef CONFIG_TARGET_AM
+#include <SDL2/SDL.h>
+#endif
 #define TIMER_HZ 60
 
 void init_map();
@@ -28,7 +30,7 @@ void device_update() {
     // 轮询 SDL 事件
     switch (event.type) {
     case SDL_QUIT:
-      nemu_state.state = NEMU_QUIT;
+      npc_state.state = NPC_QUIT;
       break;
 #ifdef CONFIG_HAS_KEYBOARD
     // If a key was pressed
