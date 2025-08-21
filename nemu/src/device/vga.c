@@ -100,53 +100,34 @@ static uint32_t *tileblit_paddr_ptr = NULL;
 static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
   if (!is_write)
     return;
-
   uint32_t ctl_paddr = *fbdraw_paddr_ptr;
 
-  // 从客户机内存中读取 AM_GPU_FBDRAW_T 结构体的各个字段
+  // 手动解析 AM_GPU_FBDRAW_T 结构体
   int x = paddr_read(ctl_paddr + 0, 4);
   int y = paddr_read(ctl_paddr + 4, 4);
-  uint32_t pixels_paddr = paddr_read(ctl_paddr + 8, 4);
+  uint32_t pixels = paddr_read(ctl_paddr + 8, 4);
   int w = paddr_read(ctl_paddr + 12, 4);
   int h = paddr_read(ctl_paddr + 16, 4);
   bool sync = paddr_read(ctl_paddr + 20, 1);
 
-  // 如果没有像素数据或宽高为0，则直接返回
-  if (pixels_paddr == 0 || w == 0 || h == 0) {
-    if (sync) {
-      vgactl_port_base[1] = 1; // 即使不绘图，也可能需要同步
+  // 如果有像素数据，则执行 memcpy
+  if (pixels != 0 && w != 0 && h != 0) {
+    uint32_t screen_w = screen_width();
+    uint32_t *fb = (uint32_t *)vmem;
+    uint32_t *pixels_haddr = (uint32_t *)guest_to_host(pixels);
+    for (int j = 0; j < h; j++) {
+      uint32_t *dest = &fb[(y + j) * screen_w + x];
+      uint32_t *src = &pixels_haddr[j * w];
+      memcpy(dest, src, w * sizeof(uint32_t));
     }
-    return;
   }
 
-  // 获取像素数据在宿主机（Host）中的虚拟地址
-  uint32_t *pixels_haddr = (uint32_t *)guest_to_host(pixels_paddr);
-
-  // 创建一个指向客户机像素数据的源 Surface (零拷贝)
-  SDL_Surface *src_surface =
-      SDL_CreateRGBSurfaceFrom(pixels_haddr, w, h, 32, w * sizeof(uint32_t),
-                               0x00ff0000, 0x0000ff00, 0x000000ff, 0);
-
-  // 创建一个指向 NEMU 帧缓冲区 (vmem) 的目标 Surface (零拷贝)
-  SDL_Surface *dest_surface = SDL_CreateRGBSurfaceFrom(
-      vmem, screen_width(), screen_height(), 32,
-      screen_width() * sizeof(uint32_t), 0x00ff0000, 0x0000ff00, 0x000000ff, 0);
-
-  // 设置目标矩形区域
-  SDL_Rect dest_rect = {.x = x, .y = y};
-
-  // 使用 SDL 的高效 blit 函数完成绘制
-  SDL_BlitSurface(src_surface, NULL, dest_surface, &dest_rect);
-
-  // 释放临时的 Surface 包装对象
-  SDL_FreeSurface(src_surface);
-  SDL_FreeSurface(dest_surface);
-
-  // 如果有同步标志，则设置同步位，触发屏幕更新
+  // 如果有同步标志，则设置同步位
   if (sync) {
     vgactl_port_base[1] = 1;
   }
 }
+
 // TILEBLIT 的处理函数：高性能的硬件加速器
 static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
   if (!is_write)
