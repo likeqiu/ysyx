@@ -83,12 +83,7 @@ void vga_update_screen() {
   }
 }
 
-typedef struct {
-  int x, y;
-  void *pixels;
-  int w, h;
-  bool sync;
-} vga_blit_req_t;
+
 
 
 word_t paddr_read(paddr_t addr, int len);
@@ -110,7 +105,7 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
   int h = paddr_read(ctl_paddr + 16, 4);
   bool sync = paddr_read(ctl_paddr + 20, 1);
 
-  // 如果有像素数据，则执行 memcpy
+  //逐个复制块算法
   if (pixels != 0 && w != 0 && h != 0) {
     uint32_t screen_w = screen_width();
     uint32_t *fb = (uint32_t *)vmem;
@@ -122,7 +117,6 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
     }
   }
 
-  // 如果有同步标志，则设置同步位
   if (sync) {
     vgactl_port_base[1] = 1;
   }
@@ -134,7 +128,7 @@ static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
     return;
   uint32_t ctl_paddr = *tileblit_paddr_ptr;
 
-  // 手动解析 AM_GPU_TILEBLIT_T 结构体
+
   int x0 = paddr_read(ctl_paddr + 0, 4);
   int y0 = paddr_read(ctl_paddr + 4, 4);
   uint32_t tiles_paddr = paddr_read(ctl_paddr + 8, 4);
@@ -147,7 +141,7 @@ static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
   uint32_t *fb = (uint32_t *)vmem;
   uint32_t screen_w = screen_width();
 
-  // 在 Host 端高速执行像素填充
+  // 最邻近插值的图像缩放算法
   for (int y = 0; y < h; y++) {
     for (int x = 0; x < w; x++) {
       int canvas_x = x * tile_w / w;
