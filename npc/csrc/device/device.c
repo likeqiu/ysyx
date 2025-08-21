@@ -12,7 +12,7 @@ void init_vga();
 void init_i8042();
 
 void vga_update_screen();
-
+void send_key(uint8_t, bool);
 void device_update() {
 
   static uint64_t last = 0; // 只初始化一次
