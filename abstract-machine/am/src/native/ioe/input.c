@@ -52,7 +52,7 @@ void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   int k = AM_KEY_NONE;
 
   SDL_LockMutex(key_queue_lock);
-  if (key_f != key_r) {
+  if (key_f != key_r) {     
     k = key_queue[key_f];
     key_f = (key_f + 1) % KEY_QUEUE_LEN;
   }
