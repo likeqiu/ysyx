@@ -3,8 +3,8 @@
 #include<isa.h>
 #include<cpu/difftest.h>
 
-void set_nemu_state(int state, vaddr_t pc,int halt_ret){
-    //difftest_skip_ref();
+void set_npc_state(int state, vaddr_t pc,int halt_ret){
+    difftest_skip_ref();
     npc_state.state = state;
     npc_state.halt_pc = pc;
     npc_state.halt_ret = halt_ret;
@@ -29,5 +29,5 @@ void invalid_inst(vaddr_t thispc){
            thispc);
     printf("Find this PC(" FMT_WORD ") in the disassembling result to distinguish which case it is.\n\n", thispc);
 
-    set_nemu_state(NPC_ABORT, thispc, -1);
+    set_npc_state(NPC_ABORT, thispc, -1);
 }
