@@ -12,7 +12,7 @@ void putch(char ch) {
 }
 
 void halt(int code) {
-  nemu_trap(code); // 停止运行，code为0程序正常结束
+  nemu_trap(code); 
 
   // should not reach here
   while (1);
