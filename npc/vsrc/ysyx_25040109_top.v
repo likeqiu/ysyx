@@ -48,13 +48,10 @@ always @(posedge clk ) begin
         case (trap_state)
             S_NORMAL: begin
                 if (is_ecall) begin
-                    difftest_skip_ref();
                     trap_state <= S_TRAP_MCAUSE;
                 end
             end
             S_TRAP_MCAUSE: begin
-                difftest_skip_ref();
-                // 在这个状态下，无条件地在下一个周期返回正常状态
                 trap_state <= S_NORMAL;
             end
             default: trap_state <= S_NORMAL;
@@ -206,9 +203,6 @@ end
    always @(*) begin
         if (is_load) begin // 加载指令
             `ifndef SYNTHESIS
-           //  if( !is_mem_valid )
-            // difftest_skip_ref();
-
             verilog_pmem_read(mem_addr, mem_data);
             `else
             mem_data = yosys_store_load;     
