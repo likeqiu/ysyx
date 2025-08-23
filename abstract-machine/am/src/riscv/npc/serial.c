@@ -1,35 +1,18 @@
-#include<am.h>
-#include<npc.h>
-#include<klib.h>
+#include <am.h>
+#include <klib.h>
+#include <npc.h>
 
-#define SERIAL_PORT 0x3f8           // 串口端口基地址
-#define THR_REG (SERIAL_PORT + 0x0) // 发送保持寄存器 (写)
-#define RBR_REG (SERIAL_PORT + 0x0) // 接收缓冲寄存器 (读)
-#define LSR_REG (SERIAL_PORT + 0x5) // 线路状态寄存器
-#define LSR_DR_BIT (1 << 0)         // 数据就绪位 (Data Ready)
-#define LSR_THRE_BIT (1 << 5)       // 发送保持寄存器空闲位
+#define THR_REG (SERIAL_PORT + 0x0)
+#define LSR_REG (SERIAL_PORT + 0x5)
+#define LSR_THRE_BIT (1 << 5)
 
 void __am_uart_tx(AM_UART_TX_T *uart) {
 
-  //printf("1111\n");
+  // printf("1111\n");
   while ((inb(LSR_REG) & LSR_THRE_BIT) == 0)
     ;
 
-  // 2. 将字符数据写入发送保持寄存器(THR)
   outb(THR_REG, uart->data);
 }
 
-void __am_uart_rx(AM_UART_RX_T *uart) {
-  // 1. 先读取线路状态寄存器(LSR)
-  uint8_t status = inb(LSR_REG);
-
-  // 2. 检查数据就绪位(LSR_DR_BIT)是否为1
-  if (status & LSR_DR_BIT) {
-    // 如果为1，表示有数据到达，可以接收
-    // 3. 从接收缓冲寄存器(RBR)读取一个字节
-    uart->data = inb(RBR_REG);
-  } else {
-    // 如果为0，表示没有新的数据
-    uart->data = -1; // 使用-1或AM_KEY_NONE作为无输入的标志
-  }
-}
+void __am_uart_rx(AM_UART_RX_T *uart) { uart->data = 0; }
