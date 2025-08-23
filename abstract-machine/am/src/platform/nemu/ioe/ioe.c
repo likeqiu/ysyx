@@ -53,7 +53,7 @@ static void *lut[128] = {
     [AM_NET_CONFIG] = __am_net_config,
     [AM_GPU_TILEBLIT] = __am_gpu_tileblit,
     [AM_UART_TX] = __am_uart_tx,
-    [AM_UART_TX] = __am_uart_rx,
+    [AM_UART_RX] = __am_uart_rx,
 
 };
 
