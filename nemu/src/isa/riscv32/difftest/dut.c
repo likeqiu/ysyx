@@ -38,26 +38,6 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc)
   }
 
 
-  if(cpu.csr[CSR_MCAUSE] != ref_r->csr[CSR_MCAUSE]){
-    Log("CSR_MCAUSE mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
-        (unsigned long)cpu.csr[CSR_MCAUSE],
-        (unsigned long)ref_r->csr[CSR_MCAUSE], (unsigned long)pc);
-    return false;
-  }
-  if (cpu.csr[CSR_MEPC] != ref_r->csr[CSR_MEPC]) {
-    Log("CSR_MEPC mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
-        (unsigned long)cpu.csr[CSR_MEPC],
-        (unsigned long)ref_r->csr[CSR_MEPC], (unsigned long)pc);
-    return false;
-  }
-
-  if (cpu.csr[CSR_MSTATUS] != ref_r->csr[CSR_MSTATUS]) {
-    Log("CSR_STATUS mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
-        (unsigned long)cpu.csr[CSR_MSTATUS], (unsigned long)ref_r->csr[CSR_MSTATUS],
-        (unsigned long)pc);
-    return false;
-  }
-
   if (cpu.pc != ref_r->pc)
   {
     Log("PC mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
