@@ -4,7 +4,7 @@
 
 #define MMIO_BASE 0x10000000
 
-// 为每个设备分配4KB (0x1000) 的地址空间
+
 #define CONFIG_RTC_MMIO (MMIO_BASE + 0x00010000)        // 定时器/时钟
 #define CONFIG_I8042_DATA_MMIO (MMIO_BASE + 0x00011000) // 键盘
 #define CONFIG_SERIAL_MMIO (MMIO_BASE + 0x00012000)     // 串口
