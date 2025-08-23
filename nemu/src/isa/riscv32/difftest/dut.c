@@ -16,6 +16,7 @@
 #include <isa.h>
 #include <cpu/difftest.h>
 #include "../local-include/reg.h"
+#include<csr.h>
 
 extern const char *regs[];
 
@@ -26,13 +27,6 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc)
   for (int i = 0; i < 32; i++)
   {
 
-
-    if (i == 0 && (cpu.gpr[0] != 0 || ref_r->gpr[0] != 0))
-    {
-      Log("Register %s mismatch: DUT = 0x%08x, REF = 0x%08x at PC = 0x%08x\n",
-          regs[i], cpu.gpr[i], ref_r->gpr[i], pc);
-      return false;
-    }
     if (cpu.gpr[i] != ref_r->gpr[i])
     {
       Log("Register %s mismatch: DUT = 0x%08x, REF = 0x%08x at PC = 0x%08x\n",
@@ -43,6 +37,26 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc)
     
   }
 
+
+  if(cpu.csr[CSR_MCAUSE] != ref_r->csr[CSR_MCAUSE]){
+    Log("CSR_MCAUSE mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
+        (unsigned long)cpu.csr[CSR_MCAUSE],
+        (unsigned long)ref_r->csr[CSR_MCAUSE], (unsigned long)pc);
+    return false;
+  }
+  if (cpu.csr[CSR_MEPC] != ref_r->csr[CSR_MEPC]) {
+    Log("CSR_MEPC mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
+        (unsigned long)cpu.csr[CSR_MEPC],
+        (unsigned long)ref_r->csr[CSR_MEPC], (unsigned long)pc);
+    return false;
+  }
+
+  if (cpu.csr[CSR_MSTATUS] != ref_r->csr[CSR_MSTATUS]) {
+    Log("CSR_STATUS mismatch: DUT = 0x%lx, REF = 0x%lx at PC = 0x%lx\n",
+        (unsigned long)cpu.csr[CSR_MSTATUS], (unsigned long)ref_r->csr[CSR_MSTATUS],
+        (unsigned long)pc);
+    return false;
+  }
 
   if (cpu.pc != ref_r->pc)
   {

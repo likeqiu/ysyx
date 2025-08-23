@@ -60,10 +60,7 @@ void init_map() {
   p_space = io_space;
 }
 
-// - addr: 读取的物理地址
-// - len: 读取的数据长度（字节）
-// - map: 指向目标设备映射的 IOMap 结构体
-// 返回：读取的数据（word_t 类型，为无符号整数）
+
 word_t map_read(paddr_t addr, int len, IOMap *map) {
   assert(len >= 1 && len <= 8);
   check_bound(map, addr);

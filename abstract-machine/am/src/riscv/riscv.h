@@ -53,7 +53,7 @@ enum { MODE_U, MODE_S, MODE_M = 3 };
 #define MSTATUS_SXL  (2ull << 34)
 #define MSTATUS_UXL  (2ull << 32)
 #else
-// 对于 32 位 RISC-V，SXL 和 UXL 置为 0（默认 32 位），MSTATUS_SXL: Supervisor XLEN，监管者模式的位宽，， MSTATUS_UXL: User XLEN，用户模式的位宽
+
 #define MSTATUS_SXL  0
 #define MSTATUS_UXL  0
 #endif

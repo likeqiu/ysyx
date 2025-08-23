@@ -20,11 +20,8 @@ void __am_disk_blkio(AM_DISK_BLKIO_T *io);
 void __am_gpu_tileblit(AM_GPU_TILEBLIT_T *);
 
 static void __am_timer_config(AM_TIMER_CONFIG_T *cfg) { cfg->present = true; cfg->has_rtc = true; }
-// 静态函数，处理输入设备配置
 static void __am_input_config(AM_INPUT_CONFIG_T *cfg) { cfg->present = true;  }
-// 静态函数，处理串口配置（未启用）
 static void __am_uart_config(AM_UART_CONFIG_T *cfg)   { cfg->present = false; }
-// 静态函数，处理网络配置（未启用）
 static void __am_net_config (AM_NET_CONFIG_T *cfg)    { cfg->present = false; }
 
 // 定义处理函数查找表
@@ -62,8 +59,5 @@ bool ioe_init() {
   return true;
 }
 
-// int reg：寄存器编号，例如 AM_UART_RX（读取串口数据）或 AM_TIMER_RTC（读取实时时钟）
-// void *buf：指向目标缓冲区的指针，用于存储读取到的数据。buf 的实际类型取决于寄存器（例如 AM_UART_RX_T 或 AM_TIMER_RTC_T）。。
-// lut 类型转换
 void ioe_read (int reg, void *buf) { ((handler_t)lut[reg])(buf); }
 void ioe_write(int reg, void *buf) { ((handler_t)lut[reg])(buf); }

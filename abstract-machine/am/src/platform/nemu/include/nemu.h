@@ -1,12 +1,7 @@
 #ifndef NEMU_H__
 #define NEMU_H__
 
-/*文件作用：nemu.h 是 NEMU（可能为 "NEMU Emulator"，一个模拟器）的头文件，用于定义与硬件模拟相关的宏、地址和类型。它支持多种指令集体系结构（如 x86、MIPS32、RISC-V、LoongArch32R），并为模拟器中的设备（如串口、键盘、显示器等）提供内存映射地址。
-主要功能：
-陷阱机制：通过 nemu_trap 宏为不同 ISA 定义退出或中断机制，方便模拟器捕获程序状态。
-设备地址映射：定义设备的内存映射地址（如串口、键盘、VGA、音频等），便于模拟器访问硬件资源。
-物理内存管理：定义物理内存的起始地址、大小和地址空间范围，支持内存和设备的统一管理。
-分页支持：定义页面大小和页面表条目类型，为虚拟内存管理提供基础。*/
+
 
 #include <klib-macros.h>
 
@@ -19,10 +14,7 @@
 # define nemu_trap(code) asm volatile ("move $v0, %0; sdbbp" : :"r"(code))
 #elif defined(__riscv)
 # define nemu_trap(code) asm volatile("mv a0, %0; ebreak" : :"r"(code))
-// asm: 关键字，表示后面的内容是汇编指令。
-/*volatile : 这是内联汇编的一个修饰符。它告诉编译器 不要 对这段汇编代码进行优化（例如，移除它、重排它）或者认为它没有副作用。这对于像 ebreak 这种会改变程序流程或与外部环境交互的指令至关重要。*/
-// 对于 RISC-V 架构，将 code 移动到 a0 寄存器，然后使用 ebreak 指令触发断点
-// a0: RISC-V 中用于传递参数的寄存器；ebreak: Environment Break，环境断点 
+
 #elif defined(__ISA_LOONGARCH32R__)
 # define nemu_trap(code) asm volatile("move $a0, %0; break 0" : :"r"(code))
 #else
@@ -62,9 +54,7 @@ extern char _pmem_start;
 #define PMEM_SIZE (128 * 1024 * 1024)
 #define PMEM_END  ((uintptr_t)&_pmem_start + PMEM_SIZE)
 
-// 定义 NEMU 的物理地址空间范围，包含内存和设备映射区域
-// NEMU_PADDR_SPACE: NEMU Physical Address Space，NEMU 物理地址空间
-// RANGE 宏用于定义地址范围，格式为 RANGE(start, end)
+
 #define NEMU_PADDR_SPACE \
   RANGE(&_pmem_start, PMEM_END), \
   RANGE(FB_ADDR, FB_ADDR + 0x200000), \

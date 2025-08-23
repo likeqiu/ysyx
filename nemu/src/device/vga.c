@@ -105,7 +105,7 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
   int h = paddr_read(ctl_paddr + 16, 4);
   bool sync = paddr_read(ctl_paddr + 20, 1);
 
-  //逐个复制块算法
+
   if (pixels != 0 && w != 0 && h != 0) {
     uint32_t screen_w = screen_width();
     uint32_t *fb = (uint32_t *)vmem;
