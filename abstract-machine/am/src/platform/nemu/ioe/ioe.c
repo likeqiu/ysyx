@@ -19,6 +19,7 @@ void __am_disk_status(AM_DISK_STATUS_T *stat);
 void __am_disk_blkio(AM_DISK_BLKIO_T *io);
 void __am_gpu_tileblit(AM_GPU_TILEBLIT_T *);
 void __am_uart_tx(AM_UART_TX_T *uart);
+void __am_uart_rx(AM_UART_TX_T *uart);
 
 static void __am_timer_config(AM_TIMER_CONFIG_T *cfg)
 {
@@ -52,6 +53,7 @@ static void *lut[128] = {
     [AM_NET_CONFIG] = __am_net_config,
     [AM_GPU_TILEBLIT] = __am_gpu_tileblit,
     [AM_UART_TX] = __am_uart_tx,
+    [AM_UART_TX] = __am_uart_rx,
 
 };
 
