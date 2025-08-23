@@ -39,7 +39,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   }
 
   void __am_gpu_tileblit(AM_GPU_TILEBLIT_T *ctl) {
-    // 同样使用静态变量确保数据持久性
+
     static AM_GPU_TILEBLIT_T static_ctl;
     static_ctl = *ctl;
     outl(VGACTL_ADDR + 12, (uintptr_t)&static_ctl);

@@ -34,12 +34,7 @@ module ysyx_25040109_top (
     localparam S_TRAP_MCAUSE = 1'b1;
     wire is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);  
 
-always @(posedge clk) begin
-    if(final_mem_we || is_load || is_ecall || is_stalled_by_trap || opcode == 7'b1110011)begin
-    difftest_skip_ref();
-    end
 
-end    
 
 always @(posedge clk ) begin
     if (rst) begin
@@ -135,12 +130,12 @@ end
     localparam CSR_MCAUSE = 12'h342;
     
     assign final_csr_we = (is_stalled_by_trap) ? 1'b1 :               
-                          (is_ecall)           ? 1'b1 :                // ecall时, 强制写CSR
-                          csr_we_from_exu;                           // 正常情况
+                          (is_ecall)           ? 1'b1 :               
+                          csr_we_from_exu;                           
 
     assign final_csr_waddr = (is_stalled_by_trap) ? CSR_MCAUSE :        // 暂停时, 写mcause
                              (is_ecall)           ? CSR_MEPC   :        // ecall时, 写mepc
-                             csr_addr;                                 // 正常情况
+                             csr_addr;                                
 
     assign final_csr_wdata = (is_stalled_by_trap) ? 32'd11 :           
                              (is_ecall)           ? pc     :            
@@ -201,18 +196,18 @@ end
     wire [31:0] mem_addr = result;
 
    always @(*) begin
-        if (is_load) begin // 加载指令
+        if (is_load) begin 
             `ifndef SYNTHESIS
             verilog_pmem_read(mem_addr, mem_data);
             `else
             mem_data = yosys_store_load;     
             `endif 
             case (funct3)
-                3'b000: load_result = {{24{mem_data[7]}}, mem_data[7:0]};   // LB - 符号扩展
-                3'b001: load_result = {{16{mem_data[15]}}, mem_data[15:0]}; // LH - 符号扩展
-                3'b010: load_result = mem_data;                             // LW - 直接使用
-                3'b100: load_result = {24'b0, mem_data[7:0]};              // LBU - 零扩展
-                3'b101: load_result = {16'b0, mem_data[15:0]};             // LHU - 零扩展
+                3'b000: load_result = {{24{mem_data[7]}}, mem_data[7:0]};   // LB 
+                3'b001: load_result = {{16{mem_data[15]}}, mem_data[15:0]}; // LH 
+                3'b010: load_result = mem_data;                             // LW 
+                3'b100: load_result = {24'b0, mem_data[7:0]};              // LBU 
+                3'b101: load_result = {16'b0, mem_data[15:0]};             // LHU
                 default: load_result = 32'b0;
             endcase
         end else begin
@@ -237,19 +232,18 @@ end
 
 
 
+    always @(posedge clk) begin
+    if(final_mem_we || is_load || is_ecall || is_stalled_by_trap || opcode == 7'b1110011)begin
+    difftest_skip_ref();
+    end
+
+end    
    
 
     assign inst = inst_ifu;
 
-     //wire is_mem_valid = (mem_addr >= 32'h80000000) && (mem_addr <= 32'h87FFFFFF) ;
-
-    
-
-
-
       always @(posedge clk) begin
         if (!rst) begin
-            // --- 同步写 (用于Store指令) ---
             if (final_mem_we) begin
 
                 case (funct3)
@@ -275,13 +269,11 @@ end
                     `else 
                     ;
 
-                    `endif
-                    
+                    `endif                 
                     default: ;
                 endcase
             end
-
-            // --- 仿真跟踪与结束 ---
+   
             `ifndef SYNTHESIS
             itrace_print(pc, inst_ifu, 4,p_count_number);
            

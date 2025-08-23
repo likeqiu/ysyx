@@ -3,13 +3,6 @@
 #include <klib.h>
 
 
-//搭配trap.s使用可追踪汇编过程的寄存器变化
-/*
- void printf_SP(uintptr_t sp) {
-
-   printf("sp:0x%08x\n", sp);
-}
-*/
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 
@@ -55,7 +48,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 extern void __am_kcontext_start(void);
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  // 在栈顶分配Context结构体空间，注意要对齐
+  
   Context *c = (Context *)(((uintptr_t)kstack.end - sizeof(Context)) & ~0xF);
 
   memset(c, 0, sizeof(Context));
@@ -63,9 +56,9 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   c->mepc = (uintptr_t)__am_kcontext_start;
 
-  c->gpr[2] = (uintptr_t)kstack.end; // sp寄存器
+  c->gpr[2] = (uintptr_t)kstack.end; // sp
 
-  // 设置参数寄存器
+
   c->gpr[10] = (uintptr_t)arg;   // a0
   c->gpr[11] = (uintptr_t)entry; // a1
 

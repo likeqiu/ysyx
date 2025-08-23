@@ -118,7 +118,7 @@ static int decode_exec(Decode *s) {
   __VA_ARGS__ ; \
 }
 
-  //注意指令顺序，防止覆盖
+
   INSTPAT_START();
   INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc, U, R(rd) = s->pc + imm);
   INSTPAT("??????? ????? ????? ??? ????? 01101 11", lui,   U, R(rd) = imm);
@@ -242,7 +242,7 @@ static int decode_exec(Decode *s) {
 
        s->dnpc = cpu.csr[CSR_MEPC];
 
-    // 这注释掉不符合标准，但是当前测试程序不支持，后边才需要处理
+    
     /* word_t mstatus = cpu.csr[CSR_MSTATUS];
 
      bool mpie = (mstatus >> 7) & 1;

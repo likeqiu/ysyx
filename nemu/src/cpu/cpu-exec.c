@@ -45,7 +45,7 @@ void device_update();
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
-  //这里注释掉日志就不会出现两行相同指令
+
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
@@ -126,7 +126,6 @@ static void statistic() {
 extern void iringbuf_dump();
 void assert_fail_msg()
 {
-  printf("22222222222222\n");
 #ifdef CONFIG_ITRACE
   iringbuf_dump();
   #endif

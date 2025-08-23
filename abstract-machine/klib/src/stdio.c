@@ -18,7 +18,7 @@ static void reverse_str(char *start, int len) {
   }
 }
 
-// 修复后的有符号整数转换函数
+// 有符号整数转换函数
 static int itoa_signed(int num, char *buf, int base) {
   char *p = buf;
   unsigned int unum;
@@ -31,9 +31,7 @@ static int itoa_signed(int num, char *buf, int base) {
 
   if (num < 0 && base == 10) {
     *p++ = '-';
-    // 修复：正确处理 INT_MIN 的溢出问题
-    // INT_MIN = -2147483648, INT_MAX = 2147483647
-    // 直接使用无符号转换避免溢出
+
     unum = (unsigned int)num;
     unum = ~unum + 1; // 等价于 -num 但避免溢出
   } else {
@@ -256,17 +254,17 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       break;
     }
     case 'x': {
-      if (long_count >= 2) { // ll 或 更多 l
+      if (long_count >= 2) { 
         unsigned long long num = va_arg(args, unsigned long long);
         char buf[64];
         ulltoa(num, buf, 16);
         output_formatted_number(buf, width, zero_pad, out, data);
-      } else if (long_count == 1) { // l
+      } else if (long_count == 1) { 
         unsigned long num = va_arg(args, unsigned long);
         char buf[64];
         ulltoa((unsigned long long)num, buf, 16);
         output_formatted_number(buf, width, zero_pad, out, data);
-      } else { // 无修饰符
+      } else { 
         unsigned int num = va_arg(args, unsigned int);
         char buf[32];
         utoa(num, buf, 16);
@@ -275,10 +273,10 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       break;
     }
     case 'p': {
-      // 修复：使用合适的类型转换指针
+
       void *ptr = va_arg(args, void *);
       char buf[32];
-      // 将指针转换为 unsigned long long 以保证兼容性
+
       unsigned long long addr = (unsigned long long)(unsigned long)ptr;
       ulltoa(addr, buf, 16);
       out('0', data);
@@ -287,7 +285,7 @@ static void format_core(const char *fmt, va_list args, OutputFunc out,
       break;
     }
     case 'u': {
-      if (long_count >= 2) { // ll 或 更多 l
+      if (long_count >= 2) { 
         unsigned long long num = va_arg(args, unsigned long long);
         char buf[64];
         ulltoa(num, buf, 10);
@@ -367,7 +365,7 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
   struct snprintf_data ctx = {out, n, 0};
   format_core(fmt, args, snprintf_out, &ctx);
 
-  // 确保字符串以 '\0' 结尾
+
   if (ctx.remaining > 0) {
     *ctx.buf = '\0';
   } else if (n > 0) {
@@ -385,7 +383,6 @@ int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
   struct snprintf_data ctx = {out, n, 0};
   format_core(fmt, ap, snprintf_out, &ctx);
 
-  // 确保字符串以 '\0' 结尾
   if (ctx.remaining > 0) {
     *ctx.buf = '\0';
   } else if (n > 0) {

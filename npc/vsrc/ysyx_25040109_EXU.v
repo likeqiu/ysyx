@@ -50,8 +50,8 @@ module ysyx_25040109_EXU (
         .key(opcode),
         .default_out(imm),
         .lut({
-            7'b0110011,rs2_data, // R型指令
-            7'b1100011,rs2_data, //B型指令
+            7'b0110011,rs2_data, 
+            7'b1100011,rs2_data, 
             7'b0000011,imm,
             7'b0100011,imm
         })
@@ -122,16 +122,16 @@ module ysyx_25040109_EXU (
                  {7'b0110111, 3'b???, 7'b???????}: alu_out = alu_b; // LUI
                 {7'b0010111, 3'b???, 7'b???????}: alu_out = alu_a + alu_b; // AUIPC
 
-                // 内存指令 - 统一进行地址计算
-                {7'b0000011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // LB - 计算地址
-                {7'b0000011, 3'b001, 7'b???????}: alu_out = alu_a + alu_b; // LH - 计算地址
-                {7'b0000011, 3'b010, 7'b???????}: alu_out = alu_a + alu_b; // LW - 计算地址
-                {7'b0000011, 3'b100, 7'b???????}: alu_out = alu_a + alu_b; // LBU - 计算地址
-                {7'b0000011, 3'b101, 7'b???????}: alu_out = alu_a + alu_b; // LHU - 计算地址
+  
+                {7'b0000011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // LB 
+                {7'b0000011, 3'b001, 7'b???????}: alu_out = alu_a + alu_b; // LH
+                {7'b0000011, 3'b010, 7'b???????}: alu_out = alu_a + alu_b; // LW
+                {7'b0000011, 3'b100, 7'b???????}: alu_out = alu_a + alu_b; // LBU 
+                {7'b0000011, 3'b101, 7'b???????}: alu_out = alu_a + alu_b; // LHU 
 
-                {7'b0100011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // SB - 计算地址
-                {7'b0100011, 3'b001, 7'b???????}: alu_out = alu_a + alu_b; // SH - 计算地址
-                {7'b0100011, 3'b010, 7'b???????}: alu_out = alu_a + alu_b; // SW - 计算地址
+                {7'b0100011, 3'b000, 7'b???????}: alu_out = alu_a + alu_b; // SB 
+                {7'b0100011, 3'b001, 7'b???????}: alu_out = alu_a + alu_b; // SH 
+                {7'b0100011, 3'b010, 7'b???????}: alu_out = alu_a + alu_b; // SW 
 
                 default: alu_out = 32'b0;
             endcase
@@ -174,7 +174,7 @@ module ysyx_25040109_EXU (
     wire is_mret  = is_csr_op && (funct3 == 3'b000) && (funct12 == 12'h302);
 
 
-    // 分支/跳转目标计算
+
     wire [31:0] jal_result      = pc + 4;
     wire [31:0] jal_target      = pc + imm;
     wire [31:0] jalr_target = (rs1_data + imm) & 32'hFFFFFFFE; //低位清零
@@ -195,7 +195,7 @@ module ysyx_25040109_EXU (
 
 
 
-    // 下一 PC 的选择器
+   
 
      always @(*) begin
         if (!inst_invalid) begin
@@ -210,13 +210,13 @@ module ysyx_25040109_EXU (
             end else if (branch_taken) begin
                 next_pc = branch_target;
             end else begin
-                next_pc = pc + 4; // 默认顺序执行
+                next_pc = pc + 4; 
             end
         end else begin
             next_pc = pc+4;
            $finish;
           $display("0x%08x:",pc);
-            //next_pc = pc + 4; // 无效指令, 也继续往下走 (或者可以设计成陷入异常)
+
         end
     end
 

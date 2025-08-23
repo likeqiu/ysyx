@@ -91,13 +91,12 @@ uint8_t *guest_to_host(paddr_t paddr);
 static uint32_t *fbdraw_paddr_ptr = NULL;
 static uint32_t *tileblit_paddr_ptr = NULL;
 
-// FBDRAW 的处理函数：主要用于处理同步信号，或传统的 memcpy 绘图
+
 static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
   if (!is_write)
     return;
   uint32_t ctl_paddr = *fbdraw_paddr_ptr;
 
-  // 手动解析 AM_GPU_FBDRAW_T 结构体
   int x = paddr_read(ctl_paddr + 0, 4);
   int y = paddr_read(ctl_paddr + 4, 4);
   uint32_t pixels = paddr_read(ctl_paddr + 8, 4);
@@ -122,19 +121,19 @@ static void vga_blit_handler(uint32_t offset, int len, bool is_write) {
   }
 }
 
-// TILEBLIT 的处理函数：高性能的硬件加速器
+// 高性能的硬件加速器
 static void vga_tileblit_handler(uint32_t offset, int len, bool is_write) {
   if (!is_write)
     return;
   uint32_t ctl_paddr = *tileblit_paddr_ptr;
 
 
-  int x0 = paddr_read(ctl_paddr + 0, 4);//画布起始坐标
+  int x0 = paddr_read(ctl_paddr + 0, 4);
   int y0 = paddr_read(ctl_paddr + 4, 4);
   uint32_t tiles_paddr = paddr_read(ctl_paddr + 8, 4);
-  int w = paddr_read(ctl_paddr + 12, 4);//目标尺寸
+  int w = paddr_read(ctl_paddr + 12, 4);
   int h = paddr_read(ctl_paddr + 16, 4);
-  int tile_w = paddr_read(ctl_paddr + 20, 4);//源尺寸
+  int tile_w = paddr_read(ctl_paddr + 20, 4);
   int tile_h = paddr_read(ctl_paddr + 24, 4);
 
   uint32_t *tiles = (uint32_t *)guest_to_host(tiles_paddr);

@@ -16,7 +16,6 @@ void (*ref_difftest_raise_intr)(uint64_t NO) = NULL;
 
 #ifdef CONFIG_DIFFTEST
 
-// nemu是逐条指令执行，目前不需要处理打包问题,但考虑到可能还要和其他模拟器进行比较，保留处理打包方式,，但没有使用
 
 static bool is_skip_ref = false;
 static int skip_dut_nr_inst = 0;
@@ -35,7 +34,7 @@ extern "C" void difftest_skip_dut(int nr_ref,int nr_dut){
     }
 }
 
-/*标记一下，本来在头文件中不声明的，可是monitor识别不到啊*/
+
 
 extern "C" void init_difftest(char *ref_so_file,long img_size,int port){
     assert(ref_so_file != NULL);
@@ -75,7 +74,6 @@ static void checkregs(CPU_state *ref,vaddr_t pc){
     {
         npc_state.state = NPC_ABORT;
         npc_state.halt_pc = pc;
-       // printf("99999999\n");
         isa_reg_display();
     }
 } 

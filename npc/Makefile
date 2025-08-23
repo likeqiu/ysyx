@@ -152,7 +152,7 @@ else
 	@echo "LLVM not available, nothing to install"
 endif
 
-# 显示当前配置信息
+
 info:
 	@echo "=== Build Configuration ==="
 	@echo "LLVM Available: $(LLVM_AVAILABLE)"

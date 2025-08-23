@@ -58,7 +58,7 @@ static void key_enqueue(uint32_t am_scancode) {
 }
 
 static uint32_t key_dequeue() {
-  //printf("11111\n");
+
   uint32_t key = NEMU_KEY_NONE;
   if (key_f != key_r) {
     key = key_queue[key_f];

@@ -4,7 +4,7 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-// ✅ 正确实现
+
 size_t strlen(const char *s) {
   size_t num = 0;
   while (*s++) {
@@ -13,7 +13,7 @@ size_t strlen(const char *s) {
   return num;
 }
 
-// ✅ 正确实现
+
 char *strcpy(char *dst, const char *src) {
   char *d = dst;
   while ((*d++ = *src++)) {
@@ -22,17 +22,17 @@ char *strcpy(char *dst, const char *src) {
   return dst;
 }
 
-// ✅ 修正后的实现
+
 char *strncpy(char *dst, const char *src, size_t n) {
   char *d = dst;
   size_t i;
 
-  // 复制src到dst，最多n个字符
+
   for (i = 0; i < n && src[i] != '\0'; i++) {
     d[i] = src[i];
   }
 
-  // 如果src长度小于n，用'\0'填充剩余空间
+
   for (; i < n; i++) {
     d[i] = '\0';
   }
@@ -40,7 +40,7 @@ char *strncpy(char *dst, const char *src, size_t n) {
   return dst;
 }
 
-// ✅ 正确实现
+
 char *strcat(char *dst, const char *src) {
   char *d = dst;
   while (*d) {
@@ -51,7 +51,7 @@ char *strcat(char *dst, const char *src) {
   return dst;
 }
 
-// ✅ 正确实现
+
 int strcmp(const char *s1, const char *s2) {
   while (*s1 && (*s1 == *s2)) {
     s1++;
@@ -60,7 +60,7 @@ int strcmp(const char *s1, const char *s2) {
   return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
-// ✅ 正确实现
+
 int strncmp(const char *s1, const char *s2, size_t n) {
   while (n > 0 && *s1 && *s2 && *s1 == *s2) {
     n--;
@@ -73,7 +73,7 @@ int strncmp(const char *s1, const char *s2, size_t n) {
   return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
-// ✅ 正确实现
+
 void *memset(void *s, int c, size_t n) {
   unsigned char *d = s;
   while (n--) {
@@ -82,7 +82,7 @@ void *memset(void *s, int c, size_t n) {
   return s;
 }
 
-// ✅ 修正后的实现
+
 void *memmove(void *dst, const void *src, size_t n) {
   if (dst == src || n == 0)
     return dst;
@@ -90,7 +90,7 @@ void *memmove(void *dst, const void *src, size_t n) {
   char *d = (char *)dst;
   const char *s = (const char *)src;
 
-  // 如果dst和src重叠且dst > src，需要从后往前复制
+
   if (d > s && d < s + n) {
     // 反向复制
     d += n;
@@ -99,7 +99,7 @@ void *memmove(void *dst, const void *src, size_t n) {
       *(--d) = *(--s);
     }
   } else {
-    // 正向复制（包括无重叠和dst <= src的情况）
+
     while (n--) {
       *d++ = *s++;
     }
@@ -109,7 +109,7 @@ void *memmove(void *dst, const void *src, size_t n) {
 
 
 void *memcpy(void *out, const void *in, size_t n) {
-  // 注意：memcpy不处理重叠内存，如果需要处理重叠请使用memmove
+
   char *d = out;
   const char *p = in;
   while (n--) {

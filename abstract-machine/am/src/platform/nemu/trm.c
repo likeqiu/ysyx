@@ -7,7 +7,7 @@ int main(const char *args);
 Area heap = RANGE(&_heap_start, PMEM_END);             
 static const char mainargs[MAINARGS_MAX_LEN] = MAINARGS_PLACEHOLDER; 
 void putch(char ch) {
-  outb(SERIAL_PORT, ch);//SERIAL_PORT表示端口,putch输出一个字节
+  outb(SERIAL_PORT, ch);
 }
 
 void halt(int code) {
@@ -18,6 +18,6 @@ void halt(int code) {
 }
 
 void _trm_init() {
-  int ret = main(mainargs);//启动用户程序
+  int ret = main(mainargs);
   halt(ret);
 }

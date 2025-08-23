@@ -4,7 +4,5 @@ COMMON_CFLAGS :=  -fno-pic -march=rv64g -mcmodel=medany -mstrict-align
 CFLAGS        += $(COMMON_CFLAGS) -static
 ASFLAGS       += $(COMMON_CFLAGS) -O0
 LDFLAGS       += -melf64lriscv
-# 生成64位小端RISC-V ELF格式的可执行文件
 
-# overwrite ARCH_H defined in $(AM_HOME)/Makefile
 ARCH_H := arch/riscv.h

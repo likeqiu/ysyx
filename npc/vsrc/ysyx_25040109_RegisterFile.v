@@ -58,7 +58,6 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
 
     always @(posedge clk)begin
         if(wen && waddr != 5'b0) rf[waddr] <= wdata;
-        
 
        // $display("waddr=0x%h  wdata=0x%h  raddr1=0x%h  rdata1=0x%h\n",waddr,wdata,raddr1,rdata1);
     end

@@ -20,20 +20,16 @@
 #include <utils.h>
 #include <difftest-def.h>
 
-// 函数指针：指向参考实现（REF）的差分测试函数，初始为 NULL，在初始化时动态绑定
-// ref_difftest_memcpy：复制内存数据，参数：目标地址、数据缓冲区、数据大小、复制方向（REF<->DUT）
+
 void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n, bool direction) = NULL;
-// ref_difftest_regcpy：复制寄存器状态，参数：目标 CPU 状态、复制方向
 void (*ref_difftest_regcpy)(void *dut, bool direction) = NULL;
-// ref_difftest_exec：执行指定数量的指令，参数：指令条数
 void (*ref_difftest_exec)(uint64_t n) = NULL;
-// ref_difftest_raise_intr：触发中断，参数：中断号
 void (*ref_difftest_raise_intr)(uint64_t NO) = NULL;
 
 #ifdef CONFIG_DIFFTEST
 
 static bool is_skip_ref = false;
-static int skip_dut_nr_inst = 0; // DUT 需要跳过的指令数量（处理 QEMU 指令打包问题:一次可以处理多条指令，而ref是逐条指令执行，会使得dut和ref进度不一样，所以让 DUT 等待 REF 执行一段时间（即“跳过”一些指令），直到它们的程序计数器（PC）对齐）,
+static int skip_dut_nr_inst = 0; 
 
 // this is used to let ref skip instructions which
 // can not produce consistent behavior with NEMU
@@ -46,8 +42,7 @@ void difftest_skip_ref() {
   // already write some memory, and the incoming instruction in NEMU
   // will load that memory, we will encounter false negative. But such
   // situation is infrequent.
-  // 如果当前指令属于 QEMU 的指令打包，终止追赶 QEMU PC 的过程，确保行为一致
-  skip_dut_nr_inst = 0; // 重置 DUT 跳过指令计数
+  skip_dut_nr_inst = 0; 
 }
 
 // this is used to deal with instruction packing in QEMU.
@@ -56,9 +51,6 @@ void difftest_skip_ref() {
 // The semantic is
 //   Let REF run `nr_ref` instructions first.
 //   We expect that DUT will catch up with REF within `nr_dut` instructions.
-// 意图：处理 QEMU 的指令打包问题，让 REF 先执行若干指令，等待 DUT 的 PC 追上
-// 使用场景：QEMU 可能一次性执行多条指令，DUT 需要逐条执行以对齐 PC
-// 参数：nr_ref（REF 需要执行的指令数），nr_dut（DUT 预期追赶的指令数），nr是number的缩写
 void difftest_skip_dut(int nr_ref, int nr_dut) {
   skip_dut_nr_inst += nr_dut;
 
