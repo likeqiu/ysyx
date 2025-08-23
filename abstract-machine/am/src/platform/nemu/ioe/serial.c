@@ -1,17 +1,18 @@
-#include<am.h>
-#include<npc.h>
-#include<klib.h>
+#include <am.h>
+#include<nemu.h>
+#include <klib.h>
 
-#define SERIAL_PORT 0x3f8           // 串口端口基地址
+// 定义UART寄存器端口地址和状态位
 #define THR_REG (SERIAL_PORT + 0x0) // 发送保持寄存器 (写)
 #define RBR_REG (SERIAL_PORT + 0x0) // 接收缓冲寄存器 (读)
 #define LSR_REG (SERIAL_PORT + 0x5) // 线路状态寄存器
 #define LSR_DR_BIT (1 << 0)         // 数据就绪位 (Data Ready)
 #define LSR_THRE_BIT (1 << 5)       // 发送保持寄存器空闲位
 
+// 发送一个字符
 void __am_uart_tx(AM_UART_TX_T *uart) {
-
-  //printf("1111\n");
+  // 1. 循环查询线路状态寄存器(LSR)，直到发送保持寄存器(THR)为空
+  //    (LSR_THRE_BIT位为1表示空闲，可以发送)
   while ((inb(LSR_REG) & LSR_THRE_BIT) == 0)
     ;
 
@@ -19,6 +20,7 @@ void __am_uart_tx(AM_UART_TX_T *uart) {
   outb(THR_REG, uart->data);
 }
 
+// 接收一个字符
 void __am_uart_rx(AM_UART_RX_T *uart) {
   // 1. 先读取线路状态寄存器(LSR)
   uint8_t status = inb(LSR_REG);

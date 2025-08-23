@@ -58,22 +58,19 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   // 在栈顶分配Context结构体空间，注意要对齐
   Context *c = (Context *)(((uintptr_t)kstack.end - sizeof(Context)) & ~0xF);
 
-  // 清零上下文结构体
   memset(c, 0, sizeof(Context));
 
-  // 设置程序计数器为kcontext_start入口
+
   c->mepc = (uintptr_t)__am_kcontext_start;
 
-  // 设置栈指针 - 关键修正！
-  // sp应该指向Context结构体的起始位置，因为trap处理会减去CONTEXT_SIZE
-  c->gpr[2] = (uintptr_t)kstack.end; // sp寄存器是x2
+  c->gpr[2] = (uintptr_t)kstack.end; // sp寄存器
 
   // 设置参数寄存器
-  c->gpr[10] = (uintptr_t)arg;   // a0寄存器是x10
-  c->gpr[11] = (uintptr_t)entry; // a1寄存器是x11
+  c->gpr[10] = (uintptr_t)arg;   // a0
+  c->gpr[11] = (uintptr_t)entry; // a1
 
 
-  c->mstatus = 0x1800; // MPP=11 (Machine mode), 允许中断
+  c->mstatus = 0x1800; 
 
   return c;
 }

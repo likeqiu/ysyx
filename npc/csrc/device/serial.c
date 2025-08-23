@@ -21,21 +21,14 @@ static void serial_io_handler(uint32_t offset, int len, bool is_write) {
     // 处理写操作
     switch (offset) {
     case THR_OFFSET:
-      // 当客户程序向 THR (偏移量0) 写入数据时，
-      // 我们将其直接输出到宿主机的 stderr
       putc(serial_port_base[THR_OFFSET], stderr);
       break;
     default:
-      // 忽略对其他寄存器的写入
       break;
     }
   } else {
-    // 处理读操作
     switch (offset) {
     case LSR_OFFSET:
-      // 当客户程序读取 LSR (偏移量5) 时，
-      // 我们总是报告 THR 为空，表示可以随时接收新数据。
-      // 这个值是在 Host 读取之前设置的，之后会被 map_read 读取并返回。
       serial_port_base[LSR_OFFSET] = LSR_THRE_MASK;
       break;
     default:
