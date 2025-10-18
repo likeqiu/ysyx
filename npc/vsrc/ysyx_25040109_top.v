@@ -53,15 +53,17 @@ always @(posedge clk ) begin
     end
 end
     // PC寄存器（内联实现）
-    reg [31:0] pc;
+    reg [31:0] pc_reg;
     wire pc_wen = !is_stalled_by_trap;
     
     always @(posedge clk) begin
         if (rst) 
-            pc <= 32'h80000000;
+            pc_reg <= 32'h80000000;
         else if (pc_wen) 
-            pc <= next_pc;
+            pc_reg <= next_pc;
     end
+    
+    assign pc = pc_reg;
 
     ysyx_25040109_IFU ifu (
         .pc(pc),
