@@ -6,8 +6,8 @@ module ysyx_25040109_IDU (
     output [2:0] funct3,
     output [6:0] funct7,
     output reg inst_invalid,
-    output [11:0] csr_addr,
-    output csr_write_enable
+
+    output [11:0] csr_addr
 );
     wire [6:0] opcode = inst[6:0];
     assign funct3 = inst[14:12];
@@ -42,7 +42,7 @@ module ysyx_25040109_IDU (
             7'b1100111, imm_i_ext, 
             7'b0100011, imm_s_ext, 
             7'b1101111, imm_j_ext, 
-            7'b1100011, imm_b_ext
+            7'b1100011, imm_b_ext  
         })
     );
 
@@ -141,7 +141,6 @@ module ysyx_25040109_IDU (
     );            
 
         assign csr_addr = valid_system ? inst[31:20] : 12'h0;
-        assign csr_write_enable = valid_system && (funct3 == 3'b001 || funct3 == 3'b010);
 
         always @(*) begin
         if (valid_lui || valid_auipc || valid_jal || valid_jalr ||
