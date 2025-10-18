@@ -8,66 +8,52 @@ module ysyx_25040109_LSU (
     input is_store,
     input inst_invalid,
     input stall,
-`ifdef SYNTHESIS
-    input [31:0] yosys_store_load,
-`endif
+    
+    // dmem接口（连接到MEM模块）
+    output dmem_ren,
+    output [31:0] dmem_raddr,
+    input [31:0] dmem_rdata,      // 从MEM读取的数据
+    
+    output dmem_wen,
+    output [31:0] dmem_waddr,
+    output [31:0] dmem_wdata,
+    output [2:0] dmem_wlen,
+    
     output reg [31:0] load_data,
     output store_enable
 );
 
-    reg [31:0] mem_data;
-
-`ifndef SYNTHESIS
-    import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
-    import "DPI-C" function void verilog_pmem_write(input int addr, input int data, input int len);
-`endif
-
     wire store_valid = is_store && !inst_invalid && !stall;
-    assign store_enable = store_valid;
-
+    
+    // dmem读接口
+    assign dmem_ren = is_load;
+    assign dmem_raddr = addr;
+    
+    // dmem写接口
+    assign dmem_wen = store_valid;
+    assign dmem_waddr = addr;
+    assign dmem_wdata = store_data;
+    assign dmem_wlen = (funct3 == 3'b000) ? 3'b001 :  // SB
+                       (funct3 == 3'b001) ? 3'b010 :  // SH
+                       (funct3 == 3'b010) ? 3'b100 :  // SW
+                       3'b000;
+    
+    // load数据扩展（指令语义处理）
     always @(*) begin
         if (is_load) begin
-`ifndef SYNTHESIS
-            verilog_pmem_read(addr, mem_data);
-`else
-            mem_data = yosys_store_load;
-`endif
             case (funct3)
-                3'b000: load_data = {{24{mem_data[7]}}, mem_data[7:0]};
-                3'b001: load_data = {{16{mem_data[15]}}, mem_data[15:0]};
-                3'b010: load_data = mem_data;
-                3'b100: load_data = {24'b0, mem_data[7:0]};
-                3'b101: load_data = {16'b0, mem_data[15:0]};
+                3'b000: load_data = {{24{dmem_rdata[7]}}, dmem_rdata[7:0]};   // LB
+                3'b001: load_data = {{16{dmem_rdata[15]}}, dmem_rdata[15:0]}; // LH
+                3'b010: load_data = dmem_rdata;                                // LW
+                3'b100: load_data = {24'b0, dmem_rdata[7:0]};                 // LBU
+                3'b101: load_data = {16'b0, dmem_rdata[15:0]};                // LHU
                 default: load_data = 32'b0;
             endcase
         end else begin
-            mem_data = 32'h0;
             load_data = 32'b0;
         end
     end
-
-    always @(posedge clk) begin
-        if (!rst && store_valid) begin
-            case (funct3)
-                3'b000: begin
-`ifndef SYNTHESIS
-                    verilog_pmem_write(addr, store_data, 1);
-`endif
-                end
-                3'b001: begin
-`ifndef SYNTHESIS
-                    verilog_pmem_write(addr, store_data, 2);
-`endif
-                end
-                3'b010: begin
-`ifndef SYNTHESIS
-                    verilog_pmem_write(addr, store_data, 4);
-`endif
-                end
-                default: begin
-                end
-            endcase
-        end
-    end
+    
+    assign store_enable = store_valid;
 
 endmodule
