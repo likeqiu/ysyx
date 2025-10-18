@@ -214,7 +214,7 @@ module ysyx_25040109_EXU (
             end
         end else begin
             next_pc = pc+4;
-           $finish;
+//$finish;
           $display("0x%08x:",pc);
 
         end
