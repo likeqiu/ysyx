@@ -65,7 +65,7 @@ module ysyx_25040109_CPU (
     end
 
     // PC寄存器
-    reg [31:0] pc_reg;
+    reg [31:0] pc_reg = 32'h80000000;  // 初始值
     wire pc_wen = !is_stalled_by_trap;
     
     always @(posedge clk) begin
