@@ -7,23 +7,17 @@ module ysyx_25040109_EXU (
     output reg_write_en_out, 
 
     input [4:0] rd_addr,   
-    input  [4:0]  rs1_addr, 
     input [31:0] pc,
     input [6:0] opcode,
     input [2:0] funct3,
     input [6:0] funct7,    
     input inst_invalid,  
     output [31:0] result,
-    output [4:0] rd_addr_out,  
+    output [4:0] rd_addr_out,
     output reg [31:0] next_pc,
 
-    input [11:0] csr_addr,
-    input [31:0] csr_rdata,
     input [31:0] mepc,
-    input [31:0] mtvec,
-
-    output reg csr_we_out,
-    output reg [31:0] csr_wdata_out
+    input [31:0] mtvec
 );
    
 
@@ -140,36 +134,12 @@ module ysyx_25040109_EXU (
 
 
 
-    always @(*) begin
-        csr_we_out = 1'b0;
-        csr_wdata_out = 32'h0;
-
-        if(opcode == 7'b1110011 && !inst_invalid)begin
-            case(funct3)
-            3'b001:begin
-                csr_we_out = 1'b1;
-                csr_wdata_out = rs1_data;
-            end
-            3'b010:begin
-                csr_we_out = (rs1_addr != 5'b0);
-                csr_wdata_out = csr_rdata | rs1_data;
-            end
-            default: begin
-                csr_we_out = 1'b0;
-                csr_wdata_out = 32'b0;
-            end
-
-        endcase
-        end
-    end
-
-
     wire is_csr_op = (opcode == 7'b1110011);
-    assign result = (is_csr_op)  ? csr_rdata :  
+    assign result = alu_out;   
                     (opcode == 7'b1101111 || 
                      opcode == 7'b1100111)  ? jal_result :alu_out;   
 
-    wire [11:0] funct12 = csr_addr;
+    wire [11:0] funct12 = imm[11:0];
     wire is_ecall = is_csr_op && (funct3 == 3'b000) && (funct12 == 12'h000);
     wire is_mret  = is_csr_op && (funct3 == 3'b000) && (funct12 == 12'h302);
 

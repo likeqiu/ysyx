@@ -16,18 +16,12 @@ module ysyx_25040109_top (
     wire inst_invalid;
     wire [2:0] funct3;
     wire [6:0] funct7;
-    reg  [31:0] mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
     wire [6:0] opcode = inst_ifu[6:0];
         
     wire [11:0] csr_addr;
-    wire [31:0] csr_rdata_from_regfile;
-    wire [31:0] csr_wdata_from_exu;
-    wire csr_we_from_exu;
-    wire [31:0] mepc_from_regfile;
-    wire [31:0] mtvec_from_regfile;
-    wire [4:0] rs1_addr = inst_ifu[19:15];
+    wire csr_write_enable;
 
     reg trap_state;
     localparam S_NORMAL = 1'b0;
@@ -54,13 +48,16 @@ always @(posedge clk ) begin
     end
 end
     wire pc_wen = !is_stalled_by_trap;
-    ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
-        .clk(clk),
-        .rst(rst),
-        .din(next_pc),
-        .dout(pc),
-        .wen(pc_wen)
-    );
+    reg [31:0] pc_reg;
+    assign pc = pc_reg;
+
+    always @(posedge clk) begin
+        if (rst) begin
+            pc_reg <= 32'h80000000;
+        end else if (pc_wen) begin
+            pc_reg <= next_pc;
+        end
+    end
 
     ysyx_25040109_IFU ifu (
         .pc(pc),
@@ -79,7 +76,8 @@ end
         .funct3(funct3),
         .funct7(funct7),
         .inst_invalid(inst_invalid),
-        .csr_addr(csr_addr)
+        .csr_addr(csr_addr),
+        .csr_write_enable(csr_write_enable)
     );
 
 
@@ -92,7 +90,6 @@ end
         .reg_write_in(reg_write_en_idu),
         .rd_addr(rd_addr_idu),
         .pc(pc), 
-        .rs1_addr(rs1_addr),
         .opcode(opcode), 
         .funct3(funct3),
         .funct7(funct7),
@@ -101,13 +98,8 @@ end
         .rd_addr_out(rd_addr_exu),
         .reg_write_en_out(reg_write_en_exu),
         .next_pc(next_pc),
-
-        .csr_addr(csr_addr),
-        .csr_rdata(csr_rdata_from_regfile),
-        .mepc(mepc_from_regfile),
-        .mtvec(mtvec_from_regfile),
-        .csr_we_out(csr_we_from_exu),
-        .csr_wdata_out(csr_wdata_from_exu)
+        .mepc(mepc_from_csr),
+        .mtvec(mtvec_from_csr)
 
     );
 
@@ -117,7 +109,11 @@ end
     wire final_gpr_we = reg_write_en_exu && !is_stalled_by_trap;
 
     wire is_store = (opcode == 7'b0100011);
-    wire final_mem_we = is_store && !inst_invalid && !is_stalled_by_trap;
+    wire is_load =  (opcode == 7'b0000011) && 
+                   (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
+                    funct3 == 3'b100 || funct3 == 3'b101);
+
+    wire final_mem_we;
 
 
     wire [11:0] final_csr_waddr;
@@ -131,15 +127,15 @@ end
     
     assign final_csr_we = (is_stalled_by_trap) ? 1'b1 :               
                           (is_ecall)           ? 1'b1 :               
-                          csr_we_from_exu;                           
+                          (csr_write_enable && !inst_invalid && !is_stalled_by_trap);                           
 
-    assign final_csr_waddr = (is_stalled_by_trap) ? CSR_MCAUSE :        // 暂停时, 写mcause
-                             (is_ecall)           ? CSR_MEPC   :        // ecall时, 写mepc
-                             csr_addr;                                
+    assign final_csr_waddr = (is_stalled_by_trap) ? CSR_MCAUSE :
+                             (is_ecall)           ? CSR_MEPC   :
+                             csr_addr;
 
-    assign final_csr_wdata = (is_stalled_by_trap) ? 32'd11 :           
-                             (is_ecall)           ? pc     :            
-                             csr_wdata_from_exu;    
+    assign final_csr_wdata = (is_stalled_by_trap) ? 32'd11 :
+                             (is_ecall)           ? pc      :
+                             (csr_write_enable ? rs1_data : 32'h0);
 
 
 
@@ -154,14 +150,7 @@ end
         .raddr2(inst_ifu[24:20]),
         .rdata1(rs1_data),
         .rdata2(rs2_data),
-        .a0_out(a0_out),
-
-        .csr_we(final_csr_we),
-        .csr_addr(final_csr_waddr),
-        .csr_wdata(final_csr_wdata),
-        .mepc_out(mepc_from_regfile),
-        .mtvec_out(mtvec_from_regfile),
-        .csr_rdata(csr_rdata_from_regfile)
+        .a0_out(a0_out)
 
 
     );
@@ -184,37 +173,28 @@ end
 
         
     wire [31:0] writeback_data;
-    reg  [31:0] load_result;
-
-    assign writeback_data = is_load ? load_result  : result ;
-
-   wire is_load =  (opcode == 7'b0000011) && 
-                   (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
-                    funct3 == 3'b100 || funct3 == 3'b101);
-
+    wire [31:0] load_result;
 
     wire [31:0] mem_addr = result;
 
-   always @(*) begin
-        if (is_load) begin 
-            `ifndef SYNTHESIS
-            verilog_pmem_read(mem_addr, mem_data);
-            `else
-            mem_data = yosys_store_load;     
-            `endif 
-            case (funct3)
-                3'b000: load_result = {{24{mem_data[7]}}, mem_data[7:0]};   // LB 
-                3'b001: load_result = {{16{mem_data[15]}}, mem_data[15:0]}; // LH 
-                3'b010: load_result = mem_data;                             // LW 
-                3'b100: load_result = {24'b0, mem_data[7:0]};              // LBU 
-                3'b101: load_result = {16'b0, mem_data[15:0]};             // LHU
-                default: load_result = 32'b0;
-            endcase
-        end else begin
-            mem_data = 32'h0;
-            load_result = 32'b0;
-        end
-    end
+    ysyx_25040109_LSU lsu (
+        .clk(clk),
+        .rst(rst),
+        .addr(mem_addr),
+        .store_data(rs2_data),
+        .funct3(funct3),
+        .is_load(is_load),
+        .is_store(is_store),
+        .inst_invalid(inst_invalid),
+        .stall(is_stalled_by_trap),
+`ifdef SYNTHESIS
+        .yosys_store_load(yosys_store_load),
+`endif
+        .load_data(load_result),
+        .store_enable(final_mem_we)
+    );
+
+    assign writeback_data = is_load ? load_result  : result ;
     
 
 
