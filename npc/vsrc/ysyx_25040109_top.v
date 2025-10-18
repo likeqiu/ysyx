@@ -190,6 +190,7 @@ end
 
     // LSU模块实例化
     wire [31:0] load_data_from_lsu;
+    wire store_enable_unused;  // LSU的store_enable输出（未使用）
     
     ysyx_25040109_LSU lsu (
         .clk(clk),
@@ -204,7 +205,8 @@ end
     `ifdef SYNTHESIS
         .yosys_store_load(yosys_store_load),
     `endif
-        .load_data(load_data_from_lsu)
+        .load_data(load_data_from_lsu),
+        .store_enable(store_enable_unused)
     );
 
     // 写回数据选择

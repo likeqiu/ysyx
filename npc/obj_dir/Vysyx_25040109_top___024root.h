@@ -52,11 +52,11 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__rs2_data;
         IData/*31:0*/ ysyx_25040109_top__DOT__imm;
         IData/*31:0*/ ysyx_25040109_top__DOT__result;
-        IData/*31:0*/ ysyx_25040109_top__DOT__mem_data;
         IData/*31:0*/ ysyx_25040109_top__DOT__csr_rdata_from_regfile;
         IData/*31:0*/ ysyx_25040109_top__DOT__csr_wdata_from_exu;
+        IData/*31:0*/ ysyx_25040109_top__DOT__pc_reg;
         IData/*31:0*/ ysyx_25040109_top__DOT__final_csr_wdata;
-        IData/*31:0*/ ysyx_25040109_top__DOT__load_result;
+        IData/*31:0*/ ysyx_25040109_top__DOT__load_data_from_lsu;
         IData/*31:0*/ ysyx_25040109_top__DOT__ifu__DOT__inst_from_mem;
         IData/*19:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_j;
         IData/*31:0*/ ysyx_25040109_top__DOT__idu__DOT__imm_i_ext;
@@ -72,15 +72,16 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__mcause;
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__mtvec;
         IData/*31:0*/ ysyx_25040109_top__DOT__regfile__DOT__unnamedblk1__DOT__i;
+        IData/*31:0*/ ysyx_25040109_top__DOT__lsu__DOT__mem_data;
         IData/*31:0*/ __VdfgTmp_ha3c42dfe__0;
-        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__verilog_pmem_read__0__data;
-        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__8__data;
+        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__ifu__DOT__verilog_pmem_read__4__data;
+        IData/*31:0*/ __Vtask_ysyx_25040109_top__DOT__lsu__DOT__verilog_pmem_read__6__data;
         IData/*31:0*/ __VstlIterCount;
         IData/*31:0*/ __VactIterCount;
         QData/*63:0*/ ysyx_25040109_top__DOT__exu__DOT__mul_temp;
-        VlUnpacked<QData/*38:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list;
     };
     struct {
+        VlUnpacked<QData/*38:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__pair_list;
         VlUnpacked<CData/*6:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__key_list;
         VlUnpacked<IData/*31:0*/, 8> ysyx_25040109_top__DOT__idu__DOT__imm_select__DOT__i0__DOT__data_list;
         VlUnpacked<QData/*38:0*/, 3> ysyx_25040109_top__DOT__exu__DOT__alu_a_select__DOT__i0__DOT__pair_list;
