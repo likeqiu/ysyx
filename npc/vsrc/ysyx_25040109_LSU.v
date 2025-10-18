@@ -21,7 +21,9 @@ module ysyx_25040109_LSU (
     
     // Store请求通道
     output dmem_wvalid,
+    /* verilator lint_off UNUSEDSIGNAL */
     input dmem_wready,
+    /* verilator lint_on UNUSEDSIGNAL */
     output [31:0] dmem_waddr,
     output [31:0] dmem_wdata,
     output [2:0] dmem_wlen,

@@ -5,7 +5,9 @@ module ysyx_25040109_IFU (
     
     // 向MEM发出取指请求（握手协议）
     output imem_valid,
+    /* verilator lint_off UNUSEDSIGNAL */
     input imem_ready,
+    /* verilator lint_on UNUSEDSIGNAL */
     
     // 从MEM接收指令（握手协议）
     input [31:0] imem_rdata,
