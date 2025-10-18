@@ -66,9 +66,9 @@ module ysyx_25040109_top (
         .dmem_waddr(dmem_waddr),
         .dmem_wdata(dmem_wdata),
         .dmem_wlen(dmem_wlen),
-        .dmem_wen(dmem_wen),
-        
+        .dmem_wen(dmem_wen)
 `ifdef SYNTHESIS
+        ,
         .yosys_imem_rdata(yosys_imem_rdata),
         .yosys_dmem_rdata(yosys_dmem_rdata)
 `endif
