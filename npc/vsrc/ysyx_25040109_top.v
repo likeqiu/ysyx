@@ -13,17 +13,27 @@ module ysyx_25040109_top (
     output [31:0] a0_out
 );
 
-    // CPU与MEM的连接信号
-    wire [31:0] imem_addr, imem_rdata;
-    wire imem_ren;
+    // ========================================
+    // 信号声明区
+    // ========================================
+    // 取指通道信号（CPU ↔ MEM）
+    wire [31:0] imem_addr;              // 取指地址 | CPU → MEM
+    wire imem_ren;                      // 取指使能 | CPU → MEM
+    wire [31:0] imem_rdata;             // 指令数据 | MEM → CPU
     
-    wire [31:0] dmem_raddr, dmem_rdata;
-    wire dmem_ren;
-    wire [31:0] dmem_waddr, dmem_wdata;
-    wire [2:0] dmem_wlen;
-    wire dmem_wen;
+    // 访存通道信号（CPU ↔ MEM）
+    wire [31:0] dmem_raddr;             // 数据读地址 | CPU → MEM
+    wire dmem_ren;                      // 数据读使能 | CPU → MEM
+    wire [31:0] dmem_rdata;             // 数据读结果 | MEM → CPU
+    wire [31:0] dmem_waddr;             // 数据写地址 | CPU → MEM
+    wire [31:0] dmem_wdata;             // 数据写数据 | CPU → MEM
+    wire [2:0] dmem_wlen;               // 写长度（字节/半字/字） | CPU → MEM
+    wire dmem_wen;                      // 数据写使能 | CPU → MEM
 
-    // CPU模块实例化
+    // ========================================
+    // 模块实例化区
+    // ========================================
+    // CPU模块（处理器内核）
     ysyx_25040109_CPU cpu (
         .clk(clk),
         .rst(rst),
@@ -49,7 +59,7 @@ module ysyx_25040109_top (
         .a0_out(a0_out)
     );
 
-    // MEM模块实例化
+    // MEM模块（双通道内存）
     ysyx_25040109_MEM mem (
         .clk(clk),
         .rst(rst),
