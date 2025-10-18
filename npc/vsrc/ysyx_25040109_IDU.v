@@ -7,10 +7,22 @@ module ysyx_25040109_IDU (
     output [6:0] funct7,
     output reg inst_invalid,
 
-    output [11:0] csr_addr
+    output [11:0] csr_addr,
+    
+    // 新增输出：指令字段
+    output [6:0] opcode,
+    output [4:0] rs1_addr,
+    output [4:0] rs2_addr,
+    
+    // 新增输出：指令类型标志
+    output is_load,
+    output is_store,
+    output is_ecall
 );
-    wire [6:0] opcode = inst[6:0];
+    assign opcode = inst[6:0];
     assign funct3 = inst[14:12];
+    assign rs1_addr = inst[19:15];
+    assign rs2_addr = inst[24:20];
     assign funct7 = inst[31:25];
     assign rd_addr = inst[11:7];
     
@@ -141,6 +153,11 @@ module ysyx_25040109_IDU (
     );            
 
         assign csr_addr = valid_system ? inst[31:20] : 12'h0;
+
+        // 输出指令类型标志
+        assign is_load = valid_load;
+        assign is_store = valid_store;
+        assign is_ecall = valid_system && (funct3 == 3'b000) && (funct12 == 12'h000);
 
         always @(*) begin
         if (valid_lui || valid_auipc || valid_jal || valid_jalr ||

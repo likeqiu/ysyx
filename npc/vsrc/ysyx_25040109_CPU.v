@@ -41,9 +41,10 @@ module ysyx_25040109_CPU (
     // 取指输出
     wire [31:0] inst_ifu;               // 取出的指令 | IFU → IDU, 控制, 调试
     
-    // 指令字段派生（从inst_ifu直接提取）
-    wire [6:0] opcode = inst_ifu[6:0];  // 操作码 | inst_ifu → 控制逻辑
-    wire [4:0] rs1_addr = inst_ifu[19:15]; // 源寄存器1地址 | inst_ifu → RegisterFile
+    // 指令字段（从IDU获取）
+    wire [6:0] opcode;                  // 操作码 | IDU → 控制逻辑
+    wire [4:0] rs1_addr;                // 源寄存器1地址 | IDU → RegisterFile
+    wire [4:0] rs2_addr;                // 源寄存器2地址 | IDU → RegisterFile
 
     // ========================================
     // ID阶段信号（译码阶段）
@@ -148,15 +149,7 @@ module ysyx_25040109_CPU (
     assign imem_ren = 1'b1;
 
     // 控制信号赋值
-    assign is_ecall = (opcode == 7'b1110011) && (funct3 == 3'b000) && 
-                      (csr_addr == 12'h000) && !inst_invalid;
     assign final_gpr_we = reg_write_en_exu && !is_stalled_by_trap;
-
-    // load/store控制信号赋值
-    assign is_load = (opcode == 7'b0000011) && 
-                     (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
-                      funct3 == 3'b100 || funct3 == 3'b101);
-    assign is_store = (opcode == 7'b0100011);
     assign final_mem_we = is_store && !inst_invalid && !is_stalled_by_trap;
 
     // CSR控制信号赋值
@@ -208,7 +201,17 @@ module ysyx_25040109_CPU (
         .funct3(funct3),
         .funct7(funct7),
         .inst_invalid(inst_invalid),
-        .csr_addr(csr_addr)
+        .csr_addr(csr_addr),
+        
+        // 新增输出：指令字段
+        .opcode(opcode),
+        .rs1_addr(rs1_addr),
+        .rs2_addr(rs2_addr),
+        
+        // 新增输出：指令类型标志
+        .is_load(is_load),
+        .is_store(is_store),
+        .is_ecall(is_ecall)
     );
 
     // EXU实例（执行单元）
@@ -265,8 +268,8 @@ module ysyx_25040109_CPU (
         .wdata(writeback_data),
         .waddr(rd_addr_exu),
         .wen(final_gpr_we),
-        .raddr1(inst_ifu[19:15]),
-        .raddr2(inst_ifu[24:20]),
+        .raddr1(rs1_addr),
+        .raddr2(rs2_addr),
         .rdata1(rs1_data),
         .rdata2(rs2_data),
         .a0_out(a0_out),
