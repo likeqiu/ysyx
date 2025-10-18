@@ -162,8 +162,6 @@ module ysyx_25040109_CPU (
     wire store_enable_unused;
     
     ysyx_25040109_LSU lsu (
-        .clk(clk),
-        .rst(rst),
         .addr(result),
         .store_data(rs2_data),
         .funct3(funct3),

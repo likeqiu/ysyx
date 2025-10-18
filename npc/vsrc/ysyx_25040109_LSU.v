@@ -1,6 +1,4 @@
 module ysyx_25040109_LSU (
-    input clk,
-    input rst,
     input [31:0] addr,
     input [31:0] store_data,
     input [2:0] funct3,

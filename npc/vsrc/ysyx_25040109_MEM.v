@@ -17,9 +17,10 @@ module ysyx_25040109_MEM (
     input [31:0] dmem_waddr,       // 数据写地址
     input [31:0] dmem_wdata,       // 数据写数据
     input [2:0] dmem_wlen,         // 写长度（3'b001=字节, 3'b010=半字, 3'b100=字）
-    input dmem_wen,                // 数据写使能
+    input dmem_wen                 // 数据写使能
     
 `ifdef SYNTHESIS
+    ,
     input [31:0] yosys_imem_rdata, // 综合模式：取指数据
     input [31:0] yosys_dmem_rdata  // 综合模式：访存数据
 `endif
