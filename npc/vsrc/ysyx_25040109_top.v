@@ -16,7 +16,6 @@ module ysyx_25040109_top (
     wire inst_invalid;
     wire [2:0] funct3;
     wire [6:0] funct7;
-    reg  [31:0] mem_data;
     wire [4:0] rd_addr_idu, rd_addr_exu;
     wire reg_write_en_idu, reg_write_en_exu;
     wire [6:0] opcode = inst_ifu[6:0];
@@ -53,14 +52,16 @@ always @(posedge clk ) begin
         endcase
     end
 end
+    // PC寄存器（内联实现）
+    reg [31:0] pc;
     wire pc_wen = !is_stalled_by_trap;
-    ysyx_25040109_Reg #(32, 32'h80000000) pc_reg (
-        .clk(clk),
-        .rst(rst),
-        .din(next_pc),
-        .dout(pc),
-        .wen(pc_wen)
-    );
+    
+    always @(posedge clk) begin
+        if (rst) 
+            pc <= 32'h80000000;
+        else if (pc_wen) 
+            pc <= next_pc;
+    end
 
     ysyx_25040109_IFU ifu (
         .pc(pc),
@@ -116,9 +117,6 @@ end
 
     wire final_gpr_we = reg_write_en_exu && !is_stalled_by_trap;
 
-    wire is_store = (opcode == 7'b0100011);
-    wire final_mem_we = is_store && !inst_invalid && !is_stalled_by_trap;
-
 
     wire [11:0] final_csr_waddr;
     wire [31:0] final_csr_wdata;
@@ -173,8 +171,6 @@ end
 `ifndef SYNTHESIS
 
     import "DPI-C" function void difftest_skip_ref();
-    import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
-    import "DPI-C" function void verilog_pmem_write(input int addr, input int data, input int len);
     import "DPI-C" function int printf_finish(input int inst);  
     import "DPI-C" function void itrace_print( int pc, int instruction_word, int instr_len_bytes,int p_count_number);
     import "DPI-C" function void trap_record(int pc,int cause);
@@ -182,39 +178,36 @@ end
     
 `endif 
 
-        
+    // load/store控制信号
+    wire is_load =  (opcode == 7'b0000011) && 
+                    (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
+                     funct3 == 3'b100 || funct3 == 3'b101);
+    
+    wire is_store = (opcode == 7'b0100011);
+    wire final_mem_we = is_store && !inst_invalid && !is_stalled_by_trap;
+
+    // LSU模块实例化
+    wire [31:0] load_data_from_lsu;
+    
+    ysyx_25040109_LSU lsu (
+        .clk(clk),
+        .rst(rst),
+        .addr(result),
+        .store_data(rs2_data),
+        .funct3(funct3),
+        .is_load(is_load),
+        .is_store(final_mem_we),
+        .inst_invalid(inst_invalid),
+        .stall(is_stalled_by_trap),
+    `ifdef SYNTHESIS
+        .yosys_store_load(yosys_store_load),
+    `endif
+        .load_data(load_data_from_lsu)
+    );
+
+    // 写回数据选择
     wire [31:0] writeback_data;
-    reg  [31:0] load_result;
-
-    assign writeback_data = is_load ? load_result  : result ;
-
-   wire is_load =  (opcode == 7'b0000011) && 
-                   (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
-                    funct3 == 3'b100 || funct3 == 3'b101);
-
-
-    wire [31:0] mem_addr = result;
-
-   always @(*) begin
-        if (is_load) begin 
-            `ifndef SYNTHESIS
-            verilog_pmem_read(mem_addr, mem_data);
-            `else
-            mem_data = yosys_store_load;     
-            `endif 
-            case (funct3)
-                3'b000: load_result = {{24{mem_data[7]}}, mem_data[7:0]};   // LB 
-                3'b001: load_result = {{16{mem_data[15]}}, mem_data[15:0]}; // LH 
-                3'b010: load_result = mem_data;                             // LW 
-                3'b100: load_result = {24'b0, mem_data[7:0]};              // LBU 
-                3'b101: load_result = {16'b0, mem_data[15:0]};             // LHU
-                default: load_result = 32'b0;
-            endcase
-        end else begin
-            mem_data = 32'h0;
-            load_result = 32'b0;
-        end
-    end
+    assign writeback_data = is_load ? load_data_from_lsu : result;
     
 
 
@@ -242,45 +235,16 @@ end
 
     assign inst = inst_ifu;
 
-      always @(posedge clk) begin
+    // DPI-C监控和trace
+    always @(posedge clk) begin
         if (!rst) begin
-            if (final_mem_we) begin
-
-                case (funct3)
-                    3'b000:
-                    `ifndef SYNTHESIS
-                     verilog_pmem_write(mem_addr, rs2_data, 1); // SB
-                     `else 
-                     ;
-                    `endif
-                    
-                    3'b001:
-                    `ifndef SYNTHESIS 
-                    verilog_pmem_write(mem_addr, rs2_data, 2); // SH
-
-                    `else
-                    ;
-                    `endif
-                    
-                    3'b010: 
-                    `ifndef SYNTHESIS
-                    verilog_pmem_write(mem_addr, rs2_data, 4); // SW
-                    
-                    `else 
-                    ;
-
-                    `endif                 
-                    default: ;
-                endcase
-            end
-   
             `ifndef SYNTHESIS
-            itrace_print(pc, inst_ifu, 4,p_count_number);
+            itrace_print(pc, inst_ifu, 4, p_count_number);
            
-           if (printf_finish(inst_ifu) == 0) begin
+            if (printf_finish(inst_ifu) == 0) begin
                 $finish;
             end
-             `endif
+            `endif
         end
     end
 
