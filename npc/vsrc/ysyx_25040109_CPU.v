@@ -3,19 +3,26 @@ module ysyx_25040109_CPU (
     input rst,
     input [31:0] p_count_number,  // 性能计数（用于trace）
     
-    // 取指通道（连接到MEM）
+    // 取指通道（连接到MEM）- 握手协议
     output [31:0] imem_addr,
-    output imem_ren,
+    output imem_valid,
+    input imem_ready,
     input [31:0] imem_rdata,
+    input imem_rdata_valid,
+    output imem_rdata_ready,
     
-    // 访存通道（连接到MEM）
+    // 访存通道（连接到MEM）- 握手协议
     output [31:0] dmem_raddr,
-    output dmem_ren,
+    output dmem_rvalid,
+    input dmem_rready,
     input [31:0] dmem_rdata,
+    input dmem_rdata_valid,
+    output dmem_rdata_ready,
     output [31:0] dmem_waddr,
     output [31:0] dmem_wdata,
     output [2:0] dmem_wlen,
-    output dmem_wen,
+    output dmem_wvalid,
+    input dmem_wready,
     
     // 调试和监控接口
     output [31:0] inst,
@@ -40,6 +47,7 @@ module ysyx_25040109_CPU (
     
     // 取指输出
     wire [31:0] inst_ifu;               // 取出的指令 | IFU → IDU, 控制, 调试
+    wire inst_valid_from_ifu;           // 指令有效标志 | IFU → 控制逻辑
     
     // 指令字段（从IDU获取）
     wire [6:0] opcode;                  // 操作码 | IDU → 控制逻辑
@@ -81,6 +89,7 @@ module ysyx_25040109_CPU (
     
     // 访存数据
     wire [31:0] load_data_from_lsu;     // load数据（扩展后） | LSU → 写回选择
+    wire load_data_valid_from_lsu;      // load数据有效标志 | LSU → 控制逻辑
     wire store_enable_unused;           // store使能输出（未使用） | LSU → 悬空
 
     // ========================================
@@ -121,7 +130,7 @@ module ysyx_25040109_CPU (
     // ========================================
     // PC控制
     assign pc = pc_reg;
-    assign pc_wen = !is_stalled_by_trap;
+    assign pc_wen = !is_stalled_by_trap && inst_valid_from_ifu;
     
     // Trap控制
     assign is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);
@@ -146,10 +155,11 @@ module ysyx_25040109_CPU (
 
     // 取指接口连接
     assign imem_addr = pc;
-    assign imem_ren = 1'b1;
 
     // 控制信号赋值
-    assign final_gpr_we = reg_write_en_exu && !is_stalled_by_trap;
+    assign final_gpr_we = is_load ? 
+                          (load_data_valid_from_lsu && reg_write_en_exu) : 
+                          (reg_write_en_exu && !is_stalled_by_trap);
     assign final_mem_we = is_store && !inst_invalid && !is_stalled_by_trap;
 
     // CSR控制信号赋值
@@ -187,9 +197,16 @@ module ysyx_25040109_CPU (
     // ========================================
     // IFU实例（取指单元）
     ysyx_25040109_IFU ifu (
+        .clk(clk),
+        .rst(rst),
         .pc(pc),
+        .imem_valid(imem_valid),
+        .imem_ready(imem_ready),
         .imem_rdata(imem_rdata),
-        .inst_ifu(inst_ifu)
+        .imem_rdata_valid(imem_rdata_valid),
+        .imem_rdata_ready(imem_rdata_ready),
+        .inst_ifu(inst_ifu),
+        .inst_valid(inst_valid_from_ifu)
     );
 
     // IDU实例（译码单元）
@@ -240,8 +257,9 @@ module ysyx_25040109_CPU (
     );
 
     // LSU实例（访存单元）
-    
     ysyx_25040109_LSU lsu (
+        .clk(clk),
+        .rst(rst),
         .addr(result),
         .store_data(rs2_data),
         .funct3(funct3),
@@ -249,14 +267,19 @@ module ysyx_25040109_CPU (
         .is_store(final_mem_we),
         .inst_invalid(inst_invalid),
         .stall(is_stalled_by_trap),
-        .dmem_ren(dmem_ren),
+        .dmem_rvalid(dmem_rvalid),
+        .dmem_rready(dmem_rready),
         .dmem_raddr(dmem_raddr),
         .dmem_rdata(dmem_rdata),
-        .dmem_wen(dmem_wen),
+        .dmem_rdata_valid(dmem_rdata_valid),
+        .dmem_rdata_ready(dmem_rdata_ready),
+        .dmem_wvalid(dmem_wvalid),
+        .dmem_wready(dmem_wready),
         .dmem_waddr(dmem_waddr),
         .dmem_wdata(dmem_wdata),
         .dmem_wlen(dmem_wlen),
         .load_data(load_data_from_lsu),
+        .load_data_valid(load_data_valid_from_lsu),
         .store_enable(store_enable_unused)
     );
 
