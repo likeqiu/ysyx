@@ -67,7 +67,7 @@ extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
     for (int i = 0; i < 32;i++)
     {
         cpu.gpr[i] = regs[i];
-        cpu.gpr[i] = top->rootp->ysyx_25040109_top__DOT__regfile__DOT__rf[i];
+        cpu.gpr[i] = top->rootp->ysyx_25040109_top__DOT__cpu__DOT__regfile__DOT__rf[i];
     }
         
 }
