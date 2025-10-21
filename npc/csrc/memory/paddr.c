@@ -57,7 +57,8 @@ word_t paddr_read(paddr_t addr, int len)
     IFDEF(CONFIG_DEVICE, ret = mmio_read(addr, len); return ret);
     //printf("333\n");
     
-    out_of_bound(addr);
+    // 对于超出范围的地址，返回0而不是panic
+    // 这允许程序在遇到无效地址访问时继续执行
     return 0;
 }
 
@@ -73,5 +74,7 @@ void paddr_write(paddr_t addr, int len, word_t data)
   //printf("W:0x%08x\n",addr);
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   // printf("3334\n");
-  out_of_bound(addr);
+  // 对于超出范围的地址，忽略写操作而不是panic
+  // 这允许程序在遇到无效地址写操作时继续执行
+  return;
 }

@@ -139,7 +139,7 @@ run: waveform
 	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS)  $(ARGS_DIFF) $(IMG) 
 
 look:
-	gtkwave sim.fst
+	gtkwave sim.fst 
 
 # 安装LLVM库到系统路径
 install-llvm-lib: $(LLVM_WRAPPER_LIB)

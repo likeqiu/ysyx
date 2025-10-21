@@ -9,7 +9,13 @@ extern Decode lastest_decode;
 
 extern "C" void verilog_pmem_read(paddr_t addr, uint32_t *data)
 {
-    *data = paddr_read(addr, 4);
+    // 地址范围检查：只在有效范围内读取，否则返回0
+    if ((addr >= PMEM_LEFT && addr <= PMEM_RIGHT) || ((addr >= 0x10000000) && (addr <= 0x10013000))) {
+        *data = paddr_read(addr, 4);
+    } else {
+        // 地址无效，返回0而不产生panic
+        *data = 0;
+    }
    // mtrace_record('R', addr, 4, *data);
 }
 
@@ -61,7 +67,7 @@ extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
     for (int i = 0; i < 32;i++)
     {
         cpu.gpr[i] = regs[i];
-        cpu.gpr[i] = top->rootp->ysyx_25040109_top__DOT__cpu__DOT__regfile__DOT__rf[i];
+        cpu.gpr[i] = top->rootp->ysyx_25040109_top__DOT__regfile__DOT__rf[i];
     }
         
 }

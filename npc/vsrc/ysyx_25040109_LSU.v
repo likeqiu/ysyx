@@ -1,86 +1,74 @@
+// LSU (Load/Store Unit) 模块
+// 负责所有的访存操作：Load/Store
+
 module ysyx_25040109_LSU (
-    input clk,
-    input rst,
-    input [31:0] addr,
-    input [31:0] store_data,
-    input [2:0] funct3,
-    input is_load,
-    input is_store,
-    input inst_invalid,
-    input stall,
+    // 来自EXU的信号
+    input [31:0] alu_result,      // 地址
+    input [31:0] rs2_data,        // 要写入的数据
+    input [6:0] opcode,           // 操作码
+    input [2:0] funct3,           // funct3字段
+    input inst_invalid,           // 指令是否无效
     
-    // dmem接口（连接到MEM模块）- 握手协议
-    // Load请求通道
-    output dmem_rvalid,
-    input dmem_rready,
-    output [31:0] dmem_raddr,
-    // Load响应通道
-    input [31:0] dmem_rdata,
-    input dmem_rdata_valid,
-    output dmem_rdata_ready,
+    // 访存使能信号
+    output reg is_load,           // 是否是Load指令
+    output reg is_store,          // 是否是Store指令
     
-    // Store请求通道
-    output dmem_wvalid,
-    /* verilator lint_off UNUSEDSIGNAL */
-    input dmem_wready,
-    /* verilator lint_on UNUSEDSIGNAL */
-    output [31:0] dmem_waddr,
-    output [31:0] dmem_wdata,
-    output [2:0] dmem_wlen,
+    // 内存接口
+    output reg [31:0] mem_addr,   // 内存地址
+    output reg [31:0] mem_wdata,  // 写数据
+    output reg [1:0] mem_wstrb,   // 写使能（字节掩码）
+    input [31:0] mem_rdata,       // 读数据
     
-    output reg [31:0] load_data,
-    output reg load_data_valid,   // Load数据有效标志
-    output store_enable
+    // Load结果
+    output reg [31:0] load_result // 经过符号扩展的Load结果
 );
 
-    wire store_valid = is_store && !inst_invalid && !stall;
-    wire load_valid = is_load && !inst_invalid && !stall;
-    
-    // Load请求通道（组合逻辑）
-    assign dmem_rvalid = load_valid;
-    assign dmem_raddr = addr;
-    assign dmem_rdata_ready = 1'b1;  // 总是准备好接收Load数据
-    
-    // Store请求通道（组合逻辑）
-    assign dmem_wvalid = store_valid;
-    assign dmem_waddr = addr;
-    assign dmem_wdata = store_data;
-    assign dmem_wlen = (funct3 == 3'b000) ? 3'b001 :  // SB
-                       (funct3 == 3'b001) ? 3'b010 :  // SH
-                       (funct3 == 3'b010) ? 3'b100 :  // SW
-                       3'b000;
-    
-    // Load数据处理（时序逻辑）
-    reg [2:0] load_funct3;  // 保存Load类型
-    
-    always @(posedge clk) begin
-        if (rst) begin
-            load_data <= 32'b0;
-            load_data_valid <= 1'b0;
-            load_funct3 <= 3'b0;
-        end else begin
-            // 锁存Load类型（在发出请求时）
-            if (dmem_rvalid && dmem_rready) begin
-                load_funct3 <= funct3;
-            end
-            
-            // 接收Load数据（在数据到达时）
-            if (dmem_rdata_valid && dmem_rdata_ready) begin
-                case (load_funct3)
-                    3'b000: load_data <= {{24{dmem_rdata[7]}}, dmem_rdata[7:0]};   // LB
-                    3'b001: load_data <= {{16{dmem_rdata[15]}}, dmem_rdata[15:0]}; // LH
-                    3'b010: load_data <= dmem_rdata;                                // LW
-                    3'b100: load_data <= {24'b0, dmem_rdata[7:0]};                 // LBU
-                    3'b101: load_data <= {16'b0, dmem_rdata[15:0]};                // LHU
-                    default: load_data <= 32'b0;
-                endcase
-                load_data_valid <= 1'b1;
-            end else begin
-                load_data_valid <= 1'b0;
-            end
+    // 识别Load指令
+    wire is_load_op = (opcode == 7'b0000011) && 
+                      (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010 || 
+                       funct3 == 3'b100 || funct3 == 3'b101);
+
+    // 识别Store指令
+    wire is_store_op = (opcode == 7'b0100011) &&
+                       (funct3 == 3'b000 || funct3 == 3'b001 || funct3 == 3'b010);
+
+    // 更新访存使能标志
+    always @(*) begin
+        is_load = is_load_op && !inst_invalid;
+        is_store = is_store_op && !inst_invalid;
+    end
+
+    // 计算内存地址和控制信号
+    always @(*) begin
+        mem_addr = alu_result;      // EXU已计算好地址
+        mem_wdata = rs2_data;       // Store数据
+        mem_wstrb = 2'b00;          // 默认不写入
+        
+        if (is_store_op && !inst_invalid) begin
+            // Store指令：设置写使能
+            case (funct3)
+                3'b000: mem_wstrb = 2'b01;  // SB - 写1字节
+                3'b001: mem_wstrb = 2'b11;  // SH - 写2字节
+                3'b010: mem_wstrb = 2'b11;  // SW - 写4字节（两个16位）
+                default: mem_wstrb = 2'b00;
+            endcase
         end
     end
-    
-    assign store_enable = store_valid;
+
+    // Load结果处理：符号扩展
+    always @(*) begin
+        if (is_load_op && !inst_invalid) begin
+            case (funct3)
+                3'b000: load_result = {{24{mem_rdata[7]}}, mem_rdata[7:0]};    // LB
+                3'b001: load_result = {{16{mem_rdata[15]}}, mem_rdata[15:0]};  // LH
+                3'b010: load_result = mem_rdata;                               // LW
+                3'b100: load_result = {24'b0, mem_rdata[7:0]};                // LBU
+                3'b101: load_result = {16'b0, mem_rdata[15:0]};               // LHU
+                default: load_result = 32'b0;
+            endcase
+        end else begin
+            load_result = 32'b0;
+        end
+    end
 
 endmodule
