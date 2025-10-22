@@ -39,9 +39,11 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__trap_state;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__is_ecall;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__cpu_stall;
+        CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__final_gpr_we;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__final_csr_we;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__imem_wait;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__dmem_wait;
+        CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT____VdfgTmp_hc38dad51__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__ifu__DOT__is_pc_valid;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__idu__DOT__valid_system;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__idu__DOT____VdfgTmp_hee48d914__0;
@@ -77,10 +79,10 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         VL_IN(p_count_number,31,0);
         VL_OUT(inst,31,0);
         VL_OUT(pc,31,0);
-        VL_OUT(a0_out,31,0);
-        IData/*31:0*/ ysyx_25040109_top__DOT__imem_rdata;
     };
     struct {
+        VL_OUT(a0_out,31,0);
+        IData/*31:0*/ ysyx_25040109_top__DOT__imem_rdata;
         IData/*31:0*/ ysyx_25040109_top__DOT__dmem_rdata;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__pc_reg;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__imm;

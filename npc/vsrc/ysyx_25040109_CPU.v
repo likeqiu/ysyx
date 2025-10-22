@@ -133,6 +133,11 @@ module ysyx_25040109_CPU (
     wire [11:0] final_csr_waddr;        // 最终CSR写地址 | 控制逻辑 → RegisterFile
     wire [31:0] final_csr_wdata;        // 最终CSR写数据 | 控制逻辑 → RegisterFile
 
+    // 指令完成标记
+    /* verilator lint_off UNUSEDSIGNAL */
+    wire inst_wb_complete;              // 指令写回完成标记 | 写回完成 → 监控/调试
+    /* verilator lint_on UNUSEDSIGNAL */
+
     // ========================================
     // 信号赋值区
     // ========================================
@@ -213,6 +218,14 @@ module ysyx_25040109_CPU (
 
     // 写回数据选择
     assign writeback_data = is_load ? load_data_from_lsu : result;
+
+    // 指令完成标记：覆盖所有指令类型的完成条件
+    assign inst_wb_complete = !rst && (
+        final_gpr_we ||                              // GPR写回完成（ALU、Load、JAL等）
+        final_csr_we ||                              // CSR写回完成（CSR指令、ECALL、MRET）
+        (final_mem_we && dmem_wready) ||             // Store指令完成（内存写确认）
+        (opcode == 7'b1100011 && !inst_invalid && !cpu_stall)  // Branch指令完成
+    );
 
     // 调试接口
     assign inst = inst_ifu;
