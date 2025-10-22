@@ -4,6 +4,7 @@
 #include<cpu/decode.h>
 #include<cpu/difftest.h>
 #include<reg.h>
+#include<memory/paddr.h>
 
 
 void device_update();
@@ -19,10 +20,46 @@ Decode lastest_decode = {
 
 #define MAX_INST_TO_PRINT 100
 
+// 检查是否需要跳过差分测试
+static bool should_skip_difftest() {
+    bool need_skip = false;
+
+    // 检查 Load/Store 指令是否访问 MMIO
+    if (top->is_load_out || top->is_store_out) {
+        paddr_t addr = top->is_load_out ? top->dmem_raddr_out : top->dmem_waddr_out;
+        if (!in_pmem(addr)) {
+            need_skip = true;  // MMIO 访问需要跳过
+        }
+    }
+
+    // CSR 指令需要跳过
+    if (top->opcode_out == 0b1110011) {
+        need_skip = true;
+    }
+
+    // ECALL 指令需要跳过
+    if (top->is_ecall_out) {
+        need_skip = true;
+    }
+
+    return need_skip;
+}
+
 static void trace_and_difftest(Decode *_this,vaddr_t dnpc)
 {
+    // 只在指令完成时进行差分测试
+    if (top->inst_wb_complete) {
+        #ifdef CONFIG_DIFFTEST
+        if (should_skip_difftest()) {
+            // 需要跳过：将 DUT 状态同步到 REF
+            difftest_skip_ref();
+        } else {
+            // 正常差分测试
 
-   //IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+            difftest_step(_this->pc, dnpc);
+        }
+        #endif
+    }
 
 #ifdef CONFIG_WATCHPOINT
     extern int monitor_point(uint32_t cpu_pc);

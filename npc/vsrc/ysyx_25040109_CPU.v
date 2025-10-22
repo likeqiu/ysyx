@@ -25,7 +25,14 @@ module ysyx_25040109_CPU (
     // 调试和监控接口
     output [31:0] inst,
     output [31:0] pc,
-    output [31:0] a0_out
+    output [31:0] a0_out,
+
+    // 差分测试接口
+    output inst_wb_complete,        // 指令完成标记
+    output is_load_out,             // Load指令标记
+    output is_store_out,            // Store指令标记
+    output is_ecall_out,            // ECALL指令标记
+    output [6:0] opcode_out         // 指令操作码
 );
 
     // ========================================
@@ -133,11 +140,6 @@ module ysyx_25040109_CPU (
     wire [11:0] final_csr_waddr;        // 最终CSR写地址 | 控制逻辑 → RegisterFile
     wire [31:0] final_csr_wdata;        // 最终CSR写数据 | 控制逻辑 → RegisterFile
 
-    // 指令完成标记
-    /* verilator lint_off UNUSEDSIGNAL */
-    wire inst_wb_complete;              // 指令写回完成标记 | 写回完成 → 监控/调试
-    /* verilator lint_on UNUSEDSIGNAL */
-
     // ========================================
     // 信号赋值区
     // ========================================
@@ -229,6 +231,12 @@ module ysyx_25040109_CPU (
 
     // 调试接口
     assign inst = inst_ifu;
+
+    // 差分测试接口输出
+    assign is_load_out = is_load;
+    assign is_store_out = is_store;
+    assign is_ecall_out = is_ecall;
+    assign opcode_out = opcode;
 
     // ========================================
     // 时序逻辑区
@@ -363,12 +371,7 @@ module ysyx_25040109_CPU (
         update_decode_state(pc, pc + 32'd4, next_pc, inst_ifu);
     end
 
-    // difftest控制
-    always @(posedge clk) begin
-        if (final_mem_we || is_load || is_ecall || is_stalled_by_trap || opcode == 7'b1110011) begin
-            difftest_skip_ref();
-        end
-    end
+    // difftest控制已移至C++代码中，基于inst_wb_complete信号
 
     // 指令trace和程序结束检测
     always @(posedge clk) begin

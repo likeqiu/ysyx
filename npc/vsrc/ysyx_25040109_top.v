@@ -10,7 +10,16 @@ module ysyx_25040109_top (
 
     output [31:0] inst,
     output [31:0] pc,
-    output [31:0] a0_out
+    output [31:0] a0_out,
+
+    // 差分测试接口
+    output inst_wb_complete,
+    output is_load_out,
+    output is_store_out,
+    output is_ecall_out,
+    output [6:0] opcode_out,
+    output [31:0] dmem_raddr_out,
+    output [31:0] dmem_waddr_out
 );
 
     // ========================================
@@ -32,6 +41,10 @@ module ysyx_25040109_top (
     wire [2:0] dmem_wlen;               // 写长度（字节/半字/字） | CPU → MEM
     wire dmem_wen;                      // 数据写使能 | CPU → MEM
     wire dmem_wready;                   // 数据写准备好 | MEM → CPU（握手协议）
+
+    // 导出访存地址用于差分测试
+    assign dmem_raddr_out = dmem_raddr;
+    assign dmem_waddr_out = dmem_waddr;
 
     // ========================================
     // 模块实例化区
@@ -62,7 +75,14 @@ module ysyx_25040109_top (
         // 调试接口
         .inst(inst),
         .pc(pc),
-        .a0_out(a0_out)
+        .a0_out(a0_out),
+
+        // 差分测试接口
+        .inst_wb_complete(inst_wb_complete),
+        .is_load_out(is_load_out),
+        .is_store_out(is_store_out),
+        .is_ecall_out(is_ecall_out),
+        .opcode_out(opcode_out)
     );
 
     // MEM模块（双通道内存）
