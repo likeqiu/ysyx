@@ -2,21 +2,26 @@ module ysyx_25040109_CPU (
     input clk,
     input rst,
     input [31:0] p_count_number,  // 性能计数（用于trace）
-    
+
     // 取指通道（连接到MEM）
     output [31:0] imem_addr,
     output imem_ren,
     input [31:0] imem_rdata,
-    
+    /* verilator lint_off UNUSEDSIGNAL */
+    input imem_rvalid,            // 指令数据有效（握手协议）
+    /* verilator lint_on UNUSEDSIGNAL */
+
     // 访存通道（连接到MEM）
     output [31:0] dmem_raddr,
     output dmem_ren,
     input [31:0] dmem_rdata,
+    input dmem_rvalid,            // 数据读有效（握手协议）
     output [31:0] dmem_waddr,
     output [31:0] dmem_wdata,
     output [2:0] dmem_wlen,
     output dmem_wen,
-    
+    input dmem_wready,            // 数据写准备好（握手协议）
+
     // 调试和监控接口
     output [31:0] inst,
     output [31:0] pc,
@@ -78,10 +83,18 @@ module ysyx_25040109_CPU (
     wire is_load;                       // load指令标志 | 译码 → LSU, 控制
     wire is_store;                      // store指令标志 | 译码 → 控制
     wire final_mem_we;                  // 最终内存写使能 | 控制逻辑 → LSU
-    
+
     // 访存数据
     wire [31:0] load_data_from_lsu;     // load数据（扩展后） | LSU → 写回选择
     wire store_enable_unused;           // store使能输出（未使用） | LSU → 悬空
+
+    // 握手协议信号
+    wire lsu_in_valid;                  // LSU输入valid信号
+    /* verilator lint_off UNUSEDSIGNAL */
+    wire lsu_out_ready;                 // LSU输出ready信号
+    wire lsu_out_valid;                 // LSU输出valid信号
+    /* verilator lint_on UNUSEDSIGNAL */
+    wire lsu_in_ready;                  // LSU输入ready信号（来自WB）
 
     // ========================================
     // WB阶段信号（写回阶段）
@@ -107,10 +120,14 @@ module ysyx_25040109_CPU (
     reg trap_state;                     // trap状态寄存器 | 内部状态
     wire is_stalled_by_trap;            // trap暂停标志 | trap_state → 全局控制
     wire is_ecall;                      // ecall指令标志 | 译码 → trap控制
-    
+
+    // 内存等待控制
+    wire is_stalled_by_mem;             // 内存等待暂停标志 | 内存握手 → 全局控制
+    wire cpu_stall;                     // CPU总暂停信号 | 组合所有暂停条件
+
     // 写回控制
     wire final_gpr_we;                  // 最终GPR写使能 | 控制逻辑 → RegisterFile
-    
+
     // CSR控制
     wire final_csr_we;                  // 最终CSR写使能 | 控制逻辑 → RegisterFile
     wire [11:0] final_csr_waddr;        // 最终CSR写地址 | 控制逻辑 → RegisterFile
@@ -121,10 +138,39 @@ module ysyx_25040109_CPU (
     // ========================================
     // PC控制
     assign pc = pc_reg;
-    assign pc_wen = !is_stalled_by_trap;
-    
+    assign pc_wen = !cpu_stall;
+
     // Trap控制
     assign is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);
+
+    // 内存等待控制
+    // 当取指或访存未完成时，暂停CPU
+    reg imem_wait;
+    reg dmem_wait;
+
+    always @(posedge clk) begin
+        if (rst) begin
+            imem_wait <= 1'b0;
+            dmem_wait <= 1'b0;
+        end else begin
+            // 取指等待：发出请求但数据未有效
+            if (imem_ren && !imem_rvalid) begin
+                imem_wait <= 1'b1;
+            end else if (imem_rvalid) begin
+                imem_wait <= 1'b0;
+            end
+
+            // 访存等待：发出请求但数据未有效
+            if ((dmem_ren && !dmem_rvalid) || (dmem_wen && !dmem_wready)) begin
+                dmem_wait <= 1'b1;
+            end else if (dmem_rvalid || dmem_wready) begin
+                dmem_wait <= 1'b0;
+            end
+        end
+    end
+
+    assign is_stalled_by_mem = imem_wait || dmem_wait;
+    assign cpu_stall = is_stalled_by_trap || is_stalled_by_mem;
 
     always @(posedge clk) begin
         if (rst) begin
@@ -149,8 +195,8 @@ module ysyx_25040109_CPU (
     assign imem_ren = 1'b1;
 
     // 控制信号赋值
-    assign final_gpr_we = reg_write_en_exu && !is_stalled_by_trap;
-    assign final_mem_we = is_store && !inst_invalid && !is_stalled_by_trap;
+    assign final_gpr_we = reg_write_en_exu && !cpu_stall;
+    assign final_mem_we = is_store && !inst_invalid && !cpu_stall;
 
     // CSR控制信号赋值
     assign final_csr_we = (is_stalled_by_trap) ? 1'b1 :
@@ -240,24 +286,35 @@ module ysyx_25040109_CPU (
     );
 
     // LSU实例（访存单元）
-    
+    // 握手信号连接
+    assign lsu_in_valid = 1'b1;         // 简化实现：总是valid
+    assign lsu_in_ready = 1'b1;         // 简化实现：WB总是ready
+
     ysyx_25040109_LSU lsu (
+        .clk(clk),
+        .rst(rst),
         .addr(result),
         .store_data(rs2_data),
         .funct3(funct3),
         .is_load(is_load),
         .is_store(final_mem_we),
         .inst_invalid(inst_invalid),
-        .stall(is_stalled_by_trap),
+        .stall(cpu_stall),
+        .in_valid(lsu_in_valid),
+        .out_ready(lsu_out_ready),
         .dmem_ren(dmem_ren),
         .dmem_raddr(dmem_raddr),
         .dmem_rdata(dmem_rdata),
+        .dmem_rvalid(dmem_rvalid),
         .dmem_wen(dmem_wen),
         .dmem_waddr(dmem_waddr),
         .dmem_wdata(dmem_wdata),
         .dmem_wlen(dmem_wlen),
+        .dmem_wready(dmem_wready),
         .load_data(load_data_from_lsu),
-        .store_enable(store_enable_unused)
+        .store_enable(store_enable_unused),
+        .out_valid(lsu_out_valid),
+        .in_ready(lsu_in_ready)
     );
 
     // RegisterFile实例（寄存器文件）

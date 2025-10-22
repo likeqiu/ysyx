@@ -215,7 +215,7 @@ module ysyx_25040109_EXU (
         end else begin
             next_pc = pc+4;
            $finish;
-          $display("0x%08x:",pc);
+          $display(" hit bad trap :0x%08x:",pc);
 
         end
     end
