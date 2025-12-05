@@ -46,12 +46,18 @@ module ysyx_25040109_CPU (
     // ========================================
     // IF阶段信号（取指阶段）
     // ========================================
-    // PC寄存器和控制
-    reg [31:0] pc_reg = 32'h80000000;  // PC寄存器（初始值0x80000000） | 内部状态
-    wire pc_wen;                        // PC写使能 | trap控制 → pc_reg
+    // PC与阶段控制
+    reg  [31:0] pc_fetch = 32'h80000000;  // 下一条待取PC
+    reg  [31:0] pc_exe   = 32'h80000000;  // 当前执行/提交PC
+    reg         stage_valid    = 1'b0;    // 是否有指令在执行
+    reg         lsu_req_issued = 1'b0;    // 当前指令是否已向LSU发请求
+    reg  [31:0] inst_exe       = 32'b0;   // 当前执行指令
     
-    // 取指输出
-    wire [31:0] inst_ifu;               // 取出的指令 | IFU → IDU, 控制, 调试
+    // 取指输出与握手
+    wire [31:0] inst_ifu;                 // 取出的指令 | IFU → IDU, 控制, 调试
+    wire        ifu_ready_to_mem;
+    wire        ifu_valid_to_idu;
+    wire        idu_ready;
     
     // 指令字段（从IDU获取）
     wire [6:0] opcode;                  // 操作码 | IDU → 控制逻辑
@@ -75,7 +81,7 @@ module ysyx_25040109_CPU (
     // ========================================
     // 执行输出
     wire [31:0] result;                 // ALU计算结果 | EXU → LSU, 写回选择
-    wire [31:0] next_pc;                // 计算的下一个PC | EXU → pc_reg
+    wire [31:0] next_pc;                // 计算的下一个PC | EXU → PC更新
     wire [4:0] rd_addr_exu;             // 目的寄存器地址（传递） | EXU → RegisterFile
     wire reg_write_en_exu;              // 寄存器写使能（传递） | EXU → 控制逻辑
     
@@ -128,10 +134,6 @@ module ysyx_25040109_CPU (
     wire is_stalled_by_trap;            // trap暂停标志 | trap_state → 全局控制
     wire is_ecall;                      // ecall指令标志 | 译码 → trap控制
 
-    // 内存等待控制
-    wire is_stalled_by_mem;             // 内存等待暂停标志 | 内存握手 → 全局控制
-    wire cpu_stall;                     // CPU总暂停信号 | 组合所有暂停条件
-
     // 写回控制
     wire final_gpr_we;                  // 最终GPR写使能 | 控制逻辑 → RegisterFile
 
@@ -143,125 +145,72 @@ module ysyx_25040109_CPU (
     // ========================================
     // 信号赋值区
     // ========================================
-    // PC控制
-    assign pc = pc_reg;
-    assign pc_wen = !cpu_stall;
+    // PC输出：执行中显示执行PC，否则显示取指PC
+    assign pc = stage_valid ? pc_exe : pc_fetch;
 
     // Trap控制
     assign is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);
 
-    // 内存等待控制
-    // 当取指或访存未完成时，暂停CPU
-    reg imem_wait;
-    reg dmem_wait;
-
-    always @(posedge clk) begin
-        if (rst) begin
-            imem_wait <= 1'b0;
-            dmem_wait <= 1'b0;
-        end else begin
-            // 取指等待：发出请求但数据未有效
-            if (imem_ren && !imem_rvalid) begin
-                imem_wait <= 1'b1;
-            end else if (imem_rvalid) begin
-                imem_wait <= 1'b0;
-            end
-
-            // 访存等待：发出请求但数据未有效
-            if ((dmem_ren && !dmem_rvalid) || (dmem_wen && !dmem_wready)) begin
-                dmem_wait <= 1'b1;
-            end else if (dmem_rvalid || dmem_wready) begin
-                dmem_wait <= 1'b0;
-            end
-        end
-    end
-
-    assign is_stalled_by_mem = imem_wait || dmem_wait;
-    assign cpu_stall = is_stalled_by_trap || is_stalled_by_mem;
-
-    always @(posedge clk) begin
-        if (rst) begin
-            trap_state <= S_NORMAL;
-        end else begin
-            case (trap_state)
-                S_NORMAL: begin
-                    if (is_ecall) begin
-                        trap_state <= S_TRAP_MCAUSE;
-                    end
-                end
-                S_TRAP_MCAUSE: begin
-                    trap_state <= S_NORMAL;
-                end
-                default: trap_state <= S_NORMAL;
-            endcase
-        end
-    end
-
     // 取指接口连接
-    assign imem_addr = pc;
-    assign imem_ren = 1'b1;
+    assign imem_addr = stage_valid ? next_pc : pc_fetch;
+    assign imem_ren  = ifu_ready_to_mem;
 
     // 控制信号赋值
-    assign final_gpr_we = reg_write_en_exu && !cpu_stall;
-    assign final_mem_we = is_store && !inst_invalid && !cpu_stall;
+    assign final_gpr_we = reg_write_en_exu && stage_valid && commit_cond;
+    assign final_mem_we = is_store && stage_valid;
 
     // CSR控制信号赋值
-    assign final_csr_we = (is_stalled_by_trap) ? 1'b1 :
-                          (is_ecall)           ? 1'b1 :
-                          csr_we_from_exu;
+    assign final_csr_we = is_stalled_by_trap ||
+                          (stage_valid && commit_cond &&
+                           (is_ecall || csr_we_from_exu));
 
-    assign final_csr_waddr = (is_stalled_by_trap) ? CSR_MCAUSE :
-                             (is_ecall)           ? CSR_MEPC   :
+    assign final_csr_waddr = is_stalled_by_trap ? CSR_MCAUSE :
+                             (stage_valid && is_ecall) ? CSR_MEPC :
                              csr_addr;
 
-    assign final_csr_wdata = (is_stalled_by_trap) ? 32'd11 :
-                             (is_ecall)           ? pc     :
+    assign final_csr_wdata = is_stalled_by_trap ? 32'd11 :
+                             (stage_valid && is_ecall) ? pc_exe :
                              csr_wdata_from_exu;
 
     // 写回数据选择
     assign writeback_data = is_load ? load_data_from_lsu : result;
 
-    // 指令完成标记：覆盖所有指令类型的完成条件
-    assign inst_wb_complete = !rst && (
-        final_gpr_we ||                              // GPR写回完成（ALU、Load、JAL等）
-        final_csr_we ||                              // CSR写回完成（CSR指令、ECALL、MRET）
-        (final_mem_we && dmem_wready) ||             // Store指令完成（内存写确认）
-        (opcode == 7'b1100011 && !inst_invalid && !cpu_stall)  // Branch指令完成
-    );
+    // 指令完成条件
+    wire mem_op      = is_load || is_store;
+    wire mem_done    = mem_op ? lsu_out_valid : 1'b1;
+    wire commit_cond = stage_valid && mem_done;
+    reg  inst_wb_complete_r;
+
+    // 指令完成标记
+    assign inst_wb_complete = inst_wb_complete_r;
 
     // 调试接口
-    assign inst = inst_ifu;
+    assign inst = inst_exe;
 
     // 差分测试接口输出
-    assign is_load_out = is_load;
-    assign is_store_out = is_store;
-    assign is_ecall_out = is_ecall;
-    assign opcode_out = opcode;
-
-    // ========================================
-    // 时序逻辑区
-    // ========================================
-    // PC寄存器更新
-    always @(posedge clk) begin
-        if (rst) 
-            pc_reg <= 32'h80000000;
-        else if (pc_wen) 
-            pc_reg <= next_pc;
-    end
+    assign is_load_out  = is_load && stage_valid;
+    assign is_store_out = is_store && stage_valid;
+    assign is_ecall_out = is_ecall && stage_valid;
+    assign opcode_out   = opcode;
 
     // ========================================
     // 模块实例化区
     // ========================================
-    // IFU实例（取指单元）
+    // IFU实例（取指单元，握手版）
     ysyx_25040109_IFU ifu (
-        .pc(pc),
+        .clk(clk),
+        .rst(rst),
         .imem_rdata(imem_rdata),
-        .inst_ifu(inst_ifu)
+        .mem_valid(imem_rvalid),
+        .ifu_ready_to_mem(ifu_ready_to_mem),
+        .idu_ready(idu_ready),
+        .inst_ifu(inst_ifu),
+        .ifu_valid_to_idu(ifu_valid_to_idu)
     );
 
     // IDU实例（译码单元）
     ysyx_25040109_IDU idu (
-        .inst(inst_ifu),
+        .inst(inst_exe),
         .rd_addr(rd_addr_idu),
         .imm(imm),
         .reg_write_en_idu(reg_write_en_idu),
@@ -269,13 +218,9 @@ module ysyx_25040109_CPU (
         .funct7(funct7),
         .inst_invalid(inst_invalid),
         .csr_addr(csr_addr),
-        
-        // 新增输出：指令字段
         .opcode(opcode),
         .rs1_addr(rs1_addr),
         .rs2_addr(rs2_addr),
-        
-        // 新增输出：指令类型标志
         .is_load(is_load),
         .is_store(is_store),
         .is_ecall(is_ecall)
@@ -286,14 +231,14 @@ module ysyx_25040109_CPU (
         .rs1_data(rs1_data),
         .rs2_data(rs2_data),
         .imm(imm),
-        .reg_write_in(reg_write_en_idu),
+        .reg_write_in(reg_write_en_idu && stage_valid),
         .rd_addr(rd_addr_idu),
-        .pc(pc), 
+        .pc(pc_exe), 
         .rs1_addr(rs1_addr),
         .opcode(opcode), 
         .funct3(funct3),
         .funct7(funct7),
-        .inst_invalid(inst_invalid),
+        .inst_invalid(stage_valid ? inst_invalid : 1'b0),
         .result(result),
         .rd_addr_out(rd_addr_exu),
         .reg_write_en_out(reg_write_en_exu),
@@ -308,8 +253,9 @@ module ysyx_25040109_CPU (
 
     // LSU实例（访存单元）
     // 握手信号连接
-    assign lsu_in_valid = 1'b1;         // 简化实现：总是valid
-    assign lsu_in_ready = 1'b1;         // 简化实现：WB总是ready
+    assign lsu_in_valid = stage_valid && (is_load || is_store) && !lsu_req_issued;
+    assign lsu_in_ready = 1'b1;         // 写回阶段随时可接收
+    wire lsu_in_fire = lsu_in_valid && lsu_out_ready;
 
     ysyx_25040109_LSU lsu (
         .clk(clk),
@@ -320,7 +266,6 @@ module ysyx_25040109_CPU (
         .is_load(is_load),
         .is_store(final_mem_we),
         .inst_invalid(inst_invalid),
-        .stall(cpu_stall),
         .in_valid(lsu_in_valid),
         .out_ready(lsu_out_ready),
         .dmem_ren(dmem_ren),
@@ -368,21 +313,76 @@ module ysyx_25040109_CPU (
     
     // 译码状态更新
     always @(*) begin
-        update_decode_state(pc, pc + 32'd4, next_pc, inst_ifu);
+        if (stage_valid) begin
+            update_decode_state(pc_exe, pc_exe + 32'd4, next_pc, inst_exe);
+        end
     end
 
     // difftest控制已移至C++代码中，基于inst_wb_complete信号
 
     // 指令trace和程序结束检测
     always @(posedge clk) begin
-        if (!rst) begin
-            itrace_print(pc, inst_ifu, 4, p_count_number);
+        if (!rst && inst_wb_complete_r) begin
+            itrace_print(pc_exe, inst_exe, 4, p_count_number);
             
-            if (printf_finish(inst_ifu) == 0) begin
+            if (printf_finish(inst_exe) == 0) begin
                 $finish;
             end
         end
     end
 `endif
+
+    // ========================================
+    // 阶段与PC更新时序
+    // ========================================
+    assign idu_ready = !stage_valid;
+
+    always @(posedge clk) begin
+        if (rst) begin
+            stage_valid    <= 1'b0;
+            pc_fetch       <= 32'h80000000;
+            pc_exe         <= 32'h80000000;
+            inst_exe       <= 32'b0;
+            lsu_req_issued <= 1'b0;
+            trap_state     <= S_NORMAL;
+            inst_wb_complete_r <= 1'b0;
+        end else begin
+            // Trap状态机（只看当前指令）
+            case (trap_state)
+                S_NORMAL: begin
+                    if (stage_valid && is_ecall) begin
+                        trap_state <= S_TRAP_MCAUSE;
+                    end
+                end
+                S_TRAP_MCAUSE: begin
+                    trap_state <= S_NORMAL;
+                end
+                default: trap_state <= S_NORMAL;
+            endcase
+
+            // 接收新指令
+            if (ifu_valid_to_idu && idu_ready) begin
+                inst_exe       <= inst_ifu;
+                pc_exe         <= pc_fetch;
+                stage_valid    <= 1'b1;
+                lsu_req_issued <= 1'b0;
+            end else if (commit_cond) begin
+                stage_valid <= 1'b0;
+            end
+
+            // 访存请求只发一次
+            if (lsu_in_fire) begin
+                lsu_req_issued <= 1'b1;
+            end
+
+            // PC在提交后更新
+            if (commit_cond) begin
+                pc_fetch <= next_pc;
+            end
+
+            // 提交信号打一拍，方便外部握手
+            inst_wb_complete_r <= (!rst) && commit_cond;
+        end
+    end
 
 endmodule
