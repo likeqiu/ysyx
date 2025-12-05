@@ -198,6 +198,8 @@ module ysyx_25040109_CPU (
     // ========================================
     // IFU实例（取指单元，握手版）
     ysyx_25040109_IFU ifu (
+        .clk(clk),
+        .rst(rst),
         .imem_rdata(imem_rdata),
         .mem_valid(imem_rvalid),
         .ifu_ready_to_mem(ifu_ready_to_mem),

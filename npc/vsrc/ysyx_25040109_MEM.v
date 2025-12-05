@@ -53,7 +53,8 @@ module ysyx_25040109_MEM (
     reg [31:0] imem_rdata_buf;
 
     always @(*) begin
-        if (imem_ren && !imem_busy) begin
+        // 仅在当前未返回数据时发起新的读请求，避免覆盖有效数据
+        if (imem_ren && !imem_busy && !imem_rvalid) begin
 `ifndef SYNTHESIS
             verilog_pmem_read(imem_addr, imem_rdata);
 `else
@@ -66,7 +67,7 @@ module ysyx_25040109_MEM (
 
     // 缓冲读取的数据
     always @(posedge clk) begin
-        if (imem_ren && !imem_busy) begin
+        if (imem_ren && !imem_busy && !imem_rvalid) begin
             imem_rdata_buf <= imem_rdata;
         end
     end
@@ -78,7 +79,7 @@ module ysyx_25040109_MEM (
             imem_busy <= 1'b0;
             imem_delay_cnt <= 2'b0;
         end else begin
-            if (imem_ren && !imem_busy) begin
+            if (imem_ren && !imem_busy && !imem_rvalid) begin
                 // 新的读请求：开始延迟计数（模拟1周期延迟）
                 imem_busy <= 1'b1;
                 imem_delay_cnt <= 2'd1;
@@ -103,7 +104,7 @@ module ysyx_25040109_MEM (
     reg [31:0] dmem_rdata_buf;
 
     always @(*) begin
-        if (dmem_ren && !dmem_busy) begin
+        if (dmem_ren && !dmem_busy && !dmem_rvalid) begin
 `ifndef SYNTHESIS
             verilog_pmem_read(dmem_raddr, dmem_rdata);
 `else
@@ -116,7 +117,7 @@ module ysyx_25040109_MEM (
 
     // 缓冲读取的数据
     always @(posedge clk) begin
-        if (dmem_ren && !dmem_busy) begin
+        if (dmem_ren && !dmem_busy && !dmem_rvalid) begin
             dmem_rdata_buf <= dmem_rdata;
         end
     end
@@ -128,7 +129,7 @@ module ysyx_25040109_MEM (
             dmem_busy <= 1'b0;
             dmem_delay_cnt <= 2'b0;
         end else begin
-            if (dmem_ren && !dmem_busy) begin
+            if (dmem_ren && !dmem_busy && !dmem_rvalid) begin
                 // 新的读请求：开始延迟计数（模拟1周期延迟）
                 dmem_busy <= 1'b1;
                 dmem_delay_cnt <= 2'd1;
