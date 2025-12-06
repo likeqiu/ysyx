@@ -1,5 +1,11 @@
 module ysyx_25040109_IDU (
     input [31:0] inst,
+    // 握手接口
+    input in_valid,           // 上游（IFU/流水寄存）valid
+    output out_ready,         // 下游（EXU）ready 传回上游
+    output out_valid,         // 本模块 valid 输出
+    input in_ready,           // 下游 ready
+
     output [4:0] rd_addr,
     output [31:0] imm,
     output reg_write_en_idu,
@@ -19,6 +25,9 @@ module ysyx_25040109_IDU (
     output is_store,
     output is_ecall
 );
+    // 简单直通握手：IDU 为组合逻辑，不阻塞下游
+    assign out_ready = in_ready;
+    assign out_valid = in_valid;
     assign opcode = inst[6:0];
     assign funct3 = inst[14:12];
     assign rs1_addr = inst[19:15];
@@ -172,4 +181,3 @@ module ysyx_25040109_IDU (
     
 
 endmodule
-

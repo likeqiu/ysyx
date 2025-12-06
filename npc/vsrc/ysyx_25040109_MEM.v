@@ -7,6 +7,7 @@ module ysyx_25040109_MEM (
     input imem_ren,                // 取指使能
     output reg [31:0] imem_rdata,  // 指令数据
     output reg imem_rvalid,        // 指令数据有效信号（握手协议）
+    input imem_ready,              // 指令接收方准备好（握手协议）
 
     // 访存通道（dmem - Data Memory）
     // 读通道
@@ -14,12 +15,14 @@ module ysyx_25040109_MEM (
     input dmem_ren,                // 数据读使能
     output reg [31:0] dmem_rdata,  // 数据读结果
     output reg dmem_rvalid,        // 数据读有效信号（握手协议）
+    input dmem_rready,             // 数据读接收方ready（握手协议）
 
     // 写通道
     input [31:0] dmem_waddr,       // 数据写地址
     input [31:0] dmem_wdata,       // 数据写数据
     input [2:0] dmem_wlen,         // 写长度（3'b001=字节, 3'b010=半字, 3'b100=字）
-    input dmem_wen,                // 数据写使能
+    input dmem_wen,                // 数据写使能（握手）
+    input dmem_wvalid,             // 数据写有效（握手）
     output reg dmem_wready         // 数据写准备好信号（握手协议）
 
 `ifdef SYNTHESIS
@@ -79,7 +82,9 @@ module ysyx_25040109_MEM (
             imem_busy <= 1'b0;
             imem_delay_cnt <= 2'b0;
         end else begin
-            if (imem_ren && !imem_busy && !imem_rvalid) begin
+            if (imem_rvalid && imem_ready) begin
+                imem_rvalid <= 1'b0;
+            end else if (imem_ren && !imem_busy && !imem_rvalid) begin
                 // 新的读请求：开始延迟计数（模拟1周期延迟）
                 imem_busy <= 1'b1;
                 imem_delay_cnt <= 2'd1;
@@ -89,12 +94,10 @@ module ysyx_25040109_MEM (
                     imem_delay_cnt <= imem_delay_cnt - 1;
                     imem_rvalid <= 1'b0;
                 end else begin
-                    // 延迟结束，数据有效
+                    // 延迟结束，数据有效（保持到 ready 为止）
                     imem_rvalid <= 1'b1;
                     imem_busy <= 1'b0;
                 end
-            end else begin
-                imem_rvalid <= 1'b0;
             end
         end
     end
@@ -129,7 +132,9 @@ module ysyx_25040109_MEM (
             dmem_busy <= 1'b0;
             dmem_delay_cnt <= 2'b0;
         end else begin
-            if (dmem_ren && !dmem_busy && !dmem_rvalid) begin
+            if (dmem_rvalid && dmem_rready) begin
+                dmem_rvalid <= 1'b0;
+            end else if (dmem_ren && !dmem_busy && !dmem_rvalid) begin
                 // 新的读请求：开始延迟计数（模拟1周期延迟）
                 dmem_busy <= 1'b1;
                 dmem_delay_cnt <= 2'd1;
@@ -139,12 +144,10 @@ module ysyx_25040109_MEM (
                     dmem_delay_cnt <= dmem_delay_cnt - 1;
                     dmem_rvalid <= 1'b0;
                 end else begin
-                    // 延迟结束，数据有效
+                    // 延迟结束，数据有效（保持到 ready 为止）
                     dmem_rvalid <= 1'b1;
                     dmem_busy <= 1'b0;
                 end
-            end else begin
-                dmem_rvalid <= 1'b0;
             end
         end
     end
@@ -152,10 +155,10 @@ module ysyx_25040109_MEM (
     // 访存通道写操作（时序逻辑）
     always @(posedge clk) begin
         if (rst) begin
-            dmem_wready <= 1'b1;  // 写操作总是ready（简化实现）
+            dmem_wready <= 1'b1;  // 写操作总是ready（当前实现）
         end else begin
             dmem_wready <= 1'b1;
-            if (!rst && dmem_wen) begin
+            if (dmem_wvalid && dmem_wready && dmem_wen) begin
                 case (dmem_wlen)
                     3'b001: begin  // 字节写（SB）
 `ifndef SYNTHESIS

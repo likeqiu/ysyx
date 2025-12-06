@@ -17,8 +17,10 @@ module ysyx_25040109_LSU (
     output [31:0] dmem_raddr,
     input [31:0] dmem_rdata,     // 从MEM读取的数据
     input dmem_rvalid,           // MEM读数据有效（握手协议）
+    output dmem_rready,          // LSU准备好接收读数据
 
     output dmem_wen,
+    output dmem_wvalid,         // 写通道 valid
     output [31:0] dmem_waddr,
     output [31:0] dmem_wdata,
     output [2:0] dmem_wlen,
@@ -53,14 +55,17 @@ module ysyx_25040109_LSU (
     // ========================================
     wire in_fire = in_valid && out_ready;
     wire out_fire = out_valid && in_ready;
-    wire mem_read_fire = dmem_ren && dmem_rvalid;
-    wire mem_write_fire = dmem_wen && dmem_wready;
+    wire mem_read_fire = dmem_rvalid && dmem_rready;
+    wire mem_write_fire = dmem_wvalid && dmem_wready;
 
     // Ready信号：空闲或已缓冲且下游ready
     assign out_ready = (state == IDLE) || (state == BUFFERED && in_ready);
 
     // Valid信号：已缓冲或内存操作完成
     assign out_valid = (state == BUFFERED) || (state == WAIT_MEM && mem_done);
+
+    // 内存读返回的 ready：仅在等待内存时接受返回
+    assign dmem_rready = (state == WAIT_MEM);
 
     // ========================================
     // 内存接口信号
@@ -71,8 +76,9 @@ module ysyx_25040109_LSU (
     assign dmem_ren = (state == WAIT_MEM && load_latched && !mem_done);
     assign dmem_raddr = addr_latched;
 
-    // dmem写接口
-    assign dmem_wen = (state == WAIT_MEM && store_valid && !mem_done);
+    // dmem写接口（valid保持到 ready）
+    assign dmem_wvalid = (state == WAIT_MEM && store_valid && !mem_done);
+    assign dmem_wen = dmem_wvalid;
     assign dmem_waddr = addr_latched;
     assign dmem_wdata = store_data_latched;
     assign dmem_wlen = (funct3_latched == 3'b000) ? 3'b001 :  // SB

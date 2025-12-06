@@ -25,8 +25,8 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__imem_rvalid;
         CData/*0:0*/ ysyx_25040109_top__DOT__dmem_ren;
         CData/*0:0*/ ysyx_25040109_top__DOT__dmem_rvalid;
+        CData/*0:0*/ ysyx_25040109_top__DOT__dmem_wvalid;
         CData/*2:0*/ ysyx_25040109_top__DOT__dmem_wlen;
-        CData/*0:0*/ ysyx_25040109_top__DOT__dmem_wen;
         CData/*0:0*/ ysyx_25040109_top__DOT__dmem_wready;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__stage_valid;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__lsu_req_issued;

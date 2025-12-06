@@ -30,12 +30,15 @@ module ysyx_25040109_top (
     wire imem_ren;                      // 取指使能 | CPU → MEM
     wire [31:0] imem_rdata;             // 指令数据 | MEM → CPU
     wire imem_rvalid;                   // 指令数据有效 | MEM → CPU（握手协议）
+    wire imem_ready;                    // 指令数据ready | CPU → MEM（握手协议）
 
     // 访存通道信号（CPU ↔ MEM）
     wire [31:0] dmem_raddr;             // 数据读地址 | CPU → MEM
     wire dmem_ren;                      // 数据读使能 | CPU → MEM
     wire [31:0] dmem_rdata;             // 数据读结果 | MEM → CPU
     wire dmem_rvalid;                   // 数据读有效 | MEM → CPU（握手协议）
+    wire dmem_rready;                   // 数据读ready | CPU → MEM（握手协议）
+    wire dmem_wvalid;                   // 数据写有效 | CPU → MEM（握手协议）
     wire [31:0] dmem_waddr;             // 数据写地址 | CPU → MEM
     wire [31:0] dmem_wdata;             // 数据写数据 | CPU → MEM
     wire [2:0] dmem_wlen;               // 写长度（字节/半字/字） | CPU → MEM
@@ -60,12 +63,15 @@ module ysyx_25040109_top (
         .imem_ren(imem_ren),
         .imem_rdata(imem_rdata),
         .imem_rvalid(imem_rvalid),
+        .imem_ready(imem_ready),
 
         // 访存接口
         .dmem_raddr(dmem_raddr),
         .dmem_ren(dmem_ren),
         .dmem_rdata(dmem_rdata),
         .dmem_rvalid(dmem_rvalid),
+        .dmem_rready(dmem_rready),
+        .dmem_wvalid(dmem_wvalid),
         .dmem_waddr(dmem_waddr),
         .dmem_wdata(dmem_wdata),
         .dmem_wlen(dmem_wlen),
@@ -95,12 +101,15 @@ module ysyx_25040109_top (
         .imem_ren(imem_ren),
         .imem_rdata(imem_rdata),
         .imem_rvalid(imem_rvalid),
+        .imem_ready(imem_ready),
 
         // 访存通道
         .dmem_raddr(dmem_raddr),
         .dmem_ren(dmem_ren),
         .dmem_rdata(dmem_rdata),
         .dmem_rvalid(dmem_rvalid),
+        .dmem_rready(dmem_rready),
+        .dmem_wvalid(dmem_wvalid),
         .dmem_waddr(dmem_waddr),
         .dmem_wdata(dmem_wdata),
         .dmem_wlen(dmem_wlen),
@@ -114,5 +123,3 @@ module ysyx_25040109_top (
     );
 
 endmodule
-
-

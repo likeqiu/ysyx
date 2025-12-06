@@ -10,16 +10,19 @@ module ysyx_25040109_CPU (
     /* verilator lint_off UNUSEDSIGNAL */
     input imem_rvalid,            // 指令数据有效（握手协议）
     /* verilator lint_on UNUSEDSIGNAL */
+    output imem_ready,            // 指令通道 ready（握手）
 
     // 访存通道（连接到MEM）
     output [31:0] dmem_raddr,
     output dmem_ren,
     input [31:0] dmem_rdata,
     input dmem_rvalid,            // 数据读有效（握手协议）
+    output dmem_rready,           // 数据读 ready（握手）
     output [31:0] dmem_waddr,
     output [31:0] dmem_wdata,
     output [2:0] dmem_wlen,
     output dmem_wen,
+    output dmem_wvalid,
     input dmem_wready,            // 数据写准备好（握手协议）
 
     // 调试和监控接口
@@ -110,6 +113,18 @@ module ysyx_25040109_CPU (
     wire lsu_in_ready;                  // LSU输入ready信号（来自WB）
 
     // ========================================
+    // EXU/WB 握手信号（当前为组合直通，占位以便后续多周期扩展）
+    // ========================================
+    /* verilator lint_off UNUSEDSIGNAL */
+    wire idu_valid_to_exu = stage_valid; // 译码有效
+    wire exu_ready        = 1'b1;        // EXU 组合逻辑总是 ready
+    wire exu_valid        = idu_valid_to_exu; // EXU 输出有效
+    wire wb_ready         = 1'b1;        // 写回阶段总是 ready（当前单周期实现）
+    wire idu_out_ready;                 // IDU ready to IFU/上游
+    wire idu_out_valid;                 // IDU valid to EXU
+    /* verilator lint_on UNUSEDSIGNAL */
+
+    // ========================================
     // WB阶段信号（写回阶段）
     // ========================================
     wire [31:0] writeback_data;         // 写回数据选择 | 写回逻辑 → RegisterFile
@@ -154,6 +169,7 @@ module ysyx_25040109_CPU (
     // 取指接口连接
     assign imem_addr = stage_valid ? next_pc : pc_fetch;
     assign imem_ren  = ifu_ready_to_mem;
+    assign imem_ready = ifu_ready_to_mem;
 
     // 控制信号赋值
     assign final_gpr_we = reg_write_en_exu && stage_valid && commit_cond;
@@ -211,6 +227,10 @@ module ysyx_25040109_CPU (
     // IDU实例（译码单元）
     ysyx_25040109_IDU idu (
         .inst(inst_exe),
+        .in_valid(stage_valid),
+        .out_ready(idu_out_ready),
+        .out_valid(idu_out_valid),
+        .in_ready(exu_ready),
         .rd_addr(rd_addr_idu),
         .imm(imm),
         .reg_write_en_idu(reg_write_en_idu),
@@ -272,7 +292,9 @@ module ysyx_25040109_CPU (
         .dmem_raddr(dmem_raddr),
         .dmem_rdata(dmem_rdata),
         .dmem_rvalid(dmem_rvalid),
+        .dmem_rready(dmem_rready),
         .dmem_wen(dmem_wen),
+        .dmem_wvalid(dmem_wvalid),
         .dmem_waddr(dmem_waddr),
         .dmem_wdata(dmem_wdata),
         .dmem_wlen(dmem_wlen),
