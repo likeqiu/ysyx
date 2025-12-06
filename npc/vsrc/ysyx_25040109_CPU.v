@@ -45,6 +45,10 @@ module ysyx_25040109_CPU (
     localparam S_TRAP_MCAUSE = 1'b1;   // trap状态：写MCAUSE
     localparam CSR_MEPC   = 12'h341;   // CSR地址：MEPC
     localparam CSR_MCAUSE = 12'h342;   // CSR地址：MCAUSE
+    // 写回阶段可调延迟（验证长尾）：默认为0，不改变功能
+    localparam [3:0] WB_LAT_ALU = 4'd0;
+    localparam [3:0] WB_LAT_MEM = 4'd0;
+    localparam [3:0] WB_LAT_CSR = 4'd0;
 
     // ========================================
     // IF阶段信号（取指阶段）
@@ -130,6 +134,7 @@ module ysyx_25040109_CPU (
     wire idu_out_ready;                  // IDU ready to IFU/上游
     wire id_to_ex_fire;                  // IDU→EXU 传输
     wire id_fire;                        // IFU→IDU 传输
+    reg  [3:0] wb_delay_cnt;             // 写回端模拟多周期 ready
 
     // ========================================
     // WB阶段信号（写回阶段）
@@ -200,9 +205,11 @@ module ysyx_25040109_CPU (
 
     // 指令完成条件
     wire mem_op      = stage_valid && (is_load || is_store);
-    wire mem_done    = !mem_op || (lsu_out_valid && wb_ready);
+    wire mem_done    = !mem_op || lsu_out_valid;
+    wire [3:0] wb_delay_sel = mem_op ? WB_LAT_MEM :
+                               (csr_we_from_exu ? WB_LAT_CSR : WB_LAT_ALU);
+    assign wb_ready  = (wb_delay_cnt == 4'd0);
     assign wb_valid  = stage_valid && mem_done;
-    assign wb_ready  = 1'b1;
     assign wb_fire   = wb_valid && wb_ready;
     wire commit_cond = wb_fire;
     assign ex_ready  = !stage_valid || commit_cond;
@@ -377,6 +384,7 @@ module ysyx_25040109_CPU (
         if (rst) begin
             stage_valid    <= 1'b0;
             id_valid       <= 1'b0;
+            wb_delay_cnt   <= 4'd0;
             pc_fetch       <= 32'h80000000;
             pc_exe         <= 32'h80000000;
             inst_exe       <= 32'b0;
@@ -431,6 +439,13 @@ module ysyx_25040109_CPU (
             // PC在提交后更新
             if (commit_cond) begin
                 pc_fetch <= next_pc;
+            end
+
+            // 写回延迟计数：模拟多周期 sink
+            if (commit_cond) begin
+                wb_delay_cnt <= wb_delay_sel;
+            end else if (wb_delay_cnt != 4'd0) begin
+                wb_delay_cnt <= wb_delay_cnt - 1'b1;
             end
 
             // 提交信号打一拍，方便外部握手
