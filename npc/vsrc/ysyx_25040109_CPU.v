@@ -52,7 +52,10 @@ module ysyx_25040109_CPU (
     // PC与阶段控制
     reg  [31:0] pc_fetch = 32'h80000000;  // 下一条待取PC
     reg  [31:0] pc_exe   = 32'h80000000;  // 当前执行/提交PC
-    reg         stage_valid    = 1'b0;    // 是否有指令在执行
+    reg         stage_valid    = 1'b0;    // EX/WB阶段 valid
+    reg         id_valid       = 1'b0;    // IFU→IDU 弹性级 valid
+    reg  [31:0] id_inst        = 32'b0;   // IFU→IDU 缓存指令
+    reg  [31:0] id_pc          = 32'h80000000; // IFU→IDU 缓存PC
     reg         lsu_req_issued = 1'b0;    // 当前指令是否已向LSU发请求
     reg  [31:0] inst_exe       = 32'b0;   // 当前执行指令
     
@@ -113,16 +116,20 @@ module ysyx_25040109_CPU (
     wire lsu_in_ready;                  // LSU输入ready信号（来自WB）
 
     // ========================================
-    // EXU/WB 握手信号（当前为组合直通，占位以便后续多周期扩展）
+    // EXU/WB 握手信号（支持多周期 backpressure）
     // ========================================
     /* verilator lint_off UNUSEDSIGNAL */
     wire idu_valid_to_exu = stage_valid; // 译码有效
-    wire exu_ready        = 1'b1;        // EXU 组合逻辑总是 ready
     wire exu_valid        = idu_valid_to_exu; // EXU 输出有效
-    wire wb_ready         = 1'b1;        // 写回阶段总是 ready（当前单周期实现）
-    wire idu_out_ready;                 // IDU ready to IFU/上游
-    wire idu_out_valid;                 // IDU valid to EXU
+    wire idu_out_valid;                  // IDU valid to EXU
     /* verilator lint_on UNUSEDSIGNAL */
+    wire wb_ready;                       // 写回阶段 ready（握手）
+    wire wb_valid;                       // 写回阶段 valid（握手）
+    wire wb_fire;                        // 写回阶段 fire（握手）
+    wire ex_ready;                       // EXU 接收准备
+    wire idu_out_ready;                  // IDU ready to IFU/上游
+    wire id_to_ex_fire;                  // IDU→EXU 传输
+    wire id_fire;                        // IFU→IDU 传输
 
     // ========================================
     // WB阶段信号（写回阶段）
@@ -192,9 +199,15 @@ module ysyx_25040109_CPU (
     assign writeback_data = is_load ? load_data_from_lsu : result;
 
     // 指令完成条件
-    wire mem_op      = is_load || is_store;
-    wire mem_done    = mem_op ? lsu_out_valid : 1'b1;
-    wire commit_cond = stage_valid && mem_done;
+    wire mem_op      = stage_valid && (is_load || is_store);
+    wire mem_done    = !mem_op || (lsu_out_valid && wb_ready);
+    assign wb_valid  = stage_valid && mem_done;
+    assign wb_ready  = 1'b1;
+    assign wb_fire   = wb_valid && wb_ready;
+    wire commit_cond = wb_fire;
+    assign ex_ready  = !stage_valid || commit_cond;
+    assign id_to_ex_fire = id_valid && ex_ready;
+    assign id_fire = ifu_valid_to_idu && idu_ready;
     reg  inst_wb_complete_r;
 
     // 指令完成标记
@@ -230,7 +243,7 @@ module ysyx_25040109_CPU (
         .in_valid(stage_valid),
         .out_ready(idu_out_ready),
         .out_valid(idu_out_valid),
-        .in_ready(exu_ready),
+        .in_ready(ex_ready),
         .rd_addr(rd_addr_idu),
         .imm(imm),
         .reg_write_en_idu(reg_write_en_idu),
@@ -273,8 +286,8 @@ module ysyx_25040109_CPU (
 
     // LSU实例（访存单元）
     // 握手信号连接
-    assign lsu_in_valid = stage_valid && (is_load || is_store) && !lsu_req_issued;
-    assign lsu_in_ready = 1'b1;         // 写回阶段随时可接收
+    assign lsu_in_valid = mem_op && !lsu_req_issued;
+    assign lsu_in_ready = wb_ready;     // 写回阶段 ready 参与握手
     wire lsu_in_fire = lsu_in_valid && lsu_out_ready;
 
     ysyx_25040109_LSU lsu (
@@ -357,14 +370,18 @@ module ysyx_25040109_CPU (
     // ========================================
     // 阶段与PC更新时序
     // ========================================
-    assign idu_ready = !stage_valid;
+    assign idu_ready = idu_out_ready && !id_valid;
+    wire [31:0] pc_next_for_id = commit_cond ? next_pc : pc_fetch;
 
     always @(posedge clk) begin
         if (rst) begin
             stage_valid    <= 1'b0;
+            id_valid       <= 1'b0;
             pc_fetch       <= 32'h80000000;
             pc_exe         <= 32'h80000000;
             inst_exe       <= 32'b0;
+            id_inst        <= 32'b0;
+            id_pc          <= 32'h80000000;
             lsu_req_issued <= 1'b0;
             trap_state     <= S_NORMAL;
             inst_wb_complete_r <= 1'b0;
@@ -382,14 +399,28 @@ module ysyx_25040109_CPU (
                 default: trap_state <= S_NORMAL;
             endcase
 
+            // IFU→IDU 弹性级
+            if (id_fire) begin
+                id_inst <= inst_ifu;
+                id_pc   <= pc_next_for_id;
+            end
+
+            case ({id_fire, id_to_ex_fire})
+                2'b10: id_valid <= 1'b1;  // 仅流入
+                2'b01: id_valid <= 1'b0;  // 仅流出
+                2'b11: id_valid <= 1'b1;  // 同时流入流出，保持占用
+                default: id_valid <= id_valid;
+            endcase
+
             // 接收新指令
-            if (ifu_valid_to_idu && idu_ready) begin
-                inst_exe       <= inst_ifu;
-                pc_exe         <= pc_fetch;
+            if (id_to_ex_fire) begin
+                inst_exe       <= id_inst;
+                pc_exe         <= id_pc;
                 stage_valid    <= 1'b1;
                 lsu_req_issued <= 1'b0;
             end else if (commit_cond) begin
                 stage_valid <= 1'b0;
+                lsu_req_issued <= 1'b0;
             end
 
             // 访存请求只发一次
