@@ -113,25 +113,19 @@ module ysyx_25040109_CPU (
 
     // 握手协议信号
     wire lsu_in_valid;                  // LSU输入valid信号
-    /* verilator lint_off UNUSEDSIGNAL */
     wire lsu_out_ready;                 // LSU输出ready信号
     wire lsu_out_valid;                 // LSU输出valid信号
-    /* verilator lint_on UNUSEDSIGNAL */
     wire lsu_in_ready;                  // LSU输入ready信号（来自WB）
 
     // ========================================
     // EXU/WB 握手信号（支持多周期 backpressure）
     // ========================================
-    /* verilator lint_off UNUSEDSIGNAL */
-    wire idu_valid_to_exu = stage_valid; // 译码有效
-    wire exu_valid        = idu_valid_to_exu; // EXU 输出有效
-    wire idu_out_valid;                  // IDU valid to EXU
-    /* verilator lint_on UNUSEDSIGNAL */
     wire wb_ready;                       // 写回阶段 ready（握手）
     wire wb_valid;                       // 写回阶段 valid（握手）
     wire wb_fire;                        // 写回阶段 fire（握手）
     wire ex_ready;                       // EXU 接收准备
     wire idu_out_ready;                  // IDU ready to IFU/上游
+    wire idu_out_valid;                  // IDU valid to EXU
     wire id_to_ex_fire;                  // IDU→EXU 传输
     wire id_fire;                        // IFU→IDU 传输
     reg  [3:0] wb_delay_cnt;             // 写回端模拟多周期 ready
@@ -178,10 +172,11 @@ module ysyx_25040109_CPU (
     // Trap控制
     assign is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);
 
-    // 取指接口连接
-    assign imem_addr = stage_valid ? next_pc : pc_fetch;
-    assign imem_ren  = ifu_ready_to_mem;
-    assign imem_ready = ifu_ready_to_mem;
+    // 取指接口连接：仅在流水线空闲（无IF/EX占用）时发起新取指，避免重复请求老PC
+    wire        fetch_allow    = !stage_valid && !id_valid;
+    assign imem_addr  = pc_fetch;
+    assign imem_ren   = ifu_ready_to_mem && fetch_allow;
+    assign imem_ready = ifu_ready_to_mem && fetch_allow;
 
     // 控制信号赋值
     assign final_gpr_we = reg_write_en_exu && stage_valid && commit_cond;
@@ -204,7 +199,7 @@ module ysyx_25040109_CPU (
     assign writeback_data = is_load ? load_data_from_lsu : result;
 
     // 指令完成条件
-    wire mem_op      = stage_valid && (is_load || is_store);
+    wire mem_op      = idu_out_valid && (is_load || is_store);
     wire mem_done    = !mem_op || lsu_out_valid;
     wire [3:0] wb_delay_sel = mem_op ? WB_LAT_MEM :
                                (csr_we_from_exu ? WB_LAT_CSR : WB_LAT_ALU);
@@ -352,7 +347,15 @@ module ysyx_25040109_CPU (
     import "DPI-C" function int printf_finish(input int inst);
     import "DPI-C" function void itrace_print(int pc, int instruction_word, int instr_len_bytes, int p_count_number);
     import "DPI-C" function void update_decode_state(int pc, int snpc, int dnpc, int inst);
-    
+
+    integer dbg_id_fire_cnt;
+    integer dbg_commit_cnt;
+
+    initial begin
+        dbg_id_fire_cnt = 0;
+        dbg_commit_cnt  = 0;
+    end
+
     // 译码状态更新
     always @(*) begin
         if (stage_valid) begin
@@ -371,6 +374,22 @@ module ysyx_25040109_CPU (
                 $finish;
             end
         end
+
+        if (!rst) begin
+            if (id_fire && dbg_id_fire_cnt < 10) begin
+                dbg_id_fire_cnt <= dbg_id_fire_cnt + 1;
+                $display("[DBG id_fire%0d] pc_fetch=0x%08h inst_ifu=0x%08h id_valid=%b stage_valid=%b ifu_ready=%b mem_valid=%b imem_addr=0x%08h",
+                         dbg_id_fire_cnt, pc_fetch, inst_ifu, id_valid, stage_valid, ifu_ready_to_mem, imem_rvalid, imem_addr);
+            end
+            if (commit_cond && dbg_commit_cnt < 10) begin
+                dbg_commit_cnt <= dbg_commit_cnt + 1;
+                $display("[DBG commit%0d] pc_exe=0x%08h inst=0x%08h rd=%0d wdata=0x%08h wen=%b pc_fetch=0x%08h next_pc=0x%08h",
+                         dbg_commit_cnt, pc_exe, inst_exe, rd_addr_exu, writeback_data, final_gpr_we, pc_fetch, next_pc);
+            end
+        end else begin
+            dbg_id_fire_cnt <= 0;
+            dbg_commit_cnt  <= 0;
+        end
     end
 `endif
 
@@ -378,8 +397,6 @@ module ysyx_25040109_CPU (
     // 阶段与PC更新时序
     // ========================================
     assign idu_ready = idu_out_ready && !id_valid;
-    wire [31:0] pc_next_for_id = commit_cond ? next_pc : pc_fetch;
-
     always @(posedge clk) begin
         if (rst) begin
             stage_valid    <= 1'b0;
@@ -410,9 +427,8 @@ module ysyx_25040109_CPU (
             // IFU→IDU 弹性级
             if (id_fire) begin
                 id_inst <= inst_ifu;
-                id_pc   <= pc_next_for_id;
+                id_pc   <= pc_fetch;
             end
-
             case ({id_fire, id_to_ex_fire})
                 2'b10: id_valid <= 1'b1;  // 仅流入
                 2'b01: id_valid <= 1'b0;  // 仅流出
