@@ -4,26 +4,27 @@ module ysyx_25040109_CPU (
     input [31:0] p_count_number,  // 性能计数（用于trace）
 
     // 取指通道（连接到MEM）
-    output [31:0] imem_addr,
+    
     output imem_ren,
-    input [31:0] imem_rdata,
-    /* verilator lint_off UNUSEDSIGNAL */
     input imem_rvalid,            // 指令数据有效（握手协议）
-    /* verilator lint_on UNUSEDSIGNAL */
     output imem_ready,            // 指令通道 ready（握手）
+    output [31:0] imem_addr,
+    input [31:0] imem_rdata,
 
     // 访存通道（连接到MEM）
-    output [31:0] dmem_raddr,
     output dmem_ren,
-    input [31:0] dmem_rdata,
     input dmem_rvalid,            // 数据读有效（握手协议）
     output dmem_rready,           // 数据读 ready（握手）
-    output [31:0] dmem_waddr,
-    output [31:0] dmem_wdata,
-    output [2:0] dmem_wlen,
+    output [31:0] dmem_raddr,
+    input [31:0] dmem_rdata,
+
     output dmem_wen,
     output dmem_wvalid,
     input dmem_wready,            // 数据写准备好（握手协议）
+    output [31:0] dmem_waddr,
+    output [31:0] dmem_wdata,
+    output [2:0] dmem_wlen,
+ 
 
     // 调试和监控接口
     output [31:0] inst,
@@ -41,7 +42,7 @@ module ysyx_25040109_CPU (
     // ========================================
     // 常量定义区
     // ========================================
-    localparam S_NORMAL = 1'b0;        // trap状态：正常执行
+    localparam S_NORMAL      = 1'b0;        // trap状态：正常执行
     localparam S_TRAP_MCAUSE = 1'b1;   // trap状态：写MCAUSE
     localparam CSR_MEPC   = 12'h341;   // CSR地址：MEPC
     localparam CSR_MCAUSE = 12'h342;   // CSR地址：MCAUSE
