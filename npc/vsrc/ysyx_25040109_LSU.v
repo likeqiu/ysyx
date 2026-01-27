@@ -78,14 +78,14 @@ module ysyx_25040109_LSU (
     assign dmem_raddr = addr_latched;
 
     // dmem写接口（valid保持到 ready）
-    assign dmem_wvalid = (state == WAIT_MEM && store_valid && !mem_done);
-    assign dmem_wen = dmem_wvalid;
+    assign dmem_wvalid= (state == WAIT_MEM && store_valid && !mem_done);
+    assign dmem_wen   = dmem_wvalid;
     assign dmem_waddr = addr_latched;
     assign dmem_wdata = store_data_latched;
-    assign dmem_wlen = (funct3_latched == 3'b000) ? 3'b001 :  // SB
-                       (funct3_latched == 3'b001) ? 3'b010 :  // SH
-                       (funct3_latched == 3'b010) ? 3'b100 :  // SW
-                       3'b000;
+    assign dmem_wlen  = (funct3_latched == 3'b000) ? 3'b001 :  // SB
+                        (funct3_latched == 3'b001) ? 3'b010 :  // SH
+                        (funct3_latched == 3'b010) ? 3'b100 :  // SW
+                        3'b000;
 
     assign store_enable = store_valid;
 

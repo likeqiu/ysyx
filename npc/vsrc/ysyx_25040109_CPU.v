@@ -390,8 +390,7 @@ module ysyx_25040109_CPU (
             update_decode_state(pc_exe, pc_exe + 32'd4, next_pc, inst_exe);
         end
     end
-
-    // difftest控制已移至C++代码中，基于inst_wb_complete信号
+  
 
     // 指令trace和程序结束检测
     always @(posedge clk) begin
