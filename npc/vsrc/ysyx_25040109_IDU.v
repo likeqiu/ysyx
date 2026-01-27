@@ -10,7 +10,6 @@ module ysyx_25040109_IDU (
     output [31:0] imm,
     output reg_write_en_idu,
     output [2:0] funct3,
-    output [6:0] funct7,
     output reg inst_invalid,
 
     output [11:0] csr_addr,
@@ -23,7 +22,19 @@ module ysyx_25040109_IDU (
     // 新增输出：指令类型标志
     output is_load,
     output is_store,
-    output is_ecall
+    output is_ecall,
+
+    // 执行控制信号（由IDU统一生成）
+    output reg [4:0] alu_op,
+    output reg [1:0] alu_a_sel,
+    output reg       alu_b_sel,
+    output reg [1:0] result_sel,
+    output           is_branch,
+    output           is_jal,
+    output           is_jalr,
+    output [2:0]     branch_op,
+    output reg [1:0] csr_op,
+    output           is_mret
 );
     // 简单直通握手：IDU 为组合逻辑，不阻塞下游
     assign out_ready = in_ready;
@@ -32,12 +43,44 @@ module ysyx_25040109_IDU (
     assign funct3 = inst[14:12];
     assign rs1_addr = inst[19:15];
     assign rs2_addr = inst[24:20];
-    assign funct7 = inst[31:25];
     assign rd_addr = inst[11:7];
-    
 
+    wire [6:0] funct7 = inst[31:25];
 
+    // ========================================
+    // 执行控制编码
+    // ========================================
+    localparam [4:0] ALU_ADD  = 5'd0;
+    localparam [4:0] ALU_SUB  = 5'd1;
+    localparam [4:0] ALU_SLL  = 5'd2;
+    localparam [4:0] ALU_SLT  = 5'd3;
+    localparam [4:0] ALU_SLTU = 5'd4;
+    localparam [4:0] ALU_XOR  = 5'd5;
+    localparam [4:0] ALU_SRL  = 5'd6;
+    localparam [4:0] ALU_SRA  = 5'd7;
+    localparam [4:0] ALU_OR   = 5'd8;
+    localparam [4:0] ALU_AND  = 5'd9;
+    localparam [4:0] ALU_MUL  = 5'd10;
+    localparam [4:0] ALU_MULH = 5'd11;
+    localparam [4:0] ALU_DIV  = 5'd12;
+    localparam [4:0] ALU_DIVU = 5'd13;
+    localparam [4:0] ALU_REM  = 5'd14;
+    localparam [4:0] ALU_REMU = 5'd15;
 
+    localparam [1:0] ALU_A_RS1  = 2'b00;
+    localparam [1:0] ALU_A_PC   = 2'b01;
+    localparam [1:0] ALU_A_ZERO = 2'b10;
+
+    localparam        ALU_B_RS2 = 1'b0;
+    localparam        ALU_B_IMM = 1'b1;
+
+    localparam [1:0] RES_ALU = 2'b00;
+    localparam [1:0] RES_CSR = 2'b01;
+    localparam [1:0] RES_PC4 = 2'b10;
+
+    localparam [1:0] CSR_OP_NONE  = 2'b00;
+    localparam [1:0] CSR_OP_CSRRW = 2'b01;
+    localparam [1:0] CSR_OP_CSRRS = 2'b10;
     wire [11:0] imm_i = inst[31:20];
     wire [19:0] imm_u = inst[31:12];
     wire [20:1] imm_j = {inst[31], inst[19:12], inst[20], inst[30:21]};
@@ -68,16 +111,6 @@ module ysyx_25040109_IDU (
     );
 
 
-    assign reg_write_en_idu= (opcode == 7'b0110111) || 
-                          (opcode == 7'b0010111) || 
-                          (opcode == 7'b1101111) || 
-                          (opcode == 7'b1100111) || 
-                          (opcode == 7'b0000011) || 
-                          (opcode == 7'b0010011) || 
-                          (opcode == 7'b0110011) || 
-                          (opcode == 7'b1110011);
-
-                              
     wire valid_lui    = (opcode == 7'b0110111);
     wire valid_auipc  = (opcode == 7'b0010111);
     wire valid_jal    = (opcode == 7'b1101111);
@@ -152,21 +185,109 @@ module ysyx_25040109_IDU (
 
 
 
-        wire valid_system = is_system_op && (
+	        wire valid_system = is_system_op && (
 
-        (funct3 == 3'b000 && funct12 == 12'h000) || // ECALL
-         (funct3 == 3'b000 && funct12 == 12'h001) ||
-        (funct3 == 3'b000 && funct12 == 12'h302) || // MRET
-        (funct3 == 3'b001) || // CSRRW
-        (funct3 == 3'b010)    // CSRRS
-    );            
+	        (funct3 == 3'b000 && funct12 == 12'h000) || // ECALL
+	         (funct3 == 3'b000 && funct12 == 12'h001) ||
+	        (funct3 == 3'b000 && funct12 == 12'h302) || // MRET
+	        (funct3 == 3'b001) || // CSRRW
+	        (funct3 == 3'b010)    // CSRRS
+	    );            
 
-        assign csr_addr = valid_system ? inst[31:20] : 12'h0;
+        // 写回语义：只对真正写GPR的指令置位
+        assign reg_write_en_idu = valid_lui    || valid_auipc || valid_jal  || valid_jalr ||
+                                  valid_load  || valid_i_type || valid_r_type ||
+                                  (valid_system && (funct3 == 3'b001 || funct3 == 3'b010));
+
+	        assign csr_addr = valid_system ? inst[31:20] : 12'h0;
 
         // 输出指令类型标志
-        assign is_load = valid_load;
+        assign is_load  = valid_load;
         assign is_store = valid_store;
         assign is_ecall = valid_system && (funct3 == 3'b000) && (funct12 == 12'h000);
+        assign is_mret  = valid_system && (funct3 == 3'b000) && (funct12 == 12'h302);
+
+        assign is_branch = valid_branch;
+        assign is_jal    = valid_jal;
+        assign is_jalr   = valid_jalr;
+        assign branch_op = valid_branch ? funct3 : 3'b000;
+
+        // CSR操作类型
+        wire valid_csrrw = valid_system && (funct3 == 3'b001);
+        wire valid_csrrs = valid_system && (funct3 == 3'b010);
+
+        always @(*) begin
+            csr_op = CSR_OP_NONE;
+            if (valid_csrrw) csr_op = CSR_OP_CSRRW;
+            else if (valid_csrrs) csr_op = CSR_OP_CSRRS;
+        end
+
+        // 执行控制信号默认值与分派
+        always @(*) begin
+            alu_op     = ALU_ADD;
+            alu_a_sel  = ALU_A_RS1;
+            alu_b_sel  = ALU_B_IMM;
+            result_sel = RES_ALU;
+
+            if (valid_lui) begin
+                alu_a_sel = ALU_A_ZERO;
+            end else if (valid_auipc || valid_jal || valid_branch) begin
+                alu_a_sel = ALU_A_PC;
+            end else begin
+                alu_a_sel = ALU_A_RS1;
+            end
+
+            if (valid_r_type) alu_b_sel = ALU_B_RS2;
+            else alu_b_sel = ALU_B_IMM;
+
+            if (valid_jal || valid_jalr) begin
+                result_sel = RES_PC4;
+            end else if (csr_op != CSR_OP_NONE) begin
+                result_sel = RES_CSR;
+            end else begin
+                result_sel = RES_ALU;
+            end
+
+            if (valid_i_type) begin
+                case (funct3)
+                    3'b000: alu_op = ALU_ADD;
+                    3'b010: alu_op = ALU_SLT;
+                    3'b011: alu_op = ALU_SLTU;
+                    3'b100: alu_op = ALU_XOR;
+                    3'b110: alu_op = ALU_OR;
+                    3'b111: alu_op = ALU_AND;
+                    3'b001: alu_op = ALU_SLL;
+                    3'b101: alu_op = (funct7 == 7'b0100000) ? ALU_SRA : ALU_SRL;
+                    default: alu_op = ALU_ADD;
+                endcase
+            end else if (valid_r_type) begin
+                if (funct7 == 7'b0000001) begin
+                    case (funct3)
+                        3'b000: alu_op = ALU_MUL;
+                        3'b001: alu_op = ALU_MULH;
+                        3'b100: alu_op = ALU_DIV;
+                        3'b101: alu_op = ALU_DIVU;
+                        3'b110: alu_op = ALU_REM;
+                        3'b111: alu_op = ALU_REMU;
+                        default: alu_op = ALU_ADD;
+                    endcase
+                end else begin
+                    case (funct3)
+                        3'b000: alu_op = (funct7 == 7'b0100000) ? ALU_SUB : ALU_ADD;
+                        3'b001: alu_op = ALU_SLL;
+                        3'b010: alu_op = ALU_SLT;
+                        3'b011: alu_op = ALU_SLTU;
+                        3'b100: alu_op = ALU_XOR;
+                        3'b101: alu_op = (funct7 == 7'b0100000) ? ALU_SRA : ALU_SRL;
+                        3'b110: alu_op = ALU_OR;
+                        3'b111: alu_op = ALU_AND;
+                        default: alu_op = ALU_ADD;
+                    endcase
+                end
+            end else begin
+                alu_op = ALU_ADD;
+            end
+        end
 
         always @(*) begin
         if (valid_lui || valid_auipc || valid_jal || valid_jalr ||

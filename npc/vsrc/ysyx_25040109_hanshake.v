@@ -28,7 +28,7 @@ module ysyx_25040109_hanshake (
     assign ifu_valid_to_idu = full || (mem_valid && ifu_ready_to_mem);
     
     // 我 (IFU) 输出什么数据? -> 如果满了, 输出缓冲; 否则, 输出上游数据 (直通)
-    assign inst_ifu = full ? inst_temp : imem_rdata;
+    assign inst_ifu = full ? inst_temp : imem_rdata;      
 
     always @(posedge clk) begin
         if (rst) begin

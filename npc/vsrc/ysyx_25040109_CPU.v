@@ -81,11 +81,22 @@ module ysyx_25040109_CPU (
     // 译码输出
     wire [31:0] imm;                    // 立即数（扩展后） | IDU → EXU
     wire [2:0] funct3;                  // 功能码3 | IDU → EXU, LSU, 控制
-    wire [6:0] funct7;                  // 功能码7 | IDU → EXU
     wire [4:0] rd_addr_idu;             // 目的寄存器地址 | IDU → EXU
     wire reg_write_en_idu;              // 寄存器写使能 | IDU → EXU
     wire inst_invalid;                  // 指令无效标志 | IDU → EXU, LSU, 控制
     wire [11:0] csr_addr;               // CSR地址 | IDU → EXU, 控制
+
+    // IDU生成的执行控制信号
+    wire [4:0] alu_op;
+    wire [1:0] alu_a_sel;
+    wire       alu_b_sel;
+    wire [1:0] result_sel;
+    wire       is_branch;
+    wire       is_jal;
+    wire       is_jalr;
+    wire [2:0] branch_op;
+    wire [1:0] csr_op;
+    wire       is_mret;
 
     // ========================================
     // EX阶段信号（执行阶段）
@@ -251,7 +262,6 @@ module ysyx_25040109_CPU (
         .imm(imm),
         .reg_write_en_idu(reg_write_en_idu),
         .funct3(funct3),
-        .funct7(funct7),
         .inst_invalid(inst_invalid),
         .csr_addr(csr_addr),
         .opcode(opcode),
@@ -259,7 +269,17 @@ module ysyx_25040109_CPU (
         .rs2_addr(rs2_addr),
         .is_load(is_load),
         .is_store(is_store),
-        .is_ecall(is_ecall)
+        .is_ecall(is_ecall),
+        .alu_op(alu_op),
+        .alu_a_sel(alu_a_sel),
+        .alu_b_sel(alu_b_sel),
+        .result_sel(result_sel),
+        .is_branch(is_branch),
+        .is_jal(is_jal),
+        .is_jalr(is_jalr),
+        .branch_op(branch_op),
+        .csr_op(csr_op),
+        .is_mret(is_mret)
     );
 
     // EXU实例（执行单元）
@@ -271,15 +291,22 @@ module ysyx_25040109_CPU (
         .rd_addr(rd_addr_idu),
         .pc(pc_exe), 
         .rs1_addr(rs1_addr),
-        .opcode(opcode), 
-        .funct3(funct3),
-        .funct7(funct7),
+        .alu_op(alu_op),
+        .alu_a_sel(alu_a_sel),
+        .alu_b_sel(alu_b_sel),
+        .result_sel(result_sel),
+        .is_branch(is_branch),
+        .is_jal(is_jal),
+        .is_jalr(is_jalr),
+        .branch_op(branch_op),
+        .csr_op(csr_op),
+        .is_ecall(is_ecall),
+        .is_mret(is_mret),
         .inst_invalid(stage_valid ? inst_invalid : 1'b0),
         .result(result),
         .rd_addr_out(rd_addr_exu),
         .reg_write_en_out(reg_write_en_exu),
         .next_pc(next_pc),
-        .csr_addr(csr_addr),
         .csr_rdata(csr_rdata_from_regfile),
         .mepc(mepc_from_regfile),
         .mtvec(mtvec_from_regfile),

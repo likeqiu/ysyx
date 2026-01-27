@@ -13,7 +13,7 @@ module ysyx_25040109_IFU (
     output          ifu_valid_to_idu  // valid 传给下游
 );
 
-    // 统一握手逻辑放入独立模块，便于复用和一致性维护
+
     ysyx_25040109_hanshake u_ifu_hanshake (
         .clk(clk),
         .rst(rst),
