@@ -43,6 +43,7 @@ module ysyx_25040109_LSU (
     reg [1:0] state;
     reg [31:0] buffer_load_data;   // 缓冲的load数据
     reg [2:0] buffer_funct3;       // 缓冲的funct3
+    reg [1:0] buffer_addr_offset;  // 缓冲的地址低位（字节偏移）
     reg [31:0] addr_latched;
     reg [31:0] store_data_latched;
     reg [2:0]  funct3_latched;
@@ -155,6 +156,7 @@ module ysyx_25040109_LSU (
         if (state == WAIT_MEM && mem_read_fire) begin
             buffer_load_data <= dmem_rdata;
             buffer_funct3 <= funct3_latched;
+            buffer_addr_offset <= addr_latched[1:0];
         end
     end
 
@@ -163,15 +165,18 @@ module ysyx_25040109_LSU (
     // ========================================
     wire [31:0] current_rdata = (state == BUFFERED || mem_done) ? buffer_load_data : dmem_rdata;
     wire [2:0] current_funct3 = (state == BUFFERED || mem_done) ? buffer_funct3 : funct3_latched;
+    wire [1:0] current_addr_offset = (state == BUFFERED || mem_done) ? buffer_addr_offset : addr_latched[1:0];
+    wire [4:0] byte_shift = {current_addr_offset, 3'b000};
+    wire [31:0] shifted_rdata = current_rdata >> byte_shift;
 
     always @(*) begin
         if (load_latched || state == BUFFERED || mem_done) begin
             case (current_funct3)
-                3'b000: load_data = {{24{current_rdata[7]}}, current_rdata[7:0]};   // LB
-                3'b001: load_data = {{16{current_rdata[15]}}, current_rdata[15:0]}; // LH
-                3'b010: load_data = current_rdata;                                   // LW
-                3'b100: load_data = {24'b0, current_rdata[7:0]};                    // LBU
-                3'b101: load_data = {16'b0, current_rdata[15:0]};                   // LHU
+                3'b000: load_data = {{24{shifted_rdata[7]}}, shifted_rdata[7:0]};   // LB
+                3'b001: load_data = {{16{shifted_rdata[15]}}, shifted_rdata[15:0]}; // LH
+                3'b010: load_data = shifted_rdata;                                   // LW
+                3'b100: load_data = {24'b0, shifted_rdata[7:0]};                    // LBU
+                3'b101: load_data = {16'b0, shifted_rdata[15:0]};                   // LHU
                 default: load_data = 32'b0;
             endcase
         end else begin

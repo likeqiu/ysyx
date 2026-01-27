@@ -7,21 +7,30 @@
 extern Decode lastest_decode;
 
 
-extern "C" void verilog_pmem_read(paddr_t addr, uint32_t *data)
+extern "C" int pmem_read(int raddr)
 {
-    // 地址范围检查：只在有效范围内读取，否则返回0
-    if ((addr >= PMEM_LEFT && addr <= PMEM_RIGHT) || ((addr >= 0x10000000) && (addr <= 0x10013000))) {
-        *data = paddr_read(addr, 4);
-    } else {
-        // 地址无效，返回0而不产生panic
-        *data = 0;
-    }
-   // mtrace_record('R', addr, 4, *data);
+    // 总是读取地址为`raddr & ~0x3u`的4字节返回
+    paddr_t aligned = (paddr_t)raddr & ~0x3u;
+    return (int)paddr_read(aligned, 4);
 }
 
-extern "C" void verilog_pmem_write(paddr_t addr, uint32_t data,uint32_t len){
-    paddr_write(addr, len, data);
-   // mtrace_record('W', addr, len, data);
+extern "C" void pmem_write(int waddr, int wdata, char wmask)
+{
+    // 总是往地址为`waddr & ~0x3u`的4字节按写掩码`wmask`写入`wdata`
+    paddr_t aligned = (paddr_t)waddr & ~0x3u;
+    uint32_t old = paddr_read(aligned, 4);
+    uint32_t data = (uint32_t)wdata;
+    uint8_t mask = (uint8_t)wmask;
+    uint32_t merged = old;
+
+    for (int i = 0; i < 4; i++) {
+        if (mask & (1u << i)) {
+            uint32_t byte_mask = 0xFFu << (i * 8);
+            merged = (merged & ~byte_mask) | (data & byte_mask);
+        }
+    }
+
+    paddr_write(aligned, 4, merged);
 }
 
 /*

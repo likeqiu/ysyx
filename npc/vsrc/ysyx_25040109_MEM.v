@@ -33,8 +33,35 @@ module ysyx_25040109_MEM (
 );
 
 `ifndef SYNTHESIS
-    import "DPI-C" function void verilog_pmem_read(input int addr, output int data);
-    import "DPI-C" function void verilog_pmem_write(input int addr, input int data, input int len);
+    import "DPI-C" function int pmem_read(input int raddr);
+    import "DPI-C" function void pmem_write(input int waddr, input int wdata, input byte wmask);
+
+    reg [7:0] dmem_wmask;
+    reg [31:0] dmem_wdata_aligned;
+
+    // 根据写长度与地址低位生成字节写掩码和对齐后的写数据
+    always @(*) begin
+        dmem_wmask = 8'b0;
+        dmem_wdata_aligned = dmem_wdata;
+        case (dmem_wlen)
+            3'b001: begin  // SB
+                dmem_wmask = 8'b00000001 << dmem_waddr[1:0];
+                dmem_wdata_aligned = dmem_wdata << {dmem_waddr[1:0], 3'b000};
+            end
+            3'b010: begin  // SH
+                dmem_wmask = 8'b00000011 << {dmem_waddr[1], 1'b0};
+                dmem_wdata_aligned = dmem_wdata << {dmem_waddr[1], 1'b0, 3'b000};
+            end
+            3'b100: begin  // SW
+                dmem_wmask = 8'b00001111;
+                dmem_wdata_aligned = dmem_wdata;
+            end
+            default: begin
+                dmem_wmask = 8'b0;
+                dmem_wdata_aligned = dmem_wdata;
+            end
+        endcase
+    end
 `endif
 
     // ========================================
@@ -59,7 +86,7 @@ module ysyx_25040109_MEM (
         // 仅在当前未返回数据时发起新的读请求，避免覆盖有效数据
         if (imem_ren && !imem_busy && !imem_rvalid) begin
 `ifndef SYNTHESIS
-            verilog_pmem_read(imem_addr, imem_rdata);
+            imem_rdata = pmem_read(imem_addr);
 `else
             imem_rdata = yosys_imem_rdata;
 `endif
@@ -109,7 +136,7 @@ module ysyx_25040109_MEM (
     always @(*) begin
         if (dmem_ren && !dmem_busy && !dmem_rvalid) begin
 `ifndef SYNTHESIS
-            verilog_pmem_read(dmem_raddr, dmem_rdata);
+            dmem_rdata = pmem_read(dmem_raddr);
 `else
             dmem_rdata = yosys_dmem_rdata;
 `endif
@@ -159,25 +186,11 @@ module ysyx_25040109_MEM (
         end else begin
             dmem_wready <= 1'b1;
             if (dmem_wvalid && dmem_wready && dmem_wen) begin
-                case (dmem_wlen)
-                    3'b001: begin  // 字节写（SB）
 `ifndef SYNTHESIS
-                        verilog_pmem_write(dmem_waddr, dmem_wdata, 1);
+                if (dmem_wmask != 8'b0) begin
+                    pmem_write(dmem_waddr, dmem_wdata_aligned, dmem_wmask);
+                end
 `endif
-                    end
-                    3'b010: begin  // 半字写（SH）
-`ifndef SYNTHESIS
-                        verilog_pmem_write(dmem_waddr, dmem_wdata, 2);
-`endif
-                    end
-                    3'b100: begin  // 字写（SW）
-`ifndef SYNTHESIS
-                        verilog_pmem_write(dmem_waddr, dmem_wdata, 4);
-`endif
-                    end
-                    default: begin
-                    end
-                endcase
             end
         end
     end
