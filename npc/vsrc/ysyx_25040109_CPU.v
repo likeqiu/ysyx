@@ -185,7 +185,7 @@ module ysyx_25040109_CPU (
     assign is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);
 
     // 取指接口连接：仅在流水线空闲（无IF/EX占用）时发起新取指，避免重复请求老PC
-    wire        fetch_allow    = !stage_valid && !id_valid;
+    wire   fetch_allow   = !stage_valid && !id_valid;
     assign imem_addr  = pc_fetch;
     assign imem_ren   = ifu_ready_to_mem && fetch_allow;
     assign imem_ready = ifu_ready_to_mem && fetch_allow;

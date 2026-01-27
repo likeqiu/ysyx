@@ -41,7 +41,7 @@ module ysyx_25040109_MEM (
 
     // 根据写长度与地址低位生成字节写掩码和对齐后的写数据
     always @(*) begin
-        dmem_wmask = 8'b0;
+        dmem_wmask = 8'b0; 
         dmem_wdata_aligned = dmem_wdata;
         case (dmem_wlen)
             3'b001: begin  // SB

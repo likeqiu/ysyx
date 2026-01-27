@@ -42,7 +42,6 @@ module ysyx_25040109_hanshake (
                 full <= 1'b0; // 只有流出: 变空
             end
             // else (都 fire 或都 no-fire), 状态不变
-
             // 数据寄存
             if (mem_fire) begin
                 inst_temp <= imem_rdata;
