@@ -22,7 +22,7 @@ module ysyx_25040109_top (
     output [31:0] dmem_waddr_out
 );
 
-    // 互连信号
+    
     wire [31:0] imem_araddr;
     wire imem_arvalid;
     wire imem_arready;

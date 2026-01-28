@@ -179,17 +179,17 @@ module ysyx_25040109_CPU (
     wire mem_op      = idu_out_valid && (is_load || is_store);
     wire mem_done    = !mem_op || lsu_out_valid;
     wire [3:0] wb_delay_sel = mem_op ? WB_LAT_MEM :
-                               (csr_we_from_exu ? WB_LAT_CSR : WB_LAT_ALU);
+                            (csr_we_from_exu ? WB_LAT_CSR : WB_LAT_ALU);
+    wire commit_cond = wb_fire;    
+    assign ex_ready  = !stage_valid || commit_cond;
+    assign id_to_ex_fire = id_valid && ex_ready;
+    assign id_fire = ifu_valid_to_idu && idu_ready;                        
     assign wb_ready  = (wb_delay_cnt == 4'd0);
     assign wb_valid  = stage_valid && mem_done;
     assign wb_fire   = wb_valid && wb_ready;
-    wire commit_cond = wb_fire;
-    assign ex_ready  = !stage_valid || commit_cond;
-    assign id_to_ex_fire = id_valid && ex_ready;
-    assign id_fire = ifu_valid_to_idu && idu_ready;
-    reg  inst_wb_complete_r;
 
-    assign inst_wb_complete = inst_wb_complete_r;
+
+
 
     assign inst = inst_exe;
 
@@ -459,5 +459,9 @@ module ysyx_25040109_CPU (
 
         end
     end
+        
+    reg  inst_wb_complete_r;
+
+    assign inst_wb_complete = inst_wb_complete_r;
 
 endmodule

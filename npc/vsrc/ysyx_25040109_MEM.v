@@ -40,7 +40,7 @@ module ysyx_25040109_MEM (
     reg        dmem_awaddr_valid;
     wire       dmem_aw_fire = dmem_awvalid && dmem_awready;
     wire       dmem_w_fire  = dmem_wvalid && dmem_wready;
-    wire [31:0] dmem_waddr_use = dmem_awaddr_valid ? dmem_awaddr_latched : dmem_awaddr;
+    
 
 `ifndef SYNTHESIS
     import "DPI-C" function int pmem_read(input int raddr);
@@ -66,7 +66,7 @@ module ysyx_25040109_MEM (
 
     // imem 读
     reg [31:0] imem_rdata_buf;
-    wire imem_ar_fire = imem_arvalid && imem_arready;
+    wire   imem_ar_fire = imem_arvalid && imem_arready;
     assign imem_arready = !imem_busy && !imem_rvalid;
 
     always @(*) begin
@@ -161,6 +161,7 @@ module ysyx_25040109_MEM (
     // dmem 写
     assign dmem_awready = !dmem_awaddr_valid;
     assign dmem_wready  = dmem_awaddr_valid || dmem_aw_fire;
+    wire [31:0] dmem_waddr_use = dmem_awaddr_valid ? dmem_awaddr_latched : dmem_awaddr;
 
     always @(posedge clk) begin
         if (rst) begin
