@@ -1,92 +1,87 @@
 module ysyx_25040109_CPU (
     input clk,
     input rst,
-    input [31:0] p_count_number,  // 性能计数（用于trace）
+    input [31:0] p_count_number,  // trace 计数
 
-    // 取指通道（连接到MEM）
-    
-    output imem_ren,
-    input imem_rvalid,            // 指令数据有效（握手协议）
-    output imem_ready,            // 指令通道 ready（握手）
-    output [31:0] imem_addr,
-    input [31:0] imem_rdata,
+    // 取指通道
+    output imem_arvalid,
+    input  imem_arready,
+    input  imem_rvalid,
+    output imem_rready,
+    output [31:0] imem_araddr,
+    input  [31:0] imem_rdata,
 
-    // 访存通道（连接到MEM）
-    output dmem_ren,
-    input dmem_rvalid,            // 数据读有效（握手协议）
-    output dmem_rready,           // 数据读 ready（握手）
-    output [31:0] dmem_raddr,
-    input [31:0] dmem_rdata,
+    // 访存通道
+    output dmem_arvalid,
+    input  dmem_arready,
+    input  dmem_rvalid,
+    output dmem_rready,
+    output [31:0] dmem_araddr,
+    input  [31:0] dmem_rdata,
+
+    output dmem_awvalid,
+    input  dmem_awready,
+    output [31:0] dmem_awaddr,
 
     output dmem_wen,
     output dmem_wvalid,
-    input dmem_wready,            // 数据写准备好（握手协议）
-    output [31:0] dmem_waddr,
+    input  dmem_wready,
     output [31:0] dmem_wdata,
-    output [2:0] dmem_wlen,
- 
+    output [3:0] dmem_wmask,
 
-    // 调试和监控接口
+    // 调试
     output [31:0] inst,
     output [31:0] pc,
     output [31:0] a0_out,
 
-    // 差分测试接口
-    output inst_wb_complete,        // 指令完成标记
-    output is_load_out,             // Load指令标记
-    output is_store_out,            // Store指令标记
-    output is_ecall_out,            // ECALL指令标记
-    output [6:0] opcode_out         // 指令操作码
+    // difftest
+    output inst_wb_complete,
+    output is_load_out,
+    output is_store_out,
+    output is_ecall_out,
+    output [6:0] opcode_out
 );
 
-    // ========================================
-    // 常量定义区
-    // ========================================
-    localparam S_NORMAL      = 1'b0;        // trap状态：正常执行
-    localparam S_TRAP_MCAUSE = 1'b1;   // trap状态：写MCAUSE
-    localparam CSR_MEPC   = 12'h341;   // CSR地址：MEPC
-    localparam CSR_MCAUSE = 12'h342;   // CSR地址：MCAUSE
-    // 写回阶段可调延迟（验证长尾）：默认为0，不改变功能
+    // 常量
+    localparam S_NORMAL      = 1'b0;
+    localparam S_TRAP_MCAUSE = 1'b1;
+    localparam CSR_MEPC      = 12'h341;
+    localparam CSR_MCAUSE    = 12'h342;
+    // 写回延迟（默认 0）
     localparam [3:0] WB_LAT_ALU = 4'd0;
     localparam [3:0] WB_LAT_MEM = 4'd0;
     localparam [3:0] WB_LAT_CSR = 4'd0;
 
-    // ========================================
-    // IF阶段信号（取指阶段）
-    // ========================================
-    // PC与阶段控制
-    reg  [31:0] pc_fetch = 32'h80000000;  // 下一条待取PC
-    reg  [31:0] pc_exe   = 32'h80000000;  // 当前执行/提交PC
-    reg         stage_valid    = 1'b0;    // EX/WB阶段 valid
-    reg         id_valid       = 1'b0;    // IFU→IDU 弹性级 valid
-    reg  [31:0] id_inst        = 32'b0;   // IFU→IDU 缓存指令
-    reg  [31:0] id_pc          = 32'h80000000; // IFU→IDU 缓存PC
-    reg         lsu_req_issued = 1'b0;    // 当前指令是否已向LSU发请求
-    reg  [31:0] inst_exe       = 32'b0;   // 当前执行指令
+    // 流水线状态
+    reg  [31:0] pc_fetch = 32'h80000000;
+    reg  [31:0] pc_exe   = 32'h80000000;
+    reg         stage_valid    = 1'b0;
+    reg         id_valid       = 1'b0;
+    reg  [31:0] id_inst        = 32'b0;
+    reg  [31:0] id_pc          = 32'h80000000;
+    reg         lsu_req_issued = 1'b0;
+    reg         imem_req_pending = 1'b0;
+    reg  [31:0] inst_exe       = 32'b0;
     
     // 取指输出与握手
-    wire [31:0] inst_ifu;                 // 取出的指令 | IFU → IDU, 控制, 调试
+    wire [31:0] inst_ifu;
     wire        ifu_ready_to_mem;
     wire        ifu_valid_to_idu;
     wire        idu_ready;
     
-    // 指令字段（从IDU获取）
-    wire [6:0] opcode;                  // 操作码 | IDU → 控制逻辑
-    wire [4:0] rs1_addr;                // 源寄存器1地址 | IDU → RegisterFile
-    wire [4:0] rs2_addr;                // 源寄存器2地址 | IDU → RegisterFile
+    wire [6:0] opcode;
+    wire [4:0] rs1_addr;
+    wire [4:0] rs2_addr;
 
-    // ========================================
-    // ID阶段信号（译码阶段）
-    // ========================================
     // 译码输出
-    wire [31:0] imm;                    // 立即数（扩展后） | IDU → EXU
-    wire [2:0] funct3;                  // 功能码3 | IDU → EXU, LSU, 控制
-    wire [4:0] rd_addr_idu;             // 目的寄存器地址 | IDU → EXU
-    wire reg_write_en_idu;              // 寄存器写使能 | IDU → EXU
-    wire inst_invalid;                  // 指令无效标志 | IDU → EXU, LSU, 控制
-    wire [11:0] csr_addr;               // CSR地址 | IDU → EXU, 控制
+    wire [31:0] imm;
+    wire [2:0] funct3;
+    wire [4:0] rd_addr_idu;
+    wire reg_write_en_idu;
+    wire inst_invalid;
+    wire [11:0] csr_addr;
 
-    // IDU生成的执行控制信号
+    // IDU 控制信号
     wire [4:0] alu_op;
     wire [1:0] alu_a_sel;
     wire       alu_b_sel;
@@ -98,103 +93,75 @@ module ysyx_25040109_CPU (
     wire [1:0] csr_op;
     wire       is_mret;
 
-    // ========================================
-    // EX阶段信号（执行阶段）
-    // ========================================
     // 执行输出
-    wire [31:0] result;                 // ALU计算结果 | EXU → LSU, 写回选择
-    wire [31:0] next_pc;                // 计算的下一个PC | EXU → PC更新
-    wire [4:0] rd_addr_exu;             // 目的寄存器地址（传递） | EXU → RegisterFile
-    wire reg_write_en_exu;              // 寄存器写使能（传递） | EXU → 控制逻辑
+    wire [31:0] result;
+    wire [31:0] next_pc;
+    wire [4:0] rd_addr_exu;
+    wire reg_write_en_exu;
     
-    // CSR相关
-    wire csr_we_from_exu;               // CSR写使能 | EXU → 控制逻辑
-    wire [31:0] csr_wdata_from_exu;     // CSR写数据 | EXU → 控制逻辑
+    // CSR
+    wire csr_we_from_exu;
+    wire [31:0] csr_wdata_from_exu;
 
-    // ========================================
-    // MEM阶段信号（访存阶段）
-    // ========================================
-    // 访存控制
-    wire is_load;                       // load指令标志 | 译码 → LSU, 控制
-    wire is_store;                      // store指令标志 | 译码 → 控制
-    wire final_mem_we;                  // 最终内存写使能 | 控制逻辑 → LSU
+    // 访存
+    wire is_load;
+    wire is_store;
+    wire final_mem_we;
+    wire [31:0] load_data_from_lsu;
+    wire store_enable_unused;
+    wire lsu_in_valid;
+    wire lsu_out_ready;
+    wire lsu_out_valid;
+    wire lsu_in_ready;
 
-    // 访存数据
-    wire [31:0] load_data_from_lsu;     // load数据（扩展后） | LSU → 写回选择
-    wire store_enable_unused;           // store使能输出（未使用） | LSU → 悬空
+    // EX/WB 握手
+    wire wb_ready;
+    wire wb_valid;
+    wire wb_fire;
+    wire ex_ready;
+    wire idu_out_ready;
+    wire idu_out_valid;
+    wire id_to_ex_fire;
+    wire id_fire;
+    reg  [3:0] wb_delay_cnt;
 
-    // 握手协议信号
-    wire lsu_in_valid;                  // LSU输入valid信号
-    wire lsu_out_ready;                 // LSU输出ready信号
-    wire lsu_out_valid;                 // LSU输出valid信号
-    wire lsu_in_ready;                  // LSU输入ready信号（来自WB）
+    // 写回
+    wire [31:0] writeback_data;
 
-    // ========================================
-    // EXU/WB 握手信号（支持多周期 backpressure）
-    // ========================================
-    wire wb_ready;                       // 写回阶段 ready（握手）
-    wire wb_valid;                       // 写回阶段 valid（握手）
-    wire wb_fire;                        // 写回阶段 fire（握手）
-    wire ex_ready;                       // EXU 接收准备
-    wire idu_out_ready;                  // IDU ready to IFU/上游
-    wire idu_out_valid;                  // IDU valid to EXU
-    wire id_to_ex_fire;                  // IDU→EXU 传输
-    wire id_fire;                        // IFU→IDU 传输
-    reg  [3:0] wb_delay_cnt;             // 写回端模拟多周期 ready
+    // 寄存器与 CSR 读口
+    wire [31:0] rs1_data;
+    wire [31:0] rs2_data;
+    wire [31:0] csr_rdata_from_regfile;
+    wire [31:0] mepc_from_regfile;
+    wire [31:0] mtvec_from_regfile;
 
-    // ========================================
-    // WB阶段信号（写回阶段）
-    // ========================================
-    wire [31:0] writeback_data;         // 写回数据选择 | 写回逻辑 → RegisterFile
+    // trap / 控制
+    reg trap_state;
+    wire is_stalled_by_trap;
+    wire is_ecall;
+    wire final_gpr_we;
+    wire final_csr_we;
+    wire [11:0] final_csr_waddr;
+    wire [31:0] final_csr_wdata;
 
-    // ========================================
-    // RegisterFile信号
-    // ========================================
-    // 通用寄存器读
-    wire [31:0] rs1_data;               // 源寄存器1数据 | RegisterFile → EXU
-    wire [31:0] rs2_data;               // 源寄存器2数据 | RegisterFile → EXU, LSU
-    
-    // CSR寄存器读
-    wire [31:0] csr_rdata_from_regfile; // CSR读数据 | RegisterFile → EXU
-    wire [31:0] mepc_from_regfile;      // MEPC寄存器值 | RegisterFile → EXU
-    wire [31:0] mtvec_from_regfile;     // MTVEC寄存器值 | RegisterFile → EXU
-
-    // ========================================
-    // 控制逻辑信号
-    // ========================================
-    // Trap状态
-    reg trap_state;                     // trap状态寄存器 | 内部状态
-    wire is_stalled_by_trap;            // trap暂停标志 | trap_state → 全局控制
-    wire is_ecall;                      // ecall指令标志 | 译码 → trap控制
-
-    // 写回控制
-    wire final_gpr_we;                  // 最终GPR写使能 | 控制逻辑 → RegisterFile
-
-    // CSR控制
-    wire final_csr_we;                  // 最终CSR写使能 | 控制逻辑 → RegisterFile
-    wire [11:0] final_csr_waddr;        // 最终CSR写地址 | 控制逻辑 → RegisterFile
-    wire [31:0] final_csr_wdata;        // 最终CSR写数据 | 控制逻辑 → RegisterFile
-
-    // ========================================
-    // 信号赋值区
-    // ========================================
-    // PC输出：执行中显示执行PC，否则显示取指PC
+    // 信号连线
+    // PC 输出：执行中显示执行 PC，否则显示取指 PC
     assign pc = stage_valid ? pc_exe : pc_fetch;
 
-    // Trap控制
+    // Trap 控制
     assign is_stalled_by_trap = (trap_state == S_TRAP_MCAUSE);
 
-    // 取指接口连接：仅在流水线空闲（无IF/EX占用）时发起新取指，避免重复请求老PC
-    wire   fetch_allow   = !stage_valid && !id_valid;
-    assign imem_addr  = pc_fetch;
-    assign imem_ren   = ifu_ready_to_mem && fetch_allow;
-    assign imem_ready = ifu_ready_to_mem && fetch_allow;
+    // 仅在流水线空闲且无未完成请求时发起取指
+    wire   fetch_allow   = !stage_valid && !id_valid && !imem_req_pending;
+    assign imem_araddr  = pc_fetch;
+    assign imem_arvalid = fetch_allow;
+    assign imem_rready  = ifu_ready_to_mem;
+    wire imem_ar_fire   = imem_arvalid && imem_arready;
+    wire imem_r_fire    = imem_rvalid && imem_rready;
 
-    // 控制信号赋值
     assign final_gpr_we = reg_write_en_exu && stage_valid && commit_cond;
     assign final_mem_we = is_store && stage_valid;
 
-    // CSR控制信号赋值
     assign final_csr_we = is_stalled_by_trap ||
                           (stage_valid && commit_cond &&
                            (is_ecall || csr_we_from_exu));
@@ -207,10 +174,8 @@ module ysyx_25040109_CPU (
                              (stage_valid && is_ecall) ? pc_exe :
                              csr_wdata_from_exu;
 
-    // 写回数据选择
     assign writeback_data = is_load ? load_data_from_lsu : result;
 
-    // 指令完成条件
     wire mem_op      = idu_out_valid && (is_load || is_store);
     wire mem_done    = !mem_op || lsu_out_valid;
     wire [3:0] wb_delay_sel = mem_op ? WB_LAT_MEM :
@@ -224,22 +189,17 @@ module ysyx_25040109_CPU (
     assign id_fire = ifu_valid_to_idu && idu_ready;
     reg  inst_wb_complete_r;
 
-    // 指令完成标记
     assign inst_wb_complete = inst_wb_complete_r;
 
-    // 调试接口
     assign inst = inst_exe;
 
-    // 差分测试接口输出
     assign is_load_out  = is_load && stage_valid;
     assign is_store_out = is_store && stage_valid;
     assign is_ecall_out = is_ecall && stage_valid;
     assign opcode_out   = opcode;
 
-    // ========================================
-    // 模块实例化区
-    // ========================================
-    // IFU实例（取指单元，握手版）
+    // 模块实例
+    // IFU
     ysyx_25040109_IFU ifu (
         .clk(clk),
         .rst(rst),
@@ -251,7 +211,7 @@ module ysyx_25040109_CPU (
         .ifu_valid_to_idu(ifu_valid_to_idu)
     );
 
-    // IDU实例（译码单元）
+    // IDU
     ysyx_25040109_IDU idu (
         .inst(inst_exe),
         .in_valid(stage_valid),
@@ -282,7 +242,7 @@ module ysyx_25040109_CPU (
         .is_mret(is_mret)
     );
 
-    // EXU实例（执行单元）
+    // EXU
     ysyx_25040109_EXU exu (
         .rs1_data(rs1_data),
         .rs2_data(rs2_data),
@@ -314,10 +274,9 @@ module ysyx_25040109_CPU (
         .csr_wdata_out(csr_wdata_from_exu)
     );
 
-    // LSU实例（访存单元）
-    // 握手信号连接
+    // LSU
     assign lsu_in_valid = mem_op && !lsu_req_issued;
-    assign lsu_in_ready = wb_ready;     // 写回阶段 ready 参与握手
+    assign lsu_in_ready = wb_ready;
     wire lsu_in_fire = lsu_in_valid && lsu_out_ready;
 
     ysyx_25040109_LSU lsu (
@@ -331,16 +290,19 @@ module ysyx_25040109_CPU (
         .inst_invalid(inst_invalid),
         .in_valid(lsu_in_valid),
         .out_ready(lsu_out_ready),
-        .dmem_ren(dmem_ren),
-        .dmem_raddr(dmem_raddr),
+        .dmem_arvalid(dmem_arvalid),
+        .dmem_arready(dmem_arready),
+        .dmem_araddr(dmem_araddr),
         .dmem_rdata(dmem_rdata),
         .dmem_rvalid(dmem_rvalid),
         .dmem_rready(dmem_rready),
+        .dmem_awvalid(dmem_awvalid),
+        .dmem_awready(dmem_awready),
+        .dmem_awaddr(dmem_awaddr),
         .dmem_wen(dmem_wen),
         .dmem_wvalid(dmem_wvalid),
-        .dmem_waddr(dmem_waddr),
         .dmem_wdata(dmem_wdata),
-        .dmem_wlen(dmem_wlen),
+        .dmem_wmask(dmem_wmask),
         .dmem_wready(dmem_wready),
         .load_data(load_data_from_lsu),
         .store_enable(store_enable_unused),
@@ -348,7 +310,7 @@ module ysyx_25040109_CPU (
         .in_ready(lsu_in_ready)
     );
 
-    // RegisterFile实例（寄存器文件）
+    // RegisterFile
     ysyx_25040109_RegisterFile #(5, 32) regfile (
         .clk(clk),
         .rst(rst),
@@ -370,7 +332,7 @@ module ysyx_25040109_CPU (
     );
 
 `ifndef SYNTHESIS
-    // DPI-C监控函数
+    // DPI-C
     import "DPI-C" function void difftest_skip_ref();
     import "DPI-C" function int printf_finish(input int inst);
     import "DPI-C" function void itrace_print(int pc, int instruction_word, int instr_len_bytes, int p_count_number);
@@ -384,7 +346,6 @@ module ysyx_25040109_CPU (
         dbg_commit_cnt  = 0;
     end
 
-    // 译码状态更新
     always @(*) begin
         if (stage_valid) begin
             update_decode_state(pc_exe, pc_exe + 32'd4, next_pc, inst_exe);
@@ -392,7 +353,6 @@ module ysyx_25040109_CPU (
     end
   
 
-    // 指令trace和程序结束检测
     always @(posedge clk) begin
         if (!rst && inst_wb_complete_r) begin
             itrace_print(pc_exe, inst_exe, 4, p_count_number);
@@ -406,7 +366,7 @@ module ysyx_25040109_CPU (
             if (id_fire && dbg_id_fire_cnt < 10) begin
                 dbg_id_fire_cnt <= dbg_id_fire_cnt + 1;
                 $display("[DBG id_fire%0d] pc_fetch=0x%08h inst_ifu=0x%08h id_valid=%b stage_valid=%b ifu_ready=%b mem_valid=%b imem_addr=0x%08h",
-                         dbg_id_fire_cnt, pc_fetch, inst_ifu, id_valid, stage_valid, ifu_ready_to_mem, imem_rvalid, imem_addr);
+                         dbg_id_fire_cnt, pc_fetch, inst_ifu, id_valid, stage_valid, ifu_ready_to_mem, imem_rvalid, imem_araddr);
             end
             if (commit_cond && dbg_commit_cnt < 10) begin
                 dbg_commit_cnt <= dbg_commit_cnt + 1;
@@ -420,9 +380,7 @@ module ysyx_25040109_CPU (
     end
 `endif
 
-    // ========================================
-    // 阶段与PC更新时序
-    // ========================================
+    // 时序
     assign idu_ready = idu_out_ready && !id_valid;
     always @(posedge clk) begin
         if (rst) begin
@@ -435,10 +393,11 @@ module ysyx_25040109_CPU (
             id_inst        <= 32'b0;
             id_pc          <= 32'h80000000;
             lsu_req_issued <= 1'b0;
+            imem_req_pending <= 1'b0;
             trap_state     <= S_NORMAL;
             inst_wb_complete_r <= 1'b0;
         end else begin
-            // Trap状态机（只看当前指令）
+            // Trap 状态机
             case (trap_state)
                 S_NORMAL: begin
                     if (stage_valid && is_ecall) begin
@@ -451,19 +410,18 @@ module ysyx_25040109_CPU (
                 default: trap_state <= S_NORMAL;
             endcase
 
-            // IFU→IDU 弹性级
+            // IFU -> IDU 弹性级
             if (id_fire) begin
                 id_inst <= inst_ifu;
                 id_pc   <= pc_fetch;
             end
             case ({id_fire, id_to_ex_fire})
-                2'b10: id_valid <= 1'b1;  // 仅流入
-                2'b01: id_valid <= 1'b0;  // 仅流出
-                2'b11: id_valid <= 1'b1;  // 同时流入流出，保持占用
+                2'b10: id_valid <= 1'b1;
+                2'b01: id_valid <= 1'b0;
+                2'b11: id_valid <= 1'b1;
                 default: id_valid <= id_valid;
             endcase
 
-            // 接收新指令
             if (id_to_ex_fire) begin
                 inst_exe       <= id_inst;
                 pc_exe         <= id_pc;
@@ -474,24 +432,29 @@ module ysyx_25040109_CPU (
                 lsu_req_issued <= 1'b0;
             end
 
-            // 访存请求只发一次
             if (lsu_in_fire) begin
                 lsu_req_issued <= 1'b1;
             end
 
-            // PC在提交后更新
             if (commit_cond) begin
                 pc_fetch <= next_pc;
             end
 
-            // 写回延迟计数：模拟多周期 sink
+            // 指令读地址/数据握手跟踪
+            if (imem_ar_fire) begin
+                imem_req_pending <= 1'b1;
+            end
+            if (imem_r_fire) begin
+                imem_req_pending <= 1'b0;
+            end
+
+            // 写回延迟计数
             if (commit_cond) begin
                 wb_delay_cnt <= wb_delay_sel;
             end else if (wb_delay_cnt != 4'd0) begin
                 wb_delay_cnt <= wb_delay_cnt - 1'b1;
             end
 
-            // 提交信号打一拍，方便外部握手
             inst_wb_complete_r <= (!rst) && commit_cond;
 
         end

@@ -1,10 +1,10 @@
 module ysyx_25040109_IDU (
     input [31:0] inst,
-    // 握手接口
-    input in_valid,           // 上游（IFU/流水寄存）valid
-    output out_ready,         // 下游（EXU）ready 传回上游
-    output out_valid,         // 本模块 valid 输出
-    input in_ready,           // 下游 ready
+    // 握手
+    input in_valid,
+    output out_ready,
+    output out_valid,
+    input in_ready,
 
     output [4:0] rd_addr,
     output [31:0] imm,
@@ -14,17 +14,17 @@ module ysyx_25040109_IDU (
 
     output [11:0] csr_addr,
     
-    // 新增输出：指令字段
+    // 指令字段
     output [6:0] opcode,
     output [4:0] rs1_addr,
     output [4:0] rs2_addr,
     
-    // 新增输出：指令类型标志
+    // 类型标志
     output is_load,
     output is_store,
     output is_ecall,
 
-    // 执行控制信号（由IDU统一生成）
+    // 控制信号
     output reg [4:0] alu_op,
     output reg [1:0] alu_a_sel,
     output reg       alu_b_sel,
@@ -36,7 +36,7 @@ module ysyx_25040109_IDU (
     output reg [1:0] csr_op,
     output           is_mret
 );
-    // 简单直通握手：IDU 为组合逻辑，不阻塞下游
+    // 直通握手
     assign out_ready = in_ready;
     assign out_valid = in_valid;
     assign opcode = inst[6:0];
@@ -47,9 +47,7 @@ module ysyx_25040109_IDU (
 
     wire [6:0] funct7 = inst[31:25];
 
-    // ========================================
-    // 执行控制编码
-    // ========================================
+    // 控制编码
     localparam [4:0] ALU_ADD  = 5'd0;
     localparam [4:0] ALU_SUB  = 5'd1;
     localparam [4:0] ALU_SLL  = 5'd2;
@@ -171,7 +169,7 @@ module ysyx_25040109_IDU (
         (funct3 == 3'b101 && funct7 == 7'b0100000) ||         // SRA
         (funct3 == 3'b110 && funct7 == 7'b0000000) ||         // OR
         (funct3 == 3'b111 && funct7 == 7'b0000000) ||         // AND
-        // M扩展指令 (乘法除法)
+        // M 扩展
         (funct3 == 3'b000 && funct7 == 7'b0000001) ||         // MUL
         (funct3 == 3'b001 && funct7 == 7'b0000001) ||         // MULH
         (funct3 == 3'b100 && funct7 == 7'b0000001) ||         // DIV
@@ -194,14 +192,14 @@ module ysyx_25040109_IDU (
 	        (funct3 == 3'b010)    // CSRRS
 	    );            
 
-        // 写回语义：只对真正写GPR的指令置位
+        // 写回使能
         assign reg_write_en_idu = valid_lui    || valid_auipc || valid_jal  || valid_jalr ||
                                   valid_load  || valid_i_type || valid_r_type ||
                                   (valid_system && (funct3 == 3'b001 || funct3 == 3'b010));
 
 	        assign csr_addr = valid_system ? inst[31:20] : 12'h0;
 
-        // 输出指令类型标志
+        // 类型标志
         assign is_load  = valid_load;
         assign is_store = valid_store;
         assign is_ecall = valid_system && (funct3 == 3'b000) && (funct12 == 12'h000);
@@ -212,7 +210,7 @@ module ysyx_25040109_IDU (
         assign is_jalr   = valid_jalr;
         assign branch_op = valid_branch ? funct3 : 3'b000;
 
-        // CSR操作类型
+        // CSR 操作
         wire valid_csrrw = valid_system && (funct3 == 3'b001);
         wire valid_csrrs = valid_system && (funct3 == 3'b010);
 
@@ -222,7 +220,7 @@ module ysyx_25040109_IDU (
             else if (valid_csrrs) csr_op = CSR_OP_CSRRS;
         end
 
-        // 执行控制信号默认值与分派
+        // 控制信号生成
         always @(*) begin
             alu_op     = ALU_ADD;
             alu_a_sel  = ALU_A_RS1;

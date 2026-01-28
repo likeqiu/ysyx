@@ -2,117 +2,100 @@ module ysyx_25040109_MEM (
     input clk,
     input rst,
 
-    // 取指通道（imem - Instruction Memory）
-    input [31:0] imem_addr,        // 取指地址
-    input imem_ren,                // 取指使能
-    output reg [31:0] imem_rdata,  // 指令数据
-    output reg imem_rvalid,        // 指令数据有效信号（握手协议）
-    input imem_ready,              // 指令接收方准备好（握手协议）
+    // imem
+    input [31:0] imem_araddr,
+    input imem_arvalid,
+    output imem_arready,
+    output reg [31:0] imem_rdata,
+    output reg imem_rvalid,
+    input imem_rready,
 
-    // 访存通道（dmem - Data Memory）
-    // 读通道
-    input [31:0] dmem_raddr,       // 数据读地址
-    input dmem_ren,                // 数据读使能
-    output reg [31:0] dmem_rdata,  // 数据读结果
-    output reg dmem_rvalid,        // 数据读有效信号（握手协议）
-    input dmem_rready,             // 数据读接收方ready（握手协议）
+    // dmem read
+    input [31:0] dmem_araddr,
+    input dmem_arvalid,
+    output dmem_arready,
+    output reg [31:0] dmem_rdata,
+    output reg dmem_rvalid,
+    input dmem_rready,
 
-    // 写通道
-    input [31:0] dmem_waddr,       // 数据写地址
-    input [31:0] dmem_wdata,       // 数据写数据
-    input [2:0] dmem_wlen,         // 写长度（3'b001=字节, 3'b010=半字, 3'b100=字）
-    input dmem_wen,                // 数据写使能（握手）
-    input dmem_wvalid,             // 数据写有效（握手）
-    output reg dmem_wready         // 数据写准备好信号（握手协议）
+    // dmem write
+    input [31:0] dmem_awaddr,
+    input dmem_awvalid,
+    output dmem_awready,
+    input [31:0] dmem_wdata,
+    input [3:0] dmem_wmask,
+    input dmem_wen,
+    input dmem_wvalid,
+    output dmem_wready
 
 `ifdef SYNTHESIS
     ,
-    input [31:0] yosys_imem_rdata, // 综合模式：取指数据
-    input [31:0] yosys_dmem_rdata  // 综合模式：访存数据
+    input [31:0] yosys_imem_rdata,
+    input [31:0] yosys_dmem_rdata
 `endif
 );
+
+    // 写地址缓冲
+    reg [31:0] dmem_awaddr_latched;
+    reg        dmem_awaddr_valid;
+    wire       dmem_aw_fire = dmem_awvalid && dmem_awready;
+    wire       dmem_w_fire  = dmem_wvalid && dmem_wready;
+    wire [31:0] dmem_waddr_use = dmem_awaddr_valid ? dmem_awaddr_latched : dmem_awaddr;
 
 `ifndef SYNTHESIS
     import "DPI-C" function int pmem_read(input int raddr);
     import "DPI-C" function void pmem_write(input int waddr, input int wdata, input byte wmask);
 
-    reg [7:0] dmem_wmask;
+    reg [7:0] dmem_wmask_ext;
     reg [31:0] dmem_wdata_aligned;
 
-    // 根据写长度与地址低位生成字节写掩码和对齐后的写数据
+    // 写掩码 + 对齐数据
     always @(*) begin
-        dmem_wmask = 8'b0; 
-        dmem_wdata_aligned = dmem_wdata;
-        case (dmem_wlen)
-            3'b001: begin  // SB
-                dmem_wmask = 8'b00000001 << dmem_waddr[1:0];
-                dmem_wdata_aligned = dmem_wdata << {dmem_waddr[1:0], 3'b000};
-            end
-            3'b010: begin  // SH
-                dmem_wmask = 8'b00000011 << {dmem_waddr[1], 1'b0};
-                dmem_wdata_aligned = dmem_wdata << {dmem_waddr[1], 1'b0, 3'b000};
-            end
-            3'b100: begin  // SW
-                dmem_wmask = 8'b00001111;
-                dmem_wdata_aligned = dmem_wdata;
-            end
-            default: begin
-                dmem_wmask = 8'b0;
-                dmem_wdata_aligned = dmem_wdata;
-            end
-        endcase
+        dmem_wmask_ext = {4'b0, dmem_wmask};
+        dmem_wdata_aligned = dmem_wdata << {dmem_waddr_use[1:0], 3'b000};
     end
 `endif
 
-    // ========================================
-    // 多周期访问控制
-    // ========================================
-    // 为了演示多周期访问，我们添加延迟计数器
-    // 实际应用中，这些信号会由真实的内存控制器产生
+    // 延迟模拟
 
-    // 取指通道状态
     reg imem_busy;
     reg [1:0] imem_delay_cnt;
 
-    // 访存通道状态
     reg dmem_busy;
     reg [1:0] dmem_delay_cnt;
 
-    // 取指通道读操作（多周期）
-    // 保持上一次读取的数据，直到新的读请求完成
+    // imem 读
     reg [31:0] imem_rdata_buf;
+    wire imem_ar_fire = imem_arvalid && imem_arready;
+    assign imem_arready = !imem_busy && !imem_rvalid;
 
     always @(*) begin
-        // 仅在当前未返回数据时发起新的读请求，避免覆盖有效数据
-        if (imem_ren && !imem_busy && !imem_rvalid) begin
+        if (imem_ar_fire) begin
 `ifndef SYNTHESIS
-            imem_rdata = pmem_read(imem_addr);
+            imem_rdata = pmem_read(imem_araddr);
 `else
             imem_rdata = yosys_imem_rdata;
 `endif
         end else begin
-            imem_rdata = imem_rdata_buf;  // 保持上一次的数据
+            imem_rdata = imem_rdata_buf;
         end
     end
 
-    // 缓冲读取的数据
     always @(posedge clk) begin
-        if (imem_ren && !imem_busy && !imem_rvalid) begin
+        if (imem_ar_fire) begin
             imem_rdata_buf <= imem_rdata;
         end
     end
 
-    // 取指通道valid信号生成（时序逻辑）
     always @(posedge clk) begin
         if (rst) begin
             imem_rvalid <= 1'b0;
             imem_busy <= 1'b0;
             imem_delay_cnt <= 2'b0;
         end else begin
-            if (imem_rvalid && imem_ready) begin
+            if (imem_rvalid && imem_rready) begin
                 imem_rvalid <= 1'b0;
-            end else if (imem_ren && !imem_busy && !imem_rvalid) begin
-                // 新的读请求：开始延迟计数（模拟1周期延迟）
+            end else if (imem_ar_fire) begin
                 imem_busy <= 1'b1;
                 imem_delay_cnt <= 2'd1;
                 imem_rvalid <= 1'b0;
@@ -121,7 +104,6 @@ module ysyx_25040109_MEM (
                     imem_delay_cnt <= imem_delay_cnt - 1;
                     imem_rvalid <= 1'b0;
                 end else begin
-                    // 延迟结束，数据有效（保持到 ready 为止）
                     imem_rvalid <= 1'b1;
                     imem_busy <= 1'b0;
                 end
@@ -129,30 +111,29 @@ module ysyx_25040109_MEM (
         end
     end
 
-    // 访存通道读操作（多周期）
-    // 保持上一次读取的数据，直到新的读请求完成
+    // dmem 读
     reg [31:0] dmem_rdata_buf;
+    wire dmem_ar_fire = dmem_arvalid && dmem_arready;
+    assign dmem_arready = !dmem_busy && !dmem_rvalid;
 
     always @(*) begin
-        if (dmem_ren && !dmem_busy && !dmem_rvalid) begin
+        if (dmem_ar_fire) begin
 `ifndef SYNTHESIS
-            dmem_rdata = pmem_read(dmem_raddr);
+            dmem_rdata = pmem_read(dmem_araddr);
 `else
             dmem_rdata = yosys_dmem_rdata;
 `endif
         end else begin
-            dmem_rdata = dmem_rdata_buf;  // 保持上一次的数据
+            dmem_rdata = dmem_rdata_buf;
         end
     end
 
-    // 缓冲读取的数据
     always @(posedge clk) begin
-        if (dmem_ren && !dmem_busy && !dmem_rvalid) begin
+        if (dmem_ar_fire) begin
             dmem_rdata_buf <= dmem_rdata;
         end
     end
 
-    // 访存通道valid信号生成（时序逻辑）
     always @(posedge clk) begin
         if (rst) begin
             dmem_rvalid <= 1'b0;
@@ -161,8 +142,7 @@ module ysyx_25040109_MEM (
         end else begin
             if (dmem_rvalid && dmem_rready) begin
                 dmem_rvalid <= 1'b0;
-            end else if (dmem_ren && !dmem_busy && !dmem_rvalid) begin
-                // 新的读请求：开始延迟计数（模拟1周期延迟）
+            end else if (dmem_ar_fire) begin
                 dmem_busy <= 1'b1;
                 dmem_delay_cnt <= 2'd1;
                 dmem_rvalid <= 1'b0;
@@ -171,7 +151,6 @@ module ysyx_25040109_MEM (
                     dmem_delay_cnt <= dmem_delay_cnt - 1;
                     dmem_rvalid <= 1'b0;
                 end else begin
-                    // 延迟结束，数据有效（保持到 ready 为止）
                     dmem_rvalid <= 1'b1;
                     dmem_busy <= 1'b0;
                 end
@@ -179,16 +158,33 @@ module ysyx_25040109_MEM (
         end
     end
 
-    // 访存通道写操作（时序逻辑）
+    // dmem 写
+    assign dmem_awready = !dmem_awaddr_valid;
+    assign dmem_wready  = dmem_awaddr_valid || dmem_aw_fire;
+
     always @(posedge clk) begin
         if (rst) begin
-            dmem_wready <= 1'b1;  // 写操作总是ready（当前实现）
+            dmem_awaddr_valid <= 1'b0;
+            dmem_awaddr_latched <= 32'b0;
         end else begin
-            dmem_wready <= 1'b1;
+            if (dmem_aw_fire) begin
+                dmem_awaddr_latched <= dmem_awaddr;
+            end
+            case ({dmem_aw_fire, dmem_w_fire})
+                2'b10: dmem_awaddr_valid <= 1'b1;  // 仅地址握手
+                2'b01: dmem_awaddr_valid <= 1'b0;  // 仅写数据握手
+                2'b11: dmem_awaddr_valid <= 1'b0;  // 同周期完成
+                default: dmem_awaddr_valid <= dmem_awaddr_valid;
+            endcase
+        end
+    end
+
+    always @(posedge clk) begin
+        if (!rst) begin
             if (dmem_wvalid && dmem_wready && dmem_wen) begin
 `ifndef SYNTHESIS
-                if (dmem_wmask != 8'b0) begin
-                    pmem_write(dmem_waddr, dmem_wdata_aligned, dmem_wmask);
+                if (dmem_wmask_ext != 8'b0) begin
+                    pmem_write(dmem_waddr_use, dmem_wdata_aligned, dmem_wmask_ext);
                 end
 `endif
             end

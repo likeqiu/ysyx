@@ -10,7 +10,7 @@ module ysyx_25040109_EXU (
     input [4:0] rs1_addr, 
     input [31:0] pc,
 
-    // 来自IDU的执行控制信号
+    // 控制信号
     input [4:0] alu_op,
     input [1:0] alu_a_sel,
     input       alu_b_sel,
@@ -41,7 +41,7 @@ module ysyx_25040109_EXU (
     reg [31:0] alu_out; 
     reg [63:0] mul_temp;
 
-    // 控制编码需与IDU保持一致
+    // 与 IDU 编码对齐
     localparam [4:0] ALU_ADD  = 5'd0;
     localparam [4:0] ALU_SUB  = 5'd1;
     localparam [4:0] ALU_SLL  = 5'd2;
@@ -173,10 +173,10 @@ module ysyx_25040109_EXU (
 
     wire [31:0] pc_plus4       = pc + 32'd4;
     wire [31:0] jal_target     = pc + imm;
-    wire [31:0] jalr_target    = alu_out & 32'hFFFFFFFE; // 低位清零
+    wire [31:0] jalr_target    = alu_out & 32'hFFFFFFFE; // bit0 置 0
     wire [31:0] branch_target  = pc + imm;
 
-    // 写回结
+    // 写回选择
     assign result = (result_sel == RES_CSR) ? csr_rdata :
                     (result_sel == RES_PC4) ? pc_plus4 :
                     (result_sel == RES_ALU) ? alu_out :
@@ -191,12 +191,12 @@ module ysyx_25040109_EXU (
         (branch_op == 3'b111 && rs1_data >= rs2_data)                        // BGEU
     );
 
-     always @(*) begin
+    always @(*) begin
         if (!inst_invalid) begin
             if (is_ecall) begin
-                next_pc = mtvec; // ecall: 跳转到异常入口
+                next_pc = mtvec;
             end else if (is_mret) begin
-                next_pc = mepc;  // mret: 从异常返回
+                next_pc = mepc;
             end else if (is_jal) begin
                 next_pc = jal_target;
             end else if (is_jalr) begin

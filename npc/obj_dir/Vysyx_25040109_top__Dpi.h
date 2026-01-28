@@ -16,19 +16,19 @@ extern "C" {
 
 
     // DPI IMPORTS
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:374:34
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:336:34
     extern void difftest_skip_ref();
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:376:34
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:338:34
     extern void itrace_print(int pc, int instruction_word, int instr_len_bytes, int p_count_number);
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:36:33
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:46:33
     extern int pmem_read(int raddr);
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:37:34
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:47:34
     extern void pmem_write(int waddr, int wdata, char wmask);
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:375:33
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:337:33
     extern int printf_finish(int inst);
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_RegisterFile.v:43:32
     extern void update_cpu_state(unsigned int pc, const svOpenArrayHandle regs);
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:377:34
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:339:34
     extern void update_decode_state(int pc, int snpc, int dnpc, int inst);
 
 #ifdef __cplusplus

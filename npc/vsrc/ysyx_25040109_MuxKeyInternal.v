@@ -35,7 +35,7 @@ module ysyx_25040109_MuxKeyInternal #(parameter  NR_KEY = 2,parameter   KEY_LEN 
   end
 endmodule
 
-// 不带默认值的选择器模板
+// 无默认值
 module ysyx_25040109_MuxKey #(parameter  NR_KEY = 2,parameter  KEY_LEN = 1,parameter DATA_LEN = 1) (
   output [DATA_LEN-1:0] out,
   input [KEY_LEN-1:0] key,
@@ -44,7 +44,7 @@ module ysyx_25040109_MuxKey #(parameter  NR_KEY = 2,parameter  KEY_LEN = 1,param
   ysyx_25040109_MuxKeyInternal #(NR_KEY, KEY_LEN, DATA_LEN, 0) i0 (out, key, {DATA_LEN{1'b0}}, lut);
 endmodule
 
-// 带默认值的选择器模板
+// 带默认值
 module ysyx_25040109_MuxKeyWithDefault #(parameter  NR_KEY = 2, parameter  KEY_LEN = 1,parameter  DATA_LEN = 1) (
   output [DATA_LEN-1:0] out,
   input [KEY_LEN-1:0] key,
@@ -55,4 +55,3 @@ module ysyx_25040109_MuxKeyWithDefault #(parameter  NR_KEY = 2, parameter  KEY_L
 
 endmodule
 /* verilator lint_on DECLFILENAME */
-

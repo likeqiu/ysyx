@@ -4,15 +4,15 @@ module ysyx_25040109_top (
     input [31:0] p_count_number,
     
 `ifdef SYNTHESIS
-    input [31:0] yosys_imem_rdata,  // 综合模式：取指数据
-    input [31:0] yosys_dmem_rdata,  // 综合模式：访存数据
+    input [31:0] yosys_imem_rdata,
+    input [31:0] yosys_dmem_rdata,
 `endif
 
     output [31:0] inst,
     output [31:0] pc,
     output [31:0] a0_out,
 
-    // 差分测试接口
+    // difftest
     output inst_wb_complete,
     output is_load_out,
     output is_store_out,
@@ -22,68 +22,69 @@ module ysyx_25040109_top (
     output [31:0] dmem_waddr_out
 );
 
-    // ========================================
-    // 信号声明区
-    // ========================================
-    // 取指通道信号（CPU ↔ MEM）
-    wire [31:0] imem_addr;              // 取指地址 | CPU → MEM
-    wire imem_ren;                      // 取指使能 | CPU → MEM
-    wire [31:0] imem_rdata;             // 指令数据 | MEM → CPU
-    wire imem_rvalid;                   // 指令数据有效 | MEM → CPU（握手协议）
-    wire imem_ready;                    // 指令数据ready | CPU → MEM（握手协议）
+    // 互连信号
+    wire [31:0] imem_araddr;
+    wire imem_arvalid;
+    wire imem_arready;
+    wire [31:0] imem_rdata;
+    wire imem_rvalid;
+    wire imem_rready;
 
-    // 访存通道信号（CPU ↔ MEM）
-    wire [31:0] dmem_raddr;             // 数据读地址 | CPU → MEM
-    wire dmem_ren;                      // 数据读使能 | CPU → MEM
-    wire [31:0] dmem_rdata;             // 数据读结果 | MEM → CPU
-    wire dmem_rvalid;                   // 数据读有效 | MEM → CPU（握手协议）
-    wire dmem_rready;                   // 数据读ready | CPU → MEM（握手协议）
-    wire dmem_wvalid;                   // 数据写有效 | CPU → MEM（握手协议）
-    wire [31:0] dmem_waddr;             // 数据写地址 | CPU → MEM
-    wire [31:0] dmem_wdata;             // 数据写数据 | CPU → MEM
-    wire [2:0] dmem_wlen;               // 写长度（字节/半字/字） | CPU → MEM
-    wire dmem_wen;                      // 数据写使能 | CPU → MEM
-    wire dmem_wready;                   // 数据写准备好 | MEM → CPU（握手协议）
+    wire [31:0] dmem_araddr;
+    wire dmem_arvalid;
+    wire dmem_arready;
+    wire [31:0] dmem_rdata;
+    wire dmem_rvalid;
+    wire dmem_rready;
+    wire dmem_awvalid;
+    wire dmem_awready;
+    wire [31:0] dmem_awaddr;
+    wire dmem_wvalid;
+    wire [31:0] dmem_wdata;
+    wire [3:0] dmem_wmask;
+    wire dmem_wen;
+    wire dmem_wready;
 
-    // 导出访存地址用于差分测试
-    assign dmem_raddr_out = dmem_raddr;
-    assign dmem_waddr_out = dmem_waddr;
+    // difftest 地址导出
+    assign dmem_raddr_out = dmem_araddr;
+    assign dmem_waddr_out = dmem_awaddr;
 
-    // ========================================
-    // 模块实例化区
-    // ========================================
-    // CPU模块（处理器内核）
+    // CPU
     ysyx_25040109_CPU cpu (
         .clk(clk),
         .rst(rst),
         .p_count_number(p_count_number),
 
-        // 取指接口
-        .imem_addr(imem_addr),
-        .imem_ren(imem_ren),
+        // imem
+        .imem_araddr(imem_araddr),
+        .imem_arvalid(imem_arvalid),
+        .imem_arready(imem_arready),
         .imem_rdata(imem_rdata),
         .imem_rvalid(imem_rvalid),
-        .imem_ready(imem_ready),
+        .imem_rready(imem_rready),
 
-        // 访存接口
-        .dmem_raddr(dmem_raddr),
-        .dmem_ren(dmem_ren),
+        // dmem
+        .dmem_araddr(dmem_araddr),
+        .dmem_arvalid(dmem_arvalid),
+        .dmem_arready(dmem_arready),
         .dmem_rdata(dmem_rdata),
         .dmem_rvalid(dmem_rvalid),
         .dmem_rready(dmem_rready),
+        .dmem_awvalid(dmem_awvalid),
+        .dmem_awready(dmem_awready),
+        .dmem_awaddr(dmem_awaddr),
         .dmem_wvalid(dmem_wvalid),
-        .dmem_waddr(dmem_waddr),
         .dmem_wdata(dmem_wdata),
-        .dmem_wlen(dmem_wlen),
+        .dmem_wmask(dmem_wmask),
         .dmem_wen(dmem_wen),
         .dmem_wready(dmem_wready),
 
-        // 调试接口
+        // debug
         .inst(inst),
         .pc(pc),
         .a0_out(a0_out),
 
-        // 差分测试接口
+        // difftest
         .inst_wb_complete(inst_wb_complete),
         .is_load_out(is_load_out),
         .is_store_out(is_store_out),
@@ -91,28 +92,32 @@ module ysyx_25040109_top (
         .opcode_out(opcode_out)
     );
 
-    // MEM模块（双通道内存）
+    // MEM
     ysyx_25040109_MEM mem (
         .clk(clk),
         .rst(rst),
 
-        // 取指通道
-        .imem_addr(imem_addr),
-        .imem_ren(imem_ren),
+        // imem
+        .imem_araddr(imem_araddr),
+        .imem_arvalid(imem_arvalid),
+        .imem_arready(imem_arready),
         .imem_rdata(imem_rdata),
         .imem_rvalid(imem_rvalid),
-        .imem_ready(imem_ready),
+        .imem_rready(imem_rready),
 
-        // 访存通道
-        .dmem_raddr(dmem_raddr),
-        .dmem_ren(dmem_ren),
+        // dmem
+        .dmem_araddr(dmem_araddr),
+        .dmem_arvalid(dmem_arvalid),
+        .dmem_arready(dmem_arready),
         .dmem_rdata(dmem_rdata),
         .dmem_rvalid(dmem_rvalid),
         .dmem_rready(dmem_rready),
+        .dmem_awvalid(dmem_awvalid),
+        .dmem_awready(dmem_awready),
+        .dmem_awaddr(dmem_awaddr),
         .dmem_wvalid(dmem_wvalid),
-        .dmem_waddr(dmem_waddr),
         .dmem_wdata(dmem_wdata),
-        .dmem_wlen(dmem_wlen),
+        .dmem_wmask(dmem_wmask),
         .dmem_wen(dmem_wen),
         .dmem_wready(dmem_wready)
 `ifdef SYNTHESIS

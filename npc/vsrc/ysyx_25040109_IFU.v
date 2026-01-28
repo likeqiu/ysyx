@@ -2,15 +2,15 @@ module ysyx_25040109_IFU (
     input           clk,
     input           rst,
 
-    // 来自 Memory (上游)
+    // 来自 MEM
     input  [31:0]   imem_rdata,
     input           mem_valid,
-    output          ifu_ready_to_mem, // 告诉 Mem 我是否 ready
+    output          ifu_ready_to_mem, // ready 给 MEM
 
-    // 去往 IDU (下游)
+    // 去往 IDU
     input           idu_ready,
-    output [31:0]   inst_ifu,         // 输出给下游的指令
-    output          ifu_valid_to_idu  // valid 传给下游
+    output [31:0]   inst_ifu,
+    output          ifu_valid_to_idu
 );
 
 
