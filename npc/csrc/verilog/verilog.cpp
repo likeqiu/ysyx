@@ -33,10 +33,9 @@ extern "C" void pmem_write(int waddr, int wdata, char wmask)
     paddr_write(aligned, 4, merged);
 }
 
-int pmem_read_ok(int raddr) {
-  in_pmem(raddr);
-}
-
+extern "C" int pmem_read_ok(int addr) {
+    return paddr_is_valid((paddr_t)addr) ? 1 : 0;
+}  
 
 
 /*

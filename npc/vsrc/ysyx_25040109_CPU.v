@@ -29,6 +29,12 @@ module ysyx_25040109_CPU (
     output [31:0] dmem_wdata,
     output [3:0] dmem_wmask,
 
+    input [1:0] imem_rresp,
+    input [1:0] dmem_bresp,
+    input [1:0] dmem_rresp,
+    input       dmem_bvalid,
+    output      dmem_bready,
+
     // 调试
     output [31:0] inst,
     output [31:0] pc,
@@ -51,6 +57,8 @@ module ysyx_25040109_CPU (
     localparam [3:0] WB_LAT_ALU = 4'd0;
     localparam [3:0] WB_LAT_MEM = 4'd0;
     localparam [3:0] WB_LAT_CSR = 4'd0;
+
+    localparam [1:0] RESP_OKAY = 2'b00;
 
     // 流水线状态
     reg  [31:0] pc_fetch = 32'h80000000;
@@ -143,7 +151,10 @@ module ysyx_25040109_CPU (
     wire final_csr_we;
     wire [11:0] final_csr_waddr;
     wire [31:0] final_csr_wdata;
+    reg [31:0] trap_mepc;
+    reg [31:0] trap_cause;
 
+    
     // 信号连线
     // PC 输出：执行中显示执行 PC，否则显示取指 PC
     assign pc = stage_valid ? pc_exe : pc_fetch;
@@ -162,17 +173,7 @@ module ysyx_25040109_CPU (
     assign final_gpr_we = reg_write_en_exu && stage_valid && commit_cond;
     assign final_mem_we = is_store && stage_valid;
 
-    assign final_csr_we = is_stalled_by_trap ||
-                          (stage_valid && commit_cond &&
-                           (is_ecall || csr_we_from_exu));
 
-    assign final_csr_waddr = is_stalled_by_trap ? CSR_MCAUSE :
-                             (stage_valid && is_ecall) ? CSR_MEPC :
-                             csr_addr;
-
-    assign final_csr_wdata = is_stalled_by_trap ? 32'd11 :
-                             (stage_valid && is_ecall) ? pc_exe :
-                             csr_wdata_from_exu;
 
     assign writeback_data = is_load ? load_data_from_lsu : result;
 
@@ -180,10 +181,22 @@ module ysyx_25040109_CPU (
     wire mem_done    = !mem_op || lsu_out_valid;
     wire [3:0] wb_delay_sel = mem_op ? WB_LAT_MEM :
                             (csr_we_from_exu ? WB_LAT_CSR : WB_LAT_ALU);
-    wire commit_cond = wb_fire;    
+
+    wire lsu_out_fire;
+    wire exc_imem,exc_load,exc_store,exc_any;
+
+    assign lsu_out_fire = lsu_out_valid && lsu_in_ready;
+    assign exc_imem     = imem_rvalid && imem_req_pending && (imem_rresp != RESP_OKAY);
+    
+    assign exc_load     = lsu_out_fire && is_load &&  lsu_resp_err;
+    assign exc_store    = lsu_out_fire && is_store && lsu_resp_err;
+    assign exc_any      = exc_imem || exc_load || exc_store; 
+                            
+
+    wire commit_cond = wb_fire && !exc_any;    
     assign ex_ready  = !stage_valid || commit_cond;
     assign id_to_ex_fire = id_valid && ex_ready;
-    assign id_fire = ifu_valid_to_idu && idu_ready;                        
+    assign id_fire = ifu_valid_to_idu && idu_ready && !exc_any;                        
     assign wb_ready  = (wb_delay_cnt == 4'd0);
     assign wb_valid  = stage_valid && mem_done;
     assign wb_fire   = wb_valid && wb_ready;
@@ -192,7 +205,6 @@ module ysyx_25040109_CPU (
 
 
     assign inst = inst_exe;
-
     assign is_load_out  = is_load && stage_valid;
     assign is_store_out = is_store && stage_valid;
     assign is_ecall_out = is_ecall && stage_valid;
@@ -275,9 +287,11 @@ module ysyx_25040109_CPU (
     );
 
     // LSU
-    assign lsu_in_valid = mem_op && !lsu_req_issued;
+    assign lsu_in_valid = mem_op && !lsu_req_issued && !exc_any;
     assign lsu_in_ready = wb_ready;
     wire lsu_in_fire = lsu_in_valid && lsu_out_ready;
+    wire lsu_resp_err;
+
 
     ysyx_25040109_LSU lsu (
         .clk(clk),
@@ -307,7 +321,12 @@ module ysyx_25040109_CPU (
         .load_data(load_data_from_lsu),
         .store_enable(store_enable_unused),
         .out_valid(lsu_out_valid),
-        .in_ready(lsu_in_ready)
+        .in_ready(lsu_in_ready),
+        .dmem_bready(dmem_bready),
+        .dmem_bresp(dmem_bresp),
+        .dmem_bvalid(dmem_bvalid),
+        .dmem_rresp(dmem_rresp),
+        .resp_err(lsu_resp_err)
     );
 
     // RegisterFile
@@ -395,12 +414,27 @@ module ysyx_25040109_CPU (
             lsu_req_issued <= 1'b0;
             imem_req_pending <= 1'b0;
             trap_state     <= S_NORMAL;
+            trap_mepc      <= 32'b0;
+            trap_cause     <= 32'b0;
             inst_wb_complete_r <= 1'b0;
         end else begin
+            if(exc_any)begin
+                stage_valid <= 1'b0;
+                id_valid    <= 1'b0;
+                lsu_req_issued <= 1'b0;
+                imem_req_pending <= 1'b0;
+                wb_delay_cnt <=  4'd0;
+                pc_fetch    <= mtvec_from_regfile;
+                trap_mepc   <= exc_imem ? pc_fetch : pc_exe;
+                trap_cause  <= exc_imem ? 32'd1 : exc_load ? 32'd5 : 32'd7;
+                trap_state  <= S_TRAP_MCAUSE;
+            end else begin
             // Trap 状态机
             case (trap_state)
                 S_NORMAL: begin
                     if (stage_valid && is_ecall) begin
+                        trap_mepc  <= pc_exe;
+                        trap_cause <= 32'd11;
                         trap_state <= S_TRAP_MCAUSE;
                     end
                 end
@@ -456,12 +490,24 @@ module ysyx_25040109_CPU (
             end
 
             inst_wb_complete_r <= (!rst) && commit_cond;
-
+        end
         end
     end
         
     reg  inst_wb_complete_r;
-
     assign inst_wb_complete = inst_wb_complete_r;
+
+
+    assign final_csr_we = is_stalled_by_trap || exc_any ||
+                            (stage_valid && commit_cond &&
+                            (is_ecall || csr_we_from_exu));
+
+    assign final_csr_waddr = is_stalled_by_trap ? CSR_MCAUSE :
+                            exc_any ? CSR_MEPC : (stage_valid && is_ecall) ? 
+                            CSR_MEPC : csr_addr;
+
+    assign final_csr_wdata = is_stalled_by_trap ? trap_cause : exc_any ? trap_mepc :
+                            (stage_valid && is_ecall) ? pc_exe :
+                            csr_wdata_from_exu;
 
 endmodule

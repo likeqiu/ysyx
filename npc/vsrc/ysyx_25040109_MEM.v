@@ -28,13 +28,14 @@ module ysyx_25040109_MEM (
     input dmem_wvalid,
     output dmem_wready,
 
-    output [1:0] imem_rresp,
+    output reg [1:0] imem_rresp,
+    output reg [1:0] dmem_rresp,
 
-    output [1:0] dmem_rresp,
+    output reg [1:0] dmem_bresp,
+    output reg dmem_bvalid,
+    input      dmem_bready
 
-    output [1:0] dmem_bresp,
-    output dmem_bvalid,
-    input dmem_bready
+
 
 `ifdef SYNTHESIS
     ,
@@ -42,6 +43,22 @@ module ysyx_25040109_MEM (
     input [31:0] yosys_dmem_rdata
 `endif
 );
+
+
+    localparam  [1:0] RESP_OKAY   = 2'b00;
+    localparam  [1:0] RESP_SLVERR = 2'b10;
+
+
+
+`ifdef SYNTHESIS
+    wire imem_addr_ok  = 1'b1;
+    wire dmem_raddr_ok = 1'b1;
+    wire dmem_waddr_ok = 1'b1;
+`else
+    wire imem_addr_ok  = (pmem_read_ok(imem_araddr) != 0);
+    wire dmem_raddr_ok = (pmem_read_ok(dmem_araddr) != 0);
+    wire dmem_waddr_ok = (pmem_read_ok(dmem_waddr_use) != 0);
+`endif
 
     // 写地址缓冲
     reg [31:0] dmem_awaddr_latched;
@@ -53,6 +70,8 @@ module ysyx_25040109_MEM (
 `ifndef SYNTHESIS
     import "DPI-C" function int pmem_read(input int raddr);
     import "DPI-C" function void pmem_write(input int waddr, input int wdata, input byte wmask);
+    import "DPI-C" function int pmem_read_ok(input int addr);
+
 
     reg [7:0] dmem_wmask_ext;
     reg [31:0] dmem_wdata_aligned;
@@ -80,7 +99,7 @@ module ysyx_25040109_MEM (
     always @(*) begin
         if (imem_ar_fire) begin
 `ifndef SYNTHESIS
-            imem_rdata = pmem_read(imem_araddr);
+            imem_rdata = imem_addr_ok ? pmem_read(imem_araddr) : 32'b0;
 `else
             imem_rdata = yosys_imem_rdata;
 `endif
@@ -127,7 +146,7 @@ module ysyx_25040109_MEM (
     always @(*) begin
         if (dmem_ar_fire) begin
 `ifndef SYNTHESIS
-            dmem_rdata = pmem_read(dmem_araddr);
+            dmem_rdata = dmem_raddr_ok ? pmem_read(dmem_araddr) : 32'b0;
 `else
             dmem_rdata = yosys_dmem_rdata;
 `endif
@@ -166,9 +185,9 @@ module ysyx_25040109_MEM (
         end
     end
 
-    // dmem 写
-    assign dmem_awready = !dmem_awaddr_valid;
-    assign dmem_wready  = dmem_awaddr_valid || dmem_aw_fire;
+    // 保证只有一个未完成写响应
+    assign dmem_awready = !dmem_awaddr_valid && !dmem_bvalid;
+    assign dmem_wready  = (dmem_awaddr_valid  || dmem_aw_fire) && !dmem_bvalid;
     wire [31:0] dmem_waddr_use = dmem_awaddr_valid ? dmem_awaddr_latched : dmem_awaddr;
 
     always @(posedge clk) begin
@@ -192,12 +211,38 @@ module ysyx_25040109_MEM (
         if (!rst) begin
             if (dmem_wvalid && dmem_wready && dmem_wen) begin
 `ifndef SYNTHESIS
-                if (dmem_wmask_ext != 8'b0) begin
+                if (dmem_waddr_ok &&  dmem_wmask_ext != 8'b0) begin
                     pmem_write(dmem_waddr_use, dmem_wdata_aligned, dmem_wmask_ext);
                 end
 `endif
             end
         end
     end
+
+    always @(posedge clk) begin
+        if(rst) imem_rresp <= RESP_OKAY;
+        else if(imem_ar_fire) imem_rresp <= imem_addr_ok ? RESP_OKAY : RESP_SLVERR; 
+    end
+    
+    always @(posedge clk) begin
+        if(rst) dmem_rresp <= RESP_OKAY;
+        else if(dmem_ar_fire) dmem_rresp <= dmem_raddr_ok ? RESP_OKAY : RESP_SLVERR;
+    end
+
+    always @(posedge clk) begin
+        if(rst) begin
+            dmem_bresp <= RESP_OKAY;
+            dmem_bvalid <= 1'b0;
+        end else begin
+            if(dmem_bvalid && dmem_bready)begin
+                dmem_bvalid <= 1'b0;
+            end else if(dmem_w_fire)begin
+                dmem_bvalid <= 1'b1;
+                dmem_bresp <= dmem_waddr_ok ? RESP_OKAY : RESP_SLVERR;
+                
+            end
+        end
+    end
+    
 
 endmodule

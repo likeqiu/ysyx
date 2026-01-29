@@ -34,7 +34,12 @@ module ysyx_25040109_LSU (
     output reg [31:0] load_data,
     output store_enable,
     output out_valid,
-    input in_ready
+    input in_ready,
+    input [1:0] dmem_rresp,
+    input       dmem_bvalid,
+    input [1:0] dmem_bresp,
+    output      dmem_bready,
+    output      resp_err
 );
 
     // 状态机
@@ -44,6 +49,11 @@ module ysyx_25040109_LSU (
     localparam WAIT_AW   = 3'b011;  // 等待写地址握手
     localparam WAIT_W    = 3'b100;  // 等待写数据握手
     localparam BUFFERED  = 3'b101;  // 数据已缓冲/写完成
+    localparam WAIT_B    = 3'b110;
+
+    localparam [1:0] RESP_OKAY = 2'b00;
+
+    assign dmem_bready   = (state == WAIT_B);
 
     reg [2:0] state;
     reg [31:0] buffer_load_data;
@@ -124,6 +134,12 @@ module ysyx_25040109_LSU (
 
                 WAIT_W: begin
                     if (mem_write_fire) begin
+                        state <= WAIT_B;
+                    end
+                end
+
+                WAIT_B:begin
+                    if(dmem_bvalid && dmem_bready)begin
                         state <= BUFFERED;
                     end
                 end
@@ -190,5 +206,29 @@ module ysyx_25040109_LSU (
             load_data = 32'b0;
         end
     end
+
+
+    reg [1:0] buffer_rresp;
+    reg [1:0] buffer_bresp;
+
+    wire b_fire = dmem_bvalid && dmem_bready;
+    always @(posedge clk) begin
+        if (rst) begin
+            buffer_rresp <= RESP_OKAY;
+            buffer_bresp <= RESP_OKAY;
+        end else begin
+            if (state == WAIT_R && mem_read_fire) begin
+                buffer_rresp <= dmem_rresp;
+            end
+            if (state == WAIT_B && b_fire) begin
+                buffer_bresp <= dmem_bresp;
+            end
+        end
+    end
+
+    assign resp_err = (state == BUFFERED) &&
+                      ((load_latched && buffer_rresp != RESP_OKAY) ||
+                       (store_latched && buffer_bresp != RESP_OKAY));
+
 
 endmodule

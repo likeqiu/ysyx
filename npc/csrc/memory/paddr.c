@@ -78,3 +78,16 @@ void paddr_write(paddr_t addr, int len, word_t data)
   // 这允许程序在遇到无效地址写操作时继续执行
   return;
 }
+
+
+bool paddr_is_valid(paddr_t addr) {
+
+  if (in_pmem(addr))
+    return true;
+  
+#ifdef CONFIG_DEVICE
+    return mmio_has_map(addr);
+#else
+    return false;
+#endif  
+}
