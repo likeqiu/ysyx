@@ -55,7 +55,7 @@ word_t paddr_read(paddr_t addr, int len)
    // printf("R:0x%08x\n", addr);
     // IFDEF(CONFIG_ITRACE, iringbuf_dump(addr));
     IFDEF(CONFIG_DEVICE, ret = mmio_read(addr, len); return ret);
-    //printf("333\n");
+
     
     // 对于超出范围的地址，返回0而不是panic
     // 这允许程序在遇到无效地址访问时继续执行
@@ -70,7 +70,7 @@ void paddr_write(paddr_t addr, int len, word_t data)
     pmem_write(addr, len, data);
     return;
   }
-    //printf("222222\n");
+
   //printf("W:0x%08x\n",addr);
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   // printf("3334\n");

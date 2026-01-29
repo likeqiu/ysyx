@@ -26,7 +26,15 @@ module ysyx_25040109_MEM (
     input [3:0] dmem_wmask,
     input dmem_wen,
     input dmem_wvalid,
-    output dmem_wready
+    output dmem_wready,
+
+    output [1:0] imem_rresp,
+
+    output [1:0] dmem_rresp,
+
+    output [1:0] dmem_bresp,
+    output dmem_bvalid,
+    input dmem_bready
 
 `ifdef SYNTHESIS
     ,
