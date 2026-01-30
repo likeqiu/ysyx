@@ -168,6 +168,10 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
     vlSelf->ysyx_25040109_top__DOT__dmem_bready = (6U 
                                                    == (IData)(vlSelf->ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__state));
     vlSelf->inst_wb_complete = vlSelf->ysyx_25040109_top__DOT__cpu__DOT__inst_wb_complete_r;
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__ifsr_imem__DOT__lsb 
+        = (1U & (IData)(vlSelf->ysyx_25040109_top__DOT__mem__DOT__imem_delay));
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__ifsr_dmem__DOT__lsb 
+        = (1U & (IData)(vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_delay));
     vlSelf->ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__mem_read_fire 
         = ((IData)(vlSelf->ysyx_25040109_top__DOT__dmem_rvalid) 
            & (2U == (IData)(vlSelf->ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__state)));
@@ -200,7 +204,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
     vlSelf->ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__mem_ar_fire 
         = (((1U == (IData)(vlSelf->ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__state)) 
             & (IData)(vlSelf->ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__load_latched)) 
-           & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_busy)) 
+           & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_r_busy)) 
               & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__dmem_rvalid))));
     vlSelf->ysyx_25040109_top__DOT__cpu__DOT__idu__DOT__imm_i_ext 
         = (((- (IData)((vlSelf->ysyx_25040109_top__DOT__cpu__DOT__inst_exe 
@@ -1038,9 +1042,9 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
     vlSelf->dmem_waddr_out = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__imem_rdata = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__imem_rvalid = VL_RAND_RESET_I(1);
+    vlSelf->ysyx_25040109_top__DOT__imem_rresp = VL_RAND_RESET_I(2);
     vlSelf->ysyx_25040109_top__DOT__dmem_rdata = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__dmem_rvalid = VL_RAND_RESET_I(1);
-    vlSelf->ysyx_25040109_top__DOT__imem_rresp = VL_RAND_RESET_I(2);
     vlSelf->ysyx_25040109_top__DOT__dmem_rresp = VL_RAND_RESET_I(2);
     vlSelf->ysyx_25040109_top__DOT__dmem_bresp = VL_RAND_RESET_I(2);
     vlSelf->ysyx_25040109_top__DOT__dmem_bvalid = VL_RAND_RESET_I(1);
@@ -1169,13 +1173,17 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___ctor_var_reset(Vysyx_25040109_t
     vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_waddr_ok = VL_RAND_RESET_I(1);
     vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_awaddr_latched = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_awaddr_valid = VL_RAND_RESET_I(1);
-    vlSelf->ysyx_25040109_top__DOT__mem__DOT__imem_busy = VL_RAND_RESET_I(1);
-    vlSelf->ysyx_25040109_top__DOT__mem__DOT__imem_delay_cnt = VL_RAND_RESET_I(2);
-    vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_busy = VL_RAND_RESET_I(1);
-    vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_delay_cnt = VL_RAND_RESET_I(2);
     vlSelf->ysyx_25040109_top__DOT__mem__DOT__imem_rdata_buf = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_rdata_buf = VL_RAND_RESET_I(32);
     vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_waddr_use = VL_RAND_RESET_I(32);
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_r_busy = VL_RAND_RESET_I(1);
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__imem_busy = VL_RAND_RESET_I(1);
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__imem_delay = VL_RAND_RESET_I(5);
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_delay = VL_RAND_RESET_I(5);
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__imem_delay_cnt = VL_RAND_RESET_I(5);
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__dmem_delay_cnt = VL_RAND_RESET_I(5);
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__ifsr_imem__DOT__lsb = VL_RAND_RESET_I(1);
+    vlSelf->ysyx_25040109_top__DOT__mem__DOT__ifsr_dmem__DOT__lsb = VL_RAND_RESET_I(1);
     vlSelf->__VdfgTmp_h2aca818a__0 = 0;
     vlSelf->__Vfunc_ysyx_25040109_top__DOT__mem__DOT__pmem_read_ok__4__Vfuncout = 0;
     vlSelf->__Vfunc_ysyx_25040109_top__DOT__mem__DOT__pmem_read_ok__5__Vfuncout = 0;

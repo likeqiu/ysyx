@@ -11,6 +11,10 @@ INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/z
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
 ARGS ?= 
+ALL  ?=
+
+FST = 1
+
 
 
 
@@ -120,7 +124,8 @@ sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 	verilator --cc --exe --build --noassert $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp \
 		--trace-fst --top-module top \
 		$(addprefix -CFLAGS , $(CXXFLAGS)) \
-		$(addprefix -LDFLAGS , $(LDFLAGS))
+		$(addprefix -LDFLAGS , $(LDFLAGS)) 
+
 
 waveform: ensure-llvm-deps $(COMPILE_DEPS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
@@ -131,15 +136,18 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 		$(addprefix -CFLAGS , $(CFLAGS)) \
 		$(addprefix -CFLAGS , $(CXXFLAGS) $(INCFLAGS))
 		mv obj_dir/V$(TOPNAME) $(BUILD_DIR)/$(NAME)
+		
+
 
 run: waveform
 	@echo "Setting library path and running..."
 	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH"
 	@echo "./build/$(NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
 	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS)  $(ARGS_DIFF) $(IMG) 
+	mv sim.fst $(FST).fst
 
 look:
-	gtkwave sim.fst 
+	gtkwave $(FST).fst 
 
 # 安装LLVM库到系统路径
 install-llvm-lib: $(LLVM_WRAPPER_LIB)
@@ -176,7 +184,7 @@ check:waveform
 
 
 clean:
-	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp sim.fst
+	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp *.fst
 	rm -f $(LLVM_WRAPPER_LIB) $(DISASM_OBJ)
 
 

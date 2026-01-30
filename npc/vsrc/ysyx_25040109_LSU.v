@@ -27,7 +27,7 @@ module ysyx_25040109_LSU (
     output dmem_wen,
     output dmem_wvalid,
     output [31:0] dmem_wdata,
-    output [3:0] dmem_wmask,
+    output [3:0] dmem_wstrb,
     input dmem_wready,
 
     // 输出到 WB
@@ -91,7 +91,7 @@ module ysyx_25040109_LSU (
     assign dmem_wvalid = (state == WAIT_W && store_valid);
     assign dmem_wen    = dmem_wvalid;
     assign dmem_wdata  = store_data_latched;
-    assign dmem_wmask  = (funct3_latched == 3'b000) ? (4'b0001 << addr_latched[1:0]) : // SB
+    assign dmem_wstrb  = (funct3_latched == 3'b000) ? (4'b0001 << addr_latched[1:0]) : // SB
                          (funct3_latched == 3'b001) ? (4'b0011 << {addr_latched[1], 1'b0}) : // SH
                          (funct3_latched == 3'b010) ? 4'b1111 : // SW
                          4'b0000;

@@ -10,9 +10,23 @@ module ysyx_25040109_IFU (
     // 去往 IDU
     input           idu_ready,
     output [31:0]   inst_ifu,
-    output          ifu_valid_to_idu
+    output          ifu_valid_to_idu,
+    
+    /* verilator lint_off UNUSED */    
+    output [31:0] imem_awaddr,
+    output        imem_awvalid,
+    input         imem_awready,
+    output [31:0] imem_wdata,
+    output [3:0]  imem_wstr,
+    input         imem_wready,
+    output        imem_wvalid,
+    output        imem_bready,
+    input         imem_bvalid,
+    input [1:0]   imem_bresp
+    /* verilator lint_off UNUSED */
 );
 
+    
 
     ysyx_25040109_hanshake u_ifu_hanshake (
         .clk(clk),
@@ -24,5 +38,13 @@ module ysyx_25040109_IFU (
         .inst_ifu(inst_ifu),
         .ifu_valid_to_idu(ifu_valid_to_idu)
     );
+
+
+    assign imem_awvalid = 1'b0;
+    assign imem_wvalid  = 1'b0;
+    assign imem_bready  = 1'b0;
+    assign imem_awaddr  = 32'b0;
+    assign imem_wdata   = 32'b0;
+    assign imem_wstr    = 4'b0;
 
 endmodule

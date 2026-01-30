@@ -4,36 +4,48 @@ module ysyx_25040109_CPU (
     input [31:0] p_count_number,  // trace 计数
 
     // 取指通道
-    output imem_arvalid,
-    input  imem_arready,
-    input  imem_rvalid,
-    output imem_rready,
+    output        imem_arvalid,
+    input         imem_arready,
+    input         imem_rvalid,
+    output        imem_rready,
     output [31:0] imem_araddr,
     input  [31:0] imem_rdata,
-
+    input  [1:0]  imem_rresp,
+        
+    output [31:0] imem_awaddr,
+    output        imem_awvalid,
+    input         imem_awready,
+    output [31:0] imem_wdata,
+    output [3:0]  imem_wstr,
+    input         imem_wready,
+    output        imem_wvalid,
+    output        imem_bready,
+    input         imem_bvalid,
+    input [1:0]   imem_bresp,
     // 访存通道
-    output dmem_arvalid,
-    input  dmem_arready,
-    input  dmem_rvalid,
-    output dmem_rready,
+    output        dmem_arvalid,
+    input         dmem_arready,
     output [31:0] dmem_araddr,
-    input  [31:0] dmem_rdata,
 
-    output dmem_awvalid,
-    input  dmem_awready,
+    input         dmem_rvalid,
+    output        dmem_rready,
+    input  [31:0] dmem_rdata,
+    input [1:0]   dmem_rresp,
+
+    output        dmem_awvalid,
+    input         dmem_awready,
     output [31:0] dmem_awaddr,
 
-    output dmem_wen,
-    output dmem_wvalid,
-    input  dmem_wready,
+    output        dmem_wen,
+    output        dmem_wvalid,
+    input         dmem_wready,
     output [31:0] dmem_wdata,
-    output [3:0] dmem_wmask,
+    output [3:0]  dmem_wstrb,
 
-    input [1:0] imem_rresp,
-    input [1:0] dmem_bresp,
-    input [1:0] dmem_rresp,
-    input       dmem_bvalid,
-    output      dmem_bready,
+
+    input [1:0]  dmem_bresp,
+    input        dmem_bvalid,
+    output       dmem_bready,
 
     // 调试
     output [31:0] inst,
@@ -220,7 +232,18 @@ module ysyx_25040109_CPU (
         .ifu_ready_to_mem(ifu_ready_to_mem),
         .idu_ready(idu_ready),
         .inst_ifu(inst_ifu),
-        .ifu_valid_to_idu(ifu_valid_to_idu)
+        .ifu_valid_to_idu(ifu_valid_to_idu),
+                
+        .imem_awaddr(imem_awaddr),
+        .imem_awvalid(imem_awvalid),
+        .imem_awready(imem_awready),
+        .imem_wdata(imem_wdata),
+        .imem_wvalid(imem_wvalid),
+        .imem_wready(imem_wready),
+        .imem_bresp(imem_bresp),
+        .imem_bvalid(imem_bvalid),
+        .imem_bready(imem_bready),
+        .imem_wstr(imem_wstr)
     );
 
     // IDU
@@ -316,7 +339,7 @@ module ysyx_25040109_CPU (
         .dmem_wen(dmem_wen),
         .dmem_wvalid(dmem_wvalid),
         .dmem_wdata(dmem_wdata),
-        .dmem_wmask(dmem_wmask),
+        .dmem_wstrb(dmem_wstrb),
         .dmem_wready(dmem_wready),
         .load_data(load_data_from_lsu),
         .store_enable(store_enable_unused),
