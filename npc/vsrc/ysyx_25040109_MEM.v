@@ -173,9 +173,7 @@ module ysyx_25040109_MEM (
     end
 
     // dmem 读
-    reg [31:0] dmem_rdata_buf;
-    wire dmem_ar_fire = dmem_arvalid && dmem_arready;
-    assign dmem_arready = !dmem_r_busy && !dmem_rvalid;
+
 
     always @(*) begin
         if (dmem_ar_fire) begin
@@ -194,6 +192,10 @@ module ysyx_25040109_MEM (
             dmem_rdata_buf <= dmem_rdata;
         end
     end
+        
+    reg [31:0] dmem_rdata_buf;
+    wire dmem_ar_fire = dmem_arvalid && dmem_arready;
+    assign dmem_arready = !dmem_r_busy && !dmem_rvalid;
 
     always @(posedge clk) begin
         if (rst) begin
@@ -281,19 +283,42 @@ module ysyx_25040109_MEM (
         
 
     localparam W = 5;
+    localparam dmem_w_delya_wideth = 5;
+    localparam dmem_aw_delay_wideth = 5;
+    localparam dmem_bw_delay_wideth = 5;
+
     reg       dmem_r_busy;
     reg       imem_busy;
 
+    reg       dmem_w_busy;
+    reg       dmem_bw_busy;
+    reg       dmem_aw_busy;
 
     wire [W-1:0] imem_delay;
     wire [W-1:0] dmem_delay;
+    wire [dmem_w_delya_wideth-1:0]   dmem_w_delay;
+    wire [dmem_aw_delay_wideth-1:0]  dmem_aw_delay;
+    wire [dmem_bw_delay_wideth-1:0]  dmem_bw_delay;
+
     wire      imem_delay_en;
     wire      dmem_delay_en;
+    wire      dmem_w_delay_en;
+    wire      dmem_aw_delay_en;
+    wire      dmem_bw_delay_en;
+
     reg [W-1:0] imem_delay_cnt;
     reg [W-1:0] dmem_delay_cnt;
+    reg [dmem_w_delya_wideth-1:0]   dmem_w_delay_cnt;
+    reg [dmem_aw_delay_wideth-1:0]  dmem_aw_delay_cnt;
+    reg [dmem_bw_delay_wideth-1:0]  dmem_bw_delay_cnt;
 
-    assign imem_delay_en = 1'b1;
-    assign dmem_delay_en = 1'b1;
+    assign  imem_delay_en    = 1'b1;
+    assign  dmem_delay_en    = 1'b1;    
+    assign  dmem_w_delay_en  = 1'b1;
+    assign  dmem_aw_delay_en = 1'b1;    
+    assign  dmem_bw_delay_en = 1'b1;
+
+
 
     lfsr #(.W(W),.POLY(5'h12),.SEED(5'h1)) ifsr_imem(
         .rst(rst),
@@ -307,6 +332,25 @@ module ysyx_25040109_MEM (
         .clk(clk),
         .en(dmem_delay_en),
         .q(dmem_delay)
+    );
+
+        lfsr #(.W(dmem_w_delya_wideth),.POLY(5'h12),.SEED(5'h1)) ifsr_dmem_w(
+        .rst(rst),
+        .clk(clk),
+        .en(dmem_w_delay_en),
+        .q(dmem_w_delay)
+    );
+        lfsr #(.W(dmem_aw_delay_wideth),.POLY(5'h12),.SEED(5'h1)) ifsr_dmem_aw(
+        .rst(rst),
+        .clk(clk),
+        .en(dmem_aw_delay_en),
+        .q(dmem_aw_delay)
+    );
+        lfsr #(.W(dmem_bw_delay_wideth),.POLY(5'h12),.SEED(5'h1)) ifsr_dmem_bw(
+        .rst(rst),
+        .clk(clk),
+        .en(dmem_bw_delay_en),
+        .q(dmem_bw_delay)
     );
 
 
