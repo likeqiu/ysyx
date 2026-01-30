@@ -20,11 +20,11 @@ extern "C" {
     extern void difftest_skip_ref();
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:380:34
     extern void itrace_print(int pc, int instruction_word, int instr_len_bytes, int p_count_number);
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:109:33
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:95:33
     extern int pmem_read(int raddr);
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:111:33
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:97:33
     extern int pmem_read_ok(int addr);
-    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:110:34
+    // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_MEM.v:96:34
     extern void pmem_write(int waddr, int wdata, char wmask);
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:379:33
     extern int printf_finish(int inst);

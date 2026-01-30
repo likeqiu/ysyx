@@ -61,51 +61,37 @@ module ysyx_25040109_MEM (
 `endif
 );
 
-    assign imem_awready = 1'b0;
-    assign imem_wready  = 1'b0;
-    assign imem_bvalid  = 1'b0;
-    assign imem_bresp  = RESP_OKAY;
-
-
-
-    always @(posedge clk) begin
-        if(!rst)begin
-            if(imem_awvalid)begin
-                $fatal("imem AWVALID must stay 0");
-            end
-
-            if(imem_wvalid)begin
-                $fatal("imem WVALID must stay 0");
-            end
-        end
-    end
-
-
-
     localparam  [1:0] RESP_OKAY   = 2'b00;
     localparam  [1:0] RESP_SLVERR = 2'b10;
-
-
-
-//这里很浪费，时刻都在调用
-`ifdef SYNTHESIS
-    wire imem_addr_ok  = 1'b1;
-    wire dmem_raddr_ok = 1'b1;
-    wire dmem_waddr_ok = 1'b1;
-`else
-    wire imem_addr_ok  = (pmem_read_ok(imem_araddr) != 0);
-    wire dmem_raddr_ok = (pmem_read_ok(dmem_araddr) != 0);
-    wire dmem_waddr_ok = (pmem_read_ok(dmem_waddr_use) != 0);
-`endif
 
     // 写地址缓冲
     reg [31:0] dmem_awaddr_latched;
     reg        dmem_awaddr_valid;
-    wire       dmem_aw_fire = dmem_awvalid &&dmem_awready;
-    wire       dmem_w_fire  = dmem_wvalid && dmem_wready;
-    
+    wire [31:0] dmem_waddr_use = dmem_awaddr_valid ? dmem_awaddr_latched : dmem_awaddr;
 
-`ifndef SYNTHESIS
+    // 握手 fire
+    wire       imem_r_fire  = imem_rvalid  && imem_rready;
+    wire       imem_ar_fire = imem_arvalid && imem_arready;
+    wire       dmem_r_fire  = dmem_rvalid  && dmem_rready;
+    wire       dmem_aw_fire = dmem_awvalid && dmem_awready;
+    wire       dmem_w_fire  = dmem_wvalid  && dmem_wready;
+    wire       dmem_ar_fire = dmem_arvalid && dmem_arready;
+    wire       dmem_b_fire  = dmem_bvalid  && dmem_bready;
+
+    // ready 赋值
+    assign imem_awready = 1'b0;
+    assign imem_wready  = 1'b0;
+    assign imem_arready = !imem_busy && !imem_rvalid;
+    assign dmem_arready = !dmem_r_busy && !dmem_rvalid;
+    assign dmem_awready = !dmem_awaddr_valid && !dmem_bvalid;
+    assign dmem_wready  = (dmem_awaddr_valid || dmem_aw_fire) && !dmem_bvalid;
+
+    // valid 赋值
+    assign imem_bvalid  = 1'b0;
+    assign imem_bresp   = RESP_OKAY;
+
+
+    `ifndef SYNTHESIS
     import "DPI-C" function int pmem_read(input int raddr);
     import "DPI-C" function void pmem_write(input int waddr, input int wdata, input byte wmask);
     import "DPI-C" function int pmem_read_ok(input int addr);
@@ -121,14 +107,13 @@ module ysyx_25040109_MEM (
     end
 `endif
 
-    // 延迟模拟
+//这里很浪费，时刻都在调用
 
 
-    // imem 读
+
+
     reg [31:0] imem_rdata_buf;
-
-    wire   imem_ar_fire = imem_arvalid && imem_arready;
-    assign imem_arready = !imem_busy && !imem_rvalid;
+    reg [31:0] dmem_rdata_buf;
 
     always @(*) begin
         if (imem_ar_fire) begin
@@ -148,29 +133,6 @@ module ysyx_25040109_MEM (
         end
     end
 
-    always @(posedge clk) begin
-        if (rst) begin
-            imem_rvalid <= 1'b0;
-            imem_busy <= 1'b0;
-            imem_delay_cnt <= {{W{1'b0}}};
-        end else begin
-            if (imem_rvalid && imem_rready) begin
-                imem_rvalid <= 1'b0;
-            end else if (imem_ar_fire) begin
-                imem_busy <= 1'b1;
-                imem_delay_cnt <= imem_delay;
-                imem_rvalid <= 1'b0;
-            end else if (imem_busy) begin
-                if (imem_delay_cnt > 0) begin
-                    imem_delay_cnt <= imem_delay_cnt - 1;
-                    imem_rvalid <= 1'b0;
-                end else begin
-                    imem_rvalid <= 1'b1;
-                    imem_busy <= 1'b0;
-                end
-            end
-        end
-    end
 
     // dmem 读
 
@@ -192,10 +154,37 @@ module ysyx_25040109_MEM (
             dmem_rdata_buf <= dmem_rdata;
         end
     end
-        
-    reg [31:0] dmem_rdata_buf;
-    wire dmem_ar_fire = dmem_arvalid && dmem_arready;
-    assign dmem_arready = !dmem_r_busy && !dmem_rvalid;
+
+
+
+
+
+
+
+
+        always @(posedge clk) begin
+        if (rst) begin
+            imem_rvalid <= 1'b0;
+            imem_busy <= 1'b0;
+            imem_delay_cnt <= {{W{1'b0}}};
+        end else begin
+            if (imem_r_fire) begin
+                imem_rvalid <= 1'b0;
+            end else if (imem_ar_fire) begin
+                imem_busy <= 1'b1;
+                imem_delay_cnt <= imem_delay;
+                imem_rvalid <= 1'b0;
+            end else if (imem_busy) begin
+                if (imem_delay_cnt > 0) begin
+                    imem_delay_cnt <= imem_delay_cnt - 1;
+                    imem_rvalid <= 1'b0;
+                end else begin
+                    imem_rvalid <= 1'b1;
+                    imem_busy <= 1'b0;
+                end
+            end
+        end
+    end
 
     always @(posedge clk) begin
         if (rst) begin
@@ -203,7 +192,7 @@ module ysyx_25040109_MEM (
             dmem_r_busy <= 1'b0;
             dmem_delay_cnt <= {{W{1'b0}}};
         end else begin
-            if (dmem_rvalid && dmem_rready) begin
+            if (dmem_r_fire) begin
                 dmem_rvalid <= 1'b0;
             end else if (dmem_ar_fire) begin
                 dmem_r_busy <= 1'b1;
@@ -221,11 +210,79 @@ module ysyx_25040109_MEM (
         end
     end
 
-    // 保证只有一个未完成写响应
-    assign dmem_awready = !dmem_awaddr_valid && !dmem_bvalid;
-    assign dmem_wready  = (dmem_awaddr_valid  || dmem_aw_fire) && !dmem_bvalid;
-    wire [31:0] dmem_waddr_use = dmem_awaddr_valid ? dmem_awaddr_latched : dmem_awaddr;
 
+
+`ifdef SYNTHESIS
+    wire imem_addr_ok  = 1'b1;
+    wire dmem_raddr_ok = 1'b1;
+    wire dmem_waddr_ok = 1'b1;
+`else
+    wire imem_addr_ok  = (pmem_read_ok(imem_araddr) != 0);
+    wire dmem_raddr_ok = (pmem_read_ok(dmem_araddr) != 0);
+    wire dmem_waddr_ok = (pmem_read_ok(dmem_waddr_use) != 0);
+`endif
+
+    always @(posedge clk) begin
+        if(rst) imem_rresp <= RESP_OKAY;
+        else if(imem_ar_fire) imem_rresp <= imem_addr_ok ? RESP_OKAY : RESP_SLVERR; 
+    end
+    
+    always @(posedge clk) begin
+        if(rst) dmem_rresp <= RESP_OKAY;
+        else if(dmem_ar_fire) dmem_rresp <= dmem_raddr_ok ? RESP_OKAY : RESP_SLVERR;
+    end
+
+    // 新增状态：dmem_b_busy + dmem_b_delay_cnt
+    always @(posedge clk) begin
+    if (rst) begin
+        dmem_bvalid <= 1'b0;
+        dmem_bresp  <= RESP_OKAY;
+        dmem_b_busy <= 1'b0;
+        dmem_b_delay_cnt <= {dmem_b_delay_wideth{1'b0}};
+    end else begin
+        if (dmem_b_fire) begin
+        dmem_bvalid <= 1'b0;
+        end
+
+        // 写数据握手后启动延迟
+        if (dmem_w_fire) begin
+        dmem_bresp <= dmem_waddr_ok ? RESP_OKAY : RESP_SLVERR;
+        if (dmem_b_delay != 0) begin
+            dmem_b_busy <= 1'b1;
+            dmem_b_delay_cnt <= dmem_b_delay;
+        end else begin
+            dmem_bvalid <= 1'b1;
+        end
+        end
+
+        // 延迟计数
+        if (dmem_b_busy) begin
+        if (dmem_b_delay_cnt != 0)
+            dmem_b_delay_cnt <= dmem_b_delay_cnt - 1'b1;
+        else begin
+            dmem_bvalid <= 1'b1;
+            dmem_b_busy <= 1'b0;
+        end
+        end
+    end
+    end
+
+
+
+
+    always @(posedge clk) begin
+        if (!rst) begin
+            if (dmem_w_fire && dmem_wen) begin
+`ifndef SYNTHESIS
+                if (dmem_waddr_ok &&  dmem_wstrb_ext != 8'b0) begin
+                    pmem_write(dmem_waddr_use, dmem_wdata_aligned, dmem_wstrb_ext);
+                end
+`endif
+            end
+        end
+    end
+
+        // 保证只有一个未完成写响应
     always @(posedge clk) begin
         if (rst) begin
             dmem_awaddr_valid <= 1'b0;
@@ -243,80 +300,47 @@ module ysyx_25040109_MEM (
         end
     end
 
-    always @(posedge clk) begin
-        if (!rst) begin
-            if (dmem_wvalid && dmem_wready && dmem_wen) begin
-`ifndef SYNTHESIS
-                if (dmem_waddr_ok &&  dmem_wstrb_ext != 8'b0) begin
-                    pmem_write(dmem_waddr_use, dmem_wdata_aligned, dmem_wstrb_ext);
-                end
-`endif
-            end
-        end
-    end
 
-    always @(posedge clk) begin
-        if(rst) imem_rresp <= RESP_OKAY;
-        else if(imem_ar_fire) imem_rresp <= imem_addr_ok ? RESP_OKAY : RESP_SLVERR; 
-    end
-    
-    always @(posedge clk) begin
-        if(rst) dmem_rresp <= RESP_OKAY;
-        else if(dmem_ar_fire) dmem_rresp <= dmem_raddr_ok ? RESP_OKAY : RESP_SLVERR;
-    end
 
-    always @(posedge clk) begin
-        if(rst) begin
-            dmem_bresp <= RESP_OKAY;
-            dmem_bvalid <= 1'b0;
-        end else begin
-            if(dmem_bvalid && dmem_bready)begin
-                dmem_bvalid <= 1'b0;
-            end else if(dmem_w_fire)begin
-                dmem_bvalid <= 1'b1;
-                dmem_bresp <= dmem_waddr_ok ? RESP_OKAY : RESP_SLVERR;
-                
-            end
-        end
-    end
+
     
         
-
+    /* verilator lint_off UNUSED */
     localparam W = 5;
     localparam dmem_w_delya_wideth = 5;
     localparam dmem_aw_delay_wideth = 5;
-    localparam dmem_bw_delay_wideth = 5;
+    localparam dmem_b_delay_wideth = 5;
 
     reg       dmem_r_busy;
     reg       imem_busy;
 
     reg       dmem_w_busy;
-    reg       dmem_bw_busy;
+    reg       dmem_b_busy;
     reg       dmem_aw_busy;
 
     wire [W-1:0] imem_delay;
     wire [W-1:0] dmem_delay;
     wire [dmem_w_delya_wideth-1:0]   dmem_w_delay;
     wire [dmem_aw_delay_wideth-1:0]  dmem_aw_delay;
-    wire [dmem_bw_delay_wideth-1:0]  dmem_bw_delay;
+    wire [dmem_b_delay_wideth-1:0]  dmem_b_delay;
 
     wire      imem_delay_en;
     wire      dmem_delay_en;
     wire      dmem_w_delay_en;
     wire      dmem_aw_delay_en;
-    wire      dmem_bw_delay_en;
+    wire      dmem_b_delay_en;
 
     reg [W-1:0] imem_delay_cnt;
     reg [W-1:0] dmem_delay_cnt;
     reg [dmem_w_delya_wideth-1:0]   dmem_w_delay_cnt;
     reg [dmem_aw_delay_wideth-1:0]  dmem_aw_delay_cnt;
-    reg [dmem_bw_delay_wideth-1:0]  dmem_bw_delay_cnt;
+    reg [dmem_b_delay_wideth-1:0]  dmem_b_delay_cnt;
 
     assign  imem_delay_en    = 1'b1;
     assign  dmem_delay_en    = 1'b1;    
     assign  dmem_w_delay_en  = 1'b1;
     assign  dmem_aw_delay_en = 1'b1;    
-    assign  dmem_bw_delay_en = 1'b1;
+    assign  dmem_b_delay_en = 1'b1;
 
 
 
@@ -346,13 +370,23 @@ module ysyx_25040109_MEM (
         .en(dmem_aw_delay_en),
         .q(dmem_aw_delay)
     );
-        lfsr #(.W(dmem_bw_delay_wideth),.POLY(5'h12),.SEED(5'h1)) ifsr_dmem_bw(
+        lfsr #(.W(dmem_b_delay_wideth),.POLY(5'h12),.SEED(5'h1)) ifsr_dmem_b(
         .rst(rst),
         .clk(clk),
-        .en(dmem_bw_delay_en),
-        .q(dmem_bw_delay)
+        .en(dmem_b_delay_en),
+        .q(dmem_b_delay)
     );
 
+    /* verilator lint_off UNUSED */
+    always @(posedge clk) begin
+        if(!rst)begin
+            if(imem_awvalid)begin
+                $fatal("imem AWVALID must stay 0");
+            end
 
-
+            if(imem_wvalid)begin
+                $fatal("imem WVALID must stay 0");
+            end
+        end
+    end
 endmodule
