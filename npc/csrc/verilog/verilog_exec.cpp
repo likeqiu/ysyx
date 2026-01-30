@@ -20,29 +20,15 @@ Decode lastest_decode = {
 
 #define MAX_INST_TO_PRINT 100
 
-// 检查是否需要跳过差分测试
+// 只在访问 MMIO 时跳过差分测试
 static bool should_skip_difftest() {
-    bool need_skip = false;
-
-    // 检查 Load/Store 指令是否访问 MMIO
     if (top->is_load_out || top->is_store_out) {
         paddr_t addr = top->is_load_out ? top->dmem_raddr_out : top->dmem_waddr_out;
         if (!in_pmem(addr)) {
-            need_skip = true;  // MMIO 访问需要跳过
+            return true;
         }
     }
-
-    // CSR 指令需要跳过
-    if (top->opcode_out == 0b1110011) {
-        need_skip = true;
-    }
-
-    // ECALL 指令需要跳过
-    if (top->is_ecall_out) {
-        need_skip = true;
-    }
-
-    return need_skip;
+    return false;
 }
 
 static void trace_and_difftest(Decode *_this,vaddr_t dnpc)

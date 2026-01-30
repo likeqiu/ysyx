@@ -65,6 +65,9 @@ module ysyx_25040109_top (
     assign dmem_raddr_out = dmem_araddr;
     assign dmem_waddr_out = dmem_awaddr;
 
+
+
+    
     // CPU
     ysyx_25040109_CPU cpu (
         .clk(clk),

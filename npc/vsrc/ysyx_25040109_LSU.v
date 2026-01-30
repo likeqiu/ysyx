@@ -1,4 +1,4 @@
-module ysyx_25040109_LSU (
+module ysyx_25040109_LSU(
     input clk,
     input rst,
 
