@@ -13,26 +13,17 @@ static uint8_t *serial_port_base = NULL;
 
 
 static void serial_io_handler(uint32_t offset, int len, bool is_write) {
-
-  assert(len == 1);
+  assert(len == 1 || len == 2 || len == 4);
 
   if (is_write) {
-    // 处理写操作
-    switch (offset) {
-    case THR_OFFSET:
+    // 处理写操作（允许 32-bit 对齐写）
+    if (offset <= THR_OFFSET && (offset + len) > THR_OFFSET) {
       putc(serial_port_base[THR_OFFSET], stderr);
-      break;
-    default:
-      break;
     }
   } else {
-    switch (offset) {
-    case LSR_OFFSET:
+    // 读状态寄存器（允许 32-bit 对齐读覆盖 LSR）
+    if (offset <= LSR_OFFSET && (offset + len) > LSR_OFFSET) {
       serial_port_base[LSR_OFFSET] = LSR_THRE_MASK;
-      break;
-    default:
-      // 忽略对其他寄存器的读取
-      break;
     }
   }
 }
