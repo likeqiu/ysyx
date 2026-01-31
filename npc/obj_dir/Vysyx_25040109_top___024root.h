@@ -82,7 +82,6 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
     };
     struct {
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__is_ecall;
-        CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__final_gpr_we;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__final_csr_we;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__exc_imem;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__exc_load;
@@ -145,9 +144,9 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_h358f6a08__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_h95941268__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_ha390e7a0__0;
+        CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__aw_seen;
     };
     struct {
-        CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__aw_seen;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__w_seen;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__ar_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__r_fire;
@@ -211,16 +210,14 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__id_inst;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__id_pc;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__inst_exe;
+        IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__trap_mepc;
     };
     struct {
-        IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__trap_mepc;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__trap_cause;
-        IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__inst_ifu;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__imm;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__result;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__next_pc;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__csr_wdata_from_exu;
-        IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__writeback_data;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__rs1_data;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__rs2_data;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__csr_rdata_from_regfile;
