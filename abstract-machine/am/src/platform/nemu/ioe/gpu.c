@@ -1,26 +1,15 @@
 #include <am.h>
+#include <klib.h>
 #include <nemu.h>
-#include<klib.h>
 
+#define SYNC_ADDR (VGACTL_ADDR + 4)
 
-
-
-void __am_gpu_init() {
-  /*
-   int i;
-   uint32_t screen_info = inl(VGACTL_ADDR);
-   int w = screen_info >> 16;
-   int h = screen_info & 0xFFFF;
-   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-   for (i = 0; i < w * h; i ++) fb[i] = i;
-   outl(SYNC_ADDR, 1);*/
-}
+void __am_gpu_init() {}
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
-  
   uint32_t screen_info = inl(VGACTL_ADDR);
   uint32_t width = screen_info >> 16;
-  uint32_t height = screen_info & 0xFFFF;
+  uint32_t height = screen_info & 0xffff;
   *cfg = (AM_GPU_CONFIG_T){.present = true,
                            .has_accel = false,
                            .width = width,
@@ -29,22 +18,34 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
+  int x = ctl->x;
+  int y = ctl->y;
+  int w = ctl->w;
+  int h = ctl->h;
 
-  static AM_GPU_FBDRAW_T static_ctl;
+  if (ctl->pixels && w > 0 && h > 0) {
+    uint32_t screen_info = inl(VGACTL_ADDR);
+    int screen_w = screen_info >> 16;
+    int screen_h = screen_info & 0xffff;
 
-  static_ctl = *ctl;
+    if (x >= 0 && y >= 0 && x < screen_w && y < screen_h) {
+      int copy_w = (x + w > screen_w) ? (screen_w - x) : w;
+      uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
+      uint32_t *pixels = (uint32_t *)ctl->pixels;
 
-  //printf("[AM DEBUG] req data: x=%d, y=%d, w=%d, h=%d, pixels=%p, sync=%d\n",ctl->x, ctl->y, ctl->w, ctl->h, ctl->pixels, ctl->sync);
-  outl(VGACTL_ADDR  + 8, (uintptr_t)&static_ctl);
+      for (int j = 0; j < h && y + j < screen_h; j++) {
+        uint32_t *dst = &fb[(y + j) * screen_w + x];
+        uint32_t *src = &pixels[j * w];
+        for (int i = 0; i < copy_w; i++) {
+          dst[i] = src[i];
+        }
+      }
+    }
   }
 
-  void __am_gpu_tileblit(AM_GPU_TILEBLIT_T *ctl) {
-
-    static AM_GPU_TILEBLIT_T static_ctl;
-    static_ctl = *ctl;
-    outl(VGACTL_ADDR + 12, (uintptr_t)&static_ctl);
+  if (ctl->sync) {
+    outl(SYNC_ADDR, 1);
   }
-
-void __am_gpu_status(AM_GPU_STATUS_T *status) {
-  status->ready = true;
 }
+
+void __am_gpu_status(AM_GPU_STATUS_T *status) { status->ready = true; }

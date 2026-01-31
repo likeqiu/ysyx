@@ -28,7 +28,7 @@ AM_DEVREG(9, GPU_CONFIG, RD, bool present, has_accel; int width, height, vmemsz)
 AM_DEVREG(10, GPU_STATUS, RD, bool ready);   // 帧缓冲区绘制
 AM_DEVREG(11, GPU_FBDRAW, WR, int x, y; void *pixels; int w, h; bool sync); 
 AM_DEVREG(12, GPU_MEMCPY, WR, uint32_t dest; void *src; int size);
-AM_DEVREG(25, GPU_TILEBLIT, WR, int x, y; void *tiles; int w, h; int tile_w,  tile_h);
+
 
 // 音频设备
 AM_DEVREG(13, GPU_RENDER,   WR, uint32_t root);
@@ -42,7 +42,7 @@ AM_DEVREG(20, DISK_BLKIO,   WR, bool write; void *buf; int blkno, blkcnt);
 // 网络设备
 AM_DEVREG(21, NET_CONFIG,   RD, bool present);
 AM_DEVREG(22, NET_STATUS,   RD, int rx_len, tx_len);
-AM_DEVREG(23, NET_TX,       WR, Area buf);
+AM_DEVREG(23, NET_TX,       WR, Area buf); 
 AM_DEVREG(24, NET_RX,       WR, Area buf);
 
 // Input

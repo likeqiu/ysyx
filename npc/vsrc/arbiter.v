@@ -55,6 +55,8 @@ module arbiter (
     input  wire        mem_bvalid,
     output wire        mem_bready,
     input  wire [1:0]  mem_bresp
+
+
 );
 
     localparam ST_IDLE   = 3'd0;
@@ -65,14 +67,15 @@ module arbiter (
     localparam ST_LSU_W  = 3'd5;
     localparam ST_LSU_B  = 3'd6;
 
+
     reg [2:0] state, state_n;
     reg       aw_done;
     reg       w_done;
 
-    wire req_lsu_w = dmem_awvalid || dmem_wvalid;
-    wire req_lsu_r = dmem_arvalid;
-    wire req_ifu_r = imem_arvalid;
-
+    wire req_lsu_w  = dmem_awvalid || dmem_wvalid;
+    wire req_lsu_r  = dmem_arvalid;
+    wire req_ifu_r  = imem_arvalid;
+ 
     wire ar_fire = mem_arvalid && mem_arready;
     wire r_fire  = mem_rvalid  && mem_rready;
     wire aw_fire = mem_awvalid && mem_awready;
