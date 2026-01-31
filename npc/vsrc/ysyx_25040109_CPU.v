@@ -36,7 +36,6 @@ module ysyx_25040109_CPU (
     input         dmem_awready,
     output [31:0] dmem_awaddr,
 
-    output        dmem_wen,
     output        dmem_wvalid,
     input         dmem_wready,
     output [31:0] dmem_wdata,
@@ -352,7 +351,6 @@ module ysyx_25040109_CPU (
         .dmem_awvalid(dmem_awvalid),
         .dmem_awready(dmem_awready),
         .dmem_awaddr(dmem_awaddr),
-        .dmem_wen(dmem_wen),
         .dmem_wvalid(dmem_wvalid),
         .dmem_wdata(dmem_wdata),
         .dmem_wstrb(dmem_wstrb),

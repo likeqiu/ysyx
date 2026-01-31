@@ -54,7 +54,6 @@ module ysyx_25040109_top (
     wire        dmem_wvalid;
     wire [31:0] dmem_wdata;
     wire [3:0]  dmem_wstrb;
-    wire        dmem_wen;
     wire        dmem_wready;
     wire [1:0]  dmem_rresp;
     wire [1:0]  dmem_bresp;
@@ -107,7 +106,6 @@ module ysyx_25040109_top (
         .dmem_wvalid(dmem_wvalid),
         .dmem_wdata(dmem_wdata),
         .dmem_wstrb(dmem_wstrb),
-        .dmem_wen(dmem_wen),
         .dmem_wready(dmem_wready),
 
         // debug
@@ -166,7 +164,6 @@ module ysyx_25040109_top (
         .dmem_wvalid(dmem_wvalid),
         .dmem_wdata(dmem_wdata),
         .dmem_wstrb(dmem_wstrb),
-        .dmem_wen(dmem_wen),
         .dmem_wready(dmem_wready),
 
 

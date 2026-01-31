@@ -32,7 +32,6 @@ module arbiter (
     output wire        dmem_wready,
     input  wire [31:0] dmem_wdata,
     input  wire [3:0]  dmem_wstrb,
-    input  wire        dmem_wen,
     output wire        dmem_bvalid,
     input  wire        dmem_bready,
     output wire [1:0]  dmem_bresp,
@@ -53,7 +52,6 @@ module arbiter (
     input  wire        mem_wready,
     output wire [31:0] mem_wdata,
     output wire [3:0]  mem_wstrb,
-    output wire        mem_wen,
     input  wire        mem_bvalid,
     output wire        mem_bready,
     input  wire [1:0]  mem_bresp
@@ -95,7 +93,6 @@ module arbiter (
     assign mem_wvalid  = (state == ST_LSU_W && !w_done) ? dmem_wvalid : 1'b0;
     assign mem_wdata   = (state == ST_LSU_W) ? dmem_wdata : 32'b0;
     assign mem_wstrb   = (state == ST_LSU_W) ? dmem_wstrb : 4'b0;
-    assign mem_wen     = (state == ST_LSU_W && !w_done) ? dmem_wen : 1'b0;
 
     // ready 回传给主端
     assign imem_arready = (state == ST_IFU_AR) ? mem_arready : 1'b0;

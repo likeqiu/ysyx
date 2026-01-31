@@ -42,7 +42,6 @@ module ysyx_25040109_MEM (
     output       dmem_awready,
     input [31:0] dmem_wdata,
     input [3:0]  dmem_wstrb,
-    input        dmem_wen,
     input        dmem_wvalid,
     output       dmem_wready,
 
@@ -272,7 +271,7 @@ module ysyx_25040109_MEM (
 
     always @(posedge clk) begin
         if (!rst) begin
-            if (dmem_w_fire && dmem_wen) begin
+            if (dmem_w_fire) begin
 `ifndef SYNTHESIS
                 if (dmem_waddr_ok &&  dmem_wstrb_ext != 8'b0) begin
                     pmem_write(dmem_waddr_use, dmem_wdata_aligned, dmem_wstrb_ext);
