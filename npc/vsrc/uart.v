@@ -85,6 +85,7 @@ module uart(
             aw_seen<= 1'b0;
             w_seen <= 1'b0;
             $write("%c",wdata_use[7:0]);
+            $fflush();
         end
     end
     end

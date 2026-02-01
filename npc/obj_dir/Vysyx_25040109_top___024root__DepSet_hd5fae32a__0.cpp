@@ -890,6 +890,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
             vlSelf->ysyx_25040109_top__DOT__uart_bresp = 0U;
             __Vdly__ysyx_25040109_top__DOT__u_uart__DOT__aw_seen = 0U;
             __Vdly__ysyx_25040109_top__DOT__u_uart__DOT__w_seen = 0U;
+            Verilated::runFlushCallbacks();
         }
     }
     vlSelf->ysyx_25040109_top__DOT__dmem_bready = (6U 

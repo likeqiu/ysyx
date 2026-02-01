@@ -243,7 +243,7 @@ module ysyx_25040109_CPU (
                             (stage_valid && is_ecall) ? pc_exe :
                             csr_wdata_from_exu;
 
-    // 模块实例
+
     // IFU
     ysyx_25040109_IFU ifu (
         .clk(clk),
