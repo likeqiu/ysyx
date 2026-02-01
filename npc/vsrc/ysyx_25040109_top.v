@@ -123,6 +123,27 @@ module ysyx_25040109_top (
     wire        uart_bready;
     wire [1:0]  uart_bresp;
 
+
+        
+    wire        clint_arvalid;
+    wire        clint_arready;
+    wire [31:0] clint_araddr;
+    wire        clint_rvalid;
+    wire        clint_rready;
+    wire [31:0] clint_rdata;
+    wire [1:0]  clint_rresp;
+
+    wire        clint_awvalid;
+    wire        clint_awready;
+    wire [31:0] clint_awaddr;
+    wire        clint_wvalid;
+    wire        clint_wready;
+    wire [31:0] clint_wdata;
+    wire [3:0]  clint_wstrb;
+    wire        clint_bvalid;
+    wire        clint_bready;
+    wire [1:0]  clint_bresp;
+
     // difftest 地址导出
     assign dmem_raddr_out = dmem_araddr;
     assign dmem_waddr_out = dmem_awaddr;
@@ -313,7 +334,27 @@ module ysyx_25040109_top (
         .u_wstrb(uart_wstrb),
         .u_bvalid(uart_bvalid),
         .u_bready(uart_bready),
-        .u_bresp(uart_bresp)
+        .u_bresp(uart_bresp),
+
+        // clint
+        .c_arvalid(clint_arvalid),
+        .c_arready(clint_arready),
+        .c_araddr(clint_araddr),
+        .c_rvalid(clint_rvalid),
+        .c_rready(clint_rready),
+        .c_rdata(clint_rdata),
+        .c_rresp(clint_rresp),
+
+        .c_awvalid(clint_awvalid),
+        .c_awready(clint_awready),
+        .c_awaddr(clint_awaddr),
+        .c_wvalid(clint_wvalid),
+        .c_wready(clint_wready),
+        .c_wdata(clint_wdata),
+        .c_wstrb(clint_wstrb),
+        .c_bvalid(clint_bvalid),
+        .c_bready(clint_bready),
+        .c_bresp(clint_bresp)
     );
 
     // 串口
@@ -337,6 +378,31 @@ module ysyx_25040109_top (
         .bvalid(uart_bvalid),
         .bready(uart_bready),
         .bresp(uart_bresp)
+    );
+
+
+    clint u_clint (
+        .clk(clk),
+        .rst(rst),
+
+        .arvalid(clint_arvalid),
+        .arready(clint_arready),
+        .araddr(clint_araddr),
+        .rvalid(clint_rvalid),
+        .rready(clint_rready),
+        .rdata(clint_rdata),
+        .rresp(clint_rresp),
+
+        .awvalid(clint_awvalid),
+        .awready(clint_awready),
+        .awaddr(clint_awaddr),
+        .wvalid(clint_wvalid),
+        .wready(clint_wready),
+        .wdata(clint_wdata),
+        .wstrb(clint_wstrb),
+        .bvalid(clint_bvalid),
+        .bready(clint_bready),
+        .bresp(clint_bresp)
     );
 
     // 单端口 MEM
@@ -370,6 +436,8 @@ module ysyx_25040109_top (
         .yosys_mem_rdata(yosys_dmem_rdata)
 `endif
     );
+
+ 
 
 
 

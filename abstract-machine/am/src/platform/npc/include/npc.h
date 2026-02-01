@@ -7,6 +7,8 @@
 
 #define npc_trap(code) asm volatile("mv a0, %0; ebreak" : : "r"(code))
 
+#define CLINT_FREQ 112500ULL
+
 #define APB_BASE 0x10000000
 #define VGA_BASE 0x1F000000
 

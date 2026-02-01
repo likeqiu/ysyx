@@ -37,7 +37,6 @@ module clint #(
     /* verilator lint_on UNUSED */
 
     reg [63:0] mtime;
-    reg [63:0] mtime_latched;
     reg        aw_seen;
     reg        w_seen;
 
@@ -49,7 +48,6 @@ module clint #(
 
     wire hit_lo = (araddr == BASE_ADDR);
     wire hit_hi = (araddr == (BASE_ADDR + 32'h4));
-    wire hit    = hit_lo || hit_hi;
 
     assign arready = !rvalid;
     assign awready = !bvalid && !aw_seen;
@@ -61,7 +59,6 @@ module clint #(
             rvalid <= 1'b0;
             rdata  <= 32'b0;
             rresp  <= RESP_OK;
-            mtime_latched <= 64'b0;
         end else begin
             if (r_fire) begin
                 rvalid <= 1'b0;
@@ -70,10 +67,9 @@ module clint #(
                 rvalid <= 1'b1;
                 if (hit_lo) begin
                     rdata <= mtime[31:0];
-                    mtime_latched <= mtime;
                     rresp <= RESP_OK;
                 end else if (hit_hi) begin
-                    rdata <= mtime_latched[63:32];
+                    rdata <= mtime[63:32];
                     rresp <= RESP_OK;
                 end else begin
                     rdata <= 32'b0;
