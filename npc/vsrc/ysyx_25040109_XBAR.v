@@ -60,7 +60,26 @@ module ysyx_25040109_XBAR (
     output [3:0]  u_wstrb,
     input        u_bvalid,
     output       u_bready,
-    input [1:0]  u_bresp
+    input [1:0]  u_bresp,
+
+    output       c_arvalid,
+    input        c_arready,
+    output [31:0] c_araddr,
+    input        c_rvalid,
+    output       c_rready,
+    input [31:0] c_rdata,
+    input [1:0]  c_rresp,
+
+    output       c_awvalid,
+    input        c_awready,
+    output [31:0] c_awaddr,
+    output       c_wvalid,
+    input        c_wready,
+    output [31:0] c_wdata,
+    output [3:0]  c_wstrb,
+    input        c_bvalid,
+    output       c_bready,
+    input [1:0]  c_bresp
 );
 
     /* verilator lint_off UNUSED */
@@ -68,10 +87,18 @@ module ysyx_25040109_XBAR (
         /* verilator lint_off UNUSED */
     localparam [1:0] RESP_DECERR = 2'b11;//未命中任何设备
 
+
+    localparam [7:0] SRAM_ADDR      = 8'h80;
+    localparam [31:0] UART_ADDR_BEGIN     = 32'h10000000;
+    localparam [31:0] UART_ADDR_END     = 32'h10000008;
+    localparam [31:0] CLINT_LO_ADDR = 32'h10001004;
+    localparam [31:0] CLINT_HI_ADDR = 32'h10001000;
+
     //目标
     localparam [1:0] T_SRAM = 2'd0;
     localparam [1:0] T_UART = 2'd1;
-    localparam [1:0] T_INV  = 2'd2;
+    localparam [1:0] T_CLINT= 2'd2 ;
+    localparam [1:0] T_INV  = 2'd3;
 
 
     localparam [1:0] ST_IDLE = 2'd0;//AR
@@ -89,10 +116,13 @@ module ysyx_25040109_XBAR (
     reg       err_rvalid;
     reg       err_bvalid;
 
-    wire hit_ar_uart = (in_araddr[31:12] == 20'h10000);
+    wire hit_ar_uart = (in_araddr[31:0] >= UART_ADDR_BEGIN && in[31:0] <= UART_ADDR_END);
     wire hit_ar_sram = (in_araddr[31:24] == 8'h80);
+    wire hit_ar_clint= (in_awaddr[])
     wire hit_aw_uart = (in_awaddr[31:12] == 20'h10000);
     wire hit_aw_sram = (in_awaddr[31:24] == 8'h80);
+    
+
 
     wire in_ar_fire = in_arvalid && in_arready;
     wire in_aw_fire = in_awvalid && in_awready;
