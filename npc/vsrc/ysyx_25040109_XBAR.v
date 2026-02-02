@@ -88,11 +88,11 @@ module ysyx_25040109_XBAR (
     localparam [1:0] RESP_DECERR = 2'b11;//未命中任何设备
 
 
-    localparam [7:0] SRAM_ADDR      = 8'h80;
-    localparam [31:0] UART_ADDR_BEGIN     = 32'h10000000;
+    localparam [7:0] SRAM_ADDR          = 8'h80;
+    localparam [31:0] UART_ADDR_BEGIN   = 32'h10000000;
     localparam [31:0] UART_ADDR_END     = 32'h10000008;
-    localparam [31:0] CLINT_LO_ADDR = 32'h10010000;
-    localparam [31:0] CLINT_HI_ADDR = 32'h10010004;
+    localparam [31:0] CLINT_LO_ADDR     = 32'h10010000;
+    localparam [31:0] CLINT_HI_ADDR     = 32'h10010004;
 
     //目标
     localparam [1:0] T_SRAM = 2'd0;

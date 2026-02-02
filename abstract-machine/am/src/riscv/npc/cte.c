@@ -32,9 +32,9 @@ Context *__am_irq_handle(Context *c) {
       break;
     }
 
-    /* printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,
+    printf("mepc:0x%08x  mcause:%d  mstatus:0x%x\n", c->mepc, c->mcause,
             c->mstatus);
-      printf("ev:%d\n",ev.event);*/
+      printf("ev:%d\n",ev.event);
     
     c = user_handler(ev, c);
     assert(c != NULL);
