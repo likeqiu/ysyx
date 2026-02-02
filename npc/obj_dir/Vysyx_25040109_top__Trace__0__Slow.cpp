@@ -957,11 +957,12 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_init_sub__TOP__0(Vysyx_250
     tracep->declBus(c+88,"c_bresp",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1, 1,0);
     tracep->declBus(c+385,"RESP_OKAY",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 1,0);
     tracep->declBus(c+434,"RESP_DECERR",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 1,0);
-    tracep->declBus(c+435,"SRAM_ADDR",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 7,0);
-    tracep->declBus(c+436,"UART_ADDR_BEGIN",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
-    tracep->declBus(c+437,"UART_ADDR_END",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
+    tracep->declBus(c+435,"SRAM_ADDR_BEGIN",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
+    tracep->declBus(c+436,"SRAM_ADDR_END",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
+    tracep->declBus(c+437,"UART_ADDR_BEGIN",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
+    tracep->declBus(c+438,"UART_ADDR_END",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
     tracep->declBus(c+433,"CLINT_LO_ADDR",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
-    tracep->declBus(c+438,"CLINT_HI_ADDR",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
+    tracep->declBus(c+439,"CLINT_HI_ADDR",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 31,0);
     tracep->declBus(c+385,"T_SRAM",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 1,0);
     tracep->declBus(c+406,"T_UART",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 1,0);
     tracep->declBus(c+407,"T_CLINT",-1, FST_VD_IMPLICIT,FST_VT_VCD_PARAMETER, false,-1, 1,0);
@@ -1136,8 +1137,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_full_sub_0(Vysyx_25040109_
                                                 ? (IData)(vlSelf->ysyx_25040109_top__DOT__clint_bresp)
                                                 : 3U))))),2);
     bufp->fullBit(oldp+50,(((IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_h17557492__0) 
-                            & (8U == (vlSelf->ysyx_25040109_top__DOT__mem_araddr 
-                                      >> 0x1cU)))));
+                            & (IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_ar_sram))));
     bufp->fullBit(oldp+51,(vlSelf->ysyx_25040109_top__DOT__sram_arready));
     bufp->fullBit(oldp+52,(vlSelf->ysyx_25040109_top__DOT__sram_rvalid));
     bufp->fullBit(oldp+53,(((IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_h5bc4d2f1__0) 
@@ -1721,8 +1721,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_full_sub_0(Vysyx_25040109_
     bufp->fullBit(oldp+357,(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__err_rvalid));
     bufp->fullBit(oldp+358,(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__err_bvalid));
     bufp->fullBit(oldp+359,(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_ar_uart));
-    bufp->fullBit(oldp+360,((8U == (vlSelf->ysyx_25040109_top__DOT__mem_araddr 
-                                    >> 0x1cU))));
+    bufp->fullBit(oldp+360,(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_ar_sram));
     bufp->fullBit(oldp+361,(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_ar_clint));
     bufp->fullBit(oldp+362,(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_aw_uart));
     bufp->fullBit(oldp+363,(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_aw_sram));
@@ -1797,8 +1796,9 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root__trace_full_sub_0(Vysyx_25040109_
     bufp->fullCData(oldp+432,(0x12U),5);
     bufp->fullIData(oldp+433,(0x10010000U),32);
     bufp->fullCData(oldp+434,(3U),2);
-    bufp->fullCData(oldp+435,(0x80U),8);
-    bufp->fullIData(oldp+436,(0x10000000U),32);
-    bufp->fullIData(oldp+437,(0x10000008U),32);
-    bufp->fullIData(oldp+438,(0x10010004U),32);
+    bufp->fullIData(oldp+435,(0x80000000U),32);
+    bufp->fullIData(oldp+436,(0x87ffffffU),32);
+    bufp->fullIData(oldp+437,(0x10000000U),32);
+    bufp->fullIData(oldp+438,(0x10000008U),32);
+    bufp->fullIData(oldp+439,(0x10010004U),32);
 }

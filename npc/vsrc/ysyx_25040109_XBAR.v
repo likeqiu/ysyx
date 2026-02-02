@@ -88,7 +88,8 @@ module ysyx_25040109_XBAR (
     localparam [1:0] RESP_DECERR = 2'b11;//未命中任何设备
 
 
-    localparam [7:0] SRAM_ADDR          = 8'h80;
+    localparam [31:0] SRAM_ADDR_BEGIN   = 32'h80000000;
+    localparam [31:0] SRAM_ADDR_END     = 32'h87ffffff ;
     localparam [31:0] UART_ADDR_BEGIN   = 32'h10000000;
     localparam [31:0] UART_ADDR_END     = 32'h10000008;
     localparam [31:0] CLINT_LO_ADDR     = 32'h10010000;
@@ -117,10 +118,10 @@ module ysyx_25040109_XBAR (
     reg       err_bvalid;
 
     wire hit_ar_uart     = (in_araddr[31:0] >= UART_ADDR_BEGIN && in_araddr[31:0] <= UART_ADDR_END);
-    wire hit_ar_sram     = (in_araddr[31:28] == 4'h8);
+    wire hit_ar_sram     = (in_araddr[31:0] >= SRAM_ADDR_BEGIN && in_araddr[31:0] <+ SRAM_ADDR_END);
     wire hit_ar_clint    = (in_araddr[31:0] == CLINT_LO_ADDR) || (in_araddr[31:0] == CLINT_HI_ADDR) ;
     wire hit_aw_uart     = (in_awaddr[31:0] >= UART_ADDR_BEGIN && in_awaddr[31:0] <= UART_ADDR_END);
-    wire hit_aw_sram     = (in_awaddr[31:28] == 4'h8);
+    wire hit_aw_sram     = (in_awaddr[31:0] >= SRAM_ADDR_BEGIN  && in_awaddr[31:0] <= SRAM_ADDR_END);
     wire hit_aw_clint    = (in_awaddr[31:0] == CLINT_LO_ADDR) || (in_awaddr[31:0] == CLINT_HI_ADDR);
 
 
