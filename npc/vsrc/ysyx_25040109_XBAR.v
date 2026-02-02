@@ -117,10 +117,10 @@ module ysyx_25040109_XBAR (
     reg       err_bvalid;
 
     wire hit_ar_uart     = (in_araddr[31:0] >= UART_ADDR_BEGIN && in_araddr[31:0] <= UART_ADDR_END);
-    wire hit_ar_sram     = (in_araddr[31:24] == 8'h80);
+    wire hit_ar_sram     = (in_araddr[31:28] == 4'h8);
     wire hit_ar_clint    = (in_araddr[31:0] == CLINT_LO_ADDR) || (in_araddr[31:0] == CLINT_HI_ADDR) ;
     wire hit_aw_uart     = (in_awaddr[31:0] >= UART_ADDR_BEGIN && in_awaddr[31:0] <= UART_ADDR_END);
-    wire hit_aw_sram     = (in_awaddr[31:24] == 8'h80);
+    wire hit_aw_sram     = (in_awaddr[31:28] == 4'h8);
     wire hit_aw_clint    = (in_awaddr[31:0] == CLINT_LO_ADDR) || (in_awaddr[31:0] == CLINT_HI_ADDR);
 
 

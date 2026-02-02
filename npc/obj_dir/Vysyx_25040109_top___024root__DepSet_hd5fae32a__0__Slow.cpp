@@ -258,9 +258,9 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
         (1U & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_awaddr_valid)) 
                & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__sram_bvalid))));
     vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_aw_sram 
-        = (0x80U == ((5U == (IData)(vlSelf->ysyx_25040109_top__DOT__u_arbiter__DOT__state))
-                      ? (vlSelf->ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__addr_latched 
-                         >> 0x18U) : 0U));
+        = (8U == ((5U == (IData)(vlSelf->ysyx_25040109_top__DOT__u_arbiter__DOT__state))
+                   ? (vlSelf->ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__addr_latched 
+                      >> 0x1cU) : 0U));
     vlSelf->ysyx_25040109_top__DOT__sram_arready = 
         (1U & ((~ (IData)(vlSelf->ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_r_busy)) 
                & (~ (IData)(vlSelf->ysyx_25040109_top__DOT__sram_rvalid))));
@@ -1105,10 +1105,10 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
             & (IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_aw_sram)) 
            & (IData)(vlSelf->ysyx_25040109_top__DOT__sram_awready));
     vlSelf->ysyx_25040109_top__DOT__mem_arready = ((IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_h7458d04c__0) 
-                                                   & ((0x80U 
+                                                   & ((8U 
                                                        == 
                                                        (vlSelf->ysyx_25040109_top__DOT__mem_araddr 
-                                                        >> 0x18U))
+                                                        >> 0x1cU))
                                                        ? (IData)(vlSelf->ysyx_25040109_top__DOT__sram_arready)
                                                        : 
                                                       ((IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_ar_uart)
@@ -1166,8 +1166,8 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
               & (IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__hit_ar_clint)));
     vlSelf->ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_ar_fire 
         = (((IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_h17557492__0) 
-            & (0x80U == (vlSelf->ysyx_25040109_top__DOT__mem_araddr 
-                         >> 0x18U))) & (IData)(vlSelf->ysyx_25040109_top__DOT__sram_arready));
+            & (8U == (vlSelf->ysyx_25040109_top__DOT__mem_araddr 
+                      >> 0x1cU))) & (IData)(vlSelf->ysyx_25040109_top__DOT__sram_arready));
     vlSelf->ysyx_25040109_top__DOT__cpu__DOT__ifu__DOT__u_ifu_hanshake__DOT__idu_fire 
         = ((IData)(vlSelf->ysyx_25040109_top__DOT__cpu__DOT__ifu_valid_to_idu) 
            & (IData)(vlSelf->ysyx_25040109_top__DOT__cpu__DOT__idu_ready));
