@@ -14,6 +14,9 @@ module arbiter (
     input  wire        imem_rready,
     output wire [31:0] imem_rdata,
     output wire [1:0]  imem_rresp,
+    input  wire  [3:0] imem_arid,
+    output wire  [3:0]  imem_rid,
+    output              imem_rlast,
 
     // LSU 读通道
     input  wire        dmem_arvalid,
@@ -23,7 +26,9 @@ module arbiter (
     input  wire        dmem_rready,
     output wire [31:0] dmem_rdata,
     output wire [1:0]  dmem_rresp,
-
+    input  wire [3:0]  dmem_arid,
+    output wire [3:0]  dmem_rid,
+    output wire        dmem_rlast,
     // LSU 写通道
     input  wire        dmem_awvalid,
     output wire        dmem_awready,
@@ -54,10 +59,24 @@ module arbiter (
     output wire [3:0]  mem_wstrb,
     input  wire        mem_bvalid,
     output wire        mem_bready,
-    input  wire [1:0]  mem_bresp
+    input  wire [1:0]  mem_bresp,
+    output wire [3:0] mem_arid,
+    input wire [3:0]  mem_rid,
+    input             mem_rlast     
 
 
 );
+
+    assign mem_arid  = (state == ST_IFU_AR) ? imem_arid :
+                    (state == ST_LSU_AR) ? dmem_arid : 4'b0;
+
+    assign imem_rid  = (state == ST_IFU_R)  ? mem_rid  : 4'b0;
+    assign imem_rlast= (state == ST_IFU_R)  ? mem_rlast: 1'b0;
+
+    assign dmem_rid  = (state == ST_LSU_R)  ? mem_rid  : 4'b0;
+    assign dmem_rlast= (state == ST_LSU_R)  ? mem_rlast: 1'b0;
+
+
 
     localparam ST_IDLE   = 3'd0;
     localparam ST_IFU_AR = 3'd1;
@@ -77,7 +96,7 @@ module arbiter (
     wire req_ifu_r  = imem_arvalid;
  
     wire ar_fire = mem_arvalid && mem_arready;
-    wire r_fire  = mem_rvalid  && mem_rready;
+    wire r_fire  = mem_rvalid  && mem_rready && mem_rlast;
     wire aw_fire = mem_awvalid && mem_awready;
     wire w_fire  = mem_wvalid  && mem_wready;
     wire b_fire  = mem_bvalid  && mem_bready;
@@ -96,6 +115,7 @@ module arbiter (
     assign mem_wvalid  = (state == ST_LSU_W && !w_done) ? dmem_wvalid : 1'b0;
     assign mem_wdata   = (state == ST_LSU_W) ? dmem_wdata : 32'b0;
     assign mem_wstrb   = (state == ST_LSU_W) ? dmem_wstrb : 4'b0;
+
 
     // ready 回传给主端
     assign imem_arready = (state == ST_IFU_AR) ? mem_arready : 1'b0;

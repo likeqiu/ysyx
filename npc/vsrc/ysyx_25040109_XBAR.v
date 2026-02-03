@@ -10,6 +10,9 @@ module ysyx_25040109_XBAR (
     input        in_rready,
     output [31:0] in_rdata,
     output [1:0]  in_rresp,
+    input [3:0]  in_arid,
+    output  [3:0] in_rid,
+    output        in_rlast, 
 
     input        in_awvalid,
     output       in_awready,
@@ -30,6 +33,9 @@ module ysyx_25040109_XBAR (
     output       s_rready,
     input [31:0] s_rdata,
     input [1:0]  s_rresp,
+    output [3:0] s_arid,
+    input [3:0] s_rid,
+    input       s_rlast,
 
     output       s_awvalid,
     input        s_awready,
@@ -50,6 +56,9 @@ module ysyx_25040109_XBAR (
     output       u_rready,
     input [31:0] u_rdata,
     input [1:0]  u_rresp,
+    output [3:0] u_arid,
+    input [3:0]  u_rid,
+    input         u_rlast,
 
     output       u_awvalid,
     input        u_awready,
@@ -69,6 +78,10 @@ module ysyx_25040109_XBAR (
     output       c_rready,
     input [31:0] c_rdata,
     input [1:0]  c_rresp,
+    output [3:0] c_arid,
+    input [3:0]  c_rid,
+    input        c_rlast,
+
 
     output       c_awvalid,
     input        c_awready,
@@ -81,6 +94,24 @@ module ysyx_25040109_XBAR (
     output       c_bready,
     input [1:0]  c_bresp
 );
+
+    assign s_arid = in_arid;
+    assign u_arid = in_arid;
+    assign c_arid = in_arid;
+
+    assign in_rid = rd_err ? 4'b0 : 
+                    (rd_target == T_SRAM ? s_rid :
+                     rd_target == T_UART ? u_rid :
+                     rd_target == T_CLINT? c_rid : 4'b0);
+
+    assign in_rlast = rd_err ? err_rlast :
+                      (rd_target == T_SRAM ? s_rlast :
+                       rd_target == T_UART ? u_rlast :
+                       rd_target == T_CLINT? c_rlast   : 1'b0);
+
+    reg err_rlast;
+    
+
 
     /* verilator lint_off UNUSED */
     localparam [1:0] RESP_OKAY   = 2'b00;
@@ -214,11 +245,13 @@ module ysyx_25040109_XBAR (
             w_done <= 1'b0;
             err_rvalid <= 1'b0;
             err_bvalid <= 1'b0;
+            err_rlast  <= 1'b0;
         end else begin
             case (state)
                 ST_IDLE: begin
                     err_rvalid <= 1'b0;
                     err_bvalid <= 1'b0;
+                    err_rlast  <= 1'b0;
                     aw_done <= 1'b0;
                     w_done <= 1'b0;
                     if (in_awvalid) begin
@@ -238,6 +271,7 @@ module ysyx_25040109_XBAR (
                             rd_err <= !(hit_ar_sram || hit_ar_uart || hit_ar_clint);
                             if (!(hit_ar_sram || hit_ar_uart || hit_ar_clint)) begin
                                 err_rvalid <= 1'b1;
+                                err_rlast <= 1'b1;
                             end
                             state <= ST_RD;
                         end
@@ -247,12 +281,13 @@ module ysyx_25040109_XBAR (
                     if (rd_err) begin
                         if (in_r_fire) begin
                             err_rvalid <= 1'b0;
+                            err_rlast  <= 1'b0;
                             state <= ST_IDLE;
                         end
                     end else begin
-                        if ((rd_target == T_SRAM && s_rvalid && in_rready) ||
-                            (rd_target == T_UART && u_rvalid && in_rready) ||
-                            (rd_target == T_CLINT && c_rvalid && in_rready)) begin
+                        if ((rd_target == T_SRAM && s_rvalid && in_rready && s_rlast) ||
+                            (rd_target == T_UART && u_rvalid && in_rready && u_rlast) ||
+                            (rd_target == T_CLINT && c_rvalid && in_rready && c_rlast)) begin
                             state <= ST_IDLE;
                         end
                     end

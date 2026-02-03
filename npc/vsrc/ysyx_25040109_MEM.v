@@ -10,6 +10,9 @@ module ysyx_25040109_MEM (
     output reg   imem_rvalid,
     input        imem_rready,
     output reg [1:0]  imem_rresp,
+    input [3:0] imem_arid,
+    output [3:0] imem_rid,
+    output       imem_rlast,
 
     /* verilator lint_off UNUSED */
     input [31:0] imem_awaddr,
@@ -35,6 +38,9 @@ module ysyx_25040109_MEM (
     output reg        dmem_rvalid,
     input             dmem_rready,
     output reg [1:0]  dmem_rresp,
+    input [3:0] dmem_arid,
+    output [3:0] dmem_rid,
+    output       dmem_rlast,
 
     // dmem write
     input [31:0] dmem_awaddr,
@@ -59,6 +65,27 @@ module ysyx_25040109_MEM (
     input [31:0] yosys_dmem_rdata
 `endif
 );
+
+    reg [3:0] imem_arid_latched;
+    reg [3:0] dmem_arid_latched;
+
+
+    always @(posedge clk) begin
+        if(rst)begin
+            imem_arid_latched <= 4'b0;
+            dmem_arid_latched <= 4'b0;
+        end else begin
+            if (imem_ar_fire) imem_arid_latched <= imem_arid;
+            if (dmem_ar_fire) dmem_arid_latched <= dmem_arid;
+        end
+    end
+
+
+    assign imem_rid = imem_arid_latched;
+    assign dmem_rid = dmem_arid_latched;
+    assign imem_rlast = imem_rvalid;
+    assign dmem_rlast = dmem_rvalid;
+
 
     localparam  [1:0] RESP_OKAY   = 2'b00;
     localparam  [1:0] RESP_SLVERR = 2'b10;

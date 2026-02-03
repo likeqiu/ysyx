@@ -10,6 +10,9 @@ module ysyx_25040109_MEM_SP (
     output       mem_rvalid,
     input        mem_rready,
     output [1:0]  mem_rresp,
+    input [3:0]   mem_arid,
+    output [3:0] mem_rid,
+    output        mem_rlast,
 
     input        mem_awvalid,
     output       mem_awready,
@@ -37,6 +40,8 @@ module ysyx_25040109_MEM_SP (
     wire        imem_wready_unused;
     wire        imem_bvalid_unused;
     wire [1:0]  imem_bresp_unused;
+    wire [3:0]  imem_rid_unused;
+    wire        imem_rlast_unused;
     /* verilator lint_on UNUSED */
 
     // 复用原 MEM 的 dmem 端口实现单端口存储器
@@ -52,6 +57,9 @@ module ysyx_25040109_MEM_SP (
         .imem_rvalid(imem_rvalid_unused),
         .imem_rready(1'b0),
         .imem_rresp(imem_rresp_unused),
+        .imem_arid(4'b0),
+        .imem_rid(imem_rid_unused),
+        .imem_rlast(imem_rlast_unused),
 
         .imem_awaddr(32'b0),
         .imem_awvalid(1'b0),
@@ -72,6 +80,9 @@ module ysyx_25040109_MEM_SP (
         .dmem_rvalid(mem_rvalid),
         .dmem_rready(mem_rready),
         .dmem_rresp(mem_rresp),
+        .dmem_arid(mem_arid),
+        .dmem_rid(mem_rid),
+        .dmem_rlast(mem_rlast),
 
         .dmem_awaddr(mem_awaddr),
         .dmem_awvalid(mem_awvalid),

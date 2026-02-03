@@ -38,9 +38,14 @@ module ysyx_25040109_LSU(
     input       dmem_bvalid,
     input [1:0] dmem_bresp,
     output      dmem_bready,
-    output      resp_err
+    output      resp_err,
+    
+    output [3:0] dmem_arid,
+    input [3:0]  dmem_rid,
+    input        dmem_rlast
 );
 
+    assign dmem_arid = 4'b0001;
     // 状态机
     localparam IDLE      = 3'b000;  // 空闲状态
     localparam WAIT_AR   = 3'b001;  // 等待读地址握手
@@ -67,7 +72,7 @@ module ysyx_25040109_LSU(
     // 握手
     wire in_fire = in_valid && out_ready;
     wire out_fire = out_valid && in_ready;
-    wire mem_read_fire = dmem_rvalid && dmem_rready;
+    wire mem_read_fire = dmem_rvalid && dmem_rready && dmem_rlast;
     wire mem_write_fire = dmem_wvalid && dmem_wready;
     wire mem_ar_fire = dmem_arvalid && dmem_arready;
     wire mem_aw_fire = dmem_awvalid && dmem_awready;

@@ -22,6 +22,12 @@ module ysyx_25040109_CPU (
     output        imem_bready,
     input         imem_bvalid,
     input [1:0]   imem_bresp,
+
+
+    output [3:0]  imem_arid,
+    input  [3:0]  imem_rid,
+    input         imem_rlast,
+
     // 访存通道
     output        dmem_arvalid,
     input         dmem_arready,
@@ -30,7 +36,11 @@ module ysyx_25040109_CPU (
     input         dmem_rvalid,
     output        dmem_rready,
     input  [31:0] dmem_rdata,
-    input [1:0]   dmem_rresp,
+    input  [1:0]  dmem_rresp,
+    
+    output [3:0] dmem_arid,
+    input  [3:0] dmem_rid,
+    input        dmem_rlast,
 
     output        dmem_awvalid,
     input         dmem_awready,
@@ -58,6 +68,9 @@ module ysyx_25040109_CPU (
     output is_ecall_out,
     output [6:0] opcode_out
 );
+
+    assign imem_arid = 4'b0000;
+    assign dmem_arid = 4'b0001;
 
     // 常量
     localparam S_NORMAL      = 1'b0;
@@ -192,9 +205,10 @@ module ysyx_25040109_CPU (
     assign imem_arvalid = fetch_allow;
     assign imem_rready  = ifu_ready_to_mem;
     assign imem_ar_fire = imem_arvalid && imem_arready;
-    assign imem_r_fire  = imem_rvalid && imem_rready;
+    assign imem_r_fire  = imem_rvalid && imem_rready && imem_rlast;
     assign idu_ready    = idu_out_ready && !id_valid;
 
+    
     assign final_gpr_we = reg_write_en_exu && stage_valid && commit_cond;
     assign final_mem_we = is_store && stage_valid;
 

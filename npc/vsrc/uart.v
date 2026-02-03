@@ -10,6 +10,9 @@ module uart(
     input            rready,
     output reg [31:0]rdata,
     output reg [1:0] rresp,
+    input [3:0] arid,
+    output [3:0] rid,
+    output rlast,
 
     input            awvalid,
     output           awready,
@@ -26,6 +29,16 @@ module uart(
 
 
 );  
+
+    reg [3:0] arid_latched;
+    always @(posedge  clk) begin
+        if(rst) arid_latched <= 4'b0;
+        else if(ar_fire) arid_latched <= arid;
+    end
+
+    assign rid = arid_latched;
+    assign rlast = rvalid;
+
     localparam [1:0] RESP_OK = 2'b00;
 
     reg aw_seen;

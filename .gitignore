@@ -12,6 +12,8 @@
 !init.sh
 /fceux-am
 /nvboard
+/npc/vsrc/codex_md/*
 /am-kernels
-/ysyxSoC
+!/ysyxSoC/*
+
 

@@ -144,6 +144,19 @@ module ysyx_25040109_top (
     wire        clint_bready;
     wire [1:0]  clint_bresp;
 
+    wire [3:0] imem_arid, imem_rid;
+    wire       imem_rlast;
+    wire [3:0] dmem_arid, dmem_rid;
+    wire       dmem_rlast;
+
+    wire [3:0] mem_arid, mem_rid;
+    wire       mem_rlast;
+
+    wire [3:0] sram_arid, sram_rid;  wire sram_rlast;
+    wire [3:0] uart_arid, uart_rid;  wire uart_rlast;
+    wire [3:0] clint_arid, clint_rid; wire clint_rlast;
+
+
     // difftest 地址导出
     assign dmem_raddr_out = dmem_araddr;
     assign dmem_waddr_out = dmem_awaddr;
@@ -170,6 +183,9 @@ module ysyx_25040109_top (
         .imem_rvalid(imem_rvalid),
         .imem_rready(imem_rready),
         .imem_rresp(imem_rresp),
+        .imem_arid(imem_arid),
+        .imem_rid(imem_rid),
+        .imem_rlast(imem_rlast),
                 
         .imem_awaddr(imem_awaddr),
         .imem_awvalid(imem_awvalid),
@@ -196,6 +212,9 @@ module ysyx_25040109_top (
         .dmem_wdata(dmem_wdata),
         .dmem_wstrb(dmem_wstrb),
         .dmem_wready(dmem_wready),
+        .dmem_arid(dmem_arid),
+        .dmem_rid(dmem_rid),
+        .dmem_rlast(dmem_rlast),
 
         // debug
         .inst(inst),
@@ -228,6 +247,9 @@ module ysyx_25040109_top (
         .imem_rready(imem_rready),
         .imem_rdata(imem_rdata),
         .imem_rresp(imem_rresp),
+        .imem_arid(imem_arid),
+        .imem_rid(imem_rid),
+        .imem_rlast(imem_rlast),
 
         // LSU 读通道
         .dmem_arvalid(dmem_arvalid),
@@ -237,6 +259,9 @@ module ysyx_25040109_top (
         .dmem_rready(dmem_rready),
         .dmem_rdata(dmem_rdata),
         .dmem_rresp(dmem_rresp),
+        .dmem_arid(dmem_arid),
+        .dmem_rid(dmem_rid),
+        .dmem_rlast(dmem_rlast),
 
         // LSU 写通道
         .dmem_awvalid(dmem_awvalid),
@@ -258,6 +283,9 @@ module ysyx_25040109_top (
         .mem_rready(mem_rready),
         .mem_rdata(mem_rdata),
         .mem_rresp(mem_rresp),
+        .mem_arid(mem_arid),
+        .mem_rid(mem_rid),
+        .mem_rlast(mem_rlast),
 
         .mem_awvalid(mem_awvalid),
         .mem_awready(mem_awready),
@@ -284,6 +312,9 @@ module ysyx_25040109_top (
         .in_rready(mem_rready),
         .in_rdata(mem_rdata),
         .in_rresp(mem_rresp),
+        .in_arid(mem_arid),
+        .in_rid(mem_rid),
+        .in_rlast(mem_rlast),
 
         .in_awvalid(mem_awvalid),
         .in_awready(mem_awready),
@@ -304,6 +335,9 @@ module ysyx_25040109_top (
         .s_rready(sram_rready),
         .s_rdata(sram_rdata),
         .s_rresp(sram_rresp),
+        .s_arid(sram_arid),
+        .s_rid(sram_rid),
+        .s_rlast(sram_rlast),
 
         .s_awvalid(sram_awvalid),
         .s_awready(sram_awready),
@@ -324,6 +358,9 @@ module ysyx_25040109_top (
         .u_rready(uart_rready),
         .u_rdata(uart_rdata),
         .u_rresp(uart_rresp),
+        .u_arid(uart_arid),
+        .u_rid(uart_rid),
+        .u_rlast(uart_rlast),
 
         .u_awvalid(uart_awvalid),
         .u_awready(uart_awready),
@@ -344,6 +381,9 @@ module ysyx_25040109_top (
         .c_rready(clint_rready),
         .c_rdata(clint_rdata),
         .c_rresp(clint_rresp),
+        .c_arid(clint_arid),
+        .c_rid(clint_rid),
+        .c_rlast(clint_rlast),
 
         .c_awvalid(clint_awvalid),
         .c_awready(clint_awready),
@@ -368,6 +408,9 @@ module ysyx_25040109_top (
         .rready(uart_rready),
         .rdata(uart_rdata),
         .rresp(uart_rresp),
+        .arid(uart_arid),
+        .rid(uart_rid),
+        .rlast(uart_rlast),
         .awvalid(uart_awvalid),
         .awready(uart_awready),
         .awaddr(uart_awaddr),
@@ -392,6 +435,9 @@ module ysyx_25040109_top (
         .rready(clint_rready),
         .rdata(clint_rdata),
         .rresp(clint_rresp),
+        .arid(clint_arid),
+        .rid(clint_rid),
+        .rlast(clint_rlast),
 
         .awvalid(clint_awvalid),
         .awready(clint_awready),
@@ -418,6 +464,9 @@ module ysyx_25040109_top (
         .mem_rvalid(sram_rvalid),
         .mem_rready(sram_rready),
         .mem_rresp(sram_rresp),
+        .mem_arid(sram_arid),
+        .mem_rid(sram_rid),
+        .mem_rlast(sram_rlast),
 
         .mem_awaddr(sram_awaddr),
         .mem_awvalid(sram_awvalid),
