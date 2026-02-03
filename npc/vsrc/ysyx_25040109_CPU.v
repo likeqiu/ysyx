@@ -3,6 +3,7 @@ module ysyx_25040109_CPU (
     input rst,
     input [31:0] p_count_number,  // trace 计数
 
+    /* verilator lint_off UNUSEDSIGNAL */
     // 取指通道
     output        imem_arvalid,
     input         imem_arready,
@@ -22,6 +23,15 @@ module ysyx_25040109_CPU (
     output        imem_bready,
     input         imem_bvalid,
     input [1:0]   imem_bresp,
+    output [3:0]  imem_awid,
+    output        imem_wlast,
+    input  [3:0]  imem_bid,
+
+
+    output [7:0] imem_arlen,
+    output [2:0] imem_arsize,
+    output [1:0] imem_arburst,
+    
 
 
     output [3:0]  imem_arid,
@@ -41,20 +51,33 @@ module ysyx_25040109_CPU (
     output [3:0] dmem_arid,
     input  [3:0] dmem_rid,
     input        dmem_rlast,
+        
+    output [7:0] dmem_arlen,
+    output [2:0] dmem_arsize,
+    output [1:0] dmem_arburst,
+
 
     output        dmem_awvalid,
     input         dmem_awready,
     output [31:0] dmem_awaddr,
+    output [3:0]  dmem_awid,
 
     output        dmem_wvalid,
     input         dmem_wready,
     output [31:0] dmem_wdata,
     output [3:0]  dmem_wstrb,
+    output        dmem_wlast,
 
 
     input [1:0]  dmem_bresp,
+    input [3:0]  dmem_bid,
     input        dmem_bvalid,
     output       dmem_bready,
+
+
+    output [7:0] dmem_awlen,
+    output [2:0] dmem_awsize,
+    output [1:0] dmem_awburst,
 
     // 调试
     output [31:0] inst,
@@ -67,10 +90,13 @@ module ysyx_25040109_CPU (
     output is_store_out,
     output is_ecall_out,
     output [6:0] opcode_out
+    /* verilator lint_off UNUSEDSIGNAL */
 );
 
     assign imem_arid = 4'b0000;
-    assign dmem_arid = 4'b0001;
+    assign imem_arlen = 8'd0;
+    assign imem_arsize = 3'b010;
+    assign imem_arburst = 2'b01;
 
     // 常量
     localparam S_NORMAL      = 1'b0;
@@ -278,7 +304,10 @@ module ysyx_25040109_CPU (
         .imem_bresp(imem_bresp),
         .imem_bvalid(imem_bvalid),
         .imem_bready(imem_bready),
-        .imem_wstr(imem_wstr)
+        .imem_wstr(imem_wstr),
+        .imem_awid(imem_awid),
+        .imem_wlast(imem_wlast),
+        .imem_bid(imem_bid)
     );
 
     // IDU
@@ -369,6 +398,18 @@ module ysyx_25040109_CPU (
         .dmem_wdata(dmem_wdata),
         .dmem_wstrb(dmem_wstrb),
         .dmem_wready(dmem_wready),
+        .dmem_arid(dmem_arid),
+        .dmem_rid(dmem_rid),
+        .dmem_rlast(dmem_rlast),
+        .dmem_arlen(dmem_arlen),
+        .dmem_arsize(dmem_arsize),
+        .dmem_arburst(dmem_arburst),
+        .dmem_awid(dmem_awid),
+        .dmem_wlast(dmem_wlast),
+        .dmem_bid(dmem_bid),
+        .dmem_awlen(dmem_awlen),
+        .dmem_awsize(dmem_awsize),
+        .dmem_awburst(dmem_awburst),
         .load_data(load_data_from_lsu),
         .store_enable(store_enable_unused),
         .out_valid(lsu_out_valid),

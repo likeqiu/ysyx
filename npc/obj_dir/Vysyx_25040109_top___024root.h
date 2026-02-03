@@ -36,6 +36,7 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__mem_awready;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem_wvalid;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem_wready;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem_wlast;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem_bvalid;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem_bready;
         CData/*0:0*/ ysyx_25040109_top__DOT__sram_arready;
@@ -57,6 +58,9 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__clint_wready;
         CData/*0:0*/ ysyx_25040109_top__DOT__clint_bvalid;
         CData/*1:0*/ ysyx_25040109_top__DOT__clint_bresp;
+        CData/*3:0*/ ysyx_25040109_top__DOT__mem_arid;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem_rlast;
+        CData/*0:0*/ ysyx_25040109_top__DOT__sram_rlast;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__stage_valid;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__id_valid;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__lsu_req_issued;
@@ -75,12 +79,12 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*2:0*/ ysyx_25040109_top__DOT__cpu__DOT__branch_op;
         CData/*1:0*/ ysyx_25040109_top__DOT__cpu__DOT__csr_op;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__csr_we_from_exu;
+    };
+    struct {
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__is_load;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__is_store;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__store_enable_unused;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__lsu_in_fire;
-    };
-    struct {
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__lsu_out_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__lsu_resp_err;
         CData/*0:0*/ ysyx_25040109_top__DOT__cpu__DOT__ex_ready;
@@ -127,12 +131,12 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__u_arbiter__DOT__req_lsu_r;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_arbiter__DOT__req_ifu_r;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_arbiter__DOT__ar_fire;
-        CData/*0:0*/ ysyx_25040109_top__DOT__u_arbiter__DOT__r_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_arbiter__DOT__aw_fire;
-        CData/*0:0*/ ysyx_25040109_top__DOT__u_arbiter__DOT__w_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_arbiter__DOT__b_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_arbiter__DOT____VdfgTmp_h739842b2__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_arbiter__DOT____VdfgTmp_he79ec405__0;
+        CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__err_rlast;
+        CData/*7:0*/ ysyx_25040109_top__DOT__xbar__DOT__err_rlen_cnt;
         CData/*1:0*/ ysyx_25040109_top__DOT__xbar__DOT__state;
         CData/*1:0*/ ysyx_25040109_top__DOT__xbar__DOT__rd_target;
         CData/*1:0*/ ysyx_25040109_top__DOT__xbar__DOT__wr_target;
@@ -141,12 +145,13 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__aw_done;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__w_done;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__err_rvalid;
+    };
+    struct {
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__err_bvalid;
+        CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__aw_simple_ok;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__hit_ar_uart;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__hit_ar_sram;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__hit_ar_clint;
-    };
-    struct {
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__hit_aw_uart;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__hit_aw_sram;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT__hit_aw_clint;
@@ -156,30 +161,58 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_h358f6a08__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_h95941268__0;
         CData/*0:0*/ ysyx_25040109_top__DOT__xbar__DOT____VdfgTmp_ha390e7a0__0;
+        CData/*3:0*/ ysyx_25040109_top__DOT__u_uart__DOT__arid_latched;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__aw_seen;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__w_seen;
+        CData/*3:0*/ ysyx_25040109_top__DOT__u_uart__DOT__awid_latched;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__ar_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__r_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__aw_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__w_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_uart__DOT__b_fire;
+        CData/*3:0*/ ysyx_25040109_top__DOT__u_clint__DOT__arid_latched;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_clint__DOT__aw_seen;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_clint__DOT__w_seen;
+        CData/*3:0*/ ysyx_25040109_top__DOT__u_clint__DOT__awid_latched;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_clint__DOT__ar_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_clint__DOT__r_fire;
+        CData/*0:0*/ ysyx_25040109_top__DOT__u_clint__DOT__aw_fire;
+        CData/*0:0*/ ysyx_25040109_top__DOT__u_clint__DOT__w_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__u_clint__DOT__b_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__imem_rvalid_unused;
         CData/*1:0*/ ysyx_25040109_top__DOT__mem__DOT__imem_rresp_unused;
+        CData/*3:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_arid_latched;
+        CData/*3:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_arid_latched;
+        CData/*3:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_awid_latched;
+        CData/*7:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_arlen_cnt;
+        CData/*2:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_arsize_reg;
+        CData/*1:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_arburst_reg;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_burst_active;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_burst_ok;
+        CData/*7:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_arlen_cnt;
+        CData/*2:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_arsize_reg;
+        CData/*1:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_arburst_reg;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_burst_active;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_burst_ok;
+        CData/*7:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_awlen_cnt;
+        CData/*2:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_awsize_reg;
+        CData/*1:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_awburst_reg;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_aw_burst_ok;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_wlast_err;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_aw_burst_ok_w;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_awaddr_valid;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_r_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_aw_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_w_fire;
+        CData/*7:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_awlen_use;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_wlast_err_this;
+        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_w_last_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_ar_fire;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_b_fire;
-        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_addr_ok;
-        CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_raddr_ok;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_waddr_ok;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_r_busy;
+    };
+    struct {
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_busy;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_w_busy;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_b_busy;
@@ -200,6 +233,7 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__ifsr_dmem_aw__DOT__lsb;
         CData/*0:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__ifsr_dmem_b__DOT__lsb;
         CData/*0:0*/ __VdfgTmp_h2aca818a__0;
+        CData/*0:0*/ __VdfgTmp_h6ff933f9__0;
         CData/*0:0*/ __Vtrigrprev__TOP__clk;
         CData/*0:0*/ __VactContinue;
         SData/*11:0*/ ysyx_25040109_top__DOT__cpu__DOT__final_csr_waddr;
@@ -211,14 +245,11 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         VL_OUT(pc,31,0);
         VL_OUT(a0_out,31,0);
         VL_OUT(dmem_raddr_out,31,0);
-    };
-    struct {
         VL_OUT(dmem_waddr_out,31,0);
         IData/*31:0*/ ysyx_25040109_top__DOT__imem_rdata;
         IData/*31:0*/ ysyx_25040109_top__DOT__dmem_rdata;
         IData/*31:0*/ ysyx_25040109_top__DOT__mem_araddr;
         IData/*31:0*/ ysyx_25040109_top__DOT__mem_rdata;
-        IData/*31:0*/ ysyx_25040109_top__DOT__sram_rdata;
         IData/*31:0*/ ysyx_25040109_top__DOT__uart_rdata;
         IData/*31:0*/ ysyx_25040109_top__DOT__clint_rdata;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__pc_fetch;
@@ -246,6 +277,8 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__exu__DOT__alu_b;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__exu__DOT__alu_out;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__exu__DOT__jal_target;
+    };
+    struct {
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__buffer_load_data;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__addr_latched;
         IData/*31:0*/ ysyx_25040109_top__DOT__cpu__DOT__lsu__DOT__store_data_latched;
@@ -260,13 +293,13 @@ class Vysyx_25040109_top___024root final : public VerilatedModule {
         IData/*31:0*/ ysyx_25040109_top__DOT__u_uart__DOT__wdata_use;
         IData/*31:0*/ ysyx_25040109_top__DOT__u_clint__DOT__awaddr_unused;
         IData/*31:0*/ ysyx_25040109_top__DOT__u_clint__DOT__wdata_unused;
+        IData/*31:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_araddr_reg;
+        IData/*31:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_araddr_reg;
         IData/*31:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_awaddr_latched;
         IData/*31:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_waddr_use;
         IData/*31:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__imem_rdata_buf;
         IData/*31:0*/ ysyx_25040109_top__DOT__mem__DOT__mem__DOT__dmem_rdata_buf;
-        IData/*31:0*/ __Vfunc_ysyx_25040109_top__DOT__mem__DOT__mem__DOT__pmem_read__4__Vfuncout;
-        IData/*31:0*/ __Vfunc_ysyx_25040109_top__DOT__mem__DOT__mem__DOT__pmem_read_ok__6__Vfuncout;
-        IData/*31:0*/ __Vfunc_ysyx_25040109_top__DOT__mem__DOT__mem__DOT__pmem_read_ok__7__Vfuncout;
+        IData/*31:0*/ __Vfunc_ysyx_25040109_top__DOT__mem__DOT__mem__DOT__pmem_read_ok__14__Vfuncout;
         IData/*31:0*/ __VstlIterCount;
         IData/*31:0*/ __VactIterCount;
         QData/*63:0*/ ysyx_25040109_top__DOT__cpu__DOT__exu__DOT__mul_temp;

@@ -30,6 +30,9 @@ module ysyx_25040109_top (
     wire        imem_rvalid;
     wire        imem_rready;
     wire [1:0]  imem_rresp;
+    wire [7:0]  imem_arlen;
+    wire [2:0]  imem_arsize;
+    wire [1:0]  imem_arburst;
 
     /* verilator lint_off UNUSED */
     wire [31:0] imem_awaddr;
@@ -38,12 +41,15 @@ module ysyx_25040109_top (
     wire [3:0]  imem_wstr;
     wire        imem_wvalid;
     wire        imem_bready;
+    wire [3:0]  imem_awid;
+    wire        imem_wlast;
     /* verilator lint_on UNUSED */
 
     wire        imem_awready;
     wire        imem_wready;
     wire        imem_bvalid;
     wire [1:0]  imem_bresp;
+    wire [3:0]  imem_bid;
 
     wire [31:0] dmem_araddr;
     wire        dmem_arvalid;
@@ -51,17 +57,26 @@ module ysyx_25040109_top (
     wire [31:0] dmem_rdata;
     wire        dmem_rvalid;
     wire        dmem_rready;
+    wire [7:0]  dmem_arlen;
+    wire [2:0]  dmem_arsize;
+    wire [1:0]  dmem_arburst;
     wire        dmem_awvalid;
     wire        dmem_awready;
     wire [31:0] dmem_awaddr;
+    wire [3:0]  dmem_awid;
     wire        dmem_wvalid;
     wire [31:0] dmem_wdata;
     wire [3:0]  dmem_wstrb;
     wire        dmem_wready;
+    wire        dmem_wlast;
+    wire [7:0]  dmem_awlen;
+    wire [2:0]  dmem_awsize;
+    wire [1:0]  dmem_awburst;
     wire [1:0]  dmem_rresp;
     wire [1:0]  dmem_bresp;
     wire        dmem_bvalid;
     wire        dmem_bready;
+    wire [3:0]  dmem_bid;
 
     // 仲裁器 <-> 交叉开关
     wire        mem_arvalid;
@@ -71,17 +86,26 @@ module ysyx_25040109_top (
     wire        mem_rready;
     wire [31:0] mem_rdata;
     wire [1:0]  mem_rresp;
+    wire [7:0]  mem_arlen;
+    wire [2:0]  mem_arsize;
+    wire [1:0]  mem_arburst;
 
     wire        mem_awvalid;
     wire        mem_awready;
     wire [31:0] mem_awaddr;
+    wire [3:0]  mem_awid;
     wire        mem_wvalid;
     wire        mem_wready;
     wire [31:0] mem_wdata;
     wire [3:0]  mem_wstrb;
+    wire        mem_wlast;
+    wire [7:0]  mem_awlen;
+    wire [2:0]  mem_awsize;
+    wire [1:0]  mem_awburst;
     wire        mem_bvalid;
     wire        mem_bready;
     wire [1:0]  mem_bresp;
+    wire [3:0]  mem_bid;
 
     // 交叉开关 <-> 存储器
     wire        sram_arvalid;
@@ -91,17 +115,26 @@ module ysyx_25040109_top (
     wire        sram_rready;
     wire [31:0] sram_rdata;
     wire [1:0]  sram_rresp;
+    wire [7:0]  sram_arlen;
+    wire [2:0]  sram_arsize;
+    wire [1:0]  sram_arburst;
 
     wire        sram_awvalid;
     wire        sram_awready;
     wire [31:0] sram_awaddr;
+    wire [3:0]  sram_awid;
     wire        sram_wvalid;
     wire        sram_wready;
     wire [31:0] sram_wdata;
     wire [3:0]  sram_wstrb;
+    wire        sram_wlast;
+    wire [7:0]  sram_awlen;
+    wire [2:0]  sram_awsize;
+    wire [1:0]  sram_awburst;
     wire        sram_bvalid;
     wire        sram_bready;
     wire [1:0]  sram_bresp;
+    wire [3:0]  sram_bid;
 
     // 交叉开关 <-> 串口
     wire        uart_arvalid;
@@ -111,17 +144,26 @@ module ysyx_25040109_top (
     wire        uart_rready;
     wire [31:0] uart_rdata;
     wire [1:0]  uart_rresp;
+    wire [7:0]  uart_arlen;
+    wire [2:0]  uart_arsize;
+    wire [1:0]  uart_arburst;
 
     wire        uart_awvalid;
     wire        uart_awready;
     wire [31:0] uart_awaddr;
+    wire [3:0]  uart_awid;
     wire        uart_wvalid;
     wire        uart_wready;
     wire [31:0] uart_wdata;
     wire [3:0]  uart_wstrb;
+    wire        uart_wlast;
+    wire [7:0]  uart_awlen;
+    wire [2:0]  uart_awsize;
+    wire [1:0]  uart_awburst;
     wire        uart_bvalid;
     wire        uart_bready;
     wire [1:0]  uart_bresp;
+    wire [3:0]  uart_bid;
 
 
         
@@ -132,17 +174,26 @@ module ysyx_25040109_top (
     wire        clint_rready;
     wire [31:0] clint_rdata;
     wire [1:0]  clint_rresp;
+    wire [7:0]  clint_arlen;
+    wire [2:0]  clint_arsize;
+    wire [1:0]  clint_arburst;
 
     wire        clint_awvalid;
     wire        clint_awready;
     wire [31:0] clint_awaddr;
+    wire [3:0]  clint_awid;
     wire        clint_wvalid;
     wire        clint_wready;
     wire [31:0] clint_wdata;
     wire [3:0]  clint_wstrb;
+    wire        clint_wlast;
+    wire [7:0]  clint_awlen;
+    wire [2:0]  clint_awsize;
+    wire [1:0]  clint_awburst;
     wire        clint_bvalid;
     wire        clint_bready;
     wire [1:0]  clint_bresp;
+    wire [3:0]  clint_bid;
 
     wire [3:0] imem_arid, imem_rid;
     wire       imem_rlast;
@@ -166,6 +217,7 @@ module ysyx_25040109_top (
     assign imem_wready  = 1'b0;
     assign imem_bvalid  = 1'b0;
     assign imem_bresp   = 2'b00;
+    assign imem_bid     = 4'b0;
 
 
     
@@ -186,6 +238,9 @@ module ysyx_25040109_top (
         .imem_arid(imem_arid),
         .imem_rid(imem_rid),
         .imem_rlast(imem_rlast),
+        .imem_arlen(imem_arlen),
+        .imem_arsize(imem_arsize),
+        .imem_arburst(imem_arburst),
                 
         .imem_awaddr(imem_awaddr),
         .imem_awvalid(imem_awvalid),
@@ -197,6 +252,9 @@ module ysyx_25040109_top (
         .imem_bvalid(imem_bvalid),
         .imem_bready(imem_bready),
         .imem_wstr(imem_wstr),
+        .imem_awid(imem_awid),
+        .imem_wlast(imem_wlast),
+        .imem_bid(imem_bid),
 
         // dmem
         .dmem_araddr(dmem_araddr),
@@ -212,9 +270,18 @@ module ysyx_25040109_top (
         .dmem_wdata(dmem_wdata),
         .dmem_wstrb(dmem_wstrb),
         .dmem_wready(dmem_wready),
+        .dmem_awid(dmem_awid),
+        .dmem_wlast(dmem_wlast),
+        .dmem_bid(dmem_bid),
         .dmem_arid(dmem_arid),
         .dmem_rid(dmem_rid),
         .dmem_rlast(dmem_rlast),
+        .dmem_arlen(dmem_arlen),
+        .dmem_arsize(dmem_arsize),
+        .dmem_arburst(dmem_arburst),
+        .dmem_awlen(dmem_awlen),
+        .dmem_awsize(dmem_awsize),
+        .dmem_awburst(dmem_awburst),
 
         // debug
         .inst(inst),
@@ -250,6 +317,9 @@ module ysyx_25040109_top (
         .imem_arid(imem_arid),
         .imem_rid(imem_rid),
         .imem_rlast(imem_rlast),
+        .imem_arlen(imem_arlen),
+        .imem_arsize(imem_arsize),
+        .imem_arburst(imem_arburst),
 
         // LSU 读通道
         .dmem_arvalid(dmem_arvalid),
@@ -262,18 +332,27 @@ module ysyx_25040109_top (
         .dmem_arid(dmem_arid),
         .dmem_rid(dmem_rid),
         .dmem_rlast(dmem_rlast),
+        .dmem_arlen(dmem_arlen),
+        .dmem_arsize(dmem_arsize),
+        .dmem_arburst(dmem_arburst),
 
         // LSU 写通道
         .dmem_awvalid(dmem_awvalid),
         .dmem_awready(dmem_awready),
         .dmem_awaddr(dmem_awaddr),
+        .dmem_awid(dmem_awid),
         .dmem_wvalid(dmem_wvalid),
         .dmem_wready(dmem_wready),
         .dmem_wdata(dmem_wdata),
         .dmem_wstrb(dmem_wstrb),
+        .dmem_wlast(dmem_wlast),
         .dmem_bvalid(dmem_bvalid),
         .dmem_bready(dmem_bready),
         .dmem_bresp(dmem_bresp),
+        .dmem_bid(dmem_bid),
+        .dmem_awlen(dmem_awlen),
+        .dmem_awsize(dmem_awsize),
+        .dmem_awburst(dmem_awburst),
 
         // 存储器侧（单端口）
         .mem_arvalid(mem_arvalid),
@@ -286,17 +365,26 @@ module ysyx_25040109_top (
         .mem_arid(mem_arid),
         .mem_rid(mem_rid),
         .mem_rlast(mem_rlast),
+        .mem_arlen(mem_arlen),
+        .mem_arsize(mem_arsize),
+        .mem_arburst(mem_arburst),
 
         .mem_awvalid(mem_awvalid),
         .mem_awready(mem_awready),
         .mem_awaddr(mem_awaddr),
+        .mem_awid(mem_awid),
         .mem_wvalid(mem_wvalid),
         .mem_wready(mem_wready),
         .mem_wdata(mem_wdata),
         .mem_wstrb(mem_wstrb),
+        .mem_wlast(mem_wlast),
         .mem_bvalid(mem_bvalid),
         .mem_bready(mem_bready),
-        .mem_bresp(mem_bresp)
+        .mem_bresp(mem_bresp),
+        .mem_bid(mem_bid),
+        .mem_awlen(mem_awlen),
+        .mem_awsize(mem_awsize),
+        .mem_awburst(mem_awburst)
     );
 
     // 交叉开关：地址译码后分发到存储器或串口
@@ -315,17 +403,26 @@ module ysyx_25040109_top (
         .in_arid(mem_arid),
         .in_rid(mem_rid),
         .in_rlast(mem_rlast),
+        .in_arlen(mem_arlen),
+        .in_arsize(mem_arsize),
+        .in_arburst(mem_arburst),
 
         .in_awvalid(mem_awvalid),
         .in_awready(mem_awready),
         .in_awaddr(mem_awaddr),
+        .in_awid(mem_awid),
         .in_wvalid(mem_wvalid),
         .in_wready(mem_wready),
         .in_wdata(mem_wdata),
         .in_wstrb(mem_wstrb),
+        .in_wlast(mem_wlast),
         .in_bvalid(mem_bvalid),
         .in_bready(mem_bready),
         .in_bresp(mem_bresp),
+        .in_bid(mem_bid),
+        .in_awlen(mem_awlen),
+        .in_awsize(mem_awsize),
+        .in_awburst(mem_awburst),
 
         // 存储器
         .s_arvalid(sram_arvalid),
@@ -338,17 +435,26 @@ module ysyx_25040109_top (
         .s_arid(sram_arid),
         .s_rid(sram_rid),
         .s_rlast(sram_rlast),
+        .s_arlen(sram_arlen),
+        .s_arsize(sram_arsize),
+        .s_arburst(sram_arburst),
 
         .s_awvalid(sram_awvalid),
         .s_awready(sram_awready),
         .s_awaddr(sram_awaddr),
+        .s_awid(sram_awid),
         .s_wvalid(sram_wvalid),
         .s_wready(sram_wready),
         .s_wdata(sram_wdata),
         .s_wstrb(sram_wstrb),
+        .s_wlast(sram_wlast),
         .s_bvalid(sram_bvalid),
         .s_bready(sram_bready),
         .s_bresp(sram_bresp),
+        .s_bid(sram_bid),
+        .s_awlen(sram_awlen),
+        .s_awsize(sram_awsize),
+        .s_awburst(sram_awburst),
 
         // 串口
         .u_arvalid(uart_arvalid),
@@ -361,17 +467,26 @@ module ysyx_25040109_top (
         .u_arid(uart_arid),
         .u_rid(uart_rid),
         .u_rlast(uart_rlast),
+        .u_arlen(uart_arlen),
+        .u_arsize(uart_arsize),
+        .u_arburst(uart_arburst),
 
         .u_awvalid(uart_awvalid),
         .u_awready(uart_awready),
         .u_awaddr(uart_awaddr),
+        .u_awid(uart_awid),
         .u_wvalid(uart_wvalid),
         .u_wready(uart_wready),
         .u_wdata(uart_wdata),
         .u_wstrb(uart_wstrb),
+        .u_wlast(uart_wlast),
         .u_bvalid(uart_bvalid),
         .u_bready(uart_bready),
         .u_bresp(uart_bresp),
+        .u_bid(uart_bid),
+        .u_awlen(uart_awlen),
+        .u_awsize(uart_awsize),
+        .u_awburst(uart_awburst),
 
         // clint
         .c_arvalid(clint_arvalid),
@@ -384,17 +499,26 @@ module ysyx_25040109_top (
         .c_arid(clint_arid),
         .c_rid(clint_rid),
         .c_rlast(clint_rlast),
+        .c_arlen(clint_arlen),
+        .c_arsize(clint_arsize),
+        .c_arburst(clint_arburst),
 
         .c_awvalid(clint_awvalid),
         .c_awready(clint_awready),
         .c_awaddr(clint_awaddr),
+        .c_awid(clint_awid),
         .c_wvalid(clint_wvalid),
         .c_wready(clint_wready),
         .c_wdata(clint_wdata),
         .c_wstrb(clint_wstrb),
+        .c_wlast(clint_wlast),
         .c_bvalid(clint_bvalid),
         .c_bready(clint_bready),
-        .c_bresp(clint_bresp)
+        .c_bresp(clint_bresp),
+        .c_bid(clint_bid),
+        .c_awlen(clint_awlen),
+        .c_awsize(clint_awsize),
+        .c_awburst(clint_awburst)
     );
 
     // 串口
@@ -411,16 +535,25 @@ module ysyx_25040109_top (
         .arid(uart_arid),
         .rid(uart_rid),
         .rlast(uart_rlast),
+        .arlen(uart_arlen),
+        .arsize(uart_arsize),
+        .arburst(uart_arburst),
         .awvalid(uart_awvalid),
         .awready(uart_awready),
         .awaddr(uart_awaddr),
+        .awid(uart_awid),
         .wvalid(uart_wvalid),
         .wready(uart_wready),
         .wdata(uart_wdata),
         .wstrb(uart_wstrb),
+        .wlast(uart_wlast),
         .bvalid(uart_bvalid),
         .bready(uart_bready),
-        .bresp(uart_bresp)
+        .bresp(uart_bresp),
+        .bid(uart_bid),
+        .awlen(uart_awlen),
+        .awsize(uart_awsize),
+        .awburst(uart_awburst)
     );
 
 
@@ -438,17 +571,26 @@ module ysyx_25040109_top (
         .arid(clint_arid),
         .rid(clint_rid),
         .rlast(clint_rlast),
+        .arlen(clint_arlen),
+        .arsize(clint_arsize),
+        .arburst(clint_arburst),
 
         .awvalid(clint_awvalid),
         .awready(clint_awready),
         .awaddr(clint_awaddr),
+        .awid(clint_awid),
         .wvalid(clint_wvalid),
         .wready(clint_wready),
         .wdata(clint_wdata),
         .wstrb(clint_wstrb),
+        .wlast(clint_wlast),
         .bvalid(clint_bvalid),
         .bready(clint_bready),
-        .bresp(clint_bresp)
+        .bresp(clint_bresp),
+        .bid(clint_bid),
+        .awlen(clint_awlen),
+        .awsize(clint_awsize),
+        .awburst(clint_awburst)
     );
 
     // 单端口 MEM
@@ -467,17 +609,26 @@ module ysyx_25040109_top (
         .mem_arid(sram_arid),
         .mem_rid(sram_rid),
         .mem_rlast(sram_rlast),
+        .mem_arlen(sram_arlen),
+        .mem_arsize(sram_arsize),
+        .mem_arburst(sram_arburst),
 
         .mem_awaddr(sram_awaddr),
         .mem_awvalid(sram_awvalid),
         .mem_awready(sram_awready),
+        .mem_awid(sram_awid),
         .mem_wdata(sram_wdata),
         .mem_wvalid(sram_wvalid),
         .mem_wready(sram_wready),
         .mem_bresp(sram_bresp),
         .mem_bvalid(sram_bvalid),
         .mem_bready(sram_bready),
-        .mem_wstrb(sram_wstrb)
+        .mem_wstrb(sram_wstrb),
+        .mem_wlast(sram_wlast),
+        .mem_bid(sram_bid),
+        .mem_awlen(sram_awlen),
+        .mem_awsize(sram_awsize),
+        .mem_awburst(sram_awburst)
 
 
 `ifdef SYNTHESIS

@@ -9,6 +9,9 @@ module clint #(
     input             arvalid,
     output            arready,
     input      [31:0] araddr,
+    input      [7:0]  arlen,
+    input      [2:0]  arsize,
+    input      [1:0]  arburst,
     output reg        rvalid,
     input             rready,
     output reg [31:0] rdata,
@@ -21,13 +24,19 @@ module clint #(
     input             awvalid,
     output            awready,
     input      [31:0] awaddr,
+    input      [3:0]  awid,
+    input      [7:0]  awlen,
+    input      [2:0]  awsize,
+    input      [1:0]  awburst,
     input             wvalid,
     output            wready,
     input      [31:0] wdata,
     input      [3:0]  wstrb,
+    input             wlast,
     output reg        bvalid,
     input             bready,
-    output reg [1:0]  bresp
+    output reg [1:0]  bresp,
+    output     [3:0]  bid
 );
 
 
@@ -49,11 +58,18 @@ module clint #(
     wire [31:0] awaddr_unused = awaddr;
     wire [31:0] wdata_unused  = wdata;
     wire [3:0]  wstrb_unused  = wstrb;
+    wire [7:0]  arlen_unused  = arlen;
+    wire [2:0]  arsize_unused = arsize;
+    wire [1:0]  arburst_unused = arburst;
+    wire [7:0]  awlen_unused  = awlen;
+    wire [2:0]  awsize_unused = awsize;
+    wire [1:0]  awburst_unused = awburst;
     /* verilator lint_on UNUSED */
 
     reg [63:0] mtime;
     reg        aw_seen;
     reg        w_seen;
+    reg [3:0]  awid_latched;
 
     wire ar_fire = arvalid && arready;
     wire r_fire  = rvalid && rready;
@@ -101,14 +117,16 @@ module clint #(
             bresp  <= RESP_OK;
             aw_seen <= 1'b0;
             w_seen  <= 1'b0;
+            awid_latched <= 4'b0;
         end else begin
             if (b_fire) begin
                 bvalid <= 1'b0;
             end
             if (aw_fire) begin
                 aw_seen <= 1'b1;
+                awid_latched <= awid;
             end
-            if (w_fire) begin
+            if (w_fire && wlast) begin
                 w_seen <= 1'b1;
             end
             if (!bvalid && ((aw_seen || aw_fire) && (w_seen || w_fire))) begin
@@ -119,6 +137,8 @@ module clint #(
             end
         end
     end
+
+    assign bid = awid_latched;
 
     // mtime counter
     always @(posedge clk) begin

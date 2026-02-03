@@ -13,17 +13,26 @@ module ysyx_25040109_MEM_SP (
     input [3:0]   mem_arid,
     output [3:0] mem_rid,
     output        mem_rlast,
+    input [7:0]   mem_arlen,
+    input [2:0]   mem_arsize,
+    input [1:0]   mem_arburst,
 
     input        mem_awvalid,
     output       mem_awready,
     input [31:0] mem_awaddr,
+    input [3:0]  mem_awid,
     input        mem_wvalid,
     output       mem_wready,
     input [31:0] mem_wdata,
     input [3:0]  mem_wstrb,
+    input        mem_wlast,
     output       mem_bvalid,
     input        mem_bready,
-    output [1:0] mem_bresp
+    output [1:0] mem_bresp,
+    output [3:0] mem_bid,
+    input [7:0]  mem_awlen,
+    input [2:0]  mem_awsize,
+    input [1:0]  mem_awburst
 
 `ifdef SYNTHESIS
     ,
@@ -42,6 +51,7 @@ module ysyx_25040109_MEM_SP (
     wire [1:0]  imem_bresp_unused;
     wire [3:0]  imem_rid_unused;
     wire        imem_rlast_unused;
+    wire [3:0]  imem_bid_unused;
     /* verilator lint_on UNUSED */
 
     // 复用原 MEM 的 dmem 端口实现单端口存储器
@@ -60,6 +70,9 @@ module ysyx_25040109_MEM_SP (
         .imem_arid(4'b0),
         .imem_rid(imem_rid_unused),
         .imem_rlast(imem_rlast_unused),
+        .imem_arlen(8'b0),
+        .imem_arsize(3'b0),
+        .imem_arburst(2'b0),
 
         .imem_awaddr(32'b0),
         .imem_awvalid(1'b0),
@@ -71,6 +84,9 @@ module ysyx_25040109_MEM_SP (
         .imem_bready(1'b0),
         .imem_bvalid(imem_bvalid_unused),
         .imem_bresp(imem_bresp_unused),
+        .imem_awid(4'b0),
+        .imem_wlast(1'b0),
+        .imem_bid(imem_bid_unused),
 
         // dmem 端口映射为单端口
         .dmem_araddr(mem_araddr),
@@ -83,18 +99,27 @@ module ysyx_25040109_MEM_SP (
         .dmem_arid(mem_arid),
         .dmem_rid(mem_rid),
         .dmem_rlast(mem_rlast),
+        .dmem_arlen(mem_arlen),
+        .dmem_arsize(mem_arsize),
+        .dmem_arburst(mem_arburst),
 
         .dmem_awaddr(mem_awaddr),
         .dmem_awvalid(mem_awvalid),
         .dmem_awready(mem_awready),
+        .dmem_awid(mem_awid),
+        .dmem_awlen(mem_awlen),
+        .dmem_awsize(mem_awsize),
+        .dmem_awburst(mem_awburst),
         .dmem_wdata(mem_wdata),
         .dmem_wstrb(mem_wstrb),
         .dmem_wvalid(mem_wvalid),
         .dmem_wready(mem_wready),
+        .dmem_wlast(mem_wlast),
 
         .dmem_bresp(mem_bresp),
         .dmem_bvalid(mem_bvalid),
-        .dmem_bready(mem_bready)
+        .dmem_bready(mem_bready),
+        .dmem_bid(mem_bid)
 
 `ifdef SYNTHESIS
         ,

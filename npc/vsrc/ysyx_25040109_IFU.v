@@ -22,7 +22,10 @@ module ysyx_25040109_IFU (
     output        imem_wvalid,
     output        imem_bready,
     input         imem_bvalid,
-    input [1:0]   imem_bresp
+    input [1:0]   imem_bresp,
+    output [3:0]  imem_awid,
+    output        imem_wlast,
+    input  [3:0]  imem_bid
     /* verilator lint_off UNUSED */
 );
 
@@ -46,5 +49,11 @@ module ysyx_25040109_IFU (
     assign imem_awaddr  = 32'b0;
     assign imem_wdata   = 32'b0;
     assign imem_wstr    = 4'b0;
+    assign imem_awid    = 4'b0;
+    assign imem_wlast   = 1'b0;
+
+    /* verilator lint_off UNUSED */
+    wire [3:0] imem_bid_unused = imem_bid;
+    /* verilator lint_on UNUSED */
 
 endmodule

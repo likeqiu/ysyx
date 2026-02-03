@@ -1,6 +1,3 @@
-// 仲裁器：IFU 只读 + LSU 读写 -> 单端口存储器
-// 约束：单次只允许一个未完成事务
-// 优先级：LSU 写 > LSU 读 > IFU 读
 
 module arbiter (
     input  wire        clk,
@@ -17,6 +14,9 @@ module arbiter (
     input  wire  [3:0] imem_arid,
     output wire  [3:0]  imem_rid,
     output              imem_rlast,
+    input wire  [7:0]  imem_arlen,
+    input wire [2:0]   imem_arsize,
+    input wire  [1:0]  imem_arburst,
 
     // LSU 读通道
     input  wire        dmem_arvalid,
@@ -29,18 +29,26 @@ module arbiter (
     input  wire [3:0]  dmem_arid,
     output wire [3:0]  dmem_rid,
     output wire        dmem_rlast,
+    input wire [7:0]   dmem_arlen,
+    input wire [2:0] dmem_arsize,
+    input wire [1:0]  dmem_arburst,
     // LSU 写通道
     input  wire        dmem_awvalid,
     output wire        dmem_awready,
     input  wire [31:0] dmem_awaddr,
+    input  wire [3:0]  dmem_awid,
     input  wire        dmem_wvalid,
     output wire        dmem_wready,
     input  wire [31:0] dmem_wdata,
     input  wire [3:0]  dmem_wstrb,
+    input  wire        dmem_wlast,
     output wire        dmem_bvalid,
     input  wire        dmem_bready,
     output wire [1:0]  dmem_bresp,
-
+    output wire [3:0]  dmem_bid,
+    input wire [7:0]   dmem_awlen,
+    input wire [2:0]   dmem_awsize,
+    input wire  [1:0]  dmem_awburst,
     // 存储器侧（单端口）
     output wire        mem_arvalid,
     input  wire        mem_arready,
@@ -53,29 +61,45 @@ module arbiter (
     output wire        mem_awvalid,
     input  wire        mem_awready,
     output wire [31:0] mem_awaddr,
+    output wire [3:0]  mem_awid,
     output wire        mem_wvalid,
     input  wire        mem_wready,
     output wire [31:0] mem_wdata,
     output wire [3:0]  mem_wstrb,
+    output wire        mem_wlast,
     input  wire        mem_bvalid,
     output wire        mem_bready,
     input  wire [1:0]  mem_bresp,
+    input  wire [3:0]  mem_bid,
     output wire [3:0] mem_arid,
     input wire [3:0]  mem_rid,
-    input             mem_rlast     
-
+    input             mem_rlast,
+    output wire [7:0] mem_arlen,
+    output wire [2:0] mem_arsize,
+    output wire [1:0] mem_arburst,
+    output wire [7:0] mem_awlen,
+    output wire [2:0] mem_awsize,
+    output wire [1:0] mem_awburst     
 
 );
 
-    assign mem_arid  = (state == ST_IFU_AR) ? imem_arid :
-                    (state == ST_LSU_AR) ? dmem_arid : 4'b0;
+
+    assign mem_arid  =  (state == ST_IFU_AR) ? imem_arid :
+                        (state == ST_LSU_AR) ? dmem_arid : 4'b0;
+    assign mem_arlen  = (state == ST_IFU_AR) ? imem_arlen : dmem_arlen;
+    assign mem_arburst= (state == ST_IFU_AR) ? imem_arburst : dmem_arburst;
+    assign mem_arsize = (state == ST_IFU_AR) ? imem_arsize  : dmem_arsize;
+    assign mem_awlen  = (state == ST_LSU_W) ? dmem_awlen  : 8'b0;
+    assign mem_awsize = (state == ST_LSU_W) ? dmem_awsize : 3'b0;
+    assign mem_awburst= (state == ST_LSU_W) ? dmem_awburst : 2'b0;
+
 
     assign imem_rid  = (state == ST_IFU_R)  ? mem_rid  : 4'b0;
     assign imem_rlast= (state == ST_IFU_R)  ? mem_rlast: 1'b0;
 
     assign dmem_rid  = (state == ST_LSU_R)  ? mem_rid  : 4'b0;
     assign dmem_rlast= (state == ST_LSU_R)  ? mem_rlast: 1'b0;
-
+    assign dmem_bid  = (state == ST_LSU_B)  ? mem_bid  : 4'b0;
 
 
     localparam ST_IDLE   = 3'd0;
@@ -98,7 +122,7 @@ module arbiter (
     wire ar_fire = mem_arvalid && mem_arready;
     wire r_fire  = mem_rvalid  && mem_rready && mem_rlast;
     wire aw_fire = mem_awvalid && mem_awready;
-    wire w_fire  = mem_wvalid  && mem_wready;
+    wire w_fire  = mem_wvalid  && mem_wready && mem_wlast;
     wire b_fire  = mem_bvalid  && mem_bready;
 
     // 存储器请求路由
@@ -111,10 +135,12 @@ module arbiter (
 
     assign mem_awvalid = (state == ST_LSU_W && !aw_done) ? dmem_awvalid : 1'b0;
     assign mem_awaddr  = (state == ST_LSU_W) ? dmem_awaddr : 32'b0;
+    assign mem_awid    = (state == ST_LSU_W) ? dmem_awid : 4'b0;
 
     assign mem_wvalid  = (state == ST_LSU_W && !w_done) ? dmem_wvalid : 1'b0;
     assign mem_wdata   = (state == ST_LSU_W) ? dmem_wdata : 32'b0;
     assign mem_wstrb   = (state == ST_LSU_W) ? dmem_wstrb : 4'b0;
+    assign mem_wlast   = (state == ST_LSU_W) ? dmem_wlast : 1'b0;
 
 
     // ready 回传给主端

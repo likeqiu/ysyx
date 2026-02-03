@@ -1,7 +1,7 @@
 module ysyx_25040109_LSU(
     input clk,
     input rst,
-
+/* verilator lint_off UNUSEDSIGNAL */
     // 来自 EXU
     input [31:0] addr,
     input [31:0] store_data,
@@ -23,11 +23,17 @@ module ysyx_25040109_LSU(
     output dmem_awvalid,
     input dmem_awready,
     output [31:0] dmem_awaddr,
+    output [3:0] dmem_awid,
 
     output dmem_wvalid,
     output [31:0] dmem_wdata,
     output [3:0] dmem_wstrb,
+    output dmem_wlast,
     input dmem_wready,
+
+    output [7:0] dmem_awlen,
+    output [2:0] dmem_awsize,
+    output [1:0] dmem_awburst,
 
     // 输出到 WB
     output reg [31:0] load_data,
@@ -37,15 +43,34 @@ module ysyx_25040109_LSU(
     input [1:0] dmem_rresp,
     input       dmem_bvalid,
     input [1:0] dmem_bresp,
+    input [3:0] dmem_bid,
     output      dmem_bready,
     output      resp_err,
     
     output [3:0] dmem_arid,
     input [3:0]  dmem_rid,
-    input        dmem_rlast
+    input        dmem_rlast,
+    output [7:0] dmem_arlen,
+    output [2:0] dmem_arsize,
+    output [1:0] dmem_arburst
+    /* verilator lint_off UNUSEDSIGNAL */
 );
 
     assign dmem_arid = 4'b0001;
+    assign dmem_awid = 4'b0001;
+    assign dmem_wlast = dmem_wvalid;
+    /* verilator lint_off UNUSED */
+    wire [3:0] dmem_bid_unused = dmem_bid;
+    /* verilator lint_on UNUSED */
+    assign dmem_arlen = 8'd0;
+    assign dmem_arsize = 3'b010;
+    assign dmem_arburst = 2'b01;
+    assign dmem_awlen = 8'b0;
+    assign dmem_awsize = 3'b010;
+    assign dmem_awburst = 2'b01;
+
+
+
     // 状态机
     localparam IDLE      = 3'b000;  // 空闲状态
     localparam WAIT_AR   = 3'b001;  // 等待读地址握手
@@ -73,7 +98,7 @@ module ysyx_25040109_LSU(
     wire in_fire = in_valid && out_ready;
     wire out_fire = out_valid && in_ready;
     wire mem_read_fire = dmem_rvalid && dmem_rready && dmem_rlast;
-    wire mem_write_fire = dmem_wvalid && dmem_wready;
+    wire mem_write_fire = dmem_wvalid && dmem_wready && dmem_wlast;
     wire mem_ar_fire = dmem_arvalid && dmem_arready;
     wire mem_aw_fire = dmem_awvalid && dmem_awready;
 
