@@ -155,7 +155,6 @@ module ysyx_25040109_XBAR (
                        rd_target == T_CLINT? c_rlast   : 1'b0);
 
     reg err_rlast;
-    
     reg [7:0] err_rlen_cnt;
 
     /* verilator lint_off UNUSED */
