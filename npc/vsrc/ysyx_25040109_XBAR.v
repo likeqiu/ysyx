@@ -193,6 +193,8 @@ module ysyx_25040109_XBAR (
     reg       w_done;
     reg       err_rvalid;
     reg       err_bvalid;
+    reg       rd_pending;
+    reg       wr_pending;
 
     wire ar_simple_ok    = (in_arlen == 8'd0) && (in_arsize == 3'b010) && (in_arburst == 2'b01);
     wire aw_simple_ok    = (in_awlen == 8'd0) && (in_awsize == 3'b010) && (in_awburst == 2'b01);
@@ -273,7 +275,7 @@ module ysyx_25040109_XBAR (
     assign u_bready = (state == ST_B && !wr_err && wr_target == T_UART) ? in_bready : 1'b0;
     assign c_bready = (state == ST_B && !wr_err && wr_target == T_CLINT) ? in_bready : 1'b0;
 
-    assign in_rvalid = (state == ST_RD) ?
+    assign in_rvalid = (state == ST_RD && rd_pending) ?
                        (rd_err ? err_rvalid :
                        (rd_target == T_SRAM ? s_rvalid :
                         rd_target == T_UART ? u_rvalid :
@@ -287,11 +289,11 @@ module ysyx_25040109_XBAR (
                         rd_target == T_UART ? u_rresp :
                         rd_target == T_CLINT ? c_rresp : RESP_DECERR);
 
-    assign in_bvalid = (state == ST_B) ?
+    assign in_bvalid = (state == ST_B && wr_pending) ?
                        (wr_err ? err_bvalid :
                        (wr_target == T_SRAM ? s_bvalid :
                         wr_target == T_UART ? u_bvalid :
-                        wr_target == T_CLINT ? c_bvalid : 1'b0)) : 1'b0;
+                        wr_target == T_CLINT? c_bvalid : 1'b0)) : 1'b0;
     assign in_bresp  = wr_err ? RESP_DECERR :
                        (wr_target == T_SRAM ? s_bresp :
                         wr_target == T_UART ? u_bresp :
@@ -316,6 +318,8 @@ module ysyx_25040109_XBAR (
             err_rlen_cnt <= 8'd0;
             rd_id_latched <= 4'b0;
             wr_id_latched <= 4'b0;
+            rd_pending <= 1'b0;
+            wr_pending <= 1'b0;
         end else begin
             case (state)
                 ST_IDLE: begin
@@ -343,6 +347,7 @@ module ysyx_25040109_XBAR (
                                          hit_ar_clint ? T_CLINT : T_INV;
                             rd_err <= !(hit_ar_sram || hit_ar_uart || hit_ar_clint);
                             rd_id_latched <= in_arid;
+                            rd_pending <= 1'b1;
 
                             if (!(hit_ar_sram || hit_ar_uart || hit_ar_clint)) begin
                                 err_rvalid <= 1'b1;
@@ -360,6 +365,7 @@ module ysyx_25040109_XBAR (
                                 err_rvalid <= 1'b0;
                                 err_rlast  <= 1'b0;
                                 state <= ST_IDLE;
+                                rd_pending <= 1'b0;
                             end else begin
                                 err_rlen_cnt <= err_rlen_cnt - 1'b1;
                                 err_rlast <= (err_rlen_cnt == 8'd1);
@@ -370,6 +376,7 @@ module ysyx_25040109_XBAR (
                             (rd_target == T_UART && u_rvalid && in_rready && u_rlast) ||
                             (rd_target == T_CLINT && c_rvalid && in_rready && c_rlast)) begin
                             state <= ST_IDLE;
+                            rd_pending <= 1'b0;
                         end
                     end
                 end
@@ -381,6 +388,7 @@ module ysyx_25040109_XBAR (
                         if (wr_err) begin
                             err_bvalid <= 1'b1;
                         end
+                        wr_pending <= 1'b1;
                         state <= ST_B;
                     end
                 end
@@ -389,12 +397,14 @@ module ysyx_25040109_XBAR (
                         if (in_b_fire) begin
                             err_bvalid <= 1'b0;
                             state <= ST_IDLE;
+                            wr_pending <= 1'b0;
                         end
                     end else begin
                         if ((wr_target == T_SRAM && s_bvalid && in_bready) ||
                             (wr_target == T_UART && u_bvalid && in_bready) ||
                             (wr_target == T_CLINT && c_bvalid && in_bready)) begin
                             state <= ST_IDLE;
+                            wr_pending <= 1'b0;
                         end
                     end
                 end
