@@ -144,7 +144,7 @@ module ysyx_25040109_XBAR (
     assign c_arsize = in_arsize;
     assign c_arburst = in_arburst;
 
-    assign in_rid = rd_err ? 4'b0 : 
+    assign in_rid = rd_err ? rd_id_latched : 
                     (rd_target == T_SRAM ? s_rid :
                      rd_target == T_UART ? u_rid :
                      rd_target == T_CLINT? c_rid : 4'b0);
@@ -156,6 +156,8 @@ module ysyx_25040109_XBAR (
 
     reg err_rlast;
     reg [7:0] err_rlen_cnt;
+    reg [3:0] rd_id_latched;
+    reg [3:0] wr_id_latched;
 
     /* verilator lint_off UNUSED */
     localparam [1:0] RESP_OKAY   = 2'b00;
@@ -294,7 +296,7 @@ module ysyx_25040109_XBAR (
                        (wr_target == T_SRAM ? s_bresp :
                         wr_target == T_UART ? u_bresp :
                         wr_target == T_CLINT ? c_bresp : RESP_DECERR);
-    assign in_bid    = wr_err ? 4'b0 :
+    assign in_bid    = wr_err ? wr_id_latched :
                        (wr_target == T_SRAM ? s_bid :
                         wr_target == T_UART ? u_bid :
                         wr_target == T_CLINT ? c_bid : 4'b0);
@@ -312,6 +314,8 @@ module ysyx_25040109_XBAR (
             err_bvalid <= 1'b0;
             err_rlast  <= 1'b0;
             err_rlen_cnt <= 8'd0;
+            rd_id_latched <= 4'b0;
+            wr_id_latched <= 4'b0;
         end else begin
             case (state)
                 ST_IDLE: begin
@@ -327,6 +331,8 @@ module ysyx_25040109_XBAR (
                                          hit_aw_uart ? T_UART :
                                          hit_aw_clint ? T_CLINT : T_INV;
                             wr_err <= !(hit_aw_sram || hit_aw_uart || hit_aw_clint);
+                            wr_id_latched <= in_awid;
+
                             aw_done <= 1'b1;
                             state <= ST_WR;
                         end
@@ -336,6 +342,8 @@ module ysyx_25040109_XBAR (
                                          hit_ar_uart ? T_UART :
                                          hit_ar_clint ? T_CLINT : T_INV;
                             rd_err <= !(hit_ar_sram || hit_ar_uart || hit_ar_clint);
+                            rd_id_latched <= in_arid;
+
                             if (!(hit_ar_sram || hit_ar_uart || hit_ar_clint)) begin
                                 err_rvalid <= 1'b1;
                                 err_rlen_cnt <= in_arlen;
