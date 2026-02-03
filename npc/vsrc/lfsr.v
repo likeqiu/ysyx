@@ -11,6 +11,7 @@ module lfsr #(  parameter integer  W = 5,
 );
 
 
+
     wire lsb = q[0];
 
     always @(posedge clk) begin

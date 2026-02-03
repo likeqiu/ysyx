@@ -28,13 +28,13 @@ module ysyx_25040109_MEM (
     
 
     // dmem read
-    input [31:0] dmem_araddr,
-    input        dmem_arvalid,
-    output       dmem_arready,
+    input [31:0]      dmem_araddr,
+    input             dmem_arvalid,
+    output            dmem_arready,
     output reg [31:0] dmem_rdata,
-    output reg   dmem_rvalid,
-    input        dmem_rready,
-    output reg [1:0] dmem_rresp,
+    output reg        dmem_rvalid,
+    input             dmem_rready,
+    output reg [1:0]  dmem_rresp,
 
     // dmem write
     input [31:0] dmem_awaddr,
