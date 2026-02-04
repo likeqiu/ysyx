@@ -15,7 +15,7 @@ ALL  ?=
 
 FST = 1
 
-#SOC_TOP = 1
+SOC_TOP = 1
 YSYX_SOC_HOME ?= $(NPC_HOME)/../ysyxSoC
 NPC_VSRC_SOC = $(filter-out %/ysyx_25040109_top.v %/uart.v,$(VSRC))
 YSYX_SOC_PERIP_VSRC = $(shell find $(YSYX_SOC_HOME)/perip -name '*.v')
