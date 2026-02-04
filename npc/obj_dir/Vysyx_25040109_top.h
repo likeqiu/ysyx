@@ -26,8 +26,8 @@ class Vysyx_25040109_top VL_NOT_FINAL : public VerilatedModel {
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&clk,0,0);
-    VL_IN8(&rst,0,0);
+    VL_IN8(&clock,0,0);
+    VL_IN8(&reset,0,0);
     VL_OUT8(&inst_wb_complete,0,0);
     VL_OUT8(&is_load_out,0,0);
     VL_OUT8(&is_store_out,0,0);

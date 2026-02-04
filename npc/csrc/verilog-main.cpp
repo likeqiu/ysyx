@@ -2,7 +2,7 @@
 #include<iostream>
 
 
-Vysyx_25040109_top *top = new Vysyx_25040109_top;
+VTop *top = new Vysyx_25040109_top;
 VerilatedFstC *tfp = new VerilatedFstC;
 vluint64_t sim_time = 0;
 
@@ -18,13 +18,13 @@ extern "C" void init_verilog(int argc, char **argv)
 
         
 
-        top->clk = 0;
+        top->clock = 0;
         top->eval();
-        top->rst = 1;
-        top->clk = 1;
+        top->reset = 1;
+        top->clock = 1;
         top->eval();
         tfp->dump(sim_time++);
-        top->rst = 0;
+        top->reset = 0;
 
         std::cout << "After reset: PC = 0x" << std::hex << top->pc << std::dec << std::endl;
 }

@@ -1,6 +1,6 @@
 module ysyx_25040109_hanshake (
-    input           clk,
-    input           rst,
+    input           clock,
+    input           reset,
 
     // 来自 MEM
     input  [31:0]   imem_rdata,
@@ -30,8 +30,8 @@ module ysyx_25040109_hanshake (
     // 输出数据：满则缓冲，否则直通
     assign inst_ifu = full ? inst_temp : imem_rdata;      
 
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             full <= 1'b0;
             inst_temp <= 32'b0;
         end else begin

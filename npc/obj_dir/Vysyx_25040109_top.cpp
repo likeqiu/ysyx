@@ -12,8 +12,8 @@
 Vysyx_25040109_top::Vysyx_25040109_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     : VerilatedModel{*_vcontextp__}
     , vlSymsp{new Vysyx_25040109_top__Syms(contextp(), _vcname__, this)}
-    , clk{vlSymsp->TOP.clk}
-    , rst{vlSymsp->TOP.rst}
+    , clock{vlSymsp->TOP.clock}
+    , reset{vlSymsp->TOP.reset}
     , inst_wb_complete{vlSymsp->TOP.inst_wb_complete}
     , is_load_out{vlSymsp->TOP.is_load_out}
     , is_store_out{vlSymsp->TOP.is_store_out}

@@ -897,8 +897,8 @@ void Vysyx_25040109_top___024root__trace_chg_sub_0(Vysyx_25040109_top___024root*
                                 & (IData)(vlSelf->ysyx_25040109_top__DOT__mem_wready))));
         bufp->chgBit(oldp+459,(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__in_r_fire));
     }
-    bufp->chgBit(oldp+460,(vlSelf->clk));
-    bufp->chgBit(oldp+461,(vlSelf->rst));
+    bufp->chgBit(oldp+460,(vlSelf->clock));
+    bufp->chgBit(oldp+461,(vlSelf->reset));
     bufp->chgIData(oldp+462,(vlSelf->p_count_number),32);
     bufp->chgIData(oldp+463,(vlSelf->inst),32);
     bufp->chgIData(oldp+464,(vlSelf->pc),32);

@@ -1,6 +1,6 @@
 module ysyx_25040109_XBAR (
-    input clk,
-    input rst,
+    input clock,
+    input reset,
 
     // upstream
     input        in_arvalid,
@@ -304,8 +304,8 @@ module ysyx_25040109_XBAR (
                         wr_target == T_UART ? u_bid :
                         wr_target == T_CLINT ? c_bid : 4'b0);
 
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             rd_state <= RD_IDLE;
             wr_state <= WR_IDLE;
             rd_target <= T_INV;

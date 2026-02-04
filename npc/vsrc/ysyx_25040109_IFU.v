@@ -1,6 +1,6 @@
 module ysyx_25040109_IFU (
-    input           clk,
-    input           rst,
+    input           clock,
+    input           reset,
 
     // 来自 MEM
     input  [31:0]   imem_rdata,
@@ -32,8 +32,8 @@ module ysyx_25040109_IFU (
     
 
     ysyx_25040109_hanshake u_ifu_hanshake (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
         .imem_rdata(imem_rdata),
         .mem_valid(mem_valid),
         .ifu_ready_to_mem(ifu_ready_to_mem),

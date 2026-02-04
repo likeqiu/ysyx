@@ -2,10 +2,23 @@
 #define __VERILOG_INIT_H__
 
 
+#ifdef SOC_TOP
+#include <VysyxSoCFull.h>
+#include <VysyxSoCFull___024root.h>
+  typedef VysyxSoCFull VTop;
+#else
 #include <Vysyx_25040109_top.h>
+#include <Vysyx_25040109_top___024root.h>
+  typedef Vysyx_25040109_top VTop;
+#endif
+
+extern VTop *top;
+
+
+
 #include <verilated_fst_c.h>
 #include <verilated.h>
-#include <Vysyx_25040109_top___024root.h>
+
 
 extern Vysyx_25040109_top *top;
 extern VerilatedFstC *tfp;

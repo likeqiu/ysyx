@@ -1,6 +1,6 @@
 module arbiter (
-    input  wire        clk,
-    input  wire        rst,
+    input  wire        clock,
+    input  wire        reset,
 
     // IFU 读通道
     input  wire        imem_arvalid,
@@ -209,8 +209,8 @@ module arbiter (
         endcase
     end
 
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             rd_state <= RD_IDLE;
             wr_state <= WR_IDLE;
         end else begin

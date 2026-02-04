@@ -155,8 +155,8 @@ module ysyx_25040109 (
 
     // CPU
     ysyx_25040109_CPU cpu (
-        .clk(clock),
-        .rst(reset),
+        .clock(clock),
+        .reset(reset),
         .p_count_number(32'b0),
 
         .imem_arvalid(imem_arvalid),
@@ -229,8 +229,8 @@ module ysyx_25040109 (
 
     // arbiter: imem + dmem -> single AXI master
     arbiter u_arbiter (
-        .clk(clock),
-        .rst(reset),
+        .clock(clock),
+        .reset(reset),
 
         .imem_arvalid(imem_arvalid),
         .imem_arready(imem_arready),

@@ -1,8 +1,8 @@
 module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDTH=32)
 (
     input [31:0] pc,
-    input clk,
-    input rst,
+    input clock,
+    input reset,
     input [DATA_WIDTH-1:0] wdata,
     input [ADDR_WIDTH-1:0] waddr,
     input wen,
@@ -56,7 +56,7 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
 
 
 
-    always @(posedge clk)begin
+    always @(posedge clock)begin
         if(wen && waddr != 5'b0) begin
             rf[waddr] <= wdata;
         end
@@ -91,8 +91,8 @@ end
 `endif
 
 
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             mstatus <= 32'h1800; 
             mtvec   <= 32'h0; 
             mepc    <= 32'h0;

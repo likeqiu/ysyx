@@ -1,6 +1,6 @@
 module ysyx_25040109_CPU (
-    input clk,
-    input rst,
+    input clock,
+    input reset,
     input [31:0] p_count_number,  // trace 计数
 
     /* verilator lint_off UNUSEDSIGNAL */
@@ -286,8 +286,8 @@ module ysyx_25040109_CPU (
 
     // IFU
     ysyx_25040109_IFU ifu (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
         .imem_rdata(imem_rdata),
         .mem_valid(imem_rvalid),
         .ifu_ready_to_mem(ifu_ready_to_mem),
@@ -375,8 +375,8 @@ module ysyx_25040109_CPU (
 
     // LSU
     ysyx_25040109_LSU lsu (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
         .addr(result),
         .store_data(rs2_data),
         .funct3(funct3),
@@ -423,8 +423,8 @@ module ysyx_25040109_CPU (
 
     // RegisterFile
     ysyx_25040109_RegisterFile #(5, 32) regfile (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
         .pc(pc),
         .wdata(writeback_data),
         .waddr(rd_addr_exu),
@@ -465,8 +465,8 @@ module ysyx_25040109_CPU (
   
 
 
-    always @(posedge clk) begin
-        if (!rst && inst_wb_complete_r) begin
+    always @(posedge clock) begin
+        if (!reset && inst_wb_complete_r) begin
             itrace_print(pc_exe, inst_exe, 4, p_count_number);
             
             if (printf_finish(inst_exe) == 0) begin
@@ -474,7 +474,7 @@ module ysyx_25040109_CPU (
             end
         end
 
-        if (!rst) begin
+        if (!reset) begin
             if (id_fire && dbg_id_fire_cnt < 10) begin
                 dbg_id_fire_cnt <= dbg_id_fire_cnt + 1;
                 //$display("[DBG id_fire%0d] pc_fetch=0x%08h inst_ifu=0x%08h id_valid=%b stage_valid=%b ifu_ready=%b mem_valid=%b imem_addr=0x%08h",
@@ -493,8 +493,8 @@ module ysyx_25040109_CPU (
 `endif
 
     // 时序
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             stage_valid    <= 1'b0;
             id_valid       <= 1'b0;
             wb_delay_cnt   <= 4'd0;
@@ -581,7 +581,7 @@ module ysyx_25040109_CPU (
                 wb_delay_cnt <= wb_delay_cnt - 1'b1;
             end
 
-            inst_wb_complete_r <= (!rst) && commit_cond;
+            inst_wb_complete_r <= (!reset) && commit_cond;
         end
         end
     end

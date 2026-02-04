@@ -1,7 +1,7 @@
 module uart(
         /* verilator lint_off UNUSED */
-    input clk,
-    input rst,
+    input clock,
+    input reset,
 
     input            arvalid,
     output           arready,
@@ -40,8 +40,8 @@ module uart(
 );  
 
     reg [3:0] arid_latched;
-    always @(posedge  clk) begin
-        if(rst) arid_latched <= 4'b0;
+    always @(posedge  clock) begin
+        if(reset) arid_latched <= 4'b0;
         else if(ar_fire) arid_latched <= arid;
     end
 
@@ -84,8 +84,8 @@ module uart(
     wire [31:0] wdata_use = w_fire ? wdata : wdata_latched;
     /* verilator lint_on UNUSEDSIGNAL */
 
-    always @(posedge clk) begin
-        if(rst)begin
+    always @(posedge clock) begin
+        if(reset)begin
         rvalid <= 1'b0;
         rdata  <= 32'b0;
         rresp  <= RESP_OK;

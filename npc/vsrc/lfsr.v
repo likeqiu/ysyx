@@ -3,8 +3,8 @@ module lfsr #(  parameter integer  W = 5,
                 parameter [W-1:0]  SEED = 5'h1 )
 (
 
-    input clk,
-    input rst,
+    input clock,
+    input reset,
     input en,
     output reg [W - 1 : 0] q
 
@@ -14,8 +14,8 @@ module lfsr #(  parameter integer  W = 5,
 
     wire lsb = q[0];
 
-    always @(posedge clk) begin
-        if(rst)begin
+    always @(posedge clock) begin
+        if(reset)begin
             q <= (SEED != 0) ? SEED : {{W-1{1'b0}},1'b1};
         end else if(en)begin
             if(q == {W{1'b0}})begin

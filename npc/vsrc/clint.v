@@ -2,8 +2,8 @@
 module clint #(
     parameter BASE_ADDR = 32'h1001_0000
 ) (
-    input             clk,
-    input             rst,
+    input             clock,
+    input             reset,
 
     // read 
     input             arvalid,
@@ -41,8 +41,8 @@ module clint #(
 
 
     reg [3:0] arid_latched;
-    always @(posedge clk) begin
-        if(rst) arid_latched <= 4'b0;
+    always @(posedge clock) begin
+        if(reset) arid_latched <= 4'b0;
         else if (ar_fire)  arid_latched <= arid;
     end
 
@@ -85,8 +85,8 @@ module clint #(
     assign wready  = !bvalid && !w_seen;
 
     // Read channel
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             rvalid <= 1'b0;
             rdata  <= 32'b0;
             rresp  <= RESP_OK;
@@ -111,8 +111,8 @@ module clint #(
     end
 
     // 忽略写
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             bvalid <= 1'b0;
             bresp  <= RESP_OK;
             aw_seen <= 1'b0;
@@ -141,8 +141,8 @@ module clint #(
     assign bid = awid_latched;
 
     // mtime counter
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             mtime <= 64'b0;
         end else begin
             mtime <= mtime + 64'b1;

@@ -78,10 +78,10 @@ static bool g_print_step = false;
 static void exec_once(){
 
     
-    top->clk = 0;
+    top->clock = 0;
     top->eval();
     tfp->dump(sim_time++);
-    top->clk = 1;
+    top->clock = 1;
     top->eval();
     tfp->dump(sim_time++);
 }

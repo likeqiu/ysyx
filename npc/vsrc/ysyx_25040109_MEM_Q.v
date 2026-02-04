@@ -1,6 +1,6 @@
 module ysyx_25040109_MEM_Q (
-    input clk,
-    input rst,
+    input clock,
+    input reset,
 
     // 单端口存储器接口（来自交叉开关）
     input        mem_arvalid,
@@ -111,8 +111,8 @@ module ysyx_25040109_MEM_Q (
     wire [3:0]  m_bid;
 
     // only one inflight to MEM at a time
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             rdq_valid <= 1'b0;
             wrq_aw_valid <= 1'b0;
             wrq_w_valid <= 1'b0;
@@ -253,8 +253,8 @@ module ysyx_25040109_MEM_Q (
 
     // Instantiate the original MEM using dmem port
     ysyx_25040109_MEM mem (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
 
         // imem unused
         .imem_araddr(32'b0),

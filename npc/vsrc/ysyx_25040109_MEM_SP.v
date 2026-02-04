@@ -1,6 +1,6 @@
 module ysyx_25040109_MEM_SP (
-    input clk,
-    input rst,
+    input clock,
+    input reset,
 
     // 单端口存储器接口（来自仲裁器）
     input        mem_arvalid,
@@ -56,8 +56,8 @@ module ysyx_25040109_MEM_SP (
 
     // 复用原 MEM 的 dmem 端口实现单端口存储器
     ysyx_25040109_MEM mem (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
 
         // imem 端口空置
         .imem_araddr(32'b0),

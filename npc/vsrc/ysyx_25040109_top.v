@@ -1,6 +1,6 @@
 module ysyx_25040109_top (
-    input clk,
-    input rst,
+    input clock,
+    input reset,
     input [31:0] p_count_number,
     
 `ifdef SYNTHESIS
@@ -223,8 +223,8 @@ module ysyx_25040109_top (
     
     // CPU
     ysyx_25040109_CPU cpu (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
         .p_count_number(p_count_number),
 
         // imem
@@ -303,8 +303,8 @@ module ysyx_25040109_top (
 
     // 仲裁器：IFU + LSU -> 单端口存储器
     arbiter u_arbiter (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
 
         // IFU 读通道
         .imem_arvalid(imem_arvalid),
@@ -389,8 +389,8 @@ module ysyx_25040109_top (
 
     // 交叉开关：地址译码后分发到存储器或串口
     ysyx_25040109_XBAR xbar (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
 
         // 上游输入
         .in_arvalid(mem_arvalid),
@@ -523,8 +523,8 @@ module ysyx_25040109_top (
 
     // 串口
     uart u_uart (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
         .arvalid(uart_arvalid),
         .arready(uart_arready),
         .araddr(uart_araddr),
@@ -558,8 +558,8 @@ module ysyx_25040109_top (
 
 
     clint u_clint (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
 
         .arvalid(clint_arvalid),
         .arready(clint_arready),
@@ -595,8 +595,8 @@ module ysyx_25040109_top (
 
     // 单端口 MEM（带队列，支持读写并行发起）
     ysyx_25040109_MEM_Q mem (
-        .clk(clk),
-        .rst(rst),
+        .clock(clock),
+        .reset(reset),
 
         // 单端口接口
         .mem_araddr(sram_araddr),

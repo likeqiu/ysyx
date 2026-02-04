@@ -1,6 +1,6 @@
 module ysyx_25040109_MEM (
-    input clk,
-    input rst,
+    input clock,
+    input reset,
 
     // imem
     input [31:0] imem_araddr,
@@ -103,8 +103,8 @@ module ysyx_25040109_MEM (
     reg        dmem_wlast_err;
 
 
-    always @(posedge clk) begin
-        if(rst)begin
+    always @(posedge clock) begin
+        if(reset)begin
             imem_arid_latched <= 4'b0;
             dmem_arid_latched <= 4'b0;
             dmem_awid_latched <= 4'b0;
@@ -223,8 +223,8 @@ module ysyx_25040109_MEM (
 
 
 
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             imem_rvalid <= 1'b0;
             imem_busy <= 1'b0;
             imem_delay_cnt <= {{W{1'b0}}};
@@ -290,8 +290,8 @@ module ysyx_25040109_MEM (
         end
     end
 
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             dmem_rvalid <= 1'b0;
             dmem_r_busy <= 1'b0;
             dmem_delay_cnt <= {{W{1'b0}}};
@@ -365,8 +365,8 @@ module ysyx_25040109_MEM (
 `endif
 
     // 新增状态：dmem_b_busy + dmem_b_delay_cnt
-    always @(posedge clk) begin
-    if (rst) begin
+    always @(posedge clock) begin
+    if (reset) begin
         dmem_bvalid <= 1'b0;
         dmem_bresp  <= RESP_OKAY;
         dmem_b_busy <= 1'b0;
@@ -402,8 +402,8 @@ module ysyx_25040109_MEM (
 
 
 
-    always @(posedge clk) begin
-        if (!rst) begin
+    always @(posedge clock) begin
+        if (!reset) begin
             if (dmem_w_fire) begin
 `ifndef SYNTHESIS
                 if (dmem_waddr_ok &&  dmem_wstrb_ext != 8'b0) begin
@@ -415,8 +415,8 @@ module ysyx_25040109_MEM (
     end
 
         // 保证只有一个未完成写响应，并支持突发写
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             dmem_awaddr_valid <= 1'b0;
             dmem_awaddr_latched <= 32'b0;
             dmem_awlen_cnt <= 8'd0;
@@ -497,41 +497,41 @@ module ysyx_25040109_MEM (
 
 
     lfsr #(.W(W),.POLY(5'h12),.SEED(5'h1)) ifsr_imem(
-        .rst(rst),
-        .clk(clk),
+        .reset(reset),
+        .clock(clock),
         .en(imem_delay_en),
         .q(imem_delay)
     );
 
     lfsr #(.W(W),.POLY(5'h10),.SEED(5'h1)) ifsr_dmem(
-        .rst(rst),
-        .clk(clk),
+        .reset(reset),
+        .clock(clock),
         .en(dmem_delay_en),
         .q(dmem_delay)
     );
 
         lfsr #(.W(dmem_w_delya_wideth),.POLY(5'h12),.SEED(5'h1)) ifsr_dmem_w(
-        .rst(rst),
-        .clk(clk),
+        .reset(reset),
+        .clock(clock),
         .en(dmem_w_delay_en),
         .q(dmem_w_delay)
     );
         lfsr #(.W(dmem_aw_delay_wideth),.POLY(5'h12),.SEED(5'h1)) ifsr_dmem_aw(
-        .rst(rst),
-        .clk(clk),
+        .reset(reset),
+        .clock(clock),
         .en(dmem_aw_delay_en),
         .q(dmem_aw_delay)
     );
         lfsr #(.W(dmem_b_delay_wideth),.POLY(5'h12),.SEED(5'h1)) ifsr_dmem_b(
-        .rst(rst),
-        .clk(clk),
+        .reset(reset),
+        .clock(clock),
         .en(dmem_b_delay_en),
         .q(dmem_b_delay)
     );
 
     /* verilator lint_off UNUSED */
-    always @(posedge clk) begin
-        if(!rst)begin
+    always @(posedge clock) begin
+        if(!reset)begin
             if(imem_awvalid)begin
                 $fatal("imem AWVALID must stay 0");
             end

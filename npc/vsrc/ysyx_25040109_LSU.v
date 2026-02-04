@@ -1,6 +1,6 @@
 module ysyx_25040109_LSU(
-    input clk,
-    input rst,
+    input clock,
+    input reset,
 /* verilator lint_off UNUSEDSIGNAL */
     // 来自 EXU
     input [31:0] addr,
@@ -127,8 +127,8 @@ module ysyx_25040109_LSU(
     assign store_enable = store_valid;
 
     // 状态机
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             state <= IDLE;
             load_latched <= 1'b0;
             store_latched <= 1'b0;
@@ -184,8 +184,8 @@ module ysyx_25040109_LSU(
     end
 
     // 请求与数据缓冲
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             addr_latched       <= 32'b0;
             store_data_latched <= 32'b0;
             funct3_latched     <= 3'b0;
@@ -205,7 +205,7 @@ module ysyx_25040109_LSU(
         end
     end
 
-    always @(posedge clk) begin
+    always @(posedge clock) begin
         if (state == WAIT_R && mem_read_fire) begin
             buffer_load_data <= dmem_rdata;
             buffer_funct3 <= funct3_latched;
@@ -240,8 +240,8 @@ module ysyx_25040109_LSU(
     reg [1:0] buffer_bresp;
 
     wire b_fire = dmem_bvalid && dmem_bready;
-    always @(posedge clk) begin
-        if (rst) begin
+    always @(posedge clock) begin
+        if (reset) begin
             buffer_rresp <= RESP_OKAY;
             buffer_bresp <= RESP_OKAY;
         end else begin
