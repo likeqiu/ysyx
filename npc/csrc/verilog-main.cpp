@@ -1,10 +1,14 @@
-#include<verilog_init.h>
-#include<iostream>
+#include <verilog_init.h>
+#include <cassert>
+#include <cstdint>
+#include <iostream>
 
 
-VTop *top = new Vysyx_25040109_top;
+VTop *top = new VTop;
 VerilatedFstC *tfp = new VerilatedFstC;
 vluint64_t sim_time = 0;
+
+
 
 extern "C" void init_verilog(int argc, char **argv)
 {
@@ -26,7 +30,9 @@ extern "C" void init_verilog(int argc, char **argv)
         tfp->dump(sim_time++);
         top->reset = 0;
 
+#ifndef SOC_TOP
         std::cout << "After reset: PC = 0x" << std::hex << top->pc << std::dec << std::endl;
+#endif
 }
 
 extern "C" void clear_verilog(){
@@ -36,4 +42,3 @@ extern "C" void clear_verilog(){
     delete tfp;
     return;
 }
-

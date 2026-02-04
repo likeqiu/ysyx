@@ -15,6 +15,20 @@ ALL  ?=
 
 FST = 1
 
+YSYX_SOC_HOME ?= $(NPC_HOME)/../ysyxSoC
+NPC_VSRC_SOC = $(filter-out %/ysyx_25040109_top.v %/uart.v,$(VSRC))
+YSYX_SOC_PERIP_VSRC = $(shell find $(YSYX_SOC_HOME)/perip -name '*.v')
+YSYX_SOC_VSRC = $(YSYX_SOC_HOME)/build/ysyxSoCFull.v $(YSYX_SOC_PERIP_VSRC)
+YSYX_SOC_INC_PATH = $(YSYX_SOC_HOME)/perip/uart16550/rtl $(YSYX_SOC_HOME)/perip/spi/rtl
+YSYX_SOC_INCFLAGS = $(addprefix -I, $(YSYX_SOC_INC_PATH))
+SOC_TOPNAME = ysyxSoCFull
+SOC_NAME = riscv32e-npc-ysyxSoC
+SOC_OBJ_DIR = obj_dir_soc
+SOC_CFLAGS = -DSOC_TOP
+SOC_VERILATOR_FLAGS = --timescale "1ns/1ns" --no-timing
+SOC_VSRC = $(NPC_VSRC_SOC) $(YSYX_SOC_VSRC)
+SOC_SRCS = $(SOC_VSRC) $(CSRC)
+
 
 
 
@@ -137,6 +151,16 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS)
 		$(addprefix -CFLAGS , $(CXXFLAGS) $(INCFLAGS))
 		mv obj_dir/V$(TOPNAME) $(BUILD_DIR)/$(NAME)
 		
+soc-waveform: ensure-llvm-deps $(COMPILE_DEPS)
+	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	@echo "Building ysyxSoC waveform with dynamic LLVM support..."
+	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(SOC_SRCS) \
+		--trace-fst --top-module $(SOC_TOPNAME) $(SOC_VERILATOR_FLAGS) -Mdir $(SOC_OBJ_DIR) \
+		$(YSYX_SOC_INCFLAGS) \
+		$(addprefix -LDFLAGS , $(LDFLAGS)) \
+		$(addprefix -CFLAGS , $(CFLAGS) $(CXXFLAGS) $(INCFLAGS) $(SOC_CFLAGS))
+		mv $(SOC_OBJ_DIR)/V$(SOC_TOPNAME) $(BUILD_DIR)/$(SOC_NAME)
+		
 
 
 run: waveform
@@ -145,6 +169,16 @@ run: waveform
 	@echo "./build/$(NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
 	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NAME) $(ARGS)  $(ARGS_DIFF) $(IMG) 
 	mv sim.fst $(FST).fst
+
+soc-run: soc-waveform
+	@echo "Setting library path and running ysyxSoC..."
+	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH"
+	@echo "./build/$(SOC_NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
+	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(SOC_NAME) $(ARGS)  $(ARGS_DIFF) $(IMG) 
+	mv sim.fst soc_$(FST).fst
+
+top: run
+soc: soc-run
 
 look:
 	gtkwave $(FST).fst 
@@ -184,10 +218,10 @@ check:waveform
 
 
 clean:
-	rm -rf obj_dir waveform.fst waveform.fst.hier auto_bind.cpp *.fst
+	rm -rf obj_dir $(SOC_OBJ_DIR) waveform.fst waveform.fst.hier auto_bind.cpp *.fst
 	rm -f $(LLVM_WRAPPER_LIB) $(DISASM_OBJ)
 
 
-.PHONY: all sim waveform run look clean install-llvm-lib info clean-llvm rebuild-llvm
+.PHONY: all sim waveform soc-waveform run soc-run top soc look clean install-llvm-lib info clean-llvm rebuild-llvm
 
 include ../Makefile
