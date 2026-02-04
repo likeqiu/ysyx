@@ -121,7 +121,9 @@ void cpu_exec(uint64_t n){
         npc_state.state = NPC_RUNNING;
     }
 
+    #ifndef SOC_TOP
     top->p_count_number = n > 1000000 ? MAX_INST_TO_PRINT + 1 : n;
+    #endif
     execute(n);
 
 
