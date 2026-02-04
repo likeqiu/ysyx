@@ -179,12 +179,13 @@ module ysyx_25040109_XBAR (
     localparam [1:0] T_INV  = 2'd3;
 
 
-    localparam [1:0] ST_IDLE = 2'd0;//AR
-    localparam [1:0] ST_RD   = 2'd1;//读数据返回态
-    localparam [1:0] ST_WR   = 2'd2;//(AW+W)
-    localparam [1:0] ST_B    = 2'd3;
-
-    reg [1:0] state;
+    localparam [1:0] RD_IDLE  = 2'd0;
+    localparam [1:0] RD_RESP  = 2'd1;
+    localparam [1:0] WR_IDLE  = 2'd0;
+    localparam [1:0] WR_DATA  = 2'd1;
+    localparam [1:0] WR_RESP  = 2'd2;
+    reg [1:0] rd_state;
+    reg [1:0] wr_state;
     reg [1:0] rd_target;
     reg [1:0] wr_target;
     reg       rd_err;
@@ -212,32 +213,32 @@ module ysyx_25040109_XBAR (
     wire in_r_fire  = in_rvalid  && in_rready;
     wire in_b_fire  = in_bvalid  && in_bready;
 
-    assign in_arready = (state == ST_IDLE && !in_awvalid) ?
+    assign in_arready = (rd_state == RD_IDLE) ?
                         (hit_ar_sram ? s_arready :
                         hit_ar_uart ? u_arready :
                         hit_ar_clint ? c_arready : 1'b1) : 1'b0;
 
-    assign in_awready = (state == ST_IDLE) ?
+    assign in_awready = (wr_state == WR_IDLE) ?
                         (hit_aw_sram ? s_awready :
                         hit_aw_uart ? u_awready :
                         hit_aw_clint ? c_awready : 1'b1) : 1'b0;
 
-    assign in_wready  = (state == ST_WR) ?
+    assign in_wready  = (wr_state == WR_DATA) ?
                         (wr_err ? 1'b1 :
                         (wr_target == T_SRAM ? s_wready :
                          wr_target == T_UART ? u_wready :
                          wr_target == T_CLINT ? c_wready : 1'b0)) : 1'b0;
 
-    assign s_arvalid = (state == ST_IDLE && !in_awvalid && in_arvalid && hit_ar_sram);
-    assign u_arvalid = (state == ST_IDLE && !in_awvalid && in_arvalid && hit_ar_uart);
-    assign c_arvalid = (state == ST_IDLE && !in_awvalid && in_arvalid && hit_ar_clint);
+    assign s_arvalid = (rd_state == RD_IDLE && in_arvalid && hit_ar_sram);
+    assign u_arvalid = (rd_state == RD_IDLE && in_arvalid && hit_ar_uart);
+    assign c_arvalid = (rd_state == RD_IDLE && in_arvalid && hit_ar_clint);
     assign s_araddr  = in_araddr;
     assign u_araddr  = in_araddr;
     assign c_araddr  = in_araddr;
 
-    assign s_awvalid = (state == ST_IDLE && in_awvalid && hit_aw_sram);
-    assign u_awvalid = (state == ST_IDLE && in_awvalid && hit_aw_uart);
-    assign c_awvalid = (state == ST_IDLE && in_awvalid && hit_aw_clint);
+    assign s_awvalid = (wr_state == WR_IDLE && in_awvalid && hit_aw_sram);
+    assign u_awvalid = (wr_state == WR_IDLE && in_awvalid && hit_aw_uart);
+    assign c_awvalid = (wr_state == WR_IDLE && in_awvalid && hit_aw_clint);
     assign s_awaddr  = in_awaddr;
     assign u_awaddr  = in_awaddr;
     assign c_awaddr  = in_awaddr;
@@ -249,14 +250,14 @@ module ysyx_25040109_XBAR (
     assign s_awburst = in_awburst;
     assign u_awlen   = in_awlen;
     assign u_awsize  = in_awsize;
-    assign u_awburst = in_awburst;
+    assign u_awburst  = in_awburst;
     assign c_awlen   = in_awlen;
     assign c_awsize  = in_awsize;
     assign c_awburst = in_awburst;
 
-    assign s_wvalid = (state == ST_WR && !wr_err && wr_target == T_SRAM) ? in_wvalid : 1'b0;
-    assign u_wvalid = (state == ST_WR && !wr_err && wr_target == T_UART) ? in_wvalid : 1'b0;
-    assign c_wvalid = (state == ST_WR && !wr_err && wr_target == T_CLINT) ? in_wvalid : 1'b0;
+    assign s_wvalid = (wr_state == WR_DATA && !wr_err && wr_target == T_SRAM) ? in_wvalid : 1'b0;
+    assign u_wvalid = (wr_state == WR_DATA && !wr_err && wr_target == T_UART) ? in_wvalid : 1'b0;
+    assign c_wvalid = (wr_state == WR_DATA && !wr_err && wr_target == T_CLINT) ? in_wvalid : 1'b0;
     assign s_wdata  = in_wdata;
     assign u_wdata  = in_wdata;
     assign c_wdata  = in_wdata;
@@ -267,15 +268,15 @@ module ysyx_25040109_XBAR (
     assign u_wlast  = in_wlast;
     assign c_wlast  = in_wlast;
 
-    assign s_rready = (state == ST_RD && !rd_err && rd_target == T_SRAM) ? in_rready : 1'b0;
-    assign u_rready = (state == ST_RD && !rd_err && rd_target == T_UART) ? in_rready : 1'b0;
-    assign c_rready = (state == ST_RD && !rd_err && rd_target == T_CLINT) ? in_rready : 1'b0;
+    assign s_rready = (rd_state == RD_RESP && !rd_err && rd_target == T_SRAM) ? in_rready : 1'b0;
+    assign u_rready = (rd_state == RD_RESP && !rd_err && rd_target == T_UART) ? in_rready : 1'b0;
+    assign c_rready = (rd_state == RD_RESP && !rd_err && rd_target == T_CLINT) ? in_rready : 1'b0;
 
-    assign s_bready = (state == ST_B && !wr_err && wr_target == T_SRAM) ? in_bready : 1'b0;
-    assign u_bready = (state == ST_B && !wr_err && wr_target == T_UART) ? in_bready : 1'b0;
-    assign c_bready = (state == ST_B && !wr_err && wr_target == T_CLINT) ? in_bready : 1'b0;
+    assign s_bready = (wr_state == WR_RESP && !wr_err && wr_target == T_SRAM) ? in_bready : 1'b0;
+    assign u_bready = (wr_state == WR_RESP && !wr_err && wr_target == T_UART) ? in_bready : 1'b0;
+    assign c_bready = (wr_state == WR_RESP && !wr_err && wr_target == T_CLINT) ? in_bready : 1'b0;
 
-    assign in_rvalid = (state == ST_RD && rd_pending) ?
+    assign in_rvalid = (rd_state == RD_RESP && rd_pending) ?
                        (rd_err ? err_rvalid :
                        (rd_target == T_SRAM ? s_rvalid :
                         rd_target == T_UART ? u_rvalid :
@@ -289,7 +290,7 @@ module ysyx_25040109_XBAR (
                         rd_target == T_UART ? u_rresp :
                         rd_target == T_CLINT ? c_rresp : RESP_DECERR);
 
-    assign in_bvalid = (state == ST_B && wr_pending) ?
+    assign in_bvalid = (wr_state == WR_RESP && wr_pending) ?
                        (wr_err ? err_bvalid :
                        (wr_target == T_SRAM ? s_bvalid :
                         wr_target == T_UART ? u_bvalid :
@@ -305,7 +306,8 @@ module ysyx_25040109_XBAR (
 
     always @(posedge clk) begin
         if (rst) begin
-            state <= ST_IDLE;
+            rd_state <= RD_IDLE;
+            wr_state <= WR_IDLE;
             rd_target <= T_INV;
             wr_target <= T_INV;
             rd_err <= 1'b0;
@@ -321,66 +323,68 @@ module ysyx_25040109_XBAR (
             rd_pending <= 1'b0;
             wr_pending <= 1'b0;
         end else begin
-            case (state)
-                ST_IDLE: begin
+            // Read FSM
+            case (rd_state)
+                RD_IDLE: begin
                     err_rvalid <= 1'b0;
-                    err_bvalid <= 1'b0;
                     err_rlast  <= 1'b0;
                     err_rlen_cnt <= 8'd0;
-                    aw_done <= 1'b0;
-                    w_done <= 1'b0;
-                    if (in_awvalid) begin
-                        if (in_aw_fire) begin
-                            wr_target <= hit_aw_sram ? T_SRAM :
-                                         hit_aw_uart ? T_UART :
-                                         hit_aw_clint ? T_CLINT : T_INV;
-                            wr_err <= !(hit_aw_sram || hit_aw_uart || hit_aw_clint);
-                            wr_id_latched <= in_awid;
+                    if (in_ar_fire) begin
+                        rd_target <= hit_ar_sram ? T_SRAM :
+                                     hit_ar_uart ? T_UART :
+                                     hit_ar_clint ? T_CLINT : T_INV;
+                        rd_err <= !(hit_ar_sram || hit_ar_uart || hit_ar_clint);
+                        rd_id_latched <= in_arid;
+                        rd_pending <= 1'b1;
 
-                            aw_done <= 1'b1;
-                            state <= ST_WR;
+                        if (!(hit_ar_sram || hit_ar_uart || hit_ar_clint)) begin
+                            err_rvalid <= 1'b1;
+                            err_rlen_cnt <= in_arlen;
+                            err_rlast <= (in_arlen == 8'd0);
                         end
-                    end else if (in_arvalid) begin
-                        if (in_ar_fire) begin
-                            rd_target <= hit_ar_sram ? T_SRAM :
-                                         hit_ar_uart ? T_UART :
-                                         hit_ar_clint ? T_CLINT : T_INV;
-                            rd_err <= !(hit_ar_sram || hit_ar_uart || hit_ar_clint);
-                            rd_id_latched <= in_arid;
-                            rd_pending <= 1'b1;
-
-                            if (!(hit_ar_sram || hit_ar_uart || hit_ar_clint)) begin
-                                err_rvalid <= 1'b1;
-                                err_rlen_cnt <= in_arlen;
-                                err_rlast <= (in_arlen == 8'd0);
-                            end
-                            state <= ST_RD;
-                        end
+                        rd_state <= RD_RESP;
                     end
                 end
-                ST_RD: begin
+                RD_RESP: begin
                     if (rd_err) begin
                         if (in_r_fire) begin
                             if (err_rlen_cnt == 8'd0) begin
                                 err_rvalid <= 1'b0;
                                 err_rlast  <= 1'b0;
-                                state <= ST_IDLE;
                                 rd_pending <= 1'b0;
+                                rd_state <= RD_IDLE;
                             end else begin
                                 err_rlen_cnt <= err_rlen_cnt - 1'b1;
                                 err_rlast <= (err_rlen_cnt == 8'd1);
                             end
                         end
                     end else begin
-                        if ((rd_target == T_SRAM && s_rvalid && in_rready && s_rlast) ||
-                            (rd_target == T_UART && u_rvalid && in_rready && u_rlast) ||
-                            (rd_target == T_CLINT && c_rvalid && in_rready && c_rlast)) begin
-                            state <= ST_IDLE;
+                        if (in_r_fire && in_rlast) begin
                             rd_pending <= 1'b0;
+                            rd_state <= RD_IDLE;
                         end
                     end
                 end
-                ST_WR: begin
+                default: rd_state <= RD_IDLE;
+            endcase
+
+            // Write FSM
+            case (wr_state)
+                WR_IDLE: begin
+                    err_bvalid <= 1'b0;
+                    aw_done <= 1'b0;
+                    w_done <= 1'b0;
+                    if (in_aw_fire) begin
+                        wr_target <= hit_aw_sram ? T_SRAM :
+                                     hit_aw_uart ? T_UART :
+                                     hit_aw_clint ? T_CLINT : T_INV;
+                        wr_err <= !(hit_aw_sram || hit_aw_uart || hit_aw_clint);
+                        wr_id_latched <= in_awid;
+                        aw_done <= 1'b1;
+                        wr_state <= WR_DATA;
+                    end
+                end
+                WR_DATA: begin
                     if (in_w_fire && in_wlast) begin
                         w_done <= 1'b1;
                     end
@@ -389,26 +393,17 @@ module ysyx_25040109_XBAR (
                             err_bvalid <= 1'b1;
                         end
                         wr_pending <= 1'b1;
-                        state <= ST_B;
+                        wr_state <= WR_RESP;
                     end
                 end
-                ST_B: begin
-                    if (wr_err) begin
-                        if (in_b_fire) begin
-                            err_bvalid <= 1'b0;
-                            state <= ST_IDLE;
-                            wr_pending <= 1'b0;
-                        end
-                    end else begin
-                        if ((wr_target == T_SRAM && s_bvalid && in_bready) ||
-                            (wr_target == T_UART && u_bvalid && in_bready) ||
-                            (wr_target == T_CLINT && c_bvalid && in_bready)) begin
-                            state <= ST_IDLE;
-                            wr_pending <= 1'b0;
-                        end
+                WR_RESP: begin
+                    if (in_b_fire) begin
+                        err_bvalid <= 1'b0;
+                        wr_pending <= 1'b0;
+                        wr_state <= WR_IDLE;
                     end
                 end
-                default: state <= ST_IDLE;
+                default: wr_state <= WR_IDLE;
             endcase
         end
     end

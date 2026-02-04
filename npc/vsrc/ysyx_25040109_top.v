@@ -593,8 +593,8 @@ module ysyx_25040109_top (
         .awburst(clint_awburst)
     );
 
-    // 单端口 MEM
-    ysyx_25040109_MEM_SP mem (
+    // 单端口 MEM（带队列，支持读写并行发起）
+    ysyx_25040109_MEM_Q mem (
         .clk(clk),
         .rst(rst),
 

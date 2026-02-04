@@ -1,4 +1,3 @@
-
 module arbiter (
     input  wire        clk,
     input  wire        rst,
@@ -12,11 +11,11 @@ module arbiter (
     output wire [31:0] imem_rdata,
     output wire [1:0]  imem_rresp,
     input  wire  [3:0] imem_arid,
-    output wire  [3:0]  imem_rid,
-    output              imem_rlast,
-    input wire  [7:0]  imem_arlen,
-    input wire [2:0]   imem_arsize,
-    input wire  [1:0]  imem_arburst,
+    output wire  [3:0] imem_rid,
+    output             imem_rlast,
+    input  wire [7:0]  imem_arlen,
+    input  wire [2:0]  imem_arsize,
+    input  wire [1:0]  imem_arburst,
 
     // LSU 读通道
     input  wire        dmem_arvalid,
@@ -29,9 +28,10 @@ module arbiter (
     input  wire [3:0]  dmem_arid,
     output wire [3:0]  dmem_rid,
     output wire        dmem_rlast,
-    input wire [7:0]   dmem_arlen,
-    input wire [2:0] dmem_arsize,
-    input wire [1:0]  dmem_arburst,
+    input  wire [7:0]  dmem_arlen,
+    input  wire [2:0]  dmem_arsize,
+    input  wire [1:0]  dmem_arburst,
+
     // LSU 写通道
     input  wire        dmem_awvalid,
     output wire        dmem_awready,
@@ -46,9 +46,10 @@ module arbiter (
     input  wire        dmem_bready,
     output wire [1:0]  dmem_bresp,
     output wire [3:0]  dmem_bid,
-    input wire [7:0]   dmem_awlen,
-    input wire [2:0]   dmem_awsize,
-    input wire  [1:0]  dmem_awburst,
+    input  wire [7:0]  dmem_awlen,
+    input  wire [2:0]  dmem_awsize,
+    input  wire [1:0]  dmem_awburst,
+
     // 存储器侧（单端口）
     output wire        mem_arvalid,
     input  wire        mem_arready,
@@ -71,148 +72,150 @@ module arbiter (
     output wire        mem_bready,
     input  wire [1:0]  mem_bresp,
     input  wire [3:0]  mem_bid,
-    output wire [3:0] mem_arid,
-    input wire [3:0]  mem_rid,
-    input             mem_rlast,
-    output wire [7:0] mem_arlen,
-    output wire [2:0] mem_arsize,
-    output wire [1:0] mem_arburst,
-    output wire [7:0] mem_awlen,
-    output wire [2:0] mem_awsize,
-    output wire [1:0] mem_awburst     
-
+    output wire [3:0]  mem_arid,
+    input  wire [3:0]  mem_rid,
+    input              mem_rlast,
+    output wire [7:0]  mem_arlen,
+    output wire [2:0]  mem_arsize,
+    output wire [1:0]  mem_arburst,
+    output wire [7:0]  mem_awlen,
+    output wire [2:0]  mem_awsize,
+    output wire [1:0]  mem_awburst
 );
 
+    // Read arbitration
+    localparam [2:0] RD_IDLE   = 3'd0;
+    localparam [2:0] RD_IFU_AR = 3'd1;
+    localparam [2:0] RD_IFU_R  = 3'd2;
+    localparam [2:0] RD_LSU_AR = 3'd3;
+    localparam [2:0] RD_LSU_R  = 3'd4;
 
-    assign mem_arid  =  (state == ST_IFU_AR) ? imem_arid :
-                        (state == ST_LSU_AR) ? dmem_arid : 4'b0;
-    assign mem_arlen  = (state == ST_IFU_AR) ? imem_arlen : dmem_arlen;
-    assign mem_arburst= (state == ST_IFU_AR) ? imem_arburst : dmem_arburst;
-    assign mem_arsize = (state == ST_IFU_AR) ? imem_arsize  : dmem_arsize;
-    assign mem_awlen  = (state == ST_LSU_W) ? dmem_awlen  : 8'b0;
-    assign mem_awsize = (state == ST_LSU_W) ? dmem_awsize : 3'b0;
-    assign mem_awburst= (state == ST_LSU_W) ? dmem_awburst : 2'b0;
+    reg [2:0] rd_state, rd_state_n;
 
+    // Write channel state
+    localparam [1:0] WR_IDLE = 2'd0;
+    localparam [1:0] WR_AW   = 2'd1;
+    localparam [1:0] WR_W    = 2'd2;
+    localparam [1:0] WR_B    = 2'd3;
 
-    assign imem_rid  = (state == ST_IFU_R)  ? mem_rid  : 4'b0;
-    assign imem_rlast= (state == ST_IFU_R)  ? mem_rlast: 1'b0;
+    reg [1:0] wr_state, wr_state_n;
 
-    assign dmem_rid  = (state == ST_LSU_R)  ? mem_rid  : 4'b0;
-    assign dmem_rlast= (state == ST_LSU_R)  ? mem_rlast: 1'b0;
-    assign dmem_bid  = (state == ST_LSU_B)  ? mem_bid  : 4'b0;
-
-
-    localparam ST_IDLE   = 3'd0;
-    localparam ST_IFU_AR = 3'd1;
-    localparam ST_IFU_R  = 3'd2;
-    localparam ST_LSU_AR = 3'd3;
-    localparam ST_LSU_R  = 3'd4;
-    localparam ST_LSU_W  = 3'd5;
-    localparam ST_LSU_B  = 3'd6;
-
-
-    reg [2:0] state, state_n;
-    reg       aw_done;
-    reg       w_done;
-
-    wire req_lsu_w  = dmem_awvalid || dmem_wvalid;
-    wire req_lsu_r  = dmem_arvalid;
-    wire req_ifu_r  = imem_arvalid;
- 
     wire ar_fire = mem_arvalid && mem_arready;
     wire r_fire  = mem_rvalid  && mem_rready && mem_rlast;
     wire aw_fire = mem_awvalid && mem_awready;
     wire w_fire  = mem_wvalid  && mem_wready && mem_wlast;
     wire b_fire  = mem_bvalid  && mem_bready;
 
-    // 存储器请求路由
-    assign mem_arvalid = (state == ST_IFU_AR) ? imem_arvalid :
-                         (state == ST_LSU_AR) ? dmem_arvalid :
+    // Read address routing
+    assign mem_arvalid = (rd_state == RD_IFU_AR) ? imem_arvalid :
+                         (rd_state == RD_LSU_AR) ? dmem_arvalid :
                          1'b0;
-    assign mem_araddr  = (state == ST_IFU_AR) ? imem_araddr :
-                         (state == ST_LSU_AR) ? dmem_araddr :
+    assign mem_araddr  = (rd_state == RD_IFU_AR) ? imem_araddr :
+                         (rd_state == RD_LSU_AR) ? dmem_araddr :
                          32'b0;
+    assign mem_arid    = (rd_state == RD_IFU_AR) ? imem_arid :
+                         (rd_state == RD_LSU_AR) ? dmem_arid : 4'b0;
+    assign mem_arlen   = (rd_state == RD_IFU_AR) ? imem_arlen :
+                         (rd_state == RD_LSU_AR) ? dmem_arlen : 8'b0;
+    assign mem_arsize  = (rd_state == RD_IFU_AR) ? imem_arsize :
+                         (rd_state == RD_LSU_AR) ? dmem_arsize : 3'b0;
+    assign mem_arburst = (rd_state == RD_IFU_AR) ? imem_arburst :
+                         (rd_state == RD_LSU_AR) ? dmem_arburst : 2'b0;
 
-    assign mem_awvalid = (state == ST_LSU_W && !aw_done) ? dmem_awvalid : 1'b0;
-    assign mem_awaddr  = (state == ST_LSU_W) ? dmem_awaddr : 32'b0;
-    assign mem_awid    = (state == ST_LSU_W) ? dmem_awid : 4'b0;
+    // Read ready back to masters
+    assign imem_arready = (rd_state == RD_IFU_AR) ? mem_arready : 1'b0;
+    assign dmem_arready = (rd_state == RD_LSU_AR) ? mem_arready : 1'b0;
 
-    assign mem_wvalid  = (state == ST_LSU_W && !w_done) ? dmem_wvalid : 1'b0;
-    assign mem_wdata   = (state == ST_LSU_W) ? dmem_wdata : 32'b0;
-    assign mem_wstrb   = (state == ST_LSU_W) ? dmem_wstrb : 4'b0;
-    assign mem_wlast   = (state == ST_LSU_W) ? dmem_wlast : 1'b0;
+    // Read response routing
+    assign imem_rvalid = (rd_state == RD_IFU_R) ? mem_rvalid : 1'b0;
+    assign imem_rdata  = (rd_state == RD_IFU_R) ? mem_rdata  : 32'b0;
+    assign imem_rresp  = (rd_state == RD_IFU_R) ? mem_rresp  : 2'b0;
+    assign imem_rid    = (rd_state == RD_IFU_R) ? mem_rid    : 4'b0;
+    assign imem_rlast  = (rd_state == RD_IFU_R) ? mem_rlast  : 1'b0;
 
+    assign dmem_rvalid = (rd_state == RD_LSU_R) ? mem_rvalid : 1'b0;
+    assign dmem_rdata  = (rd_state == RD_LSU_R) ? mem_rdata  : 32'b0;
+    assign dmem_rresp  = (rd_state == RD_LSU_R) ? mem_rresp  : 2'b0;
+    assign dmem_rid    = (rd_state == RD_LSU_R) ? mem_rid    : 4'b0;
+    assign dmem_rlast  = (rd_state == RD_LSU_R) ? mem_rlast  : 1'b0;
 
-    // ready 回传给主端
-    assign imem_arready = (state == ST_IFU_AR) ? mem_arready : 1'b0;
-    assign dmem_arready = (state == ST_LSU_AR) ? mem_arready : 1'b0;
-    assign dmem_awready = (state == ST_LSU_W && !aw_done) ? mem_awready : 1'b0;
-    assign dmem_wready  = (state == ST_LSU_W && !w_done) ? mem_wready : 1'b0;
+    assign mem_rready  = (rd_state == RD_IFU_R) ? imem_rready :
+                         (rd_state == RD_LSU_R) ? dmem_rready : 1'b0;
 
-    // 读响应路由
-    assign imem_rvalid = (state == ST_IFU_R) ? mem_rvalid : 1'b0;
-    assign imem_rdata  = (state == ST_IFU_R) ? mem_rdata  : 32'b0;
-    assign imem_rresp  = (state == ST_IFU_R) ? mem_rresp  : 2'b0;
+    // Write channel routing (LSU only)
+    assign mem_awvalid = (wr_state == WR_AW) ? dmem_awvalid : 1'b0;
+    assign mem_awaddr  = (wr_state == WR_AW) ? dmem_awaddr : 32'b0;
+    assign mem_awid    = (wr_state == WR_AW) ? dmem_awid : 4'b0;
+    assign mem_awlen   = (wr_state == WR_AW) ? dmem_awlen : 8'b0;
+    assign mem_awsize  = (wr_state == WR_AW) ? dmem_awsize : 3'b0;
+    assign mem_awburst = (wr_state == WR_AW) ? dmem_awburst : 2'b0;
 
-    assign dmem_rvalid = (state == ST_LSU_R) ? mem_rvalid : 1'b0;
-    assign dmem_rdata  = (state == ST_LSU_R) ? mem_rdata  : 32'b0;
-    assign dmem_rresp  = (state == ST_LSU_R) ? mem_rresp  : 2'b0;
+    assign mem_wvalid = (wr_state == WR_W) ? dmem_wvalid : 1'b0;
+    assign mem_wdata  = (wr_state == WR_W) ? dmem_wdata : 32'b0;
+    assign mem_wstrb  = (wr_state == WR_W) ? dmem_wstrb : 4'b0;
+    assign mem_wlast  = (wr_state == WR_W) ? dmem_wlast : 1'b0;
 
-    assign mem_rready  = (state == ST_IFU_R) ? imem_rready :
-                         (state == ST_LSU_R) ? dmem_rready :
-                         1'b0;
+    // Write ready back to LSU
+    assign dmem_awready = (wr_state == WR_AW) ? mem_awready : 1'b0;
+    assign dmem_wready  = (wr_state == WR_W) ? mem_wready  : 1'b0;
 
-    // 写响应路由
-    assign dmem_bvalid = (state == ST_LSU_B) ? mem_bvalid : 1'b0;
-    assign dmem_bresp  = (state == ST_LSU_B) ? mem_bresp  : 2'b0;
-    assign mem_bready  = (state == ST_LSU_B) ? dmem_bready : 1'b0;
+    // Write response routing
+    assign dmem_bvalid = (wr_state == WR_B) ? mem_bvalid : 1'b0;
+    assign dmem_bresp  = (wr_state == WR_B) ? mem_bresp  : 2'b0;
+    assign dmem_bid    = (wr_state == WR_B) ? mem_bid    : 4'b0;
+    assign mem_bready  = (wr_state == WR_B) ? dmem_bready : 1'b0;
 
-    // 状态机
+    // Read state machine
     always @(*) begin
-        state_n = state;
-        case (state)
-            ST_IDLE: begin
-                if (req_lsu_w)      state_n = ST_LSU_W;
-                else if (req_lsu_r) state_n = ST_LSU_AR;
-                else if (req_ifu_r) state_n = ST_IFU_AR;
+        rd_state_n = rd_state;
+        case (rd_state)
+            RD_IDLE: begin
+                if (dmem_arvalid) rd_state_n = RD_LSU_AR;
+                else if (imem_arvalid) rd_state_n = RD_IFU_AR;
             end
-            ST_IFU_AR: begin
-                if (ar_fire) state_n = ST_IFU_R;
+            RD_IFU_AR: begin
+                if (ar_fire) rd_state_n = RD_IFU_R;
             end
-            ST_IFU_R: begin
-                if (r_fire) state_n = ST_IDLE;
+            RD_IFU_R: begin
+                if (r_fire) rd_state_n = RD_IDLE;
             end
-            ST_LSU_AR: begin
-                if (ar_fire) state_n = ST_LSU_R;
+            RD_LSU_AR: begin
+                if (ar_fire) rd_state_n = RD_LSU_R;
             end
-            ST_LSU_R: begin
-                if (r_fire) state_n = ST_IDLE;
+            RD_LSU_R: begin
+                if (r_fire) rd_state_n = RD_IDLE;
             end
-            ST_LSU_W: begin
-                if (aw_done && w_done) state_n = ST_LSU_B;
+            default: rd_state_n = RD_IDLE;
+        endcase
+    end
+
+    // Write state machine
+    always @(*) begin
+        wr_state_n = wr_state;
+        case (wr_state)
+            WR_IDLE: begin
+                if (dmem_awvalid) wr_state_n = WR_AW;
             end
-            ST_LSU_B: begin
-                if (b_fire) state_n = ST_IDLE;
+            WR_AW: begin
+                if (aw_fire) wr_state_n = WR_W;
             end
-            default: state_n = ST_IDLE;
+            WR_W: begin
+                if (w_fire) wr_state_n = WR_B;
+            end
+            WR_B: begin
+                if (b_fire) wr_state_n = WR_IDLE;
+            end
+            default: wr_state_n = WR_IDLE;
         endcase
     end
 
     always @(posedge clk) begin
         if (rst) begin
-            state   <= ST_IDLE;
-            aw_done <= 1'b0;
-            w_done  <= 1'b0;
+            rd_state <= RD_IDLE;
+            wr_state <= WR_IDLE;
         end else begin
-            state <= state_n;
-
-            if (state != ST_LSU_W && state_n == ST_LSU_W) begin
-                aw_done <= 1'b0;
-                w_done  <= 1'b0;
-            end else if (state == ST_LSU_W) begin
-                if (aw_fire) aw_done <= 1'b1;
-                if (w_fire)  w_done  <= 1'b1;
-            end
+            rd_state <= rd_state_n;
+            wr_state <= wr_state_n;
         end
     end
 
