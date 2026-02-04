@@ -69,7 +69,7 @@ module ysyx_25040109_MEM_Q (
 
     wire wrq_full = wrq_aw_valid && wrq_w_valid;
 
-    // Accept upstream requests when queue slots are free
+
     wire can_accept_ar = !rdq_valid && !rd_inflight;
     wire can_accept_aw = !wrq_aw_valid && !wrq_w_valid && !wr_inflight;
     wire can_accept_w  = (wrq_aw_valid || (mem_awvalid && mem_awready)) && !wrq_w_valid && !wr_inflight;
@@ -110,7 +110,7 @@ module ysyx_25040109_MEM_Q (
     wire [1:0]  m_bresp;
     wire [3:0]  m_bid;
 
-    // Scheduling: only one inflight to MEM at a time
+    // only one inflight to MEM at a time
     always @(posedge clk) begin
         if (rst) begin
             rdq_valid <= 1'b0;
