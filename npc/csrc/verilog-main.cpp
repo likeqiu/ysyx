@@ -31,7 +31,11 @@ extern "C" void init_verilog(int argc, char **argv)
         top->reset = 0;
 
 #ifndef SOC_TOP
-        std::cout << "After reset: PC = 0x" << std::hex << top->pc << std::dec << std::endl;
+        std::cout << "After reset: PC = 0x" << std::hex << top->pc << std::dec
+                  << std::endl;
+#else  
+    std::cout << "After reset: PC = 0x" << std::hex <<top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__pc_fetch << std::dec << std::endl;
+
 #endif
 }
 

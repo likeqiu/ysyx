@@ -15,7 +15,7 @@ ALL  ?=
 
 FST = 1
 
-#SOC_TOP = 1
+SOC_TOP = 1
 YSYX_SOC_HOME ?= $(NPC_HOME)/../ysyxSoC
 NPC_VSRC_SOC = $(filter-out %/ysyx_25040109_top.v %/uart.v,$(VSRC))
 YSYX_SOC_PERIP_VSRC = $(shell find $(YSYX_SOC_HOME)/perip -name '*.v')
@@ -27,7 +27,16 @@ SOC_NAME = riscv32e-npc-ysyxSoC
 SOC_OBJ_DIR = obj_dir_soc
 SOC_CFLAGS = -DSOC_TOP
 SOC_VERILATOR_FLAGS = --timescale "1ns/1ns" --no-timing
-SOC_VERILATOR_WARNFLAGS = -Wno-DECLFILENAME -Wno-PINCONNECTEMPTY -Wno-fatal
+VERILATOR_WARN ?= 0
+ifeq ($(VERILATOR_WARN),1)
+VERILATOR_WALL = -Wall
+VERILATOR_WARNFLAGS =
+else
+VERILATOR_WALL =
+VERILATOR_WARNFLAGS = -Wno-lint -Wno-style -Wno-context
+endif
+
+SOC_VERILATOR_WARNFLAGS = $(VERILATOR_WARNFLAGS) -Wno-DECLFILENAME -Wno-PINCONNECTEMPTY -Wno-fatal
 SOC_VSRC = $(NPC_VSRC_SOC) $(YSYX_SOC_VSRC)
 
 ifeq ($(strip $(SOC_TOP)),)
@@ -37,7 +46,7 @@ NPC_OBJ_DIR = obj_dir
 NPC_VSRC = $(VSRC)
 NPC_INCFLAGS_EXTRA =
 NPC_VERILATOR_FLAGS =
-NPC_VERILATOR_WARNFLAGS =
+NPC_VERILATOR_WARNFLAGS = $(VERILATOR_WARNFLAGS)
 NPC_CFLAGS_EXTRA =
 else
 NPC_TOPNAME = $(SOC_TOPNAME)
@@ -158,16 +167,16 @@ sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building simulation with dynamic LLVM support..."
 	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $(NXDC) auto_bind.cpp
-	verilator --cc --exe --build --noassert $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp \
+	verilator $(VERILATOR_WALL) --cc --exe --build --noassert $(NPC_VERILATOR_FLAGS) $(NPC_VERILATOR_WARNFLAGS) $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp \
 		--trace-fst --top-module top \
 		$(addprefix -CFLAGS , $(CXXFLAGS)) \
 		$(addprefix -LDFLAGS , $(LDFLAGS)) 
 
 
-waveform: ensure-llvm-deps $(COMPILE_DEPS) $(NPC_SRCS)
+waveform: ensure-llvm-deps $(COMPILE_DEPS) $(NPC_SRCS) 
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building waveform with dynamic LLVM support..."
-	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(NPC_SRCS) \
+	verilator $(VERILATOR_WALL) --cc --exe --x-assign unique --x-initial unique --build $(NPC_SRCS) \
 		--trace-fst --top-module $(NPC_TOPNAME) $(NPC_VERILATOR_FLAGS) $(NPC_VERILATOR_WARNFLAGS) -Mdir $(NPC_OBJ_DIR) \
 		$(NPC_INCFLAGS_EXTRA) \
 		$(addprefix -LDFLAGS , $(LDFLAGS)) \
