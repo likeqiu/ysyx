@@ -62,9 +62,12 @@ extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(0); }
 
 extern "C" int printf_finish(uint32_t inst)
 {
-    if (inst == 0x00100073 )
-    {
+  if (inst == 0x00100073) {
+    #ifdef SOC_TOP
+    uint32_t a0 = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__regfile__DOT__rf[10];
+#else 
         uint32_t a0 = top->a0_out;
+#endif
         std::cout << "Finish program (" << (inst == 0x00100073 ? "EBREAK" : "ECALL")
                   << "), Hit a \033[1;" << (a0 == 0 ? 32 : 31) << "m"
                   << (a0 == 0 ? "GOOD" : "BAD") << "\033[0m TRAP\n";
@@ -85,7 +88,9 @@ extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
     for (int i = 0; i < 32;i++)
     {
       // cpu.gpr[i] = regs[i];
-      #ifndef SOC_TOP
+#ifdef SOC_TOP
+      top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__regfile__DOT__rf[i];
+#else
         cpu.gpr[i] = top->rootp->ysyx_25040109_top__DOT__cpu__DOT__regfile__DOT__rf[i];
 #endif
         }

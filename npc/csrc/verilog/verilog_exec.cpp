@@ -27,10 +27,20 @@ static paddr_t prev_dmem_raddr = 0;
 static paddr_t prev_dmem_waddr = 0;
 
 static void latch_mem_access_info() {
-    prev_is_load = top->is_load_out;
-    prev_is_store = top->is_store_out;
-    prev_dmem_raddr = top->dmem_raddr_out;
-    prev_dmem_waddr = top->dmem_waddr_out;
+
+#ifdef SOC_TOP
+
+      prev_is_load = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__is_load;
+    prev_is_store = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__is_store;
+    prev_dmem_raddr = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__mem_araddr ;
+    prev_dmem_waddr = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__mem_awaddr;
+#else 
+  //  prev_is_load = top->is_load_out;
+  //  prev_is_store = top->is_store_out;
+  //  prev_dmem_raddr = top->dmem_raddr_out;
+ //   prev_dmem_waddr = top->dmem_waddr_out;
+#endif
+
 }
 
 // 只在访问 MMIO 时跳过差分测试（使用上一拍的访存信息对齐提交）
@@ -46,8 +56,15 @@ static bool should_skip_difftest() {
 
 static void trace_and_difftest(Decode *_this,vaddr_t dnpc)
 {
-    // 只在指令完成时进行差分测试
-    if (top->inst_wb_complete) {
+  // 只在指令完成时进行差分测试 top->inst_wb_complete;
+  #ifdef SOC_TOP
+
+int temp_inst_wb_complete = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__inst_wb_complete_r;
+#else
+  int temp_inst_wb_complete = top->inst_wb_complete;
+
+  #endif
+    if (temp_inst_wb_complete) {
         #ifdef CONFIG_DIFFTEST
         if (should_skip_difftest()) {
             // 需要跳过：将 DUT 状态同步到 REF
@@ -98,7 +115,7 @@ static void execute(uint64_t n)
      //   clint_update_mtime();
         exec_once();
         g_nr_guest_inst++;
-        trace_and_difftest(&lastest_decode ,cpu.pc);
+       // trace_and_difftest(&lastest_decode ,cpu.pc);
         latch_mem_access_info();
 
         if(npc_state.state != NPC_RUNNING)
@@ -121,8 +138,10 @@ void cpu_exec(uint64_t n){
         npc_state.state = NPC_RUNNING;
     }
 
-    #ifndef SOC_TOP
-    top->p_count_number = n > 1000000 ? MAX_INST_TO_PRINT + 1 : n;
+   #ifdef SOC_TOP
+
+#else 
+ //   top->p_count_number = n > 1000000 ? MAX_INST_TO_PRINT + 1 : n;
     #endif
     execute(n);
 
