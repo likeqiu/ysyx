@@ -15,7 +15,7 @@ ALL  ?=
 
 FST = 1
 
-SOC_TOP = 1
+#SOC_TOP = 1
 YSYX_SOC_HOME ?= $(NPC_HOME)/../ysyxSoC
 NPC_VSRC_SOC = $(filter-out %/ysyx_25040109_top.v %/uart.v,$(VSRC))
 YSYX_SOC_PERIP_VSRC = $(shell find $(YSYX_SOC_HOME)/perip -name '*.v')
@@ -164,7 +164,7 @@ sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 		$(addprefix -LDFLAGS , $(LDFLAGS)) 
 
 
-waveform: ensure-llvm-deps $(COMPILE_DEPS)
+waveform: ensure-llvm-deps $(COMPILE_DEPS) $(NPC_SRCS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building waveform with dynamic LLVM support..."
 	verilator -Wall --cc --exe --x-assign unique --x-initial unique --build $(NPC_SRCS) \

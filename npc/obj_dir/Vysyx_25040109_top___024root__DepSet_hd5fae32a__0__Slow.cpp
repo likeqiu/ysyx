@@ -7,32 +7,10 @@
 
 #include "Vysyx_25040109_top___024root.h"
 
-VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_static__TOP(Vysyx_25040109_top___024root* vlSelf);
-
 VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_static(Vysyx_25040109_top___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_static\n"); );
-    // Body
-    Vysyx_25040109_top___024root___eval_static__TOP(vlSelf);
-    vlSelf->__Vm_traceActivity[1U] = 1U;
-    vlSelf->__Vm_traceActivity[0U] = 1U;
-}
-
-VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_static__TOP(Vysyx_25040109_top___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vysyx_25040109_top__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vysyx_25040109_top___024root___eval_static__TOP\n"); );
-    // Body
-    vlSelf->ysyx_25040109_top__DOT__cpu__DOT__pc_fetch = 0x80000000U;
-    vlSelf->ysyx_25040109_top__DOT__cpu__DOT__pc_exe = 0x80000000U;
-    vlSelf->ysyx_25040109_top__DOT__cpu__DOT__stage_valid = 0U;
-    vlSelf->ysyx_25040109_top__DOT__cpu__DOT__id_valid = 0U;
-    vlSelf->ysyx_25040109_top__DOT__cpu__DOT__id_inst = 0U;
-    vlSelf->ysyx_25040109_top__DOT__cpu__DOT__id_pc = 0x80000000U;
-    vlSelf->ysyx_25040109_top__DOT__cpu__DOT__lsu_req_issued = 0U;
-    vlSelf->ysyx_25040109_top__DOT__cpu__DOT__imem_req_pending = 0U;
-    vlSelf->ysyx_25040109_top__DOT__cpu__DOT__inst_exe = 0U;
 }
 
 VL_ATTR_COLD void Vysyx_25040109_top___024root___eval_initial__TOP(Vysyx_25040109_top___024root* vlSelf);

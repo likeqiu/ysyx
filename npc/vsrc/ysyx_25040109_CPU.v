@@ -1,9 +1,11 @@
 module ysyx_25040109_CPU (
     input clock,
     input reset,
-    input [31:0] p_count_number,  // trace 计数
+  
 
     /* verilator lint_off UNUSEDSIGNAL */
+    
+  input [31:0] p_count_number,  // trace 计数
     // 取指通道
     output        imem_arvalid,
     input         imem_arready,
@@ -111,15 +113,15 @@ module ysyx_25040109_CPU (
     localparam [1:0] RESP_OKAY = 2'b00;
 
     // 时序状态寄存器
-    reg  [31:0] pc_fetch = 32'h80000000;
-    reg  [31:0] pc_exe   = 32'h80000000;
-    reg         stage_valid    = 1'b0;
-    reg         id_valid       = 1'b0;
-    reg  [31:0] id_inst        = 32'b0;
-    reg  [31:0] id_pc          = 32'h80000000;
-    reg         lsu_req_issued = 1'b0;
-    reg         imem_req_pending = 1'b0;
-    reg  [31:0] inst_exe       = 32'b0;
+    reg  [31:0] pc_fetch;
+    reg  [31:0] pc_exe;
+    reg         stage_valid;
+    reg         id_valid;
+    reg  [31:0] id_inst;
+    reg  [31:0] id_pc;
+    reg         lsu_req_issued;
+    reg         imem_req_pending;
+    reg  [31:0] inst_exe;
     reg  [3:0]  wb_delay_cnt;
     reg         trap_state;
     reg  [31:0] trap_mepc;
@@ -467,7 +469,7 @@ module ysyx_25040109_CPU (
 
     always @(posedge clock) begin
         if (!reset && inst_wb_complete_r) begin
-            itrace_print(pc_exe, inst_exe, 4, p_count_number);
+            itrace_print(pc_exe, inst_exe, 4, 32'd100);
             
             if (printf_finish(inst_exe) == 0) begin
                 $finish;
@@ -493,16 +495,31 @@ module ysyx_25040109_CPU (
 `endif
 
     // 时序
+
+    wire [31:0] wave_pc_init = 32'h80000000;
+    wire [31:0] soc_oc_init  = 32'h20000000;
+    wire [31:0] init_pc ;    
+    
+    `ifndef SOC_TOP
+
+    assign init_pc = wave_pc_init;
+    `else
+    assign init_pc = soc_oc_init;
+
+    `endif
+
+
+    
     always @(posedge clock) begin
         if (reset) begin
             stage_valid    <= 1'b0;
             id_valid       <= 1'b0;
             wb_delay_cnt   <= 4'd0;
-            pc_fetch       <= 32'h80000000;
-            pc_exe         <= 32'h80000000;
+            pc_fetch       <= init_pc;
+            pc_exe         <= init_pc;
             inst_exe       <= 32'b0;
             id_inst        <= 32'b0;
-            id_pc          <= 32'h80000000;
+            id_pc          <= init_pc;
             lsu_req_issued <= 1'b0;
             imem_req_pending <= 1'b0;
             trap_state     <= S_NORMAL;
