@@ -56,7 +56,9 @@ module ysyx_25040109_RegisterFile #(parameter ADDR_WIDTH = 5,parameter DATA_WIDT
 
 
 
+   // integer  i;
     always @(posedge clock)begin
+
         if(wen && waddr != 5'b0) begin
             rf[waddr] <= wdata;
         end

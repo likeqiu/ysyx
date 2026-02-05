@@ -36,7 +36,10 @@ static char *img_file = NULL;
 static int difftest_port = 1234;//假接口，实际上不需要
 static char *log_file = NULL;
 
-static long load_img(){
+static long load_img() {
+
+
+  
     if(img_file == NULL){
         Log("No image is given. Use the default build-in image.");
         return 4096;
@@ -52,7 +55,7 @@ static long load_img(){
     fseek(fp, 0, SEEK_SET);
     int ret = fread(guest_to_host(RESET_VECTOR), size, 1, fp);
     assert(ret == 1);
-    
+
     fclose(fp);
     return size;
 }
@@ -110,19 +113,27 @@ void init_monitor(int argc, char *argv[])
     parse_args(argc, argv);
     long img_size = load_img();
 
-     init_regex();
-     init_wp_pool();
-     init_disasm_llvm();
+   // printf("11111111111\n");
+    init_regex();
+   // printf("2222222222222\n");
+    init_wp_pool();
+   // printf("33333333333333\n");
+    init_disasm_llvm();
 
-     init_verilog(argc, argv);
+   // printf("444444444444\n");
+
+    init_verilog(argc, argv);
+    //printf("55555555\n");
      // init_sdb();
-     init_mem();
+    init_mem();
+    //printf("66666666666\n");
 
      IFDEF(CONFIG_DEVICE, init_device());
 
-     
+    // printf("777777777\n");
 
-     init_difftest(diff_so_file, img_size, difftest_port);
+    // init_difftest(diff_so_file, img_size, difftest_port);
+   //  printf("88888888888\n");
 
      welcome();
 }

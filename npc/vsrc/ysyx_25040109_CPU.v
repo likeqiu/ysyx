@@ -478,14 +478,17 @@ module ysyx_25040109_CPU (
 
         if (!reset) begin
             if (id_fire && dbg_id_fire_cnt < 10) begin
-                dbg_id_fire_cnt <= dbg_id_fire_cnt + 1;
-                //$display("[DBG id_fire%0d] pc_fetch=0x%08h inst_ifu=0x%08h id_valid=%b stage_valid=%b ifu_ready=%b mem_valid=%b imem_addr=0x%08h",
-                  //       dbg_id_fire_cnt, pc_fetch, inst_ifu, id_valid, stage_valid, ifu_ready_to_mem, imem_rvalid, imem_araddr);
+          /*      dbg_id_fire_cnt <= dbg_id_fire_cnt + 1;
+                $display("[DBG id_fire%0d] pc_fetch=0x%08h inst_ifu=0x%08h id_valid=%b stage_valid=%b ifu_ready=%b mem_valid=%b imem_addr=0x%08h",
+                         dbg_id_fire_cnt, pc_fetch, inst_ifu, id_valid, stage_valid, ifu_ready_to_mem, imem_rvalid, imem_araddr);
+                         */
             end
             if (commit_cond && dbg_commit_cnt < 10) begin
-                dbg_commit_cnt <= dbg_commit_cnt + 1;
-                //$display("[DBG commit%0d] pc_exe=0x%08h inst=0x%08h rd=%0d wdata=0x%08h wen=%b pc_fetch=0x%08h next_pc=0x%08h",
-                  //       dbg_commit_cnt, pc_exe, inst_exe, rd_addr_exu, writeback_data, final_gpr_we, pc_fetch, next_pc);
+            /*    dbg_commit_cnt <= dbg_commit_cnt + 1;
+                $display("[DBG commit%0d] pc_exe=0x%08h inst=0x%08h rd=%0d wdata=0x%08h wen=%b pc_fetch=0x%08h next_pc=0x%08h",
+                  
+                dbg_commit_cnt, pc_exe, inst_exe, rd_addr_exu, writeback_data, final_gpr_we, pc_fetch, next_pc);
+                */
             end
         end else begin
             dbg_id_fire_cnt <= 0;

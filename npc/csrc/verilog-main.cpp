@@ -21,14 +21,13 @@ extern "C" void init_verilog(int argc, char **argv)
         tfp->open("sim.fst");
 
         
+top->reset = 1;
+for (int i = 0; i < 100; ++i) {
+  top->clock = 0; top->eval(); tfp->dump(sim_time++);
+  top->clock = 1; top->eval(); tfp->dump(sim_time++);
+}
+top->reset = 0;
 
-        top->clock = 0;
-        top->eval();
-        top->reset = 1;
-        top->clock = 1;
-        top->eval();
-        tfp->dump(sim_time++);
-        top->reset = 0;
 
 #ifndef SOC_TOP
         std::cout << "After reset: PC = 0x" << std::hex << top->pc << std::dec

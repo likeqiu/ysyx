@@ -75,7 +75,7 @@ static int cmd_p(char *args)
         word_t num_exp = 0;
         bool success = false;
         num_exp = expr(args, &success);
-        printf("%u\n", num_exp);
+        printf(FMT_WORD "\n", num_exp);
 
         return 0;
     }

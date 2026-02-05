@@ -199,7 +199,7 @@ extern "C" void itrace_print(long long pc, unsigned int instruction_word, int in
         // 如果反汇编成功，打印结果
         if (result > 0)
         {
-            if(p_count_number >= 1000){
+            if(p_count_number >= 100){
                 return;
             }
 
