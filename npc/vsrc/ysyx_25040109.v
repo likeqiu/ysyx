@@ -185,6 +185,41 @@ module ysyx_25040109 (
     wire [2:0]  mem_awsize;
     wire [1:0]  mem_awburst;
 
+    // clint <-> xbar
+    wire        clint_arvalid;
+    wire        clint_arready;
+    wire [31:0] clint_araddr;
+    wire        clint_rvalid;
+    wire        clint_rready;
+    wire [31:0] clint_rdata;
+    wire [1:0]  clint_rresp;
+    wire [3:0]  clint_arid;
+    wire [3:0]  clint_rid;
+    wire        clint_rlast;
+    wire [7:0]  clint_arlen;
+    wire [2:0]  clint_arsize;
+    wire [1:0]  clint_arburst;
+
+    wire        clint_awvalid;
+    wire        clint_awready;
+    wire [31:0] clint_awaddr;
+    wire [3:0]  clint_awid;
+    wire        clint_wvalid;
+    wire        clint_wready;
+    wire [31:0] clint_wdata;
+    wire [3:0]  clint_wstrb;
+    wire        clint_wlast;
+    wire        clint_bvalid;
+    wire        clint_bready;
+    wire [1:0]  clint_bresp;
+    wire [3:0]  clint_bid;
+    wire [7:0]  clint_awlen;
+    wire [2:0]  clint_awsize;
+    wire [1:0]  clint_awburst;
+
+
+    
+
     // unused imem write channel inputs
     assign imem_awready = 1'b0;
     assign imem_wready  = 1'b0;
@@ -360,39 +395,144 @@ module ysyx_25040109 (
         .mem_awburst(mem_awburst)
     );
 
-    // Map arbiter AXI to SoC io_master
-    assign io_master_arvalid = mem_arvalid;
-    assign mem_arready       = io_master_arready;
-    assign io_master_araddr  = mem_araddr;
-    assign io_master_arid    = mem_arid;
-    assign io_master_arlen   = mem_arlen;
-    assign io_master_arsize  = mem_arsize;
-    assign io_master_arburst = mem_arburst;
-    assign mem_rvalid        = io_master_rvalid;
-    assign io_master_rready  = mem_rready;
-    assign mem_rdata         = io_master_rdata;
-    assign mem_rresp         = io_master_rresp;
-    assign mem_rid           = io_master_rid;
-    assign mem_rlast         = io_master_rlast;
+    // xbar: CLINT vs SoC
+    clint_soc_xbar u_clint_soc_xbar (
+        .clock(clock),
+        .reset(reset),
 
-    assign io_master_awvalid = mem_awvalid;
-    assign mem_awready       = io_master_awready;
-    assign io_master_awaddr  = mem_awaddr;
-    assign io_master_awid    = mem_awid;
-    assign io_master_awlen   = mem_awlen;
-    assign io_master_awsize  = mem_awsize;
-    assign io_master_awburst = mem_awburst;
+        // upstream: from arbiter
+        .in_arvalid(mem_arvalid),
+        .in_arready(mem_arready),
+        .in_araddr(mem_araddr),
+        .in_rvalid(mem_rvalid),
+        .in_rready(mem_rready),
+        .in_rdata(mem_rdata),
+        .in_rresp(mem_rresp),
+        .in_arid(mem_arid),
+        .in_rid(mem_rid),
+        .in_rlast(mem_rlast),
+        .in_arlen(mem_arlen),
+        .in_arsize(mem_arsize),
+        .in_arburst(mem_arburst),
 
-    assign io_master_wvalid  = mem_wvalid;
-    assign mem_wready        = io_master_wready;
-    assign io_master_wdata   = mem_wdata;
-    assign io_master_wstrb   = mem_wstrb;
-    assign io_master_wlast   = mem_wlast;
+        .in_awvalid(mem_awvalid),
+        .in_awready(mem_awready),
+        .in_awaddr(mem_awaddr),
+        .in_awid(mem_awid),
+        .in_wvalid(mem_wvalid),
+        .in_wready(mem_wready),
+        .in_wdata(mem_wdata),
+        .in_wstrb(mem_wstrb),
+        .in_wlast(mem_wlast),
+        .in_bvalid(mem_bvalid),
+        .in_bready(mem_bready),
+        .in_bresp(mem_bresp),
+        .in_bid(mem_bid),
+        .in_awlen(mem_awlen),
+        .in_awsize(mem_awsize),
+        .in_awburst(mem_awburst),
 
-    assign mem_bvalid        = io_master_bvalid;
-    assign io_master_bready  = mem_bready;
-    assign mem_bresp         = io_master_bresp;
-    assign mem_bid           = io_master_bid;
+        // downstream: SoC
+        .s_arvalid(io_master_arvalid),
+        .s_arready(io_master_arready),
+        .s_araddr(io_master_araddr),
+        .s_rvalid(io_master_rvalid),
+        .s_rready(io_master_rready),
+        .s_rdata(io_master_rdata),
+        .s_rresp(io_master_rresp),
+        .s_arid(io_master_arid),
+        .s_rid(io_master_rid),
+        .s_rlast(io_master_rlast),
+        .s_arlen(io_master_arlen),
+        .s_arsize(io_master_arsize),
+        .s_arburst(io_master_arburst),
+
+        .s_awvalid(io_master_awvalid),
+        .s_awready(io_master_awready),
+        .s_awaddr(io_master_awaddr),
+        .s_awid(io_master_awid),
+        .s_wvalid(io_master_wvalid),
+        .s_wready(io_master_wready),
+        .s_wdata(io_master_wdata),
+        .s_wstrb(io_master_wstrb),
+        .s_wlast(io_master_wlast),
+        .s_bvalid(io_master_bvalid),
+        .s_bready(io_master_bready),
+        .s_bresp(io_master_bresp),
+        .s_bid(io_master_bid),
+        .s_awlen(io_master_awlen),
+        .s_awsize(io_master_awsize),
+        .s_awburst(io_master_awburst),
+
+        // downstream: CLINT
+        .c_arvalid(clint_arvalid),
+        .c_arready(clint_arready),
+        .c_araddr(clint_araddr),
+        .c_rvalid(clint_rvalid),
+        .c_rready(clint_rready),
+        .c_rdata(clint_rdata),
+        .c_rresp(clint_rresp),
+        .c_arid(clint_arid),
+        .c_rid(clint_rid),
+        .c_rlast(clint_rlast),
+        .c_arlen(clint_arlen),
+        .c_arsize(clint_arsize),
+        .c_arburst(clint_arburst),
+
+        .c_awvalid(clint_awvalid),
+        .c_awready(clint_awready),
+        .c_awaddr(clint_awaddr),
+        .c_awid(clint_awid),
+        .c_wvalid(clint_wvalid),
+        .c_wready(clint_wready),
+        .c_wdata(clint_wdata),
+        .c_wstrb(clint_wstrb),
+        .c_wlast(clint_wlast),
+        .c_bvalid(clint_bvalid),
+        .c_bready(clint_bready),
+        .c_bresp(clint_bresp),
+        .c_bid(clint_bid),
+        .c_awlen(clint_awlen),
+        .c_awsize(clint_awsize),
+        .c_awburst(clint_awburst)
+    );
+
+    // CLINT
+    clint u_clint (
+        .clock(clock),
+        .reset(reset),
+
+        .arvalid(clint_arvalid),
+        .arready(clint_arready),
+        .araddr(clint_araddr),
+        .arlen(clint_arlen),
+        .arsize(clint_arsize),
+        .arburst(clint_arburst),
+        .rvalid(clint_rvalid),
+        .rready(clint_rready),
+        .rdata(clint_rdata),
+        .rresp(clint_rresp),
+        .arid(clint_arid),
+        .rid(clint_rid),
+        .rlast(clint_rlast),
+
+        .awvalid(clint_awvalid),
+        .awready(clint_awready),
+        .awaddr(clint_awaddr),
+        .awid(clint_awid),
+        .awlen(clint_awlen),
+        .awsize(clint_awsize),
+        .awburst(clint_awburst),
+        .wvalid(clint_wvalid),
+        .wready(clint_wready),
+        .wdata(clint_wdata),
+        .wstrb(clint_wstrb),
+        .wlast(clint_wlast),
+        .bvalid(clint_bvalid),
+        .bready(clint_bready),
+        .bresp(clint_bresp),
+        .bid(clint_bid)
+    );
 
     // unused AXI4 slave interface outputs
     assign io_slave_awready  = 1'b0;
