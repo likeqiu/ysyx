@@ -1,12 +1,20 @@
 # 基本源文件设置
-VSRC = $(wildcard /home/zxj17/ysyx-workbench/npc/vsrc/*.v)
-CSRC = $(shell find csrc -type f -name '*.c') $(shell find csrc -type f -name '*.cpp' -not -path 'csrc/llvm/*')
+NPC_HOME ?= /home/zxj17/ysyx-workbench/npc
+NPC_HOME := $(abspath $(NPC_HOME))
+VSRC = $(wildcard $(NPC_HOME)/vsrc/*.v)
+CSRC = $(shell find $(NPC_HOME)/csrc -type f -name '*.c') \
+       $(shell find $(NPC_HOME)/csrc -type f -name '*.cpp' -not -path '$(NPC_HOME)/csrc/llvm/*')
 SRCS = $(VSRC) $(CSRC)
-NXDC = constr/mux.nxdc
+NXDC = $(NPC_HOME)/constr/mux.nxdc
 TOPNAME = ysyx_25040109_top
 NAME = riscv32e-npc-interpreter
 BUILD_DIR = $(NPC_HOME)/build
-INC_PATH = $(shell find /home/zxj17/ysyx-workbench/npc/include -type d)  /home/zxj17/ysyx-workbench/npc/csrc/riscv32   /usr/include/llvm-14  /usr/include/llvm-c-14/ /home/zxj17/ysyx-workbench/npc/csrc/riscv32/local-include  /home/zxj17/ysyx-workbench/npc/csrc/llvm/ 
+INC_PATH = $(shell find $(NPC_HOME)/include -type d) \
+           $(NPC_HOME)/csrc/riscv32 \
+           /usr/include/llvm-14 \
+           /usr/include/llvm-c-14/ \
+           $(NPC_HOME)/csrc/riscv32/local-include \
+           $(NPC_HOME)/csrc/llvm/
 
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 IMG ?=
@@ -16,7 +24,8 @@ ALL  ?=
 FST = 1
 
 SOC_TOP = 1
-YSYX_SOC_HOME ?= $(NPC_HOME)/../ysyxSoC
+YSYX_SOC_HOME ?= /home/zxj17/ysyx-workbench/ysyxSoC
+YSYX_SOC_HOME := $(abspath $(YSYX_SOC_HOME))
 NPC_VSRC_SOC = $(filter-out %/ysyx_25040109_top.v %/uart.v,$(VSRC))
 YSYX_SOC_PERIP_VSRC = $(shell find $(YSYX_SOC_HOME)/perip -name '*.v')
 YSYX_SOC_VSRC = $(YSYX_SOC_HOME)/build/ysyxSoCFull.v $(YSYX_SOC_PERIP_VSRC)
@@ -24,9 +33,9 @@ YSYX_SOC_INC_PATH = $(YSYX_SOC_HOME)/perip/uart16550/rtl $(YSYX_SOC_HOME)/perip/
 YSYX_SOC_INCFLAGS = $(addprefix -I, $(YSYX_SOC_INC_PATH))
 SOC_TOPNAME = ysyxSoCFull
 SOC_NAME = riscv32e-npc-ysyxSoC
-SOC_OBJ_DIR = obj_dir_soc
+SOC_OBJ_DIR = $(NPC_HOME)/obj_dir_soc
 SOC_CFLAGS = -DSOC_TOP
-SOC_VERILATOR_FLAGS = --timescale "1ns/1ns" --no-timing
+SOC_VERILATOR_FLAGS = --timescale "1ns/1ns" --no-timing -DSOC_TOP
 VERILATOR_WARN ?= 0
 ifeq ($(VERILATOR_WARN),1)
 VERILATOR_WALL = -Wall
@@ -42,7 +51,7 @@ SOC_VSRC = $(NPC_VSRC_SOC) $(YSYX_SOC_VSRC)
 ifeq ($(strip $(SOC_TOP)),)
 NPC_TOPNAME = $(TOPNAME)
 NPC_NAME = $(NAME)
-NPC_OBJ_DIR = obj_dir
+NPC_OBJ_DIR = $(NPC_HOME)/obj_dir
 NPC_VSRC = $(VSRC)
 NPC_INCFLAGS_EXTRA =
 NPC_VERILATOR_FLAGS =
@@ -88,7 +97,7 @@ ARGS_DIFF ?=
 
 # ===== 动态库方案 =====
 # 检查是否需要编译LLVM包装器动态库
-LLVM_DIR = csrc/llvm
+LLVM_DIR = $(NPC_HOME)/csrc/llvm
 LLVM_WRAPPER_LIB = $(abspath $(LLVM_DIR)/libllvm_wrapper.so)
 LLVM_WRAPPER_SRC = $(abspath $(LLVM_DIR)/llvm_wrapper.cpp)
 DISASM_OBJ = $(abspath $(LLVM_DIR)/disasm.o)
@@ -161,13 +170,13 @@ all:
 	@echo "Write this Makefile by your self."
 
 # 添加库路径到运行时环境
-export LD_LIBRARY_PATH := $(shell pwd)/$(LLVM_DIR):$(LD_LIBRARY_PATH)
+export LD_LIBRARY_PATH := $(LLVM_DIR):$(LD_LIBRARY_PATH)
 
 sim: $(COMPILE_DEPS) $(VSRC) $(CSRC_NVBOARD) $(NVBOARD_ARCHIVE)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Building simulation with dynamic LLVM support..."
-	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $(NXDC) auto_bind.cpp
-	verilator $(VERILATOR_WALL) --cc --exe --build --noassert $(NPC_VERILATOR_FLAGS) $(NPC_VERILATOR_WARNFLAGS) $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) auto_bind.cpp \
+	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $(NXDC) $(NPC_HOME)/auto_bind.cpp
+	verilator $(VERILATOR_WALL) --cc --exe --build --noassert $(NPC_VERILATOR_FLAGS) $(NPC_VERILATOR_WARNFLAGS) $(VSRC) $(CSRC) $(NVBOARD_ARCHIVE) $(NPC_HOME)/auto_bind.cpp \
 		--trace-fst --top-module top \
 		$(addprefix -CFLAGS , $(CXXFLAGS)) \
 		$(addprefix -LDFLAGS , $(LDFLAGS)) 
@@ -188,13 +197,13 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS) $(NPC_SRCS)
 
 run: waveform
 	@echo "Setting library path and running..."
-	@echo "LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH"
-	@echo "./build/$(NPC_NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
-	LD_LIBRARY_PATH=$(shell pwd)/$(LLVM_DIR):$LD_LIBRARY_PATH ./build/$(NPC_NAME) $(ARGS)  $(ARGS_DIFF) $(IMG) 
-	mv sim.fst $(FST).fst
+	@echo "LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH"
+	@echo "$(BUILD_DIR)/$(NPC_NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
+	LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH $(BUILD_DIR)/$(NPC_NAME) $(ARGS)  $(ARGS_DIFF) $(IMG) 
+	mv $(NPC_HOME)/sim.fst $(NPC_HOME)/$(FST).fst
 
 look:
-	gtkwave $(FST).fst 
+	gtkwave $(NPC_HOME)/$(FST).fst 
 
 # 安装LLVM库到系统路径
 install-llvm-lib: $(LLVM_WRAPPER_LIB)
@@ -217,7 +226,7 @@ ifneq ($(LLVM_CONFIG),)
 endif
 	@echo "Source files: $(words $(CSRC))  $(CSRC) C/C++ files, $(words $(VSRC)) Verilog files"
 	@echo "Dependencies: $(COMPILE_DEPS)"
-	@echo "LD_LIBRARY_PATH will include: $(shell pwd)/$(LLVM_DIR)"
+	@echo "LD_LIBRARY_PATH will include: $(LLVM_DIR)"
 	@echo "INC_PATH: $(INC_PATH)"
 
 check:waveform
@@ -231,10 +240,10 @@ check:waveform
 
 
 clean:
-	rm -rf obj_dir $(SOC_OBJ_DIR) waveform.fst waveform.fst.hier auto_bind.cpp *.fst
+	rm -rf $(NPC_OBJ_DIR) $(NPC_HOME)/waveform.fst $(NPC_HOME)/waveform.fst.hier $(NPC_HOME)/auto_bind.cpp $(NPC_HOME)/*.fst
 	rm -f $(LLVM_WRAPPER_LIB) $(DISASM_OBJ)
 
 
 .PHONY: all sim waveform run look clean install-llvm-lib info clean-llvm rebuild-llvm
 
-include ../Makefile
+include $(abspath $(NPC_HOME)/../Makefile)

@@ -97,19 +97,19 @@ VM_USER_CLASSES = \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
-	csrc \
-	csrc/cpu \
-	csrc/cpu/difftest \
-	csrc/device \
-	csrc/device/io \
-	csrc/engine \
-	csrc/engine/interpreter \
-	csrc/memory \
-	csrc/monitor \
-	csrc/monitor/sdb \
-	csrc/riscv32 \
-	csrc/utils \
-	csrc/verilog \
+	/home/zxj17/ysyx-workbench/npc/csrc \
+	/home/zxj17/ysyx-workbench/npc/csrc/cpu \
+	/home/zxj17/ysyx-workbench/npc/csrc/cpu/difftest \
+	/home/zxj17/ysyx-workbench/npc/csrc/device \
+	/home/zxj17/ysyx-workbench/npc/csrc/device/io \
+	/home/zxj17/ysyx-workbench/npc/csrc/engine \
+	/home/zxj17/ysyx-workbench/npc/csrc/engine/interpreter \
+	/home/zxj17/ysyx-workbench/npc/csrc/memory \
+	/home/zxj17/ysyx-workbench/npc/csrc/monitor \
+	/home/zxj17/ysyx-workbench/npc/csrc/monitor/sdb \
+	/home/zxj17/ysyx-workbench/npc/csrc/riscv32 \
+	/home/zxj17/ysyx-workbench/npc/csrc/utils \
+	/home/zxj17/ysyx-workbench/npc/csrc/verilog \
 
 
 ### Default rules...
@@ -121,59 +121,59 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-cpu-exec.o: csrc/cpu/cpu-exec.c
+cpu-exec.o: /home/zxj17/ysyx-workbench/npc/csrc/cpu/cpu-exec.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-dut.o: csrc/cpu/difftest/dut.cpp
+dut.o: /home/zxj17/ysyx-workbench/npc/csrc/cpu/difftest/dut.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-device.o: csrc/device/device.c
+device.o: /home/zxj17/ysyx-workbench/npc/csrc/device/device.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-map.o: csrc/device/io/map.c
+map.o: /home/zxj17/ysyx-workbench/npc/csrc/device/io/map.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-mmio.o: csrc/device/io/mmio.c
+mmio.o: /home/zxj17/ysyx-workbench/npc/csrc/device/io/mmio.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-keyboard.o: csrc/device/keyboard.c
+keyboard.o: /home/zxj17/ysyx-workbench/npc/csrc/device/keyboard.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-serial.o: csrc/device/serial.c
+serial.o: /home/zxj17/ysyx-workbench/npc/csrc/device/serial.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-timer.o: csrc/device/timer.c
+timer.o: /home/zxj17/ysyx-workbench/npc/csrc/device/timer.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-vga.o: csrc/device/vga.c
+vga.o: /home/zxj17/ysyx-workbench/npc/csrc/device/vga.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-hostcall.o: csrc/engine/hostcall.c
+hostcall.o: /home/zxj17/ysyx-workbench/npc/csrc/engine/hostcall.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-init.o: csrc/engine/interpreter/init.c
+init.o: /home/zxj17/ysyx-workbench/npc/csrc/engine/interpreter/init.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-paddr.o: csrc/memory/paddr.c
+paddr.o: /home/zxj17/ysyx-workbench/npc/csrc/memory/paddr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-vaddr.o: csrc/memory/vaddr.c
+vaddr.o: /home/zxj17/ysyx-workbench/npc/csrc/memory/vaddr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-monitor.o: csrc/monitor/monitor.c
+monitor.o: /home/zxj17/ysyx-workbench/npc/csrc/monitor/monitor.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-expr.o: csrc/monitor/sdb/expr.c
+expr.o: /home/zxj17/ysyx-workbench/npc/csrc/monitor/sdb/expr.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-mtrace.o: csrc/monitor/sdb/mtrace.c
+mtrace.o: /home/zxj17/ysyx-workbench/npc/csrc/monitor/sdb/mtrace.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-sdb.o: csrc/monitor/sdb/sdb.c
+sdb.o: /home/zxj17/ysyx-workbench/npc/csrc/monitor/sdb/sdb.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-watchpoint.o: csrc/monitor/sdb/watchpoint.c
+watchpoint.o: /home/zxj17/ysyx-workbench/npc/csrc/monitor/sdb/watchpoint.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-npc-main.o: csrc/npc-main.cpp
+npc-main.o: /home/zxj17/ysyx-workbench/npc/csrc/npc-main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-dut_t.o: csrc/riscv32/dut_t.c
+dut_t.o: /home/zxj17/ysyx-workbench/npc/csrc/riscv32/dut_t.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-reg.o: csrc/riscv32/reg.c
+reg.o: /home/zxj17/ysyx-workbench/npc/csrc/riscv32/reg.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-log.o: csrc/utils/log.c
+log.o: /home/zxj17/ysyx-workbench/npc/csrc/utils/log.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-state.o: csrc/utils/state.c
+state.o: /home/zxj17/ysyx-workbench/npc/csrc/utils/state.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-timer_u.o: csrc/utils/timer_u.c
+timer_u.o: /home/zxj17/ysyx-workbench/npc/csrc/utils/timer_u.c
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-verilog-main.o: csrc/verilog-main.cpp
+verilog-main.o: /home/zxj17/ysyx-workbench/npc/csrc/verilog-main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-verilog.o: csrc/verilog/verilog.cpp
+verilog.o: /home/zxj17/ysyx-workbench/npc/csrc/verilog/verilog.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-verilog_exec.o: csrc/verilog/verilog_exec.cpp
+verilog_exec.o: /home/zxj17/ysyx-workbench/npc/csrc/verilog/verilog_exec.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)

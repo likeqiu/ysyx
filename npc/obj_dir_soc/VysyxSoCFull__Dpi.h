@@ -18,11 +18,11 @@ extern "C" {
     // DPI IMPORTS
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:449:34
     extern void difftest_skip_ref();
-    // DPI import at /home/zxj17/ysyx-workbench/npc/../ysyxSoC/perip/flash/flash.v:84:30
+    // DPI import at /home/zxj17/ysyx-workbench/ysyxSoC/perip/flash/flash.v:84:30
     extern void flash_read(int addr, int* data);
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:451:34
     extern void itrace_print(int pc, int instruction_word, int instr_len_bytes, int p_count_number);
-    // DPI import at /home/zxj17/ysyx-workbench/npc/../ysyxSoC/build/ysyxSoCFull.v:5402:30
+    // DPI import at /home/zxj17/ysyx-workbench/ysyxSoC/build/ysyxSoCFull.v:5402:30
     extern void mrom_read(int raddr, int* rdata);
     // DPI import at /home/zxj17/ysyx-workbench/npc/vsrc/ysyx_25040109_CPU.v:450:33
     extern int printf_finish(int inst);
