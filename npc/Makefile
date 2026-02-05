@@ -194,12 +194,12 @@ waveform: ensure-llvm-deps $(COMPILE_DEPS) $(NPC_SRCS)
 		mv $(NPC_OBJ_DIR)/V$(NPC_TOPNAME) $(BUILD_DIR)/$(NPC_NAME)
 		
 
-
+#$(IMG) 
 run: waveform
 	@echo "Setting library path and running..."
 	@echo "LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH"
 	@echo "$(BUILD_DIR)/$(NPC_NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
-	LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH $(BUILD_DIR)/$(NPC_NAME) $(ARGS)  $(ARGS_DIFF) $(IMG) 
+	LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH $(BUILD_DIR)/$(NPC_NAME) $(ARGS)  $(ARGS_DIFF) /home/zxj17/ysyx-workbench/am-kernels/tests/cpu-tests/tests/char-test.bin
 	mv $(NPC_HOME)/sim.fst $(NPC_HOME)/$(FST).fst
 
 look:
