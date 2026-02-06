@@ -1,5 +1,9 @@
 
+#ifdef SOC_TOP
 #define CONFIG_MBASE 0x20000000
+#else
+#define CONFIG_MBASE 0x80000000
+#endif
 #define CONFIG_MSIZE 0x8000000
 
 #define MMIO_BASE 0x10000000
