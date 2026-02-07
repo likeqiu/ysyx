@@ -637,7 +637,123 @@ module ysyx_25040109_top (
 `endif
     );
 
- 
+`ifdef CPU_DEBUG
+    // AXI握手调试输出
+    wire dbg_mem_ar_fire = mem_arvalid && mem_arready;
+    wire dbg_mem_r_fire  = mem_rvalid  && mem_rready;
+    wire dbg_mem_aw_fire = mem_awvalid && mem_awready;
+    wire dbg_mem_w_fire  = mem_wvalid  && mem_wready;
+    wire dbg_mem_b_fire  = mem_bvalid  && mem_bready;
+
+    wire dbg_sram_ar_fire = sram_arvalid && sram_arready;
+    wire dbg_sram_r_fire  = sram_rvalid  && sram_rready;
+    wire dbg_sram_aw_fire = sram_awvalid && sram_awready;
+    wire dbg_sram_w_fire  = sram_wvalid  && sram_wready;
+    wire dbg_sram_b_fire  = sram_bvalid  && sram_bready;
+
+    wire dbg_uart_ar_fire = uart_arvalid && uart_arready;
+    wire dbg_uart_r_fire  = uart_rvalid  && uart_rready;
+    wire dbg_uart_aw_fire = uart_awvalid && uart_awready;
+    wire dbg_uart_w_fire  = uart_wvalid  && uart_wready;
+    wire dbg_uart_b_fire  = uart_bvalid  && uart_bready;
+
+    wire dbg_clint_ar_fire = clint_arvalid && clint_arready;
+    wire dbg_clint_r_fire  = clint_rvalid  && clint_rready;
+    wire dbg_clint_aw_fire = clint_awvalid && clint_awready;
+    wire dbg_clint_w_fire  = clint_wvalid  && clint_wready;
+    wire dbg_clint_b_fire  = clint_bvalid  && clint_bready;
+
+localparam string BULE   = "\033[1;94m";
+localparam string GREEN  = "\033[1;92m" ;
+localparam string RED    = "\033[1;91m" ;
+localparam string PURPLE = "\033[1;95m";
+localparam string YELLOW = "\033[1;93m" ;
+localparam string RESET  = "\033[0m";
+
+
+    always @(posedge clock) begin
+        if (!reset) begin
+
+
+
+
+
+
+            
+
+                if (dbg_mem_ar_fire) begin
+                $display("%s[AXI][CPU] AR  addr=0x%08h   len=%0d    size=%0d   burst=%0d   arid=%0d %s \n", BULE, mem_araddr, mem_arlen, mem_arsize, mem_arburst, mem_arid,RESET);
+            end
+                
+            if (dbg_mem_r_fire) begin
+                $display("%s[AXI][CPU] R   data=0x%08h   rresp=%0d  last=%b             rid=%0d %s\n", GREEN , mem_rdata, mem_rresp, mem_rlast, mem_rid,RESET,);
+            end
+            if (dbg_mem_aw_fire) begin
+                $display("%s[AXI][CPU] AW  addr=0x%08h   len=%0d    size=%0d   burst=%0d   awid=%0d %s \n", YELLOW, mem_awaddr, mem_awlen, mem_awsize, mem_awburst, mem_awid, RESET);
+            end
+            if (dbg_mem_w_fire) begin
+                $display("%s[AXI][CPU] W   data=0x%08h   strb=%1h   last=%b     %s\n", PURPLE, mem_wdata, mem_wstrb, mem_wlast, RESET);
+            end
+            if (dbg_mem_b_fire) begin
+                $display("%s[AXI][CPU] B                     bresp=%0d                     bid=%0d %s\n", RED, mem_bresp, mem_bid, RESET);
+            end
+          
+            /*
+            if (dbg_sram_ar_fire) begin
+                $display("[AXI][SRAM] AR  addr=%08h len=%0d size=%0d burst=%0d id=%0d",  sram_araddr, sram_arlen, sram_arsize, sram_arburst, sram_arid);
+            end
+            if (dbg_sram_r_fire) begin
+                $display("[AXI][SRAM] R   data=%08h resp=%0d last=%b id=%0d",  sram_rdata, sram_rresp, sram_rlast, sram_rid);
+            end
+            if (dbg_sram_aw_fire) begin
+                $display("[AXI][SRAM] AW  addr=%08h len=%0d size=%0d burst=%0d id=%0d",  sram_awaddr, sram_awlen, sram_awsize, sram_awburst, sram_awid);
+            end
+            if (dbg_sram_w_fire) begin
+                $display("[AXI][SRAM] W   data=%08h strb=%1h last=%b",  sram_wdata, sram_wstrb, sram_wlast);
+            end
+            if (dbg_sram_b_fire) begin
+                $display("[AXI][SRAM] B   resp=%0d id=%0d",  sram_bresp, sram_bid);
+            end
+            */
+            /*
+            if (dbg_uart_ar_fire) begin
+                $display("[AXI][UART] AR  addr=%08h len=%0d size=%0d burst=%0d id=%0d",  uart_araddr, uart_arlen, uart_arsize, uart_arburst, uart_arid);
+            end
+            if (dbg_uart_r_fire) begin
+                $display("[AXI][UART] R   data=%08h resp=%0d last=%b id=%0d",  uart_rdata, uart_rresp, uart_rlast, uart_rid);
+            end
+            if (dbg_uart_aw_fire) begin
+                $display("[AXI][UART] AW  addr=%08h len=%0d size=%0d burst=%0d id=%0d",  uart_awaddr, uart_awlen, uart_awsize, uart_awburst, uart_awid);
+            end
+            if (dbg_uart_w_fire) begin
+                $display("[AXI][UART] W   data=%08h strb=%1h last=%b",  uart_wdata, uart_wstrb, uart_wlast);
+            end
+            if (dbg_uart_b_fire) begin
+                $display("[AXI][UART] B   resp=%0d id=%0d",  uart_bresp, uart_bid);
+            end
+            */
+
+            /*
+            if (dbg_clint_ar_fire) begin
+                $display("[AXI][CLINT] AR  addr=%08h len=%0d size=%0d burst=%0d id=%0d",  clint_araddr, clint_arlen, clint_arsize, clint_arburst, clint_arid);
+            end
+            if (dbg_clint_r_fire) begin
+                $display("[AXI][CLINT] R   data=%08h resp=%0d last=%b id=%0d",  clint_rdata, clint_rresp, clint_rlast, clint_rid);
+            end
+            if (dbg_clint_aw_fire) begin
+                $display("[AXI][CLINT] AW  addr=%08h len=%0d size=%0d burst=%0d id=%0d",  clint_awaddr, clint_awlen, clint_awsize, clint_awburst, clint_awid);
+            end
+            if (dbg_clint_w_fire) begin
+                $display("[AXI][CLINT] W   data=%08h strb=%1h last=%b",  clint_wdata, clint_wstrb, clint_wlast);
+            end
+            if (dbg_clint_b_fire) begin
+                $display("[AXI][CLINT] B   resp=%0d id=%0d",  clint_bresp, clint_bid);
+            end
+                */
+        end
+    end
+`endif
+
 
 
 

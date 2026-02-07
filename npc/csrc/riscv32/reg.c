@@ -15,6 +15,11 @@ void isa_reg_display()
 
     for (int i = 0; i < 32; i++)
     {
+        if(i == 2){
+            printf("%s = 0x%x\n", regs[i], gpr(i));
+            continue;
+            
+        }
         printf("%s = %u\n", regs[i], gpr(i));
     }
     printf("$pc = 0x%x\n", cpu.pc);

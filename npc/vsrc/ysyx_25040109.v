@@ -547,4 +547,74 @@ module ysyx_25040109 (
     assign io_slave_rresp    = 2'b00;
     assign io_slave_rlast    = 1'b0;
 
+
+    // AXI握手调试输出
+    wire dbg_mem_ar_fire = mem_arvalid && mem_arready;
+    wire dbg_mem_r_fire  = mem_rvalid  && mem_rready;
+    wire dbg_mem_aw_fire = mem_awvalid && mem_awready;
+    wire dbg_mem_w_fire  = mem_wvalid  && mem_wready;
+    wire dbg_mem_b_fire  = mem_bvalid  && mem_bready; 
+
+    wire dbg_soc_ar_fire = io_master_arvalid && io_master_arready;
+    wire dbg_soc_r_fire  = io_master_rvalid  && io_master_rready;
+    wire dbg_soc_aw_fire = io_master_awvalid && io_master_awready;
+    wire dbg_soc_w_fire  = io_master_wvalid && io_master_wready;
+    wire dbg_soc_b_fire  = io_master_bvalid && io_master_bready;
+
+localparam string BULE   = "\033[1;94m";
+localparam string GREEN  = "\033[1;92m" ;
+localparam string RED    = "\033[1;91m" ;
+localparam string PURPLE = "\033[1;95m";
+localparam string YELLOW = "\033[1;93m" ;
+localparam string RESET  = "\033[0m";
+
+    always @(posedge clock) begin
+        if (!reset) begin
+
+
+
+
+
+
+            
+`ifdef CPU_DEBUG
+                if (dbg_mem_ar_fire) begin
+                $display("%s[AXI][CPU] AR  addr=0x%08h   len=%0d    size=%0d   burst=%0d   arid=%0d %s \n", BULE, mem_araddr, mem_arlen, mem_arsize, mem_arburst, mem_arid, RESET);
+            end
+
+            if (dbg_mem_r_fire) begin
+                $display("%s[AXI][CPU] R   data=0x%08h   rresp=%0d  last=%b             rid=%0d %s\n", GREEN , mem_rdata, mem_rresp, mem_rlast, mem_rid, RESET);
+            end
+            if (dbg_mem_aw_fire) begin
+                $display("%s[AXI][CPU] AW  addr=0x%08h   len=%0d    size=%0d   burst=%0d   awid=%0d %s \n", YELLOW, mem_awaddr, mem_awlen, mem_awsize, mem_awburst, mem_awid, RESET);
+            end
+            if (dbg_mem_w_fire) begin
+                $display("%s[AXI][CPU] W   data=0x%08h   strb=%1h   last=%b     %s\n", PURPLE, mem_wdata, mem_wstrb, mem_wlast, RESET);
+            end
+            if (dbg_mem_b_fire) begin
+                $display("%s[AXI][CPU] B                     bresp=%0d                     bid=%0d %s\n", RED, mem_bresp, mem_bid, RESET);
+            end
+`endif                
+`ifdef SOC_DEBUG
+            if (dbg_soc_ar_fire) begin
+                $display("%s[AXI][SOC] AR  addr=0x%08h   len=%0d    size=%0d   burst=%0d   arid=%0d %s \n", BULE, io_master_araddr, io_master_arlen, io_master_arsize, io_master_arburst, io_master_arid, RESET);
+            end
+            if (dbg_soc_r_fire) begin
+                $display("%s[AXI][SOC] R   data=0x%08h   rresp=%0d  last=%b             rid=%0d %s\n", GREEN , io_master_rdata, io_master_rresp, io_master_rlast, io_master_rid, RESET);
+            end
+            if (dbg_soc_aw_fire) begin
+                $display("%s[AXI][SOC] AW  addr=0x%08h   len=%0d    size=%0d   burst=%0d   awid=%0d %s \n", YELLOW, io_master_awaddr, io_master_awlen, io_master_awsize, io_master_awburst, io_master_awid, RESET);
+            end
+            if (dbg_soc_w_fire) begin
+                $display("%s[AXI][SOC] W   data=0x%08h   strb=%1h   last=%b     %s\n", PURPLE, io_master_wdata, io_master_wstrb, io_master_wlast, RESET);
+            end
+            if (dbg_soc_b_fire) begin
+                $display("%s[AXI][SOC] B                     bresp=%0d                     bid=%0d %s\n", RED, io_master_bresp, io_master_bid, RESET);
+            end
+`endif            
+        end
+        
+    end
+
+
 endmodule
