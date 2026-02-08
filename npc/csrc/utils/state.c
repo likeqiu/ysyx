@@ -9,5 +9,7 @@ int is_exit_status_bad()
     if(good){
         clear_verilog();
     }
+
+
     return !good;
 }

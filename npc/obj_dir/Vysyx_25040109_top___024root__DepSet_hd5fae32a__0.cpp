@@ -269,6 +269,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                       3,(IData)(vlSelf->ysyx_25040109_top__DOT__u_clint__DOT__arsize_unused),
                       2,vlSelf->ysyx_25040109_top__DOT__u_clint__DOT__arburst_unused,
                       4,(IData)(vlSelf->ysyx_25040109_top__DOT__mem_arid));
+            Verilated::runFlushCallbacks();
         }
         if (VL_UNLIKELY(((IData)(vlSelf->ysyx_25040109_top__DOT__mem_rready) 
                          & (IData)(vlSelf->ysyx_25040109_top__DOT__mem_rvalid)))) {
@@ -287,6 +288,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                                                 == (IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__rd_target))
                                                 ? (IData)(vlSelf->ysyx_25040109_top__DOT__u_clint__DOT__arid_latched)
                                                 : 0U)))));
+            Verilated::runFlushCallbacks();
         }
         if (VL_UNLIKELY(((IData)(vlSelf->ysyx_25040109_top__DOT__mem_awready) 
                          & (IData)(vlSelf->ysyx_25040109_top__DOT__mem_awvalid)))) {
@@ -297,6 +299,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                                          ? 1U : 0U),
                       4,((1U == (IData)(vlSelf->ysyx_25040109_top__DOT__u_arbiter__DOT__wr_state))
                           ? 1U : 0U));
+            Verilated::runFlushCallbacks();
         }
         if (VL_UNLIKELY(((IData)(vlSelf->ysyx_25040109_top__DOT__mem_wready) 
                          & (IData)(vlSelf->ysyx_25040109_top__DOT__mem_wvalid)))) {
@@ -314,6 +317,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                                               ? 0xfU
                                               : 0U))))
                           : 0U),1,(IData)(vlSelf->ysyx_25040109_top__DOT__mem_wvalid));
+            Verilated::runFlushCallbacks();
         }
         if (VL_UNLIKELY(((IData)(vlSelf->ysyx_25040109_top__DOT__mem_bready) 
                          & (IData)(vlSelf->ysyx_25040109_top__DOT__mem_bvalid)))) {
@@ -341,6 +345,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                                                 == (IData)(vlSelf->ysyx_25040109_top__DOT__xbar__DOT__wr_target))
                                                 ? (IData)(vlSelf->ysyx_25040109_top__DOT__u_clint__DOT__awid_latched)
                                                 : 0U)))));
+            Verilated::runFlushCallbacks();
         }
     }
     if (((~ (IData)(vlSelf->reset)) & (IData)(vlSelf->ysyx_25040109_top__DOT__cpu__DOT__inst_wb_complete_r))) {
@@ -1286,6 +1291,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
                             & ((IData)(vlSelf->ysyx_25040109_top__DOT__u_uart__DOT__w_seen) 
                                | (IData)(vlSelf->ysyx_25040109_top__DOT__u_uart__DOT__w_fire)))))) {
             VL_WRITEF("%c",8,(0xffU & vlSelf->ysyx_25040109_top__DOT__u_uart__DOT__wdata_use));
+            Verilated::runFlushCallbacks();
             __Vdly__ysyx_25040109_top__DOT__uart_bvalid = 1U;
             vlSelf->ysyx_25040109_top__DOT__uart_bresp = 0U;
             __Vdly__ysyx_25040109_top__DOT__u_uart__DOT__aw_seen = 0U;
@@ -2471,6 +2477,7 @@ VL_INLINE_OPT void Vysyx_25040109_top___024root___nba_sequent__TOP__0(Vysyx_2504
         vlSelf->ysyx_25040109_top__DOT__cpu__DOT__next_pc 
             = ((IData)(4U) + vlSelf->ysyx_25040109_top__DOT__cpu__DOT__pc_exe);
         VL_WRITEF(" hit bad trap :0x%08x:\n",32,vlSelf->ysyx_25040109_top__DOT__cpu__DOT__pc_exe);
+        Verilated::runFlushCallbacks();
     } else {
         vlSelf->ysyx_25040109_top__DOT__cpu__DOT__next_pc 
             = ((IData)(vlSelf->ysyx_25040109_top__DOT__cpu__DOT__is_ecall)

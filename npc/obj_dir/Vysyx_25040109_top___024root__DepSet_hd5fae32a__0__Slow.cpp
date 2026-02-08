@@ -1122,6 +1122,7 @@ VL_ATTR_COLD void Vysyx_25040109_top___024root___stl_sequent__TOP__0(Vysyx_25040
         vlSelf->ysyx_25040109_top__DOT__cpu__DOT__next_pc 
             = ((IData)(4U) + vlSelf->ysyx_25040109_top__DOT__cpu__DOT__pc_exe);
         VL_WRITEF(" hit bad trap :0x%08x:\n",32,vlSelf->ysyx_25040109_top__DOT__cpu__DOT__pc_exe);
+        Verilated::runFlushCallbacks();
     } else {
         vlSelf->ysyx_25040109_top__DOT__cpu__DOT__next_pc 
             = ((IData)(vlSelf->ysyx_25040109_top__DOT__cpu__DOT__is_ecall)
