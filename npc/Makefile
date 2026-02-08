@@ -19,12 +19,13 @@ INC_PATH = $(shell find $(NPC_HOME)/include -type d) \
            $(NPC_HOME)/csrc/riscv32/local-include \
            $(NPC_HOME)/csrc/llvm/
 INCFLAGS = $(addprefix -I, $(INC_PATH))
+
 DEBUG ?= 0
 ifeq ($(DEBUG),1)
 CFLAGS   += -g -Og -fno-omit-frame-pointer -sanitizer
 CXXFLAGS += -g -Og -fno-omit-frame-pointer -sanitizer
 endif
-
+NPC_VERILATOR_FLAGS += --autoflush 
 
 IMG ?= 
 ARGS ?=
@@ -37,13 +38,12 @@ FST = 1
 
 ifeq ($(strip $(SOC_TOP)),)
 else 
-override IMG := /home/zxj17/ysyx-workbench/am-kernels/tests/cpu-tests/tests/output/char-test.bin
+#override IMG := /home/zxj17/ysyx-workbench/am-kernels/tests/cpu-tests/tests/output/char-test.bin
 endif
 
 
 
-#CPU_DEBUG = 1
-SOC_DEBUG = 1
+
 SOC_TOP = 1
 YSYX_SOC_HOME ?= /home/zxj17/ysyx-workbench/ysyxSoC
 YSYX_SOC_HOME := $(abspath $(YSYX_SOC_HOME))
@@ -58,7 +58,8 @@ SOC_TOPNAME = ysyxSoCFull
 SOC_NAME = riscv32e-npc-ysyxSoC
 SOC_OBJ_DIR = $(NPC_HOME)/obj_dir_soc
 SOC_CFLAGS = -DSOC_TOP 
-SOC_VERILATOR_FLAGS = --timescale "1ns/1ns" --no-timing -DSOC_TOP  -DCPU_DEBUG -DSOC_TOP
+SOC_VERILATOR_FLAGS = --timescale "1ns/1ns" --no-timing -DSOC_TOP 
+
 
 VERILATOR_WARN ?= 0
 ifeq ($(VERILATOR_WARN),1)
@@ -92,7 +93,7 @@ NPC_VERILATOR_WARNFLAGS = $(SOC_VERILATOR_WARNFLAGS)
 NPC_CFLAGS_EXTRA = $(SOC_CFLAGS)
 endif
 
-NPC_VERILATOR_FLAGS += --autoflush 
+
 
 NPC_SRCS = $(NPC_VSRC) $(CSRC)
 
@@ -234,7 +235,7 @@ run: waveform
 	@echo "Setting library path and running..."
 	@echo "LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH"
 	@echo "$(BUILD_DIR)/$(NPC_NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
-	LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH $(BUILD_DIR)/$(NPC_NAME) $(ARGS)  $(ARGS_DIFF) $(IMG)
+	LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH $(BUILD_DIR)/$(NPC_NAME) $(ARGS)  $(ARGS_DIFF) /home/zxj17/ysyx-workbench/am-kernels/tests/cpu-tests/tests/output/char-test.bin
 	mv $(NPC_HOME)/sim.fst $(NPC_HOME)/$(FST).fst
 
 look:
