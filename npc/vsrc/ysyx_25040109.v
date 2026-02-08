@@ -217,6 +217,93 @@ module ysyx_25040109 (
     wire [2:0]  clint_awsize;
     wire [1:0]  clint_awburst;
 
+    // SoC write channel from xbar (before AW/W joiner)
+    wire        soc_awvalid;
+    wire        soc_awready;
+    wire [31:0] soc_awaddr;
+    wire [3:0]  soc_awid;
+    wire [7:0]  soc_awlen;
+    wire [2:0]  soc_awsize;
+    wire [1:0]  soc_awburst;
+    wire        soc_wvalid;
+    wire        soc_wready;
+    wire [31:0] soc_wdata;
+    wire [3:0]  soc_wstrb;
+    wire        soc_wlast;
+    wire        soc_bvalid;
+    wire        soc_bready;
+    wire [1:0]  soc_bresp;
+    wire [3:0]  soc_bid;
+
+    // AW/W joiner to satisfy AXI4RAM same-cycle handshake
+    reg         soc_aw_buf_valid;
+    reg         soc_w_buf_valid;
+    reg         soc_wr_inflight;
+    reg [31:0]  soc_aw_buf_addr;
+    reg [3:0]   soc_aw_buf_id;
+    reg [7:0]   soc_aw_buf_len;
+    reg [2:0]   soc_aw_buf_size;
+    reg [1:0]   soc_aw_buf_burst;
+    reg [31:0]  soc_w_buf_data;
+    reg [3:0]   soc_w_buf_strb;
+    reg         soc_w_buf_last;
+    wire        soc_aw_accept = soc_awvalid && soc_awready;
+    wire        soc_w_accept  = soc_wvalid && soc_wready;
+    wire        soc_issue_req = soc_aw_buf_valid && soc_w_buf_valid && !soc_wr_inflight;
+    wire        soc_aw_fire   = io_master_awvalid && io_master_awready;
+    wire        soc_w_fire    = io_master_wvalid && io_master_wready;
+    wire        soc_b_fire    = io_master_bvalid && io_master_bready;
+
+    assign soc_awready = !soc_aw_buf_valid && !soc_wr_inflight;
+    assign soc_wready  = !soc_w_buf_valid && !soc_wr_inflight;
+
+    assign io_master_awvalid = soc_issue_req;
+    assign io_master_awaddr  = soc_aw_buf_addr;
+    assign io_master_awid    = soc_aw_buf_id;
+    assign io_master_awlen   = soc_aw_buf_len;
+    assign io_master_awsize  = soc_aw_buf_size;
+    assign io_master_awburst = soc_aw_buf_burst;
+    assign io_master_wvalid  = soc_issue_req;
+    assign io_master_wdata   = soc_w_buf_data;
+    assign io_master_wstrb   = soc_w_buf_strb;
+    assign io_master_wlast   = soc_w_buf_last;
+    assign io_master_bready  = soc_bready;
+
+    assign soc_bvalid = soc_wr_inflight ? io_master_bvalid : 1'b0;
+    assign soc_bresp  = io_master_bresp;
+    assign soc_bid    = io_master_bid;
+
+    always @(posedge clock) begin
+        if (reset) begin
+            soc_aw_buf_valid <= 1'b0;
+            soc_w_buf_valid <= 1'b0;
+            soc_wr_inflight <= 1'b0;
+        end else begin
+            if (soc_aw_accept) begin
+                soc_aw_buf_valid <= 1'b1;
+                soc_aw_buf_addr  <= soc_awaddr;
+                soc_aw_buf_id    <= soc_awid;
+                soc_aw_buf_len   <= soc_awlen;
+                soc_aw_buf_size  <= soc_awsize;
+                soc_aw_buf_burst <= soc_awburst;
+            end
+            if (soc_w_accept) begin
+                soc_w_buf_valid <= 1'b1;
+                soc_w_buf_data  <= soc_wdata;
+                soc_w_buf_strb  <= soc_wstrb;
+                soc_w_buf_last  <= soc_wlast;
+            end
+            if (soc_issue_req && soc_aw_fire && soc_w_fire) begin
+                soc_aw_buf_valid <= 1'b0;
+                soc_w_buf_valid <= 1'b0;
+                soc_wr_inflight <= 1'b1;
+            end
+            if (soc_wr_inflight && soc_b_fire) begin
+                soc_wr_inflight <= 1'b0;
+            end
+        end
+    end
+
 
     
 
@@ -447,22 +534,22 @@ module ysyx_25040109 (
         .s_arsize(io_master_arsize),
         .s_arburst(io_master_arburst),
 
-        .s_awvalid(io_master_awvalid),
-        .s_awready(io_master_awready),
-        .s_awaddr(io_master_awaddr),
-        .s_awid(io_master_awid),
-        .s_wvalid(io_master_wvalid),
-        .s_wready(io_master_wready),
-        .s_wdata(io_master_wdata),
-        .s_wstrb(io_master_wstrb),
-        .s_wlast(io_master_wlast),
-        .s_bvalid(io_master_bvalid),
-        .s_bready(io_master_bready),
-        .s_bresp(io_master_bresp),
-        .s_bid(io_master_bid),
-        .s_awlen(io_master_awlen),
-        .s_awsize(io_master_awsize),
-        .s_awburst(io_master_awburst),
+        .s_awvalid(soc_awvalid),
+        .s_awready(soc_awready),
+        .s_awaddr(soc_awaddr),
+        .s_awid(soc_awid),
+        .s_wvalid(soc_wvalid),
+        .s_wready(soc_wready),
+        .s_wdata(soc_wdata),
+        .s_wstrb(soc_wstrb),
+        .s_wlast(soc_wlast),
+        .s_bvalid(soc_bvalid),
+        .s_bready(soc_bready),
+        .s_bresp(soc_bresp),
+        .s_bid(soc_bid),
+        .s_awlen(soc_awlen),
+        .s_awsize(soc_awsize),
+        .s_awburst(soc_awburst),
 
         // downstream: CLINT
         .c_arvalid(clint_arvalid),
