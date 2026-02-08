@@ -51,5 +51,6 @@ SECTIONS {
   _stack_pointer = _stack_top;
   _stack_bottom = ((_stack_top - STACK_SIZE) & ~0xF);
   _heap_end = _stack_bottom;
-  ASSERT(_end <= _stack_bottom, "SRAM overflow: sections overlap stack");
+  ASSERT((_end <= _stack_bottom), "SRAM overflow: sections overlap stack")
+
 }
