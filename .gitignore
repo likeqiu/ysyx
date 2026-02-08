@@ -15,5 +15,6 @@
 /npc/vsrc/codex_md/*
 /am-kernels
 !/ysyxSoC/*
+!/abstract-machine
 
 
