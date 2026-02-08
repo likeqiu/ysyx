@@ -43,7 +43,7 @@ endif
 
 
 #CPU_DEBUG = 1
-#SOC_DEBUG = 1
+SOC_DEBUG = 1
 SOC_TOP = 1
 YSYX_SOC_HOME ?= /home/zxj17/ysyx-workbench/ysyxSoC
 YSYX_SOC_HOME := $(abspath $(YSYX_SOC_HOME))
@@ -58,7 +58,7 @@ SOC_TOPNAME = ysyxSoCFull
 SOC_NAME = riscv32e-npc-ysyxSoC
 SOC_OBJ_DIR = $(NPC_HOME)/obj_dir_soc
 SOC_CFLAGS = -DSOC_TOP 
-SOC_VERILATOR_FLAGS = --timescale "1ns/1ns" --no-timing -DSOC_TOP  #-DCPU_DEBUG -DSOC_TOP
+SOC_VERILATOR_FLAGS = --timescale "1ns/1ns" --no-timing -DSOC_TOP  -DCPU_DEBUG -DSOC_TOP
 
 VERILATOR_WARN ?= 0
 ifeq ($(VERILATOR_WARN),1)

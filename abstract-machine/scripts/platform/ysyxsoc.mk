@@ -7,7 +7,7 @@ AM_SRCS := riscv/ysyxsoc/start.S \
            riscv/npc/serial.c \
            riscv/npc/audio.c \
            riscv/npc/cte.c \
-           riscv/ysyxsoc/trap.S \
+           riscv/npc/trap.S \
            platform/dummy/vme.c \
            platform/dummy/mpe.c
 

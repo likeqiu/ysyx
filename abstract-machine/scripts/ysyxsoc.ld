@@ -19,12 +19,12 @@ SECTIONS {
     *(.rodata*)
   } > MROM : text
 
-  .data : AT> MROM {
+  .data : {
     _data_start = .;
     *(.data*)
     *(.sdata*)
     _data_end = .;
-  } > SRAM : data
+  } > SRAM AT> MROM : data
 
   edata = .;
   _data = .;

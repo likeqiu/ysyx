@@ -1,15 +1,12 @@
 #include <am.h>
+#include <ysyxsoc.h>
 
 extern char _heap_start;
 extern char _sram_end;
 int main(const char *args);
 
-#define UART_BASE 0x10000000
-#define UART_THR (UART_BASE + 0x0)
-#define UART_LSR (UART_BASE + 0x5)
-#define UART_LSR_THRE (1 << 5)
-
 Area heap = { .start = &_heap_start, .end = &_sram_end };
+static const char mainargs[MAINARGS_MAX_LEN] = MAINARGS_PLACEHOLDER;
 
 void putch(char ch) {
   while ((inb(UART_LSR) & UART_LSR_THRE) == 0) {
@@ -18,12 +15,12 @@ void putch(char ch) {
 }
 
 void halt(int code) {
-  asm volatile("mv a0, %0; ebreak" : : "r"(code));
+  ysyxsoc_trap(code);
   while (1) {
   }
 }
 
 void _trm_init() {
-  int ret = main("");
+  int ret = main(mainargs);
   halt(ret);
 }
