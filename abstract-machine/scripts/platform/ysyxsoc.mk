@@ -12,7 +12,7 @@ AM_SRCS := riscv/ysyxsoc/start.S \
            platform/dummy/mpe.c
 
 CFLAGS    +=  -fdata-sections -ffunction-sections
-CFLAGS    += -I$(AM_HOME)/am/src/platform/npc/include
+CFLAGS    += -I$(AM_HOME)/am/src/platform/npc/include /home/zxj17/ysyx-workbench/abstract-machine/am/src/platform/ysyxsoc/include
 LDSCRIPTS += $(AM_HOME)/scripts/ysyxsoc.ld
 LDFLAGS   += --gc-sections -e _start
 NPCFLAGS += -b

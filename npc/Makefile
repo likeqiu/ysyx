@@ -25,7 +25,7 @@ ifeq ($(DEBUG),1)
 CFLAGS   += -g -Og -fno-omit-frame-pointer -sanitizer
 CXXFLAGS += -g -Og -fno-omit-frame-pointer -sanitizer
 endif
-NPC_VERILATOR_FLAGS += --autoflush 
+
 
 IMG ?= 
 ARGS ?=
@@ -93,7 +93,7 @@ NPC_VERILATOR_WARNFLAGS = $(SOC_VERILATOR_WARNFLAGS)
 NPC_CFLAGS_EXTRA = $(SOC_CFLAGS)
 endif
 
-
+NPC_VERILATOR_FLAGS += --autoflush 
 
 NPC_SRCS = $(NPC_VSRC) $(CSRC)
 
@@ -235,7 +235,7 @@ run: waveform
 	@echo "Setting library path and running..."
 	@echo "LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH"
 	@echo "$(BUILD_DIR)/$(NPC_NAME) $(ARGS) $(IMG) $(ARGS_DIFF)"
-	LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH $(BUILD_DIR)/$(NPC_NAME) $(ARGS)  $(ARGS_DIFF) /home/zxj17/ysyx-workbench/am-kernels/tests/cpu-tests/tests/output/char-test.bin
+	LD_LIBRARY_PATH=$(LLVM_DIR):$LD_LIBRARY_PATH $(BUILD_DIR)/$(NPC_NAME) $(ARGS)  $(ARGS_DIFF) $(IMG)
 	mv $(NPC_HOME)/sim.fst $(NPC_HOME)/$(FST).fst
 
 look:

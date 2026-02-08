@@ -2,10 +2,10 @@
 #include <ysyxsoc.h>
 
 extern char _heap_start;
-extern char _sram_end;
+extern char _heap_end;
 int main(const char *args);
 
-Area heap = { .start = &_heap_start, .end = &_sram_end };
+Area heap = { .start = &_heap_start, .end = &_heap_end };
 static const char mainargs[MAINARGS_MAX_LEN] = MAINARGS_PLACEHOLDER;
 
 void putch(char ch) {

@@ -167,6 +167,7 @@ module clint_soc_xbar (
 
 
 
+
     wire in_ar_fire = in_arvalid && in_arready;
     wire in_aw_fire = in_awvalid && in_awready;
     wire in_w_fire  = in_wvalid  && in_wready;

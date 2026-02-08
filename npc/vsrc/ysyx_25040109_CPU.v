@@ -95,6 +95,8 @@ module ysyx_25040109_CPU (
     /* verilator lint_off UNUSEDSIGNAL */
 );
 
+wire [31:0] p_count_number_temp = 32'd100;
+
     assign imem_arid = 4'b0000;
     assign imem_arlen = 8'd0;
     assign imem_arsize = 3'b010;
@@ -469,7 +471,7 @@ module ysyx_25040109_CPU (
 
     always @(posedge clock) begin
         if (!reset && inst_wb_complete_r) begin
-            itrace_print(pc_exe, inst_exe, 4, 32'd100);
+            itrace_print(pc_exe, inst_exe, 4, p_count_number_temp);
             
             if (printf_finish(inst_exe) == 0) begin
                 $finish;
