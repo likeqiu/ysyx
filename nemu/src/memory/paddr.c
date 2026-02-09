@@ -25,8 +25,35 @@ static uint8_t *pmem = NULL;
 static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
 #endif
 
-uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
-paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
+#ifdef CONFIG_YSYXSOC
+static uint8_t mrom[MROM_SIZE] PG_ALIGN = {};
+static uint8_t sram[SRAM_SIZE] PG_ALIGN = {};
+#endif
+
+uint8_t* guest_to_host(paddr_t paddr) {
+#ifdef CONFIG_YSYXSOC
+  if (paddr - MROM_BASE < MROM_SIZE) {
+    return mrom + paddr - MROM_BASE;
+  }
+  if (paddr - SRAM_BASE < SRAM_SIZE) {
+    return sram + paddr - SRAM_BASE;
+  }
+#endif
+  return pmem + paddr - CONFIG_MBASE;
+}
+
+paddr_t host_to_guest(uint8_t *haddr) {
+#ifdef CONFIG_YSYXSOC
+  uintptr_t host = (uintptr_t)haddr;
+  if (host >= (uintptr_t)mrom && host < (uintptr_t)(mrom + MROM_SIZE)) {
+    return MROM_BASE + (paddr_t)(host - (uintptr_t)mrom);
+  }
+  if (host >= (uintptr_t)sram && host < (uintptr_t)(sram + SRAM_SIZE)) {
+    return SRAM_BASE + (paddr_t)(host - (uintptr_t)sram);
+  }
+#endif
+  return haddr - pmem + CONFIG_MBASE;
+}
 
 static word_t pmem_read(paddr_t addr, int len) {
   word_t ret = host_read(guest_to_host(addr), len);
@@ -47,15 +74,24 @@ void init_mem() {
   pmem = malloc(CONFIG_MSIZE);
   assert(pmem);
 #endif
+#ifdef CONFIG_YSYXSOC
+  IFDEF(CONFIG_MEM_RANDOM, {
+    memset(mrom, rand(), MROM_SIZE);
+    memset(sram, rand(), SRAM_SIZE);
+  });
+  Log("mrom area [" FMT_PADDR ", " FMT_PADDR "]", MROM_LEFT, MROM_RIGHT);
+  Log("sram area [" FMT_PADDR ", " FMT_PADDR "]", SRAM_LEFT, SRAM_RIGHT);
+#else
   IFDEF(CONFIG_MEM_RANDOM, memset(pmem, rand(), CONFIG_MSIZE));
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);
+#endif
 }
 
 
 word_t paddr_read(paddr_t addr, int len)
 {
   word_t ret = 0;
-  if (likely(in_pmem(addr)))
+  if (likely(in_pmem_read(addr)))
   {
     ret = pmem_read(addr, len);
     mtrace_record('R', addr, len, ret);
@@ -71,10 +107,18 @@ word_t paddr_read(paddr_t addr, int len)
 
 void paddr_write(paddr_t addr, int len, word_t data) {
   
-  if (likely(in_pmem(addr))) {
+  if (likely(in_pmem_write(addr))) {
      pmem_write(addr, len, data);
      mtrace_record('W', addr, len, data);
      return; }
+
+#ifdef CONFIG_YSYXSOC
+  if (in_pmem_read(addr)) {
+    Assert(false, "write to mrom at " FMT_PADDR " len=%d data=" FMT_WORD " pc=" FMT_WORD,
+           addr, len, data, cpu.pc);
+    return;
+  }
+#endif
 
   //printf("addr: 0x%08x\n",addr);
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); mtrace_record('W', addr, len, data); return);

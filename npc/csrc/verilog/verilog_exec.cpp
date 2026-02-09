@@ -46,10 +46,10 @@ static void latch_mem_access_info() {
 // 只在访问 MMIO 时跳过差分测试（使用上一拍的访存信息对齐提交）
 static bool should_skip_difftest() {
     if (prev_is_load) {
-        return !in_pmem(prev_dmem_raddr);
+        return !in_pmem_read(prev_dmem_raddr);
     }
     if (prev_is_store) {
-        return !in_pmem(prev_dmem_waddr);
+        return !in_pmem_write(prev_dmem_waddr);
     }
     return false;
 }
@@ -115,7 +115,7 @@ static void execute(uint64_t n)
      //   clint_update_mtime();
         exec_once();
         g_nr_guest_inst++;
-       // trace_and_difftest(&lastest_decode ,cpu.pc);
+      //trace_and_difftest(&lastest_decode ,cpu.pc);
         latch_mem_access_info();
 
         if(npc_state.state != NPC_RUNNING)

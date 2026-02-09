@@ -172,7 +172,11 @@ config ETRACE
 
 config FTRACE
 bool "Enable to use frace"
-default n    
+default n   
+
+config YSYXSOC
+bool "open MROM and SDRM"
+default n
 
 
 
