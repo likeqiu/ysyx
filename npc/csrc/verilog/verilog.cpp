@@ -92,12 +92,12 @@ extern "C" void update_cpu_state(uint32_t pc, const uint32_t regs[32])
     {
       // cpu.gpr[i] = regs[i];
 #ifdef SOC_TOP
-      top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__regfile__DOT__rf[i];
+      cpu.gpr[i] = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__regfile__DOT__rf[i];
 #else
         cpu.gpr[i] = top->rootp->ysyx_25040109_top__DOT__cpu__DOT__regfile__DOT__rf[i];
 #endif
         }
-        
+              
 }
 
 extern "C" void update_decode_state(vaddr_t pc,vaddr_t snpc ,vaddr_t dnpc,uint32_t inst){
