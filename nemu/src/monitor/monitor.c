@@ -138,6 +138,7 @@ static int parse_args(int argc, char *argv[]) {
 
     /* Load the image to memory. This will overwrite the built-in image. */
     long img_size = load_img();
+    
     if (elf_file)
       init_ftrace(elf_file);
 
