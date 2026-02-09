@@ -664,42 +664,42 @@ localparam string RESET  = "\033[0m";
 
 
             
-
+/*
  
                 if (dbg_mem_ar_fire) begin
-                $display("%s[AXI][CPU] AR  addr=0x%08h   len=%0d    size=%0d   burst=%0d   arid=%0d %s \n", BULE, mem_araddr, mem_arlen, mem_arsize, mem_arburst, mem_arid, RESET);
+                $display("%s[AXI][CPU] AR  addr=0x%08h   len=%0d      size=%0d   burst=%0d   arid=%0d %s \n", BULE, mem_araddr, mem_arlen, mem_arsize, mem_arburst, mem_arid, RESET);
             end
 
             if (dbg_mem_r_fire) begin
-                $display("%s[AXI][CPU] R   data=0x%08h   rresp=%0d  last=%b             rid=%0d %s\n", GREEN , mem_rdata, mem_rresp, mem_rlast, mem_rid, RESET);
+                $display("%s[AXI][CPU] R   data=0x%08h   rresp=%0d    last=%b             rid=%0d %s\n", GREEN , mem_rdata, mem_rresp, mem_rlast, mem_rid, RESET);
             end
             if (dbg_mem_aw_fire) begin
-                $display("%s[AXI][CPU] AW  addr=0x%08h   len=%0d    size=%0d   burst=%0d   awid=%0d %s \n", YELLOW, mem_awaddr, mem_awlen, mem_awsize, mem_awburst, mem_awid, RESET);
+                $display("%s[AXI][CPU] AW  addr=0x%08h   len=%0d      size=%0d   burst=%0d   awid=%0d %s \n", YELLOW, mem_awaddr, mem_awlen, mem_awsize, mem_awburst, mem_awid, RESET);
             end
             if (dbg_mem_w_fire) begin
-                $display("%s[AXI][CPU] W   data=0x%08h   strb=%1h   last=%b     %s\n", PURPLE, mem_wdata, mem_wstrb, mem_wlast, RESET);
+                $display("%s[AXI][CPU] W   data=0x%08h   strb=%b  last=%b     %s\n", PURPLE, mem_wdata, mem_wstrb, mem_wlast, RESET);
             end
             if (dbg_mem_b_fire) begin
                 $display("%s[AXI][CPU] B                     bresp=%0d                     bid=%0d %s\n", RED, mem_bresp, mem_bid, RESET);
             end
-
-          /*
+*/
+          
             if (dbg_soc_ar_fire) begin
-                $display("%s[AXI][SOC] AR  addr=0x%08h   len=%0d    size=%0d   burst=%0d   arid=%0d %s \n", BULE, io_master_araddr, io_master_arlen, io_master_arsize, io_master_arburst, io_master_arid, RESET);
+                $display("%s[AXI][SOC] AR  addr=0x%08h   len=%0d      size=%0d   burst=%0d   arid=%0d %s \n", BULE, io_master_araddr, io_master_arlen, io_master_arsize, io_master_arburst, io_master_arid, RESET);
             end
             if (dbg_soc_r_fire) begin
-                $display("%s[AXI][SOC] R   data=0x%08h   rresp=%0d  last=%b             rid=%0d %s\n", GREEN , io_master_rdata, io_master_rresp, io_master_rlast, io_master_rid, RESET);
+                $display("%s[AXI][SOC] R   data=0x%08h   rresp=%0d    last=%b             rid=%0d %s\n", GREEN , io_master_rdata, io_master_rresp, io_master_rlast, io_master_rid, RESET);
             end
             if (dbg_soc_aw_fire) begin
-                $display("%s[AXI][SOC] AW  addr=0x%08h   len=%0d    size=%0d   burst=%0d   awid=%0d %s \n", YELLOW, io_master_awaddr, io_master_awlen, io_master_awsize, io_master_awburst, io_master_awid, RESET);
+                $display("%s[AXI][SOC] AW  addr=0x%08h   len=%0d      size=%0d   burst=%0d   awid=%0d %s \n", YELLOW, io_master_awaddr, io_master_awlen, io_master_awsize, io_master_awburst, io_master_awid, RESET);
             end
             if (dbg_soc_w_fire) begin
-                $display("%s[AXI][SOC] W   data=0x%08h   strb=%1h   last=%b     %s\n", PURPLE, io_master_wdata, io_master_wstrb, io_master_wlast, RESET);
+                $display("%s[AXI][SOC] W   data=0x%08h   strb=%b  last=%b     %s\n", PURPLE, io_master_wdata, io_master_wstrb, io_master_wlast, RESET);
             end
             if (dbg_soc_b_fire) begin
-                $display("%s[AXI][SOC] B                     bresp=%0d                     bid=%0d %s\n", RED, io_master_bresp, io_master_bid, RESET);
+                $display("%s[AXI][SOC] B                     bresp=%0d                       bid=%0d %s\n", RED, io_master_bresp, io_master_bid, RESET);
             end
-*/          
+         
         end
         
     end
