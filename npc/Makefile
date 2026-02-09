@@ -101,7 +101,7 @@ NPC_SRCS = $(NPC_VSRC) $(CSRC)
 
 CONFIG_DIFFTEST = y
 ifdef CONFIG_DIFFTEST
-DIFF_REF_SO = $(NPC_HOME)/tools/build/riscv32-nemu-interpreter-so
+DIFF_REF_SO = /home/zxj17/ysyx-workbench/nemu/build/riscv32-nemu-interpreter-so
 ARGS_DIFF = --diff=$(DIFF_REF_SO)
 endif
 
