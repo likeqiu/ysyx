@@ -1,5 +1,7 @@
 #include <am.h>
 #include <ysyxsoc.h>
+#include<klib.h>
+
 
 extern char _heap_start;
 extern char _heap_end;
@@ -16,7 +18,11 @@ void putch(char ch) {
 
 void halt(int code) {
   ysyxsoc_trap(code);
+
+
   while (1) {
+     
+     putch('.');
   }
 }
 

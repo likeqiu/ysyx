@@ -685,7 +685,7 @@ localparam string RESET  = "\033[0m";
 */
 
 
-          
+/*          
             if (dbg_soc_ar_fire) begin
                 $display("%s[AXI][SOC] AR  addr=0x%08h   len=%0d      size=%0d   burst=%0d   arid=0x%h %s \n", BULE, io_master_araddr, io_master_arlen, io_master_arsize, io_master_arburst, io_master_arid, RESET);
             end
@@ -701,7 +701,11 @@ localparam string RESET  = "\033[0m";
             if (dbg_soc_b_fire) begin
                 $display("%s[AXI][SOC] B                     bresp=%0d                       bid=0x%h %s\n", RED, io_master_bresp, io_master_bid, RESET);
             end
-         
+  
+            
+
+*/
+
         end
         
     end
