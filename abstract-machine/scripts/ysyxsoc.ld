@@ -42,9 +42,9 @@ SECTIONS {
   _data_load = LOADADDR(.data);
 
   . = ALIGN(16);
-  _heap_start = .;
   end = .;
   _end = .;
+  _heap_start = _end;
 
   PROVIDE(_sram_end = ORIGIN(SRAM) + LENGTH(SRAM));
   _stack_top = (_sram_end & ~0xF);
