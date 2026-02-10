@@ -22,10 +22,12 @@ SECTIONS {
   } > MROM : text
 
   .data : {
+    . = ALIGN(4);
     _data_start = .;
     *(.data*)
     *(.sdata*)
     _data_end = .;
+    . = ALIGN(4);
   } > SRAM AT> MROM : data
 
   edata = .;
