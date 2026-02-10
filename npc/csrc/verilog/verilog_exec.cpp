@@ -30,10 +30,11 @@ static void latch_mem_access_info() {
 
 #ifdef SOC_TOP
 
-      prev_is_load = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__is_load;
-    prev_is_store = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__is_store;
-    prev_dmem_raddr = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__mem_araddr ;
-    prev_dmem_waddr = top->rootp->ysyxSoCFull__DOT__asic__DOT___axi4frag_auto_out_awaddr;
+    prev_is_load = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__lsu__DOT__load_latched;
+    prev_is_store = top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__lsu__DOT__store_latched;
+    paddr_t addr = (paddr_t)top->rootp->ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__cpu__DOT__lsu__DOT__addr_latched;
+    prev_dmem_raddr = addr;
+    prev_dmem_waddr = addr;
 #else 
   //  prev_is_load = top->is_load_out;
   //  prev_is_store = top->is_store_out;
