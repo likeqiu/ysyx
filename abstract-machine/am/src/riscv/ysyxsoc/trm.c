@@ -11,8 +11,7 @@ Area heap = { .start = &_heap_start, .end = &_heap_end };
 static const char mainargs[MAINARGS_MAX_LEN] = MAINARGS_PLACEHOLDER;
 
 void putch(char ch) {
-  while ((inb(UART_LSR) & UART_LSR_THRE) == 0) {
-  }
+
   outb(UART_THR, (uint8_t)ch);
 }
 
