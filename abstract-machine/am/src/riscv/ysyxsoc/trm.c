@@ -22,7 +22,7 @@ void halt(int code) {
 
   while (1) {
      
-     putch('.');
+   //  putch('.');
   }
 }
 

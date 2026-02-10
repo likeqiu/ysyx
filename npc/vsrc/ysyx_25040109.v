@@ -664,8 +664,8 @@ localparam string RESET  = "\033[0m";
 
 
             
-/*
- 
+
+ /*
                 if (dbg_mem_ar_fire) begin
                 $display("%s[AXI][CPU] AR  addr=0x%08h   len=%0d      size=%0d   burst=%0d   arid=0x%h %s \n", BULE, mem_araddr, mem_arlen, mem_arsize, mem_arburst, mem_arid, RESET);
             end
@@ -682,8 +682,8 @@ localparam string RESET  = "\033[0m";
             if (dbg_mem_b_fire) begin
                 $display("%s[AXI][CPU] B                     bresp=%0d                     bid=0x%h %s\n", RED, mem_bresp, mem_bid, RESET);
             end
-*/
 
+*/
 
 /*          
             if (dbg_soc_ar_fire) begin

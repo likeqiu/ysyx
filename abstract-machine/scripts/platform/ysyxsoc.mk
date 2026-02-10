@@ -15,7 +15,7 @@ CFLAGS    +=  -fdata-sections -ffunction-sections
 CFLAGS    += -I$(AM_HOME)/am/src/platform/npc/include -I/home/zxj17/ysyx-workbench/abstract-machine/am/src/platform/ysyxsoc/include
 LDSCRIPTS += $(AM_HOME)/scripts/ysyxsoc.ld
 LDFLAGS   += --gc-sections -e _start
-NPCFLAGS += -b
+NPCFLAGS += 
 
 
 MAINARGS_MAX_LEN = 64

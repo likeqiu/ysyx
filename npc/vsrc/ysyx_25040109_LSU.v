@@ -118,7 +118,12 @@ module ysyx_25040109_LSU(
     assign dmem_awaddr  = addr_latched;
 
     assign dmem_wvalid = (state == WAIT_W && store_valid);
-    assign dmem_wdata  = store_data_latched;
+    // 写数据按地址偏移对齐到字节通道，配合 wstrb 符合总线协议
+    wire [31:0] store_data_sb = {24'b0, store_data_latched[7:0]} << {addr_latched[1:0], 3'b0};
+    wire [31:0] store_data_sh = {16'b0, store_data_latched[15:0]} << {addr_latched[1], 4'b0};
+    assign dmem_wdata  = (funct3_latched == 3'b000) ? store_data_sb :
+                         (funct3_latched == 3'b001) ? store_data_sh :
+                         store_data_latched;
     assign dmem_wstrb  = (funct3_latched == 3'b000) ? (4'b0001 << addr_latched[1:0]) : // SB
                          (funct3_latched == 3'b001) ? (4'b0011 << {addr_latched[1], 1'b0}) : // SH
                          (funct3_latched == 3'b010) ? 4'b1111 : // SW
