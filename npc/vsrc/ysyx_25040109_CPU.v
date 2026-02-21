@@ -502,7 +502,7 @@ wire [31:0] p_count_number_temp = 32'd100;
     // 时序
 
     wire [31:0] wave_pc_init = 32'h80000000;
-    wire [31:0] soc_oc_init  = 32'h20000000;
+    wire [31:0] soc_oc_init  = 32'h30000000;
     wire [31:0] init_pc ;    
     
     `ifndef SOC_TOP

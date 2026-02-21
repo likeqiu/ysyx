@@ -1,6 +1,6 @@
 
 #ifdef SOC_TOP
-#define CONFIG_MBASE 0x20000000
+#define CONFIG_MBASE 0x30000000
 #else
 #define CONFIG_MBASE 0x80000000
 #endif

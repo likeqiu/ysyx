@@ -116,7 +116,7 @@ static void execute(uint64_t n)
      //   clint_update_mtime();
         exec_once();
         g_nr_guest_inst++;
-      trace_and_difftest(&lastest_decode ,cpu.pc);
+     // trace_and_difftest(&lastest_decode ,cpu.pc);
         latch_mem_access_info();
 
         if(npc_state.state != NPC_RUNNING)

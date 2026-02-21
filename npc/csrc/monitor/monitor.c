@@ -126,13 +126,13 @@ void init_monitor(int argc, char *argv[])
     //printf("55555555\n");
      // init_sdb();
     init_mem();
-    //printf("66666666666\n");
+   // printf("66666666666\n");
 
      IFDEF(CONFIG_DEVICE, init_device());
 
     // printf("777777777\n");
 
-     init_difftest(diff_so_file, img_size, difftest_port);
+ //    init_difftest(diff_so_file, img_size, difftest_port);
    //  printf("88888888888\n");
 
      welcome();

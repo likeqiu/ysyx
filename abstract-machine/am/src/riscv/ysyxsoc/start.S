@@ -25,6 +25,6 @@ _start:
   addi t0, t0, 4
   bltu t0, t1, 3b
 4:
-  call _trm_init
+  call _trm_init 
 
 .size _start, . - _start

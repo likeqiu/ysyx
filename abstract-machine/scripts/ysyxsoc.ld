@@ -2,7 +2,7 @@ ENTRY(_start)
 PHDRS { text PT_LOAD; data PT_LOAD; }
 
 MEMORY {
-  MROM (rx)  : ORIGIN = 0x20000000, LENGTH = 0x00001000
+  FLASH (rx) : ORIGIN = 0x30000000, LENGTH = 0x01000000
   SRAM (rwx) : ORIGIN = 0x0f000000, LENGTH = 0x00002000
 }
 
@@ -12,14 +12,14 @@ SECTIONS {
   .text : {
     *(entry)
     *(.text*)
-  } > MROM : text
+  } > FLASH : text
 
   etext = .;
   _etext = .;
 
   .rodata : {
     *(.rodata*)
-  } > MROM : text
+  } > FLASH : text
 
   .data : {
     . = ALIGN(4);
@@ -28,7 +28,7 @@ SECTIONS {
     *(.sdata*)
     _data_end = .;
     . = ALIGN(4);
-  } > SRAM AT> MROM : data
+  } > SRAM AT> FLASH : data
 
   edata = .;
   _data = .;

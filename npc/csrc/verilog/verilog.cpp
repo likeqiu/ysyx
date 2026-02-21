@@ -57,8 +57,11 @@ extern "C" int printf_finish(uint32_t inst)
 
 
 extern "C" void flash_read(int32_t addr, int32_t *data) {
+#ifdef SOC_TOP
+    *data = pmem_read((int)(FLASH_BASE + (paddr_t)addr));
+#else
     *data = pmem_read(addr);
-    //assert(0);
+#endif
 }
 extern "C" void mrom_read(int32_t addr, int32_t *data) {
 
