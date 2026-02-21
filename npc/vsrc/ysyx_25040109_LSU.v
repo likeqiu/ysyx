@@ -63,10 +63,8 @@ module ysyx_25040109_LSU(
     wire [3:0] dmem_bid_unused = dmem_bid;
     /* verilator lint_on UNUSED */
     assign dmem_arlen = 8'd0;
-    assign dmem_arsize = 3'b010;
     assign dmem_arburst = 2'b01;
     assign dmem_awlen = 8'b0;
-    assign dmem_awsize = 3'b010;
     assign dmem_awburst = 2'b01;
 
 
@@ -93,6 +91,20 @@ module ysyx_25040109_LSU(
     reg [2:0]  funct3_latched;
     reg        load_latched;
     reg        store_latched;
+
+    wire [2:0] dmem_arsize_sel = load_latched ?
+                                 ((funct3_latched == 3'b000 || funct3_latched == 3'b100) ? 3'b000 :
+                                  (funct3_latched == 3'b001 || funct3_latched == 3'b101) ? 3'b001 :
+                                  3'b010) :
+                                 3'b010;
+    wire [2:0] dmem_awsize_sel = store_latched ?
+                                 ((funct3_latched == 3'b000) ? 3'b000 :
+                                  (funct3_latched == 3'b001) ? 3'b001 :
+                                  3'b010) :
+                                 3'b010;
+
+    assign dmem_arsize = dmem_arsize_sel;
+    assign dmem_awsize = dmem_awsize_sel;
 
     // 握手
     wire in_fire = in_valid && out_ready;

@@ -3,6 +3,7 @@
 #include<klib.h>
 
 
+
 extern char _heap_start;
 extern char _heap_end;
 int main(const char *args);
@@ -12,6 +13,8 @@ static const char mainargs[MAINARGS_MAX_LEN] = MAINARGS_PLACEHOLDER;
 
 void putch(char ch) {
 
+  while ((inb(UART_LSR) & UART_LSR_THRE) == 0)
+    ;
   outb(UART_THR, (uint8_t)ch);
 }
 
@@ -26,6 +29,7 @@ void halt(int code) {
 }
 
 void _trm_init() {
+  ioe_init();
   int ret = main(mainargs);
   halt(ret);
 }

@@ -13,7 +13,7 @@ void __am_gpu_status(AM_GPU_STATUS_T *);
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *);
 void __am_audio_init();
 void __am_audio_config(AM_AUDIO_CONFIG_T *);
-
+void __am_uart_init();
 
 static void __am_timer_config(AM_TIMER_CONFIG_T *cfg)
 {
@@ -45,7 +45,7 @@ static void fail(void *buf) { panic("access nonexist register"); }
 bool ioe_init() {
   for (int i = 0; i < LENGTH(lut); i++)
     if (!lut[i]) lut[i] = fail;
-   
+  __am_uart_init();
   __am_gpu_init();
   __am_timer_init();
   __am_audio_init();
