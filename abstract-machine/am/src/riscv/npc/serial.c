@@ -10,7 +10,7 @@
 
 void __am_uart_init() {
 
-  outb(UART_IER, 0x00);
+  outb(UART_IER,0x00); // 当前是轮询模式，不需要 UART 中断，所以先统一关掉最安全
   outb(UART_LCR, UART_LCR_DLAB);
   outb(UART_DLM, 0x00);
   outb(UART_DLL, 0x01);
