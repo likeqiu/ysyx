@@ -94,7 +94,9 @@ void init_mem()
         memset(sram, rand(), SRAM_SIZE);
         memset(flash, rand(), FLASH_SIZE);
     });
+    
     memcpy(flash + FLASH_TEST_OFFSET, flash_test_data, sizeof(flash_test_data));
+
     Log("mrom area [" FMT_PADDR ", " FMT_PADDR "]", MROM_LEFT, MROM_RIGHT);
     Log("sram area [" FMT_PADDR ", " FMT_PADDR "]", SRAM_LEFT, SRAM_RIGHT);
     Log("flash area [" FMT_PADDR ", " FMT_PADDR "]", FLASH_LEFT, FLASH_RIGHT);

@@ -8,8 +8,7 @@
 #define ysyxsoc_trap(code) asm volatile("mv a0, %0; ebreak" : : "r"(code))
 
 #define SERIAL_PORT 0x10000000
-#define FLASH_BASE 0x30000000
-#define FLASH_SIZE 0x01000000
+
 
 #define UART_RBR (SERIAL_PORT + 0x0)
 #define UART_THR (SERIAL_PORT + 0x0)
